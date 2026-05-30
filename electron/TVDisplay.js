@@ -15,7 +15,6 @@ function openTvWindow() {
   tvWindow = new BrowserWindow({
     title: 'DM Display',
     backgroundColor: '#000000',
-    // Start maximized — meant for a second screen
     fullscreen: false,
     webPreferences: {
       nodeIntegration: false,
@@ -26,7 +25,6 @@ function openTvWindow() {
 
   tvWindow.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(getTvHtml())}`);
   tvWindow.setMenuBarVisibility(false);
-
   tvWindow.on('closed', () => { tvWindow = null; });
   return tvWindow;
 }
@@ -38,23 +36,43 @@ function closeTvWindow() {
 
 function pushImage(imagePath) {
   if (!tvWindow || tvWindow.isDestroyed()) openTvWindow();
-  // Read file as base64 and push via executeJavaScript
   const ext  = path.extname(imagePath).toLowerCase().replace('.', '');
   const mime = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg'
              : ext === 'png' ? 'image/png'
              : ext === 'webp' ? 'image/webp'
              : ext === 'gif' ? 'image/gif'
              : 'image/jpeg';
-  const data = fs.readFileSync(imagePath);
-  const b64  = data.toString('base64');
+  const data   = fs.readFileSync(imagePath);
+  const b64    = data.toString('base64');
   const dataUrl = `data:${mime};base64,${b64}`;
-  tvWindow.webContents.executeJavaScript(`showImage(${JSON.stringify(dataUrl)})`);
+  tvWindow.webContents.executeJavaScript(`setMap(${JSON.stringify(dataUrl)})`);
 }
 
 function clearTvDisplay() {
   if (tvWindow && !tvWindow.isDestroyed()) {
-    tvWindow.webContents.executeJavaScript(`showImage(null)`);
+    tvWindow.webContents.executeJavaScript(`setMap(null)`);
   }
+}
+
+function syncFog(fogDataUrl) {
+  if (!tvWindow || tvWindow.isDestroyed()) return;
+  tvWindow.webContents.executeJavaScript(`applyFogMask(${JSON.stringify(fogDataUrl)})`);
+}
+
+function syncPins(pins, hideAllNpcs, hideAllMonsters) {
+  if (!tvWindow || tvWindow.isDestroyed()) return;
+  const payload = JSON.stringify({ pins, hideAllNpcs, hideAllMonsters });
+  tvWindow.webContents.executeJavaScript(`setPins(${payload})`);
+}
+
+function syncGrid(enabled, size) {
+  if (!tvWindow || tvWindow.isDestroyed()) return;
+  tvWindow.webContents.executeJavaScript(`setGrid(${JSON.stringify({ enabled, size })})`);
+}
+
+function syncOverlay(state) {
+  if (!tvWindow || tvWindow.isDestroyed()) return;
+  tvWindow.webContents.executeJavaScript(`applyOverlayState(${JSON.stringify(state)})`);
 }
 
 function getTvHtml() {
@@ -69,50 +87,254 @@ function getTvHtml() {
     width:100%; height:100%;
     background:#000;
     overflow:hidden;
+  }
+  #stage {
+    position:relative;
+    width:100%; height:100%;
     display:flex; align-items:center; justify-content:center;
   }
-  #img {
-    max-width:100%; max-height:100%;
-    object-fit:contain;
-    opacity:0;
-    transition:opacity 0.4s ease;
+  #map-canvas {
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
   }
-  #img.visible { opacity:1; }
   #placeholder {
     display:flex; flex-direction:column;
     align-items:center; gap:16px;
     color:#2e2820;
     font-family:Georgia,serif;
     text-align:center;
+    position:relative; z-index:1;
   }
   #placeholder .sigil { font-size:64px; opacity:0.3; }
   #placeholder p { font-size:18px; letter-spacing:0.2em; text-transform:uppercase; }
 </style>
 </head>
 <body>
+<div id="stage">
   <div id="placeholder">
-    <div class="sigil">⚔</div>
+    <div class="sigil">&#9876;</div>
     <p>DM Display</p>
   </div>
-  <img id="img" src="" alt=""/>
-  <script>
-    const img = document.getElementById('img');
-    const placeholder = document.getElementById('placeholder');
-    function showImage(dataUrl) {
-      if (!dataUrl) {
-        img.classList.remove('visible');
-        placeholder.style.display = 'flex';
-        return;
-      }
-      img.src = dataUrl;
-      img.onload = () => {
-        placeholder.style.display = 'none';
-        img.classList.add('visible');
-      };
+  <canvas id="map-canvas" style="display:none;"></canvas>
+</div>
+<script>
+(function() {
+  const canvas      = document.getElementById('map-canvas');
+  const ctx         = canvas.getContext('2d');
+  const placeholder = document.getElementById('placeholder');
+
+  // ── State ──
+  let mapImg      = null;
+  let fogCanvas   = null;   // offscreen canvas holding the fog mask
+  let pins        = [];
+  let hideAllNpcs = false;
+  let hideAllMons = false;
+  let gridEnabled = false;
+  let gridSize    = 'medium';
+
+  const GRID_PX = { tiny: 20, small: 40, medium: 60, large: 80 };
+
+  // ── Sizing ──
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    render();
+  }
+  window.addEventListener('resize', resizeCanvas);
+
+  // ── Fog helpers ──
+  function initFog(w, h) {
+    fogCanvas        = document.createElement('canvas');
+    fogCanvas.width  = w;
+    fogCanvas.height = h;
+    const fc = fogCanvas.getContext('2d');
+    fc.fillStyle = '#000';
+    fc.fillRect(0, 0, w, h);
+  }
+
+  function isFogged(nx, ny) {
+    if (!fogCanvas) return false;
+    const px = Math.round(nx * fogCanvas.width);
+    const py = Math.round(ny * fogCanvas.height);
+    const fc = fogCanvas.getContext('2d');
+    const pixel = fc.getImageData(px, py, 1, 1).data;
+    return pixel[3] > 30; // alpha > ~12% means still fogged
+  }
+
+  // ── Render ──
+  function render() {
+    if (!mapImg) return;
+    const cw = canvas.width, ch = canvas.height;
+    const iw = mapImg.naturalWidth, ih = mapImg.naturalHeight;
+
+    // contain-fit
+    const scale = Math.min(cw / iw, ch / ih);
+    const dw = iw * scale, dh = ih * scale;
+    const dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+
+    ctx.clearRect(0, 0, cw, ch);
+
+    // 1. map
+    ctx.drawImage(mapImg, dx, dy, dw, dh);
+
+    // 2. fog — fully opaque
+    if (fogCanvas) {
+      ctx.drawImage(fogCanvas, dx, dy, dw, dh);
     }
-  </script>
+
+    // 3. grid
+    if (gridEnabled) drawGrid(dx, dy, dw, dh);
+
+    // 4. pins (suppressed if under fog)
+    drawPins(dx, dy, dw, dh);
+  }
+
+  function drawGrid(dx, dy, dw, dh) {
+    const step = GRID_PX[gridSize] || 60;
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+    ctx.lineWidth   = 0.8;
+    ctx.beginPath();
+    for (let x = dx; x <= dx + dw; x += step) {
+      ctx.moveTo(x, dy); ctx.lineTo(x, dy + dh);
+    }
+    for (let y = dy; y <= dy + dh; y += step) {
+      ctx.moveTo(dx, y); ctx.lineTo(dx + dw, y);
+    }
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  const PIN_COLORS = { pc: '#4a8fd4', npc: '#c9a84c', monster: '#c94a4a' };
+
+  function drawPins(dx, dy, dw, dh) {
+    if (!pins.length) return;
+    ctx.save();
+
+    pins.forEach(pin => {
+      if (pin.hidden) return;
+      if (pin.type === 'npc'     && hideAllNpcs) return;
+      if (pin.type === 'monster' && hideAllMons) return;
+
+      // Check fog
+      if (isFogged(pin.x, pin.y)) return;
+
+      const px = dx + pin.x * dw;
+      const py = dy + pin.y * dh;
+      const r  = 18;
+      const color = PIN_COLORS[pin.type] || '#888';
+
+      // Shadow
+      ctx.shadowColor = 'rgba(0,0,0,0.7)';
+      ctx.shadowBlur  = 8;
+
+      // Circle
+      ctx.beginPath();
+      ctx.arc(px, py, r, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+      ctx.lineWidth   = 1.5;
+      ctx.stroke();
+
+      ctx.shadowBlur = 0;
+
+      // Initials
+      ctx.fillStyle   = '#fff';
+      ctx.font        = 'bold 11px system-ui,sans-serif';
+      ctx.textAlign   = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(pin.initials || '?', px, py);
+
+      // Name label
+      ctx.font        = '11px system-ui,sans-serif';
+      ctx.textBaseline = 'top';
+      ctx.fillStyle   = '#fff';
+      ctx.shadowColor = 'rgba(0,0,0,0.9)';
+      ctx.shadowBlur  = 4;
+      ctx.fillText(pin.name, px, py + r + 4);
+      ctx.shadowBlur  = 0;
+    });
+
+    ctx.textAlign    = 'left';
+    ctx.textBaseline = 'alphabetic';
+    ctx.restore();
+  }
+
+  // ── Public API called via executeJavaScript ──
+
+  window.setMap = function(dataUrl) {
+    if (!dataUrl) {
+      mapImg = null;
+      canvas.style.display = 'none';
+      placeholder.style.display = 'flex';
+      fogCanvas = null; pins = [];
+      return;
+    }
+    const img = new Image();
+    img.onload = () => {
+      mapImg = img;
+      if (!fogCanvas) initFog(img.naturalWidth, img.naturalHeight);
+      resizeCanvas();
+      canvas.style.display = 'block';
+      placeholder.style.display = 'none';
+    };
+    img.src = dataUrl;
+  };
+
+  window.applyFogMask = function(dataUrl) {
+    if (!dataUrl || !mapImg) return;
+    const img = new Image();
+    img.onload = () => {
+      if (!fogCanvas) initFog(mapImg.naturalWidth, mapImg.naturalHeight);
+      const fc = fogCanvas.getContext('2d');
+      fc.clearRect(0, 0, fogCanvas.width, fogCanvas.height);
+      fc.drawImage(img, 0, 0, fogCanvas.width, fogCanvas.height);
+      render();
+    };
+    img.src = dataUrl;
+  };
+
+  window.setPins = function({ pins: p, hideAllNpcs: hn, hideAllMonsters: hm }) {
+    pins        = p || [];
+    hideAllNpcs = !!hn;
+    hideAllMons = !!hm;
+    render();
+  };
+
+  window.setGrid = function({ enabled, size }) {
+    gridEnabled = !!enabled;
+    gridSize    = size || 'medium';
+    render();
+  };
+
+  window.applyOverlayState = function(state) {
+    gridEnabled = !!state.gridEnabled;
+    gridSize    = state.gridSize || 'medium';
+    pins        = state.pins || [];
+    hideAllNpcs = !!state.hideAllNpcs;
+    hideAllMons = !!state.hideAllMonsters;
+    if (state.fogMask && mapImg) {
+      const img = new Image();
+      img.onload = () => {
+        if (!fogCanvas) initFog(mapImg.naturalWidth, mapImg.naturalHeight);
+        const fc = fogCanvas.getContext('2d');
+        fc.clearRect(0, 0, fogCanvas.width, fogCanvas.height);
+        fc.drawImage(img, 0, 0, fogCanvas.width, fogCanvas.height);
+        render();
+      };
+      img.src = state.fogMask;
+    } else {
+      render();
+    }
+  };
+
+  resizeCanvas();
+})();
+</script>
 </body>
 </html>`;
 }
 
-module.exports = { openTvWindow, closeTvWindow, pushImage, clearTvDisplay, getTvWindow };
+module.exports = { openTvWindow, closeTvWindow, pushImage, clearTvDisplay, syncFog, syncPins, syncGrid, syncOverlay, getTvWindow };

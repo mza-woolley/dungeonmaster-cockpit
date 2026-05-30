@@ -89,7 +89,7 @@ function StatBlock({ monster, onClone, onEdit, onDelete, isCustom }) {
   // v1 type is a plain string; v2 is { name: '...' }
   const typeName = monster.type?.name || monster.type || '';
   const sizeName = monster.size?.name || monster.size || '';
-  const crText   = monster.cr || monster.challenge_rating_text || monster.challenge_rating || '';
+  const crText   = monster.challenge_rating || monster.challenge_rating_text || monster.cr || '';
 
   const actions           = monster.actions           || [];
   const specialAbilities  = monster.special_abilities || [];
@@ -567,7 +567,7 @@ export default function Encounters() {
   const srdResults = allSrd.filter(m => {
     if (showCustomOnly) return false;
     if (search   && !m.name.toLowerCase().includes(search.toLowerCase())) return false;
-    if (filterCr && String(m.cr) !== String(filterCr)) return false;
+    if (filterCr && (m.challenge_rating || String(m.cr)) !== filterCr) return false;
     if (filterType && m.type?.toLowerCase() !== filterType.toLowerCase()) return false;
     return true;
   });
@@ -703,7 +703,7 @@ export default function Encounters() {
                       onClick={() => handleSelectSrd(m)}
                     >
                       <span className="mr-name">{m.name}</span>
-                      <span className="mr-cr">CR {m.cr || m.challenge_rating}</span>
+                      <span className="mr-cr">CR {m.challenge_rating || m.cr}</span>
                       <span className="mr-type">{m.type}</span>
                     </div>
                   ))}

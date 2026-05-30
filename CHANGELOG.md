@@ -2,6 +2,19 @@
 
 ---
 
+## v0.5 — May 2026
+
+### 🗺️ Map Overlay — Fog of War, Grid, Pins & Map States
+
+- **Fog of War** — DM-side brush tool to reveal areas; DM sees a semi-transparent overlay, players see fully opaque fog; resets and reveal-all controls included
+- **Grid Overlay** — toggleable grid with four sizes (Tiny / Small / Medium / Large) synced to the TV window
+- **Pin System** — place PC, NPC and monster pins on the map via searchable dropdowns; two-letter monogram pins with name labels; per-pin hide toggle plus group hide for all NPCs or all monsters; pins suppressed by fog on the player display, always visible to the DM
+- **Map States** — save and restore complete map setups (fog mask, pins, grid, visibility) as named presets, similar to music presets
+- **TV Window upgraded** — canvas-based renderer handles fog, grid and pins natively; fog fully occludes pins on the player side
+- **Monsters CR filter fix** — SRD monsters now display and filter correctly using fraction strings (1/4, 1/2) instead of decimals
+
+---
+
 ## v0.4.1 — May 2026
 
 ### 🧑 Characters — Configurable Party & In-App PC Creation

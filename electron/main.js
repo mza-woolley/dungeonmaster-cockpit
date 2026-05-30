@@ -156,6 +156,22 @@ ipcMain.handle('tv:isOpen', () => {
   const w = tv.getTvWindow();
   return !!(w && !w.isDestroyed());
 });
+ipcMain.handle('tv:syncFog', (_, fogDataUrl) => {
+  try { tv.syncFog(fogDataUrl); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('tv:syncPins', (_, { pins, hideAllNpcs, hideAllMonsters }) => {
+  try { tv.syncPins(pins, hideAllNpcs, hideAllMonsters); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('tv:syncGrid', (_, { enabled, size }) => {
+  try { tv.syncGrid(enabled, size); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('tv:syncOverlay', (_, state) => {
+  try { tv.syncOverlay(state); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
 ipcMain.handle('tv:pickFolder', async () => {
   const result = await dialog.showOpenDialog(mainWindow, {
     title: 'Select Map Image Folder',
@@ -245,6 +261,34 @@ ipcMain.handle('characters:loadSeed', () => {
     if (fs.existsSync(CHARACTERS_PATH)) return JSON.parse(fs.readFileSync(CHARACTERS_PATH, 'utf8'));
   } catch (_) {}
   return { characters: [] };
+});
+
+// ── Map States IPC ───────────────────────────────────────
+const MAP_STATES_PATH = path.join(__dirname, '..', 'map-states.json');
+
+function loadMapStates() {
+  try {
+    if (fs.existsSync(MAP_STATES_PATH)) return JSON.parse(fs.readFileSync(MAP_STATES_PATH, 'utf8'));
+  } catch (_) {}
+  return [];
+}
+
+ipcMain.handle('mapStates:load', () => loadMapStates());
+ipcMain.handle('mapStates:save', (_, state) => {
+  try {
+    const states = loadMapStates();
+    const idx    = states.findIndex(s => s.id === state.id);
+    if (idx >= 0) states[idx] = state; else states.push(state);
+    fs.writeFileSync(MAP_STATES_PATH, JSON.stringify(states, null, 2));
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('mapStates:delete', (_, id) => {
+  try {
+    const states = loadMapStates().filter(s => s.id !== id);
+    fs.writeFileSync(MAP_STATES_PATH, JSON.stringify(states, null, 2));
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
 });
 
 // ── Karma IPC ─────────────────────────────────────────────

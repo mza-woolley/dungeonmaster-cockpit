@@ -38,13 +38,24 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // TV Display
   tv: {
-    open:       ()        => ipcRenderer.invoke('tv:open'),
-    close:      ()        => ipcRenderer.invoke('tv:close'),
-    pushImage:  (p)       => ipcRenderer.invoke('tv:pushImage', p),
-    clear:      ()        => ipcRenderer.invoke('tv:clear'),
-    isOpen:     ()        => ipcRenderer.invoke('tv:isOpen'),
-    pickFolder: ()        => ipcRenderer.invoke('tv:pickFolder'),
-    thumbnail:  (p)       => ipcRenderer.invoke('tv:thumbnail', p),
+    open:        ()                                    => ipcRenderer.invoke('tv:open'),
+    close:       ()                                    => ipcRenderer.invoke('tv:close'),
+    pushImage:   (p)                                   => ipcRenderer.invoke('tv:pushImage', p),
+    clear:       ()                                    => ipcRenderer.invoke('tv:clear'),
+    isOpen:      ()                                    => ipcRenderer.invoke('tv:isOpen'),
+    pickFolder:  ()                                    => ipcRenderer.invoke('tv:pickFolder'),
+    thumbnail:   (p)                                   => ipcRenderer.invoke('tv:thumbnail', p),
+    syncFog:     (fogDataUrl)                          => ipcRenderer.invoke('tv:syncFog', fogDataUrl),
+    syncPins:    (pins, hideAllNpcs, hideAllMonsters)  => ipcRenderer.invoke('tv:syncPins', { pins, hideAllNpcs, hideAllMonsters }),
+    syncGrid:    (enabled, size)                       => ipcRenderer.invoke('tv:syncGrid', { enabled, size }),
+    syncOverlay: (state)                               => ipcRenderer.invoke('tv:syncOverlay', state),
+  },
+
+  // Map States (presets)
+  mapStates: {
+    load:   ()        => ipcRenderer.invoke('mapStates:load'),
+    save:   (state)   => ipcRenderer.invoke('mapStates:save', state),
+    delete: (id)      => ipcRenderer.invoke('mapStates:delete', id),
   },
 
   // Monsters / Encounters
