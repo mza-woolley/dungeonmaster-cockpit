@@ -51,6 +51,7 @@ export default function Characters() {
   const [newSpecies, setNewSpecies] = useState('');
   const [newClass, setNewClass]     = useState('');
   const [saving, setSaving]         = useState(false);
+  const [npcSort, setNpcSort]       = useState('name');
 
   useEffect(() => {
     Promise.all([
@@ -104,7 +105,12 @@ export default function Characters() {
   };
 
   const pcs  = characters.filter(c => c.type === 'pc');
-  const npcs = characters.filter(c => c.type === 'npc');
+  const npcsRaw = characters.filter(c => c.type === 'npc');
+  const npcs = [...npcsRaw].sort((a, b) =>
+    npcSort === 'karma'
+      ? (b.karma || 0) - (a.karma || 0)
+      : a.name.localeCompare(b.name)
+  );
 
   return (
     <div className="characters-panel">
@@ -129,6 +135,13 @@ export default function Characters() {
 
         {tab === 'npc' && (
           <>
+            {npcsRaw.length > 0 && (
+              <div className="chars-sort-bar">
+                <span className="chars-sort-label">Sort:</span>
+                <button className={`chars-sort-btn ${npcSort === 'name'  ? 'active' : ''}`} onClick={() => setNpcSort('name')}>A–Z</button>
+                <button className={`chars-sort-btn ${npcSort === 'karma' ? 'active' : ''}`} onClick={() => setNpcSort('karma')}>Karma</button>
+              </div>
+            )}
             {npcs.length === 0 && <div className="chars-empty">No NPCs yet. Add one below.</div>}
             {npcs.map(c => (
               <CharacterCard key={c.id} char={c} onAdjust={adjustKarma} onRemove={removeCharacter} />

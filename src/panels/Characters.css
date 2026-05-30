@@ -78,6 +78,32 @@
   gap: 12px;
 }
 
+.chars-sort-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0 2px;
+}
+.chars-sort-label {
+  font-size: 0.68rem;
+  color: #5a4a2a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.chars-sort-btn {
+  background: none;
+  border: 1px solid #2e2416;
+  border-radius: 3px;
+  color: #7a6540;
+  font-family: 'Georgia', serif;
+  font-size: 0.72rem;
+  padding: 2px 9px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.chars-sort-btn:hover  { color: #c9a84c; border-color: #4a3820; }
+.chars-sort-btn.active { color: #c9a84c; border-color: #c9a84c; background: #1e1608; }
+
 .chars-empty {
   color: #5a4a2a;
   font-style: italic;

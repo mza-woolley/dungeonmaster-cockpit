@@ -17,6 +17,7 @@
   background: var(--bg-panel);
   flex-shrink: 0;
   position: relative;
+  -webkit-app-region: drag;
 }
 .app-header::after {
   content: '';

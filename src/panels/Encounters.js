@@ -369,6 +369,14 @@ function InitiativeTracker({ srdMonsters = [] }) {
   const [round,   setRound]         = useState(1);
   const [monSearch, setMonSearch]   = useState('');
   const [deltas, setDeltas]         = useState({});
+  const isElectron = !!window.electronAPI;
+
+  const openStatBlock = (c) => {
+    if (!c.monsterData) return;
+    if (isElectron) {
+      window.electronAPI.statblock.open(c.monsterData);
+    }
+  };
 
   const sorted = [...combatants].sort((a, b) => b.initiative - a.initiative);
 
@@ -385,8 +393,14 @@ function InitiativeTracker({ srdMonsters = [] }) {
 
   const addMonster = (m) => {
     const mod = dexMod(m);
-    addCombatant({ id: uid(), name: m.name, initiative: roll(mod), initMod: mod, hp: m.hit_points || 0, maxHp: m.hit_points || 0, isPC: false });
+    addCombatant({ id: uid(), name: m.name, initiative: roll(mod), initMod: mod, hp: m.hit_points || 0, maxHp: m.hit_points || 0, isPC: false, monsterData: m });
     setMonSearch('');
+  };
+
+  const duplicateCombatant = (c) => {
+    const base = c.name.replace(/ \(\d+\)$/, '');
+    const count = combatants.filter(x => x.name === base || x.name.startsWith(base + ' (')).length;
+    addCombatant({ ...c, id: uid(), name: `${base} (${count + 1})` });
   };
 
   const addManual = () => {
@@ -498,7 +512,11 @@ function InitiativeTracker({ srdMonsters = [] }) {
           <div key={c.id} className={`combatant ${i === turn ? 'active-turn' : ''} ${c.hp === 0 ? 'unconscious' : ''} ${c.isPC ? 'combatant-pc' : ''}`}>
             <div className="combatant-turn-marker">{i === turn ? '▶' : ''}</div>
             <div className="combatant-init">{c.initiative}</div>
-            <div className="combatant-name">
+            <div
+              className={`combatant-name ${c.monsterData ? 'combatant-name--link' : ''}`}
+              onClick={() => openStatBlock(c)}
+              title={c.monsterData ? 'View stat block' : undefined}
+            >
               {c.name}
               {c.isPC && <span className="combatant-pc-badge">PC</span>}
             </div>
@@ -520,6 +538,7 @@ function InitiativeTracker({ srdMonsters = [] }) {
                 background: c.hp / c.maxHp > 0.5 ? '#4caf50' : c.hp / c.maxHp > 0.25 ? '#ff9800' : '#f44336'
               }} />
             </div>
+            <button className="sb-btn small" onClick={() => duplicateCombatant(c)} title="Duplicate">⧉</button>
             <button className="sb-btn danger small" onClick={() => remove(c.id)}>✕</button>
           </div>
         ))}

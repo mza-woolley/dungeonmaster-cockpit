@@ -36,6 +36,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     getState:      ()                   => ipcRenderer.invoke('nanoleaf:getState'),
   },
 
+  // Stat Block window
+  statblock: {
+    open: (monster) => ipcRenderer.invoke('statblock:open', monster),
+  },
+
   // TV Display
   tv: {
     open:        ()                                    => ipcRenderer.invoke('tv:open'),

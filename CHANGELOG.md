@@ -2,6 +2,18 @@
 
 ---
 
+## v0.5.2 — May 2026
+
+### ✨ QoL Improvements
+
+- **Ambient sound order** — sounds within each category (Nature, Creatures, Atmosphere) now listed alphabetically
+- **NPC sort** — NPCs tab has an A–Z / Karma sort toggle
+- **Initiative: duplicate combatant** — ⧉ button on each combatant row clones it with the same initiative
+- **Initiative: stat block pop-out** — clicking a monster name opens its stat block in a separate floating window, draggable anywhere on screen
+- **Draggable header** — app header can be used to drag the main window (Mac)
+
+---
+
 ## v0.5.1 — May 2026
 
 ### 🛠 Map Overlay — Bug Fixes & Performance

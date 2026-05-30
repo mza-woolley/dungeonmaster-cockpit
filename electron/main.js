@@ -19,7 +19,8 @@ const { authorize: gAuthorize, isAuthorized: gIsAuthorized,
 const { parseDocContent } = require('./docParser');
 const spotify  = require('./spotify');
 const nanoleaf = require('./nanoleaf');
-const tv       = require('./tvDisplay');
+const tv        = require('./tvDisplay');
+const statblock = require('./statblock');
 const wizard   = require('./wizard');
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -137,6 +138,12 @@ ipcMain.handle('nanoleaf:setPower', async (_, on) => {
 });
 ipcMain.handle('nanoleaf:getState', async () => {
   try { return { success: true, data: await nanoleaf.getState() }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+
+// ── Stat Block Window IPC ─────────────────────────────────
+ipcMain.handle('statblock:open', (_, monster) => {
+  try { statblock.openStatBlock(monster); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
 
