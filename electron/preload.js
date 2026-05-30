@@ -49,6 +49,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // Monsters / Encounters
   monsters: {
+    loadSrd:      ()        => ipcRenderer.invoke('monsters:loadSrd'),
     load:         ()        => ipcRenderer.invoke('monsters:load'),
     saveCustom:   (monster) => ipcRenderer.invoke('monsters:saveCustom', monster),
     deleteCustom: (id)      => ipcRenderer.invoke('monsters:deleteCustom', id),
@@ -58,5 +59,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   wizard: {
     ready: ()                   => ipcRenderer.invoke('wizard:ready'),
     chat:  (messages, question) => ipcRenderer.invoke('wizard:chat', { messages, question }),
+  },
+
+  // Karma
+  karma: {
+    load: ()     => ipcRenderer.invoke('karma:load'),
+    save: (data) => ipcRenderer.invoke('karma:save', data),
   },
 });

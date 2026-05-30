@@ -2,6 +2,40 @@
 
 ---
 
+## v0.4 — May 2026
+
+### 🧑 New Panel: Characters
+
+- **Characters Panel** — seventh panel added; tracks PCs and NPCs separately via sub-tabs
+- **Karma System** — persistent `+/−` karma score per character with five tiers: Virtuous (>20), Good (>10), Neutral (±10), Bad (>-20), Darkness (≤-20); colour-coded gold/green/red
+- **6 x PCs Pre-seeded** — Elaris Sol, Fenrik, Frah'nk, Kaelen Shadowsong, Plumbodian V, Wizzleforth Crankfoot auto-populated with name and race from character sheets
+- **NPC Tracking** — freely add and remove NPCs with optional race/type field and full karma tracking
+- **karma.json** — all data persisted locally via IPC
+
+### ⚔ Encounters — Initiative & Monsters
+
+- **Initiative Quick Setup** — one-click add buttons for all 6 PCs; auto-rolls `d20 + initiative modifier` and pre-fills max HP from character sheets; `+ All PCs` adds the full party at once
+- **Monster Search in Initiative** — type to search all 3,207 SRD monsters plus custom monsters; results show CR, HP, and initiative modifier; clicking adds the monster with auto-rolled initiative (`d20 + DEX mod`) and correct HP
+- **Initiative Modifiers Stored** — re-rolling all initiatives correctly applies each combatant's modifier rather than raw d20
+- **PC Badge** — player characters shown with gold left border and `PC` tag in the tracker
+- **SRD Monsters Local** — monster browser now reads from `srd-library/monsters.json` directly; Open5e API call and localStorage cache removed entirely
+- **Custom Monsters in Search** — custom monsters merged with SRD results in both the browser and initiative search
+
+### 🗺️ TV Display — Performance
+
+- **Disk Thumbnail Cache** — thumbnails generated once and stored as small PNGs in `userData/thumb-cache/`; subsequent launches load from cache instead of re-processing full-resolution images
+- **Lazy Loading** — thumbnails only generated for tiles currently visible on screen (`IntersectionObserver` with 100px lookahead); large map folders no longer block on load
+- **Thumbnail Size** — reduced from 160px to 80px max dimension; resize quality set to `fast`
+
+### 🪟 Platform & Navigation
+
+- **Tab order** alphabetised: Characters, Display, DND Wizard, Encounters, Scene, Scribble
+- **Notes tab removed**
+- **Wizard tab renamed** to DND Wizard
+- **wizard.js fix** — corrupted `loadIndex` function restored (missing variable declarations and function header caused uncaught exception on startup)
+
+---
+
 ## v0.3 — May 2026
 
 ### 🧙 New Panel: DND Wizard

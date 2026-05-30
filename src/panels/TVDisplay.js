@@ -1,9 +1,46 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './TVDisplay.css';
 
 const FOLDER_KEY  = 'dm-cockpit-tv-folder';
 const FILES_KEY   = 'dm-cockpit-tv-files';
 const FAVS_KEY    = 'dm-cockpit-tv-favs';
+
+function LazyTile({ file, active, thumb, faved, onPush, onFav, onVisible }) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { onVisible(file.path); obs.disconnect(); }
+    }, { rootMargin: '100px' });
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [file.path, onVisible]);
+
+  return (
+    <div
+      ref={ref}
+      className={`tv-tile ${active ? 'active' : ''}`}
+      onClick={() => onPush(file)}
+    >
+      <div className="tv-tile-thumb">
+        {thumb && thumb !== 'loading'
+          ? <img src={thumb} alt={file.name} />
+          : <div className="tv-tile-placeholder">⏳</div>
+        }
+        {active && <div className="tv-tile-active-badge">On TV</div>}
+      </div>
+      <div className="tv-tile-footer">
+        <span className="tv-tile-name" title={file.name}>{file.name}</span>
+        <button
+          className={`tv-fav-btn ${faved ? 'faved' : ''}`}
+          onClick={e => { e.stopPropagation(); onFav(file.path); }}
+          title={faved ? 'Remove from favourites' : 'Add to favourites'}
+        >★</button>
+      </div>
+    </div>
+  );
+}
 
 export default function TVDisplay() {
   const [folder, setFolder]       = useState(() => localStorage.getItem(FOLDER_KEY) || '');
@@ -25,24 +62,29 @@ export default function TVDisplay() {
     window.electronAPI.tv.isOpen().then(setTvOpen);
   }, [isElectron]);
 
-  // Generate thumbnails for any files that don't have one yet
-  useEffect(() => {
-    if (!isElectron || files.length === 0) return;
-    const missing = files.filter(f => !thumbs[f.path]);
-    if (missing.length === 0) return;
-    // Generate one at a time to avoid hammering the main process
-    let cancelled = false;
-    (async () => {
-      for (const file of missing) {
-        if (cancelled) break;
-        const res = await window.electronAPI.tv.thumbnail(file.path);
-        if (!cancelled && res.success) {
-          setThumbs(prev => ({ ...prev, [file.path]: res.dataUrl }));
-        }
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [files, isElectron]); // eslint-disable-line react-hooks/exhaustive-deps
+  const thumbQueue = useRef([]);
+  const thumbWorking = useRef(false);
+
+  const enqueueThumbnail = useCallback((filePath) => {
+    if (!isElectron) return;
+    setThumbs(prev => {
+      if (prev[filePath] || prev[filePath] === 'loading') return prev;
+      thumbQueue.current.push(filePath);
+      if (!thumbWorking.current) drainQueue();
+      return { ...prev, [filePath]: 'loading' };
+    });
+  }, [isElectron]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  function drainQueue() {
+    if (thumbQueue.current.length === 0) { thumbWorking.current = false; return; }
+    thumbWorking.current = true;
+    const filePath = thumbQueue.current.shift();
+    window.electronAPI.tv.thumbnail(filePath).then(res => {
+      if (res.success) setThumbs(prev => ({ ...prev, [filePath]: res.dataUrl }));
+      else             setThumbs(prev => { const n = { ...prev }; delete n[filePath]; return n; });
+      drainQueue();
+    });
+  }
 
   const handlePickFolder = async () => {
     setLoading(true);
@@ -190,29 +232,16 @@ export default function TVDisplay() {
               <div className="tv-no-results">No maps match your search.</div>
             )}
             {filtered.map(file => (
-              <div
+              <LazyTile
                 key={file.path}
-                className={`tv-tile ${active === file.path ? 'active' : ''}`}
-                onClick={() => handlePushImage(file)}
-              >
-                <div className="tv-tile-thumb">
-                  {thumbs[file.path]
-                    ? <img src={thumbs[file.path]} alt={file.name} />
-                    : <div className="tv-tile-placeholder">⏳</div>
-                  }
-                  {active === file.path && (
-                    <div className="tv-tile-active-badge">On TV</div>
-                  )}
-                </div>
-                <div className="tv-tile-footer">
-                  <span className="tv-tile-name" title={file.name}>{file.name}</span>
-                  <button
-                    className={`tv-fav-btn ${favs.includes(file.path) ? 'faved' : ''}`}
-                    onClick={e => { e.stopPropagation(); toggleFav(file.path); }}
-                    title={favs.includes(file.path) ? 'Remove from favourites' : 'Add to favourites'}
-                  >★</button>
-                </div>
-              </div>
+                file={file}
+                active={active === file.path}
+                thumb={thumbs[file.path]}
+                faved={favs.includes(file.path)}
+                onPush={handlePushImage}
+                onFav={toggleFav}
+                onVisible={enqueueThumbnail}
+              />
             ))}
           </div>
         </>

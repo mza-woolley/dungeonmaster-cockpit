@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './Encounters.css';
 
 // ── Helpers ────────────────────────────────────────────────
-const API_V1 = 'https://api.open5e.com/v1';
 const CR_OPTIONS = [
   '0','1/8','1/4','1/2',
   '1','2','3','4','5','6','7','8','9','10',
@@ -344,52 +343,63 @@ function MonsterEditor({ initial, onSave, onCancel }) {
 }
 
 // ── Initiative Tracker ─────────────────────────────────────
-function InitiativeTracker() {
+const PC_QUICK = [
+  { name: 'Elaris Sol',              shortName: 'Elaris',    initMod: 0, maxHp: 24 },
+  { name: 'Fenrik',                  shortName: 'Fenrik',    initMod: 3, maxHp: 32 },
+  { name: "Frah'nk",                 shortName: "Frah'nk",   initMod: 2, maxHp: 34 },
+  { name: 'Kaelen Shadowsong',       shortName: 'Kaelen',    initMod: 2, maxHp: 18 },
+  { name: 'Plumbodian V',            shortName: 'Plumb.',    initMod: 1, maxHp: 26 },
+  { name: 'Wizzleforth Crankfoot',   shortName: 'Wizzle.',   initMod: 2, maxHp: 21 },
+];
+
+function roll(mod = 0) {
+  return Math.floor(Math.random() * 20) + 1 + mod;
+}
+
+function dexMod(monster) {
+  return Math.floor(((monster.dexterity || 10) - 10) / 2);
+}
+
+function InitiativeTracker({ srdMonsters = [] }) {
   const [combatants, setCombatants] = useState([]);
   const [newName, setNewName]       = useState('');
   const [newInit, setNewInit]       = useState('');
   const [newHp,   setNewHp]         = useState('');
   const [turn,    setTurn]          = useState(0);
   const [round,   setRound]         = useState(1);
+  const [monSearch, setMonSearch]   = useState('');
+  const [deltas, setDeltas]         = useState({});
 
   const sorted = [...combatants].sort((a, b) => b.initiative - a.initiative);
 
-  const add = () => {
+  const addCombatant = (c) => setCombatants(prev => [...prev, c]);
+
+  const addPC = (pc) => {
+    if (combatants.some(c => c.name === pc.name)) return;
+    addCombatant({ id: uid(), name: pc.name, initiative: roll(pc.initMod), initMod: pc.initMod, hp: pc.maxHp, maxHp: pc.maxHp, isPC: true });
+  };
+
+  const addAllPCs = () => PC_QUICK.forEach(pc => {
+    if (!combatants.some(c => c.name === pc.name)) addCombatant({ id: uid(), name: pc.name, initiative: roll(pc.initMod), initMod: pc.initMod, hp: pc.maxHp, maxHp: pc.maxHp, isPC: true });
+  });
+
+  const addMonster = (m) => {
+    const mod = dexMod(m);
+    addCombatant({ id: uid(), name: m.name, initiative: roll(mod), initMod: mod, hp: m.hit_points || 0, maxHp: m.hit_points || 0, isPC: false });
+    setMonSearch('');
+  };
+
+  const addManual = () => {
     if (!newName.trim()) return;
-    setCombatants(prev => [...prev, {
-      id: uid(), name: newName.trim(),
-      initiative: parseInt(newInit) || 0,
-      hp: parseInt(newHp) || 0,
-      maxHp: parseInt(newHp) || 0,
-      conditions: [],
-      active: false,
-    }]);
+    addCombatant({ id: uid(), name: newName.trim(), initiative: parseInt(newInit) || 0, initMod: 0, hp: parseInt(newHp) || 0, maxHp: parseInt(newHp) || 0, isPC: false });
     setNewName(''); setNewInit(''); setNewHp('');
   };
 
-  const remove = (id) => {
-    setCombatants(prev => {
-      const next = prev.filter(c => c.id !== id);
-      return next;
-    });
-    setTurn(0);
-  };
+  const remove = (id) => { setCombatants(prev => prev.filter(c => c.id !== id)); setTurn(0); };
 
-  const updateHp = (id, delta) => {
-    setCombatants(prev => prev.map(c =>
-      c.id === id ? { ...c, hp: Math.max(0, c.hp + delta) } : c
-    ));
-  };
-
-  const setHpDirect = (id, val) => {
-    setCombatants(prev => prev.map(c =>
-      c.id === id ? { ...c, hp: Math.max(0, parseInt(val) || 0) } : c
-    ));
-  };
-
-  const [deltas, setDeltas] = useState({});  // id → string input value
-
-  const setDelta = (id, val) => setDeltas(prev => ({ ...prev, [id]: val }));
+  const updateHp    = (id, delta) => setCombatants(prev => prev.map(c => c.id === id ? { ...c, hp: Math.max(0, c.hp + delta) } : c));
+  const setHpDirect = (id, val)   => setCombatants(prev => prev.map(c => c.id === id ? { ...c, hp: Math.max(0, parseInt(val) || 0) } : c));
+  const setDelta    = (id, val)   => setDeltas(prev => ({ ...prev, [id]: val }));
 
   const applyDelta = (id, sign) => {
     const val = parseInt(deltas[id]) || 0;
@@ -405,18 +415,62 @@ function InitiativeTracker() {
     setTurn(next);
   };
 
-  const reset = () => { setCombatants([]); setTurn(0); setRound(1); };
+  const reset   = () => { setCombatants([]); setTurn(0); setRound(1); };
+  const rollAll = () => { setCombatants(prev => prev.map(c => ({ ...c, initiative: roll(c.initMod || 0) }))); setTurn(0); };
 
-  const rollAll = () => {
-    setCombatants(prev => prev.map(c => ({
-      ...c,
-      initiative: Math.floor(Math.random() * 20) + 1,
-    })));
-    setTurn(0);
-  };
+  const monResults = monSearch.trim().length >= 2
+    ? srdMonsters.filter(m => m.name.toLowerCase().includes(monSearch.toLowerCase())).slice(0, 8)
+    : [];
 
   return (
     <div className="initiative">
+
+      {/* ── Quick Setup ── */}
+      <div className="init-quick-setup">
+        <div className="init-quick-label">Quick Add</div>
+
+        {/* PC buttons */}
+        <div className="init-pc-row">
+          {PC_QUICK.map(pc => (
+            <button
+              key={pc.name}
+              className={`init-pc-btn ${combatants.some(c => c.name === pc.name) ? 'added' : ''}`}
+              onClick={() => addPC(pc)}
+              title={`${pc.name} (Init +${pc.initMod}, HP ${pc.maxHp})`}
+              disabled={combatants.some(c => c.name === pc.name)}
+            >
+              {pc.shortName}
+            </button>
+          ))}
+          <button className="init-pc-btn add-all" onClick={addAllPCs}>+ All PCs</button>
+        </div>
+
+        {/* Monster search */}
+        <div className="init-mon-search-wrap">
+          <input
+            className="init-mon-search"
+            placeholder="Search monsters to add…"
+            value={monSearch}
+            onChange={e => setMonSearch(e.target.value)}
+          />
+          {monResults.length > 0 && (
+            <div className="init-mon-results">
+              {monResults.map(m => {
+                const mod = dexMod(m);
+                const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
+                return (
+                  <button key={m.slug} className="init-mon-result" onClick={() => addMonster(m)}>
+                    <span className="imr-name">{m.name}</span>
+                    <span className="imr-meta">CR {m.cr || '?'} · HP {m.hit_points} · Init {modStr}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── Header ── */}
       <div className="initiative-header">
         <div className="round-badge">Round {round}</div>
         <div className="initiative-controls">
@@ -426,73 +480,45 @@ function InitiativeTracker() {
         </div>
       </div>
 
-      {/* Add combatant */}
+      {/* ── Manual add ── */}
       <div className="initiative-add">
-        <input
-          type="text"
-          value={newName}
-          onChange={e => setNewName(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && add()}
-          placeholder="Name"
-          className="initiative-name-input"
-        />
-        <input
-          type="number"
-          value={newInit}
-          onChange={e => setNewInit(e.target.value)}
-          placeholder="Init"
-          className="initiative-num-input"
-        />
-        <input
-          type="number"
-          value={newHp}
-          onChange={e => setNewHp(e.target.value)}
-          placeholder="HP"
-          className="initiative-num-input"
-        />
-        <button className="sb-btn primary" onClick={add}>+ Add</button>
+        <input type="text" value={newName} onChange={e => setNewName(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && addManual()} placeholder="Name" className="initiative-name-input" />
+        <input type="number" value={newInit} onChange={e => setNewInit(e.target.value)}
+          placeholder="Init" className="initiative-num-input" />
+        <input type="number" value={newHp} onChange={e => setNewHp(e.target.value)}
+          placeholder="HP" className="initiative-num-input" />
+        <button className="sb-btn primary" onClick={addManual}>+ Add</button>
       </div>
 
-      {/* Combatant list */}
+      {/* ── Combatant list ── */}
       <div className="combatant-list">
-        {sorted.length === 0 && (
-          <div className="initiative-empty">Add combatants above to begin tracking.</div>
-        )}
+        {sorted.length === 0 && <div className="initiative-empty">Add combatants above to begin tracking.</div>}
         {sorted.map((c, i) => (
-          <div key={c.id} className={`combatant ${i === turn ? 'active-turn' : ''} ${c.hp === 0 ? 'unconscious' : ''}`}>
+          <div key={c.id} className={`combatant ${i === turn ? 'active-turn' : ''} ${c.hp === 0 ? 'unconscious' : ''} ${c.isPC ? 'combatant-pc' : ''}`}>
             <div className="combatant-turn-marker">{i === turn ? '▶' : ''}</div>
             <div className="combatant-init">{c.initiative}</div>
-            <div className="combatant-name">{c.name}</div>
+            <div className="combatant-name">
+              {c.name}
+              {c.isPC && <span className="combatant-pc-badge">PC</span>}
+            </div>
             <div className="combatant-hp">
               <button onClick={() => updateHp(c.id, -1)}>−</button>
-              <input
-                type="number"
-                value={c.hp}
-                onChange={e => setHpDirect(c.id, e.target.value)}
-                style={{ width: 52 }}
-              />
+              <input type="number" value={c.hp} onChange={e => setHpDirect(c.id, e.target.value)} style={{ width: 52 }} />
               <span className="hp-max">/ {c.maxHp}</span>
               <button onClick={() => updateHp(c.id, 1)}>+</button>
             </div>
             <div className="combatant-delta">
               <button onClick={() => applyDelta(c.id, -1)} title="Subtract">−</button>
-              <input
-                type="number"
-                min="0"
-                value={deltas[c.id] || ''}
-                onChange={e => setDelta(c.id, e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') applyDelta(c.id, -1); }}
-                placeholder="dmg"
-                style={{ width: 52 }}
-              />
+              <input type="number" min="0" value={deltas[c.id] || ''} onChange={e => setDelta(c.id, e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') applyDelta(c.id, -1); }} placeholder="dmg" style={{ width: 52 }} />
               <button onClick={() => applyDelta(c.id, 1)} title="Heal">+</button>
             </div>
-            <div className={`hp-bar-wrap`}>
-              <div
-                className="hp-bar"
-                style={{ width: `${c.maxHp > 0 ? Math.round((c.hp / c.maxHp) * 100) : 0}%`,
-                         background: c.hp / c.maxHp > 0.5 ? '#4caf50' : c.hp / c.maxHp > 0.25 ? '#ff9800' : '#f44336' }}
-              />
+            <div className="hp-bar-wrap">
+              <div className="hp-bar" style={{
+                width: `${c.maxHp > 0 ? Math.round((c.hp / c.maxHp) * 100) : 0}%`,
+                background: c.hp / c.maxHp > 0.5 ? '#4caf50' : c.hp / c.maxHp > 0.25 ? '#ff9800' : '#f44336'
+              }} />
             </div>
             <button className="sb-btn danger small" onClick={() => remove(c.id)}>✕</button>
           </div>
@@ -526,29 +552,16 @@ export default function Encounters() {
     });
   }, [isElectron]);
 
-  // Load ALL SRD monsters once on mount — paginate until done
+  // Load SRD monsters from local srd-library/monsters.json via IPC
   useEffect(() => {
-    let cancelled = false;
-    async function fetchAll() {
-      setLoading(true); setError('');
-      try {
-        let url = `${API_V1}/monsters/?limit=100`;
-        let results = [];
-        while (url) {
-          const res  = await fetch(url);
-          const data = await res.json();
-          results = [...results, ...(data.results || [])];
-          url = cancelled ? null : data.next;
-        }
-        if (!cancelled) setAllSrd(results);
-      } catch {
-        if (!cancelled) setError('Could not reach Open5e API. Check your connection.');
-      }
-      if (!cancelled) setLoading(false);
-    }
-    fetchAll();
-    return () => { cancelled = true; };
-  }, []);
+    if (!isElectron) return;
+    setLoading(true);
+    window.electronAPI.monsters.loadSrd().then(res => {
+      if (res.success) setAllSrd(res.data);
+      else setError(res.error);
+      setLoading(false);
+    });
+  }, [isElectron]);
 
   // Filter locally — instant
   const srdResults = allSrd.filter(m => {
@@ -729,7 +742,7 @@ export default function Encounters() {
       )}
 
       {/* ── INITIATIVE TAB ── */}
-      {tab === 'initiative' && <InitiativeTracker />}
+      {tab === 'initiative' && <InitiativeTracker srdMonsters={[...customMonsters, ...allSrd]} />}
     </div>
   );
 }

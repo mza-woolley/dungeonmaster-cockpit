@@ -19,9 +19,17 @@ const SRD_DIR      = path.join(PROJECT_ROOT, 'srd-library');
 // ── Config ────────────────────────────────────────────────────────────────────
 
 function loadApiKey() {
-  // Read from environment variable (loaded from .env by dotenv in main.js)
   return process.env.ANTHROPIC_API_KEY || null;
 }
+
+// ── SRD Loader ────────────────────────────────────────────────────────────────
+
+let _index = null;
+const _cache = {};
+
+function loadIndex() {
+  if (_index) return _index;
+  const p = path.join(SRD_DIR, 'index.json');
   if (!fs.existsSync(p)) return null;
   try { _index = JSON.parse(fs.readFileSync(p, 'utf8')); return _index; }
   catch (_) { return null; }

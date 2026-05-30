@@ -169,20 +169,39 @@ ipcMain.handle('tv:pickFolder', async () => {
     .map(f => ({ name: path.basename(f, path.extname(f)), path: path.join(folder, f) }));
   return { success: true, folder, files };
 });
+const crypto   = require('crypto');
+const { app: _app } = require('electron');
+
 ipcMain.handle('tv:thumbnail', async (_, imagePath) => {
   try {
-    const img   = nativeImage.createFromPath(imagePath);
+    const cacheDir = path.join(_app.getPath('userData'), 'thumb-cache');
+    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+
+    const cacheKey  = crypto.createHash('md5').update(imagePath).digest('hex');
+    const cachePath = path.join(cacheDir, `${cacheKey}.png`);
+
+    if (fs.existsSync(cachePath)) {
+      const dataUrl = 'data:image/png;base64,' + fs.readFileSync(cachePath).toString('base64');
+      return { success: true, dataUrl };
+    }
+
+    const img = nativeImage.createFromPath(imagePath);
     if (img.isEmpty()) return { success: false, error: 'Could not load image' };
     const size  = img.getSize();
-    const maxDim = 160;
+    const maxDim = 80;
     const scale = Math.min(maxDim / size.width, maxDim / size.height, 1);
-    const thumb = img.resize({ width: Math.round(size.width * scale), height: Math.round(size.height * scale), quality: 'good' });
-    return { success: true, dataUrl: thumb.toDataURL() };
+    const thumb = img.resize({ width: Math.round(size.width * scale), height: Math.round(size.height * scale), quality: 'fast' });
+
+    const pngBuffer = thumb.toPNG();
+    fs.writeFileSync(cachePath, pngBuffer);
+
+    return { success: true, dataUrl: 'data:image/png;base64,' + pngBuffer.toString('base64') };
   } catch (err) { return { success: false, error: err.message }; }
 });
 
 // ── Monsters / Encounters IPC ─────────────────────────────
-const MONSTERS_PATH = path.join(__dirname, '..', 'monsters.json');
+const MONSTERS_PATH     = path.join(__dirname, '..', 'monsters.json');
+const SRD_MONSTERS_PATH = path.join(__dirname, '..', 'srd-library', 'monsters.json');
 
 function loadMonstersFile() {
   try {
@@ -191,6 +210,13 @@ function loadMonstersFile() {
   return { custom: [], srd_overrides: {} };
 }
 
+ipcMain.handle('monsters:loadSrd', () => {
+  try {
+    if (fs.existsSync(SRD_MONSTERS_PATH))
+      return { success: true, data: JSON.parse(fs.readFileSync(SRD_MONSTERS_PATH, 'utf8')) };
+    return { success: false, error: 'srd-library/monsters.json not found' };
+  } catch (err) { return { success: false, error: err.message }; }
+});
 ipcMain.handle('monsters:load', () => loadMonstersFile());
 ipcMain.handle('monsters:saveCustom', (_, monster) => {
   try {
@@ -207,6 +233,24 @@ ipcMain.handle('monsters:deleteCustom', (_, id) => {
     const data  = loadMonstersFile();
     data.custom = data.custom.filter(m => m.id !== id);
     fs.writeFileSync(MONSTERS_PATH, JSON.stringify(data, null, 2));
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+
+// ── Karma IPC ─────────────────────────────────────────────
+const KARMA_PATH = path.join(__dirname, '..', 'karma.json');
+
+function loadKarmaFile() {
+  try {
+    if (fs.existsSync(KARMA_PATH)) return JSON.parse(fs.readFileSync(KARMA_PATH, 'utf8'));
+  } catch (_) {}
+  return { characters: [] };
+}
+
+ipcMain.handle('karma:load', () => loadKarmaFile());
+ipcMain.handle('karma:save', (_, data) => {
+  try {
+    fs.writeFileSync(KARMA_PATH, JSON.stringify(data, null, 2));
     return { success: true };
   } catch (err) { return { success: false, error: err.message }; }
 });

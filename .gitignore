@@ -3,6 +3,9 @@
 anthro.json
 credentials.json
 spotify-config.json
+claude.md
+ClaudeStart.bat
+.claude
 
 # Dependencies — regenerated via npm install
 node_modules/

@@ -2,19 +2,19 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './App.css';
 import Scribbleboard from './panels/Scribbleboard';
-import Notes from './panels/Notes';
 import SceneControl from './panels/SceneControl';
 import TVDisplay from './panels/TVDisplay';
 import Encounters from './panels/Encounters';
-import DNDWizard from './panels/DNDWizard';   // ← NEW v0.3
+import DNDWizard from './panels/DNDWizard';
+import Characters from './panels/Characters';
 
 const PANELS = [
-  { id: 'notes',      label: 'Notes',      icon: '📜', shortcut: '1' },
-  { id: 'scribble',   label: 'Scribble',   icon: '✍️',  shortcut: '2' },
-  { id: 'scene',      label: 'Scene',      icon: '🎭', shortcut: '3' },
-  { id: 'tv',         label: 'Display',    icon: '🗺️',  shortcut: '4' },
-  { id: 'encounters', label: 'Encounters', icon: '⚔️',  shortcut: '5' },
-  { id: 'wizard',     label: 'Wizard',     icon: '🧙', shortcut: '6' },  // ← NEW v0.3
+  { id: 'characters', label: 'Characters', icon: '🧑', shortcut: '1' },
+  { id: 'tv',         label: 'Display',    icon: '🗺️',  shortcut: '2' },
+  { id: 'wizard',     label: 'DND Wizard', icon: '🧙', shortcut: '3' },
+  { id: 'encounters', label: 'Encounters', icon: '⚔️',  shortcut: '4' },
+  { id: 'scene',      label: 'Scene',      icon: '🎭', shortcut: '5' },
+  { id: 'scribble',   label: 'Scribble',   icon: '✍️',  shortcut: '6' },
 ];
 
 export default function App() {
@@ -73,12 +73,12 @@ export default function App() {
 
   const renderPanel = (idx) => {
     switch (PANELS[idx]?.id) {
-      case 'notes':      return <Notes />;
       case 'scribble':   return <Scribbleboard />;
       case 'scene':      return <SceneControl />;
       case 'tv':         return <TVDisplay />;
       case 'encounters': return <Encounters />;
-      case 'wizard':     return <DNDWizard />;   // ← NEW v0.3
+      case 'wizard':     return <DNDWizard />;
+      case 'characters': return <Characters />;
       default:           return null;
     }
   };
