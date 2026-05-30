@@ -1,0 +1,17 @@
+# Secrets — never commit these
+.env
+anthro.json
+credentials.json
+spotify-config.json
+
+# Dependencies — regenerated via npm install
+node_modules/
+
+# Build output
+build/
+
+# Mac junk
+.DS_Store
+
+# Token files saved locally after OAuth
+*.token.json

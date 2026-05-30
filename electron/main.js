@@ -1,0 +1,224 @@
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
+// electron/main.js  —  v0.3 scene fix patch
+// Changes from v0.3 base:
+//   Spotify: added spotify:resume, spotify:previous IPC
+//   Nanoleaf: added nanoleaf:getDevices, nanoleaf:addDevice, nanoleaf:removeDevice,
+//             nanoleaf:updateLabel, nanoleaf:verifyDevice, nanoleaf:getState now returns array
+
+const { app, BrowserWindow, globalShortcut, ipcMain, dialog, nativeImage } = require('electron');
+const path = require('path');
+const fs   = require('fs');
+
+const { authorize: gAuthorize, isAuthorized: gIsAuthorized,
+        getDocContent, createOAuthClient } = require('./auth');
+const { parseDocContent } = require('./docParser');
+const spotify  = require('./spotify');
+const nanoleaf = require('./nanoleaf');
+const tv       = require('./tvDisplay');
+const wizard   = require('./wizard');
+
+const isDev = process.env.NODE_ENV === 'development';
+let mainWindow;
+
+function createWindow() {
+  mainWindow = new BrowserWindow({
+    width: 1200, height: 820, minWidth: 800, minHeight: 600,
+    backgroundColor: '#0a0906',
+    titleBarStyle: process.platform === 'darwin' ? 'hiddenInset' : 'default',
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+  });
+  const startUrl = isDev
+    ? 'http://localhost:3000'
+    : `file://${path.join(__dirname, '../build/index.html')}`;
+  mainWindow.loadURL(startUrl);
+  mainWindow.on('closed', () => { mainWindow = null; });
+  try { createOAuthClient(); } catch (_) {}
+}
+
+// ── Google Docs IPC ───────────────────────────────────────
+ipcMain.handle('google:isAuthorized', () => gIsAuthorized());
+ipcMain.handle('google:authorize', async () => {
+  try { await gAuthorize(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('google:getDoc', async (_, docId) => {
+  try { return { success: true, data: parseDocContent(await getDocContent(docId)) }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+
+// ── Spotify IPC ───────────────────────────────────────────
+ipcMain.handle('spotify:isAuthorized', () => spotify.isAuthorized());
+ipcMain.handle('spotify:authorize', async () => {
+  try { await spotify.authorize(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('spotify:getPlaylists', async () => {
+  try { return { success: true, data: await spotify.getPlaylists() }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('spotify:play', async (_, uri) => {
+  try { await spotify.playPlaylist(uri); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('spotify:resume', async () => {           // ← NEW
+  try { await spotify.resumePlayback(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('spotify:pause', async () => {
+  try { await spotify.pausePlayback(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('spotify:skip', async () => {
+  try { await spotify.skipTrack(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('spotify:previous', async () => {         // ← NEW
+  try { await spotify.previousTrack(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('spotify:currentTrack', async () => {
+  try { return { success: true, data: await spotify.getCurrentTrack() }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+
+// ── Nanoleaf IPC ──────────────────────────────────────────
+ipcMain.handle('nanoleaf:isConfigured', () => nanoleaf.isConfigured());
+ipcMain.handle('nanoleaf:getConfig',    () => nanoleaf.loadConfig());
+ipcMain.handle('nanoleaf:getDevices',   () => nanoleaf.getDevices());          // ← NEW
+
+ipcMain.handle('nanoleaf:setup', async (_, { ip, port, label }) => {           // label param added
+  try {
+    const device = await nanoleaf.generateToken(ip, port, label);
+    return { success: true, device };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+
+ipcMain.handle('nanoleaf:removeDevice', (_, deviceId) => {                     // ← NEW
+  try { nanoleaf.removeDevice(deviceId); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+
+ipcMain.handle('nanoleaf:updateLabel', (_, { deviceId, label }) => {           // ← NEW
+  try { nanoleaf.updateDeviceLabel(deviceId, label); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+
+ipcMain.handle('nanoleaf:verifyDevice', async (_, deviceId) => {               // ← NEW
+  try { return { success: true, data: await nanoleaf.verifyDevice(deviceId) }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+
+ipcMain.handle('nanoleaf:getScenes', async () => {
+  try { return { success: true, data: await nanoleaf.getScenes() }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('nanoleaf:setScene', async (_, scene) => {
+  try {
+    const result = await nanoleaf.setScene(scene);
+    return { success: true, partialErrors: result?.partialErrors || [] };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('nanoleaf:setBrightness', async (_, val) => {
+  try { await nanoleaf.setBrightness(val); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('nanoleaf:setPower', async (_, on) => {
+  try { await nanoleaf.setPower(on); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('nanoleaf:getState', async () => {
+  try { return { success: true, data: await nanoleaf.getState() }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+
+// ── TV Display IPC ────────────────────────────────────────
+ipcMain.handle('tv:open', () => {
+  try { tv.openTvWindow(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('tv:close', () => {
+  try { tv.closeTvWindow(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('tv:pushImage', (_, imagePath) => {
+  try { tv.pushImage(imagePath); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('tv:clear', () => {
+  try { tv.clearTvDisplay(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('tv:isOpen', () => {
+  const w = tv.getTvWindow();
+  return !!(w && !w.isDestroyed());
+});
+ipcMain.handle('tv:pickFolder', async () => {
+  const result = await dialog.showOpenDialog(mainWindow, {
+    title: 'Select Map Image Folder',
+    properties: ['openDirectory'],
+  });
+  if (result.canceled || !result.filePaths[0]) return { success: false };
+  const folder = result.filePaths[0];
+  const exts   = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+  const files  = fs.readdirSync(folder)
+    .filter(f => exts.includes(path.extname(f).toLowerCase()))
+    .map(f => ({ name: path.basename(f, path.extname(f)), path: path.join(folder, f) }));
+  return { success: true, folder, files };
+});
+ipcMain.handle('tv:thumbnail', async (_, imagePath) => {
+  try {
+    const img   = nativeImage.createFromPath(imagePath);
+    if (img.isEmpty()) return { success: false, error: 'Could not load image' };
+    const size  = img.getSize();
+    const maxDim = 160;
+    const scale = Math.min(maxDim / size.width, maxDim / size.height, 1);
+    const thumb = img.resize({ width: Math.round(size.width * scale), height: Math.round(size.height * scale), quality: 'good' });
+    return { success: true, dataUrl: thumb.toDataURL() };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+
+// ── Monsters / Encounters IPC ─────────────────────────────
+const MONSTERS_PATH = path.join(__dirname, '..', 'monsters.json');
+
+function loadMonstersFile() {
+  try {
+    if (fs.existsSync(MONSTERS_PATH)) return JSON.parse(fs.readFileSync(MONSTERS_PATH, 'utf8'));
+  } catch (_) {}
+  return { custom: [], srd_overrides: {} };
+}
+
+ipcMain.handle('monsters:load', () => loadMonstersFile());
+ipcMain.handle('monsters:saveCustom', (_, monster) => {
+  try {
+    const data = loadMonstersFile();
+    const idx  = data.custom.findIndex(m => m.id === monster.id);
+    if (idx >= 0) data.custom[idx] = monster;
+    else data.custom.push(monster);
+    fs.writeFileSync(MONSTERS_PATH, JSON.stringify(data, null, 2));
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('monsters:deleteCustom', (_, id) => {
+  try {
+    const data  = loadMonstersFile();
+    data.custom = data.custom.filter(m => m.id !== id);
+    fs.writeFileSync(MONSTERS_PATH, JSON.stringify(data, null, 2));
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+
+// ── App Lifecycle ─────────────────────────────────────────
+app.whenReady().then(() => {
+  createWindow();
+  wizard.register(ipcMain);
+  globalShortcut.register('CommandOrControl+Shift+D', () => {
+    if (mainWindow) { mainWindow.show(); mainWindow.focus(); }
+  });
+});
+app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
+app.on('activate', () => { if (mainWindow === null) createWindow(); });
+app.on('will-quit', () => globalShortcut.unregisterAll());

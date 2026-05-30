@@ -1,0 +1,135 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg-deep);
+}
+
+/* ── Header ── */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-panel);
+  flex-shrink: 0;
+  position: relative;
+}
+.app-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+}
+.header-sigil {
+  font-size: 18px;
+  color: var(--gold);
+  opacity: 0.8;
+}
+.header-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.9;
+}
+.header-spacer { flex: 1; }
+
+/* ── Nav ── */
+.panel-nav {
+  display: flex;
+  position: relative;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  padding: 0 8px;
+}
+.nav-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
+  z-index: 1;
+}
+.nav-btn:hover { color: var(--text-primary); }
+.nav-btn.active { color: var(--gold); }
+.nav-icon { font-size: 14px; }
+.nav-shortcut {
+  font-size: 9px;
+  opacity: 0.4;
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+.nav-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 25%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Panel Stage ── */
+.panel-stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+.panel-slide {
+  position: absolute;
+  inset: 0;
+  will-change: transform, opacity;
+}
+.panel-slide.settled {
+  transform: translateX(0);
+  opacity: 1;
+  transition: none;
+}
+.panel-slide.entering-right {
+  animation: slideInRight 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.panel-slide.entering-left {
+  animation: slideInLeft 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.panel-slide.exit-left {
+  animation: slideOutLeft 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.panel-slide.exit-right {
+  animation: slideOutRight 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(40px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slideInLeft {
+  from { transform: translateX(-40px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+@keyframes slideOutLeft {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(-40px); opacity: 0; }
+}
+@keyframes slideOutRight {
+  from { transform: translateX(0);   opacity: 1; }
+  to   { transform: translateX(40px); opacity: 0; }
+}
