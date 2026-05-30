@@ -157,6 +157,8 @@ export default function TVDisplay() {
   const [placingPin,      setPlacingPin]      = useState(null); // pin waiting to be placed
   const [mapStates,       setMapStates]       = useState([]);
   const [showSaveModal,   setShowSaveModal]   = useState(false);
+  const [mapLoaded,       setMapLoaded]       = useState(false);
+  const [dmImageDataUrl,  setDmImageDataUrl]  = useState(null);
 
   // ── Character sources for pin picker ──
   const [pcList,      setPcList]      = useState([]);
@@ -166,8 +168,10 @@ export default function TVDisplay() {
   const canvasRef  = useRef(null);
   const fogRef     = useRef(null);   // offscreen fog canvas
   const mapImgRef  = useRef(null);
-  const painting   = useRef(false);
-  const overlayRef = useRef(null);   // wrapper div for bounds
+  const painting      = useRef(false);
+  const cursorPos     = useRef(null);   // {x, y} canvas coords for brush preview
+  const lastTvSync    = useRef(0);      // timestamp of last brush stroke sent to TV
+  const overlayRef    = useRef(null);   // wrapper div for bounds
 
   const isElectron = !!window.electronAPI;
 
@@ -292,6 +296,35 @@ export default function TVDisplay() {
       ctx.restore();
     });
 
+    // Brush cursor — double ring for visibility on any map colour
+    if (fogEnabled && !placingPin && cursorPos.current) {
+      const { x: mx, y: my } = cursorPos.current;
+      ctx.save();
+      // Dark outer halo
+      ctx.beginPath();
+      ctx.arc(mx, my, brushSize + 1, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+      ctx.lineWidth   = 3;
+      ctx.stroke();
+      // White inner ring
+      ctx.beginPath();
+      ctx.arc(mx, my, brushSize, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+      ctx.lineWidth   = 1.5;
+      ctx.stroke();
+      // Subtle fill
+      ctx.beginPath();
+      ctx.arc(mx, my, brushSize, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.04)';
+      ctx.fill();
+      // Centre dot
+      ctx.beginPath();
+      ctx.arc(mx, my, 2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.fill();
+      ctx.restore();
+    }
+
     // Placement crosshair hint
     if (placingPin) {
       ctx.save();
@@ -307,6 +340,19 @@ export default function TVDisplay() {
       ctx.restore();
     }
   }, [fogEnabled, gridEnabled, gridSize, pins, placingPin]);
+
+  // Load DM canvas image after overlay is in the DOM (so canvas is sized correctly)
+  useEffect(() => {
+    if (!dmImageDataUrl) return;
+    const img = new Image();
+    img.onload = () => {
+      mapImgRef.current = img;
+      fogRef.current    = null;
+      ensureFog(img.naturalWidth, img.naturalHeight);
+      setMapLoaded(true);
+    };
+    img.src = dmImageDataUrl;
+  }, [dmImageDataUrl]);
 
   // Re-draw whenever overlay state changes
   useEffect(() => { drawDmCanvas(); }, [drawDmCanvas]);
@@ -324,7 +370,7 @@ export default function TVDisplay() {
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, [drawDmCanvas]);
+  }, [drawDmCanvas, mapLoaded]);
 
   // ── Fog init helper ──
   function ensureFog(w, h) {
@@ -360,29 +406,39 @@ export default function TVDisplay() {
   }
 
   function paintFog(cx, cy) {
-    const img = mapImgRef.current;
-    if (!img || !fogRef.current) return;
+    if (!mapImgRef.current || !fogRef.current) return;
     const norm = canvasToNorm(cx, cy);
     if (!norm || norm.nx < 0 || norm.nx > 1 || norm.ny < 0 || norm.ny > 1) return;
 
-    const fc  = fogRef.current.getContext('2d');
-    const px  = norm.nx * fogRef.current.width;
-    const py  = norm.ny * fogRef.current.height;
-    const scaleX = fogRef.current.width  / (getMapBounds()?.dw || 1);
-    const r   = brushSize * scaleX;
+    const fc     = fogRef.current.getContext('2d');
+    const scaleX = fogRef.current.width / (getMapBounds()?.dw || 1);
+    const r      = brushSize * scaleX;
 
     fc.globalCompositeOperation = 'destination-out';
     fc.beginPath();
-    fc.arc(px, py, r, 0, Math.PI * 2);
+    fc.arc(norm.nx * fogRef.current.width, norm.ny * fogRef.current.height, r, 0, Math.PI * 2);
     fc.fill();
     fc.globalCompositeOperation = 'source-over';
     drawDmCanvas();
+
+    // Throttled TV sync — max ~20fps to avoid executeJavaScript backlog
+    if (isElectron) {
+      const now = Date.now();
+      if (now - lastTvSync.current > 50) {
+        lastTvSync.current = now;
+        window.electronAPI.tv.brushStroke(norm.nx, norm.ny, r / fogRef.current.width);
+      }
+    }
   }
 
   function flushFogToTV() {
     if (!fogRef.current || !isElectron) return;
-    const dataUrl = fogRef.current.toDataURL('image/png');
-    window.electronAPI.tv.syncFog(dataUrl);
+    fogRef.current.toBlob(blob => {
+      if (!blob) return;
+      const reader = new FileReader();
+      reader.onload = () => window.electronAPI.tv.syncFog(reader.result);
+      reader.readAsDataURL(blob);
+    }, 'image/png');
   }
 
   // ── Canvas pointer events ──
@@ -408,15 +464,28 @@ export default function TVDisplay() {
   }
 
   function handlePointerMove(e) {
-    if (!painting.current || !fogEnabled || placingPin) return;
     const rect = canvasRef.current.getBoundingClientRect();
-    paintFog(e.clientX - rect.left, e.clientY - rect.top);
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    cursorPos.current = { x: cx, y: cy };
+    if (painting.current && fogEnabled && !placingPin) {
+      paintFog(cx, cy);
+    } else {
+      drawDmCanvas();
+    }
+  }
+
+  function handlePointerLeaveCanvas() {
+    cursorPos.current = null;
+    painting.current  = false;
+    drawDmCanvas();
+    if (fogRef.current) setTimeout(flushFogToTV, 0);
   }
 
   function handlePointerUp() {
     if (!painting.current) return;
     painting.current = false;
-    flushFogToTV();
+    setTimeout(flushFogToTV, 0);
   }
 
   // ── Push image to TV ──
@@ -428,27 +497,17 @@ export default function TVDisplay() {
     const res = await window.electronAPI.tv.pushImage(file.path);
     if (!res.success) { setError(res.error); return; }
     setActive(file.path);
+    setMapLoaded(false);
 
-    // Load image into DM canvas
-    const img = new Image();
-    img.onload = () => {
-      mapImgRef.current = img;
-      fogRef.current    = null; // reset fog for new map
-      ensureFog(img.naturalWidth, img.naturalHeight);
-      const canvas  = canvasRef.current;
-      const overlay = overlayRef.current;
-      if (canvas && overlay) {
-        canvas.width  = overlay.clientWidth;
-        canvas.height = overlay.clientHeight;
-      }
-      drawDmCanvas();
-      // Sync current overlay state to TV
-      if (isElectron) {
-        window.electronAPI.tv.syncGrid(gridEnabled, gridSize);
-        window.electronAPI.tv.syncPins(pins, hideAllNpcs, hideAllMonsters);
-      }
-    };
-    img.src = `file://${file.path}`;
+    // Load full image via IPC (file:// is blocked in renderer)
+    const imgRes = await window.electronAPI.tv.readImage(file.path);
+    if (!imgRes.success) { setError('Could not load image for DM canvas'); return; }
+    setDmImageDataUrl(imgRes.dataUrl);
+
+    if (isElectron) {
+      window.electronAPI.tv.syncGrid(gridEnabled, gridSize);
+      window.electronAPI.tv.syncPins(pins, hideAllNpcs, hideAllMonsters);
+    }
   }, [tvOpen, gridEnabled, gridSize, pins, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas]);
 
   // ── Grid sync ──
@@ -602,7 +661,8 @@ export default function TVDisplay() {
 
   const handleClear = async () => {
     await window.electronAPI.tv.clear();
-    setActive(null); mapImgRef.current = null; fogRef.current = null;
+    setActive(null); setMapLoaded(false); setDmImageDataUrl(null);
+    mapImgRef.current = null; fogRef.current = null;
     drawDmCanvas();
   };
 
@@ -620,7 +680,7 @@ export default function TVDisplay() {
     return true;
   });
 
-  const mapActive = !!active && !!mapImgRef.current;
+  const mapActive = !!active && mapLoaded;
 
   if (!isElectron) return (
     <div className="tv-panel"><div className="tv-notice"><p>Requires Electron app.</p></div></div>
@@ -682,10 +742,11 @@ export default function TVDisplay() {
             <canvas
               ref={canvasRef}
               className="overlay-canvas"
+              style={{ cursor: fogEnabled && !placingPin ? 'none' : placingPin ? 'cell' : 'default' }}
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
-              onPointerLeave={handlePointerUp}
+              onPointerLeave={handlePointerLeaveCanvas}
             />
             {placingPin && (
               <div className="placing-hint">

@@ -34,45 +34,50 @@ function closeTvWindow() {
   tvWindow = null;
 }
 
+function exec(js) {
+  if (!tvWindow || tvWindow.isDestroyed()) return;
+  tvWindow.webContents.executeJavaScript(js).catch(() => {});
+}
+
 function pushImage(imagePath) {
-  if (!tvWindow || tvWindow.isDestroyed()) openTvWindow();
+  const win = tvWindow && !tvWindow.isDestroyed() ? tvWindow : openTvWindow();
   const ext  = path.extname(imagePath).toLowerCase().replace('.', '');
   const mime = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg'
              : ext === 'png' ? 'image/png'
              : ext === 'webp' ? 'image/webp'
              : ext === 'gif' ? 'image/gif'
              : 'image/jpeg';
-  const data   = fs.readFileSync(imagePath);
-  const b64    = data.toString('base64');
-  const dataUrl = `data:${mime};base64,${b64}`;
-  tvWindow.webContents.executeJavaScript(`setMap(${JSON.stringify(dataUrl)})`);
-}
-
-function clearTvDisplay() {
-  if (tvWindow && !tvWindow.isDestroyed()) {
-    tvWindow.webContents.executeJavaScript(`setMap(null)`);
+  const dataUrl = `data:${mime};base64,${fs.readFileSync(imagePath).toString('base64')}`;
+  const js = `setMap(${JSON.stringify(dataUrl)})`;
+  if (win.webContents.isLoading()) {
+    win.webContents.once('did-finish-load', () => exec(js));
+  } else {
+    exec(js);
   }
 }
 
+function clearTvDisplay() { exec(`setMap(null)`); }
+
 function syncFog(fogDataUrl) {
-  if (!tvWindow || tvWindow.isDestroyed()) return;
-  tvWindow.webContents.executeJavaScript(`applyFogMask(${JSON.stringify(fogDataUrl)})`);
+  exec(`applyFogMask(${JSON.stringify(fogDataUrl)})`);
 }
 
-function syncPins(pins, hideAllNpcs, hideAllMonsters) {
+function syncBrushStroke(nx, ny, radius) {
+  // Fire-and-forget — no await, no queue
   if (!tvWindow || tvWindow.isDestroyed()) return;
-  const payload = JSON.stringify({ pins, hideAllNpcs, hideAllMonsters });
-  tvWindow.webContents.executeJavaScript(`setPins(${payload})`);
+  tvWindow.webContents.executeJavaScript(`applyBrushStroke(${nx},${ny},${radius})`).catch(() => {});
+}
+
+function syncPins(pins, hideAllNpcs, hideMons) {
+  exec(`setPins(${JSON.stringify({ pins, hideAllNpcs, hideAllMonsters: hideMons })})`);
 }
 
 function syncGrid(enabled, size) {
-  if (!tvWindow || tvWindow.isDestroyed()) return;
-  tvWindow.webContents.executeJavaScript(`setGrid(${JSON.stringify({ enabled, size })})`);
+  exec(`setGrid(${JSON.stringify({ enabled, size })})`);
 }
 
 function syncOverlay(state) {
-  if (!tvWindow || tvWindow.isDestroyed()) return;
-  tvWindow.webContents.executeJavaScript(`applyOverlayState(${JSON.stringify(state)})`);
+  exec(`applyOverlayState(${JSON.stringify(state)})`);
 }
 
 function getTvHtml() {
@@ -283,6 +288,17 @@ function getTvHtml() {
     img.src = dataUrl;
   };
 
+  window.applyBrushStroke = function(nx, ny, radius) {
+    if (!fogCanvas) return;
+    const fc = fogCanvas.getContext('2d');
+    fc.globalCompositeOperation = 'destination-out';
+    fc.beginPath();
+    fc.arc(nx * fogCanvas.width, ny * fogCanvas.height, radius * fogCanvas.width, 0, Math.PI * 2);
+    fc.fill();
+    fc.globalCompositeOperation = 'source-over';
+    render();
+  };
+
   window.applyFogMask = function(dataUrl) {
     if (!dataUrl || !mapImg) return;
     const img = new Image();
@@ -337,4 +353,4 @@ function getTvHtml() {
 </html>`;
 }
 
-module.exports = { openTvWindow, closeTvWindow, pushImage, clearTvDisplay, syncFog, syncPins, syncGrid, syncOverlay, getTvWindow };
+module.exports = { openTvWindow, closeTvWindow, pushImage, clearTvDisplay, syncFog, syncBrushStroke, syncPins, syncGrid, syncOverlay, getTvWindow };

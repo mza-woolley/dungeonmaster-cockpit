@@ -2,6 +2,18 @@
 
 ---
 
+## v0.5.1 — May 2026
+
+### 🛠 Map Overlay — Bug Fixes & Performance
+
+- **Live fog brush** — brush strokes now sync to TV display in real time during painting, not just on mouse release
+- **Brush cursor** — custom canvas cursor shows exact brush radius; hidden system cursor replaced with double-ring indicator
+- **Map canvas resolution** — DM editor now loads full-resolution map image immediately on open
+- **Non-blocking fog sync** — mouseup fog reconciliation is now fully async, no thread block on release
+- **Hardware acceleration** — GPU rasterization and accelerated 2D canvas enabled for Electron
+
+---
+
 ## v0.5 — May 2026
 
 ### 🗺️ Map Overlay — Fog of War, Grid, Pins & Map States

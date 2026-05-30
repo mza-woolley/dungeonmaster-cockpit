@@ -6,6 +6,11 @@ require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') }
 //             nanoleaf:updateLabel, nanoleaf:verifyDevice, nanoleaf:getState now returns array
 
 const { app, BrowserWindow, globalShortcut, ipcMain, dialog, nativeImage } = require('electron');
+
+app.commandLine.appendSwitch('enable-gpu-rasterization');
+app.commandLine.appendSwitch('enable-zero-copy');
+app.commandLine.appendSwitch('ignore-gpu-blocklist');
+app.commandLine.appendSwitch('enable-accelerated-2d-canvas');
 const path = require('path');
 const fs   = require('fs');
 
@@ -156,9 +161,23 @@ ipcMain.handle('tv:isOpen', () => {
   const w = tv.getTvWindow();
   return !!(w && !w.isDestroyed());
 });
+ipcMain.handle('tv:readImage', (_, imagePath) => {
+  try {
+    const ext  = path.extname(imagePath).toLowerCase().replace('.', '');
+    const mime = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg'
+               : ext === 'png' ? 'image/png'
+               : ext === 'webp' ? 'image/webp'
+               : 'image/jpeg';
+    const b64 = fs.readFileSync(imagePath).toString('base64');
+    return { success: true, dataUrl: `data:${mime};base64,${b64}` };
+  } catch (err) { return { success: false, error: err.message }; }
+});
 ipcMain.handle('tv:syncFog', (_, fogDataUrl) => {
   try { tv.syncFog(fogDataUrl); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.on('tv:brushStroke', (_, { nx, ny, radius }) => {
+  try { tv.syncBrushStroke(nx, ny, radius); } catch (_e) {}
 });
 ipcMain.handle('tv:syncPins', (_, { pins, hideAllNpcs, hideAllMonsters }) => {
   try { tv.syncPins(pins, hideAllNpcs, hideAllMonsters); return { success: true }; }
