@@ -1,54 +1,36 @@
-# DM Cockpit
+# DM Cockpit 🎲
 
-Your campaign control panel. Built with Electron + React.
-
----
-
-## Prerequisites
-
-- [Node.js](https://nodejs.org/) v18 or later
-- npm (comes with Node)
+Your all-in-one campaign control panel. Control Spotify, Nanoleaf lighting, Google Docs notes, TV map display, and encounter tracking — all from one app built with Electron + React.
 
 ---
 
-## Setup (First Time)
+## Before You Start — Get Your API Keys
 
-```bash
-# 1. Navigate into the project folder
-cd dm-cockpit
+You'll need these during setup. Grab them first:
 
-# 2. Install dependencies
-npm install
-
-# 3. Start the React dev server (leave this terminal running)
-npm start
-
-# 4. In a NEW terminal, launch Electron
-npm run electron
-```
-
-The app will open as a standalone window.
+| Key | Where to get it |
+|-----|----------------|
+| `ANTHROPIC_API_KEY` | [console.anthropic.com](https://console.anthropic.com) → API Keys |
+| `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET` | [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials → Create OAuth 2.0 Client |
+| `SPOTIFY_CLIENT_ID` + `SPOTIFY_CLIENT_SECRET` | [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) → Create App |
 
 ---
 
-## Running After Setup
+## Setup & Launch
 
-Every session needs two terminals:
+**Windows:** Double-click `DM Cockpit.bat`
 
-**Terminal 1:**
-```bash
-npm start
-```
+On first run the script will automatically:
+- Install Git if missing
+- Install NVM + Node v20 if missing
+- Clone the project files
+- Open your `.env` file so you can paste your API keys in
+- Install all dependencies
+- Launch the app ✅
 
-**Terminal 2:**
-```bash
-npm run electron
-```
+Every run after that it skips straight to launching.
 
-Or use the combined command (may need wait-on installed):
-```bash
-npm run dev
-```
+**Mac:** Double-click `2. Launch DM Cockpit (Mac).command`
 
 ---
 
@@ -56,30 +38,17 @@ npm run dev
 
 | Action | Shortcut |
 |--------|----------|
-| Navigate panels | Arrow Left / Right |
-| Jump to Notes | Cmd/Ctrl + 1 |
-| Jump to Scribble | Cmd/Ctrl + 2 |
-| Jump to Scene | Cmd/Ctrl + 3 |
-| Jump to Display | Cmd/Ctrl + 4 |
-| Bring app to front (global) | Cmd/Ctrl + Shift + D |
+| Navigate panels | ← → Arrow keys |
+| Jump to Notes | Ctrl/Cmd + 1 |
+| Jump to Scribble | Ctrl/Cmd + 2 |
+| Jump to Scene Control | Ctrl/Cmd + 3 |
+| Jump to TV Display | Ctrl/Cmd + 4 |
+| Bring app to front (global) | Ctrl/Cmd + Shift + D |
 
 ---
 
-## Scribbleboard
+## Troubleshooting
 
-- Type a note and press **Enter** to commit
-- **Shift+Enter** adds a new line within a note
-- Every entry is auto-timestamped
-- Notes persist between app restarts (saved to localStorage)
-- Use **Export** to download a .txt session log
-- Use **Copy** to copy the full log to clipboard
-- Use **Clear** to wipe the board for a new session
+**App won't start** — Close and re-run `DM Cockpit.bat`. It will check and fix most issues automatically.
 
----
-
-## Phases
-
-- [x] Phase 1 — Shell + Scribbleboard
-- [ ] Phase 2 — Google Docs Notes panel
-- [ ] Phase 3 — Spotify + Nanoleaf Scene Control
-- [ ] Phase 4 — TV Map Display
+**Spotify/Google not connecting** — Check your `.env` keys are correct with no extra spaces.
