@@ -237,6 +237,16 @@ ipcMain.handle('monsters:deleteCustom', (_, id) => {
   } catch (err) { return { success: false, error: err.message }; }
 });
 
+// ── Characters seed IPC ───────────────────────────────────
+const CHARACTERS_PATH = path.join(__dirname, '..', 'characters.json');
+
+ipcMain.handle('characters:loadSeed', () => {
+  try {
+    if (fs.existsSync(CHARACTERS_PATH)) return JSON.parse(fs.readFileSync(CHARACTERS_PATH, 'utf8'));
+  } catch (_) {}
+  return { characters: [] };
+});
+
 // ── Karma IPC ─────────────────────────────────────────────
 const KARMA_PATH = path.join(__dirname, '..', 'karma.json');
 

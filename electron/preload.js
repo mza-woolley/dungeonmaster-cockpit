@@ -61,6 +61,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     chat:  (messages, question) => ipcRenderer.invoke('wizard:chat', { messages, question }),
   },
 
+  // Characters seed (from characters.json in project root)
+  characters: {
+    loadSeed: () => ipcRenderer.invoke('characters:loadSeed'),
+  },
+
   // Karma
   karma: {
     load: ()     => ipcRenderer.invoke('karma:load'),

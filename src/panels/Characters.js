@@ -18,16 +18,9 @@ const karmaClass = (k) => {
   return 'karma-neutral';
 };
 
-const SEED_PCS = [
-  { id: 'pc_elaris',      type: 'pc', name: 'Elaris Sol',          species: 'Elf',    karma: 0 },
-  { id: 'pc_fenrik',      type: 'pc', name: 'Fenrik',              species: 'Human',  karma: 0 },
-  { id: 'pc_frahnk',      type: 'pc', name: "Frah'nk",             species: 'Orc',    karma: 0 },
-  { id: 'pc_kaelen',      type: 'pc', name: 'Kaelen Shadowsong',   species: 'Elf',    karma: 0 },
-  { id: 'pc_plumbodian',  type: 'pc', name: 'Plumbodian V',        species: 'Human',  karma: 0 },
-  { id: 'pc_wizzleforth', type: 'pc', name: 'Wizzleforth Crankfoot', species: 'Gnome', karma: 0 },
-];
 
-function CharacterCard({ char, onAdjust, onRemove, isPC }) {
+function CharacterCard({ char, onAdjust, onRemove }) {
+  const removable = !char.seeded;
   return (
     <div className="char-card">
       <div className="char-info">
@@ -44,7 +37,7 @@ function CharacterCard({ char, onAdjust, onRemove, isPC }) {
         </div>
         <button className="karma-btn plus" onClick={() => onAdjust(char.id, 1)}>+</button>
       </div>
-      {!isPC && (
+      {removable && (
         <button className="char-remove" onClick={() => onRemove(char.id)} title="Remove">✕</button>
       )}
     </div>
@@ -56,13 +49,18 @@ export default function Characters() {
   const [tab, setTab]               = useState('pc');
   const [newName, setNewName]       = useState('');
   const [newSpecies, setNewSpecies] = useState('');
+  const [newClass, setNewClass]     = useState('');
   const [saving, setSaving]         = useState(false);
 
   useEffect(() => {
-    window.electronAPI.karma.load().then(data => {
-      const loaded = data.characters || [];
+    Promise.all([
+      window.electronAPI.karma.load(),
+      window.electronAPI.characters.loadSeed(),
+    ]).then(([karmaData, seedData]) => {
+      const loaded = karmaData.characters || [];
       if (!loaded.some(c => c.type === 'pc')) {
-        const seeded = [...SEED_PCS, ...loaded];
+        const seedPCs = (seedData.characters || []).map(c => ({ karma: 0, ...c, seeded: true }));
+        const seeded = [...seedPCs, ...loaded];
         setCharacters(seeded);
         window.electronAPI.karma.save({ characters: seeded });
       } else {
@@ -83,13 +81,20 @@ export default function Characters() {
     persist(next);
   };
 
-  const addCharacter = () => {
+  const addCharacter = (type) => {
     const name = newName.trim();
     if (!name) return;
-    const next = [...characters, { id: uid(), name, species: newSpecies.trim(), karma: 0, type: 'npc' }];
+    const entry = { id: uid(), name, karma: 0, type };
+    if (type === 'pc') {
+      if (newClass.trim())   entry.class   = newClass.trim();
+      if (newSpecies.trim()) entry.species = newSpecies.trim();
+    } else {
+      if (newSpecies.trim()) entry.species = newSpecies.trim();
+    }
+    const next = [...characters, entry];
     setCharacters(next);
     persist(next);
-    setNewName(''); setNewSpecies('');
+    setNewName(''); setNewSpecies(''); setNewClass('');
   };
 
   const removeCharacter = (id) => {
@@ -119,7 +124,7 @@ export default function Characters() {
 
       <div className="chars-list">
         {tab === 'pc' && pcs.map(c => (
-          <CharacterCard key={c.id} char={c} onAdjust={adjustKarma} onRemove={removeCharacter} isPC />
+          <CharacterCard key={c.id} char={c} onAdjust={adjustKarma} onRemove={removeCharacter} />
         ))}
 
         {tab === 'npc' && (
@@ -132,13 +137,25 @@ export default function Characters() {
         )}
       </div>
 
+      {tab === 'pc' && (
+        <div className="chars-add">
+          <input className="chars-input" placeholder="PC name" value={newName}
+            onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter('pc')} />
+          <input className="chars-input chars-input-class" placeholder="Class (optional)" value={newClass}
+            onChange={e => setNewClass(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter('pc')} />
+          <input className="chars-input chars-input-class" placeholder="Species (optional)" value={newSpecies}
+            onChange={e => setNewSpecies(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter('pc')} />
+          <button className="chars-add-btn" onClick={() => addCharacter('pc')} disabled={!newName.trim()}>Add PC</button>
+        </div>
+      )}
+
       {tab === 'npc' && (
         <div className="chars-add">
           <input className="chars-input" placeholder="NPC name" value={newName}
-            onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter()} />
+            onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter('npc')} />
           <input className="chars-input chars-input-class" placeholder="Race / type (optional)" value={newSpecies}
-            onChange={e => setNewSpecies(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter()} />
-          <button className="chars-add-btn" onClick={addCharacter} disabled={!newName.trim()}>Add NPC</button>
+            onChange={e => setNewSpecies(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter('npc')} />
+          <button className="chars-add-btn" onClick={() => addCharacter('npc')} disabled={!newName.trim()}>Add NPC</button>
         </div>
       )}
     </div>

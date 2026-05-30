@@ -18,3 +18,9 @@ build/
 
 # Token files saved locally after OAuth
 *.token.json
+
+# Generated / cached data files (contain local paths or runtime state)
+karma.json
+monsters.json
+nanoleaf-config.json
+srd-library/

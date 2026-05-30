@@ -1,0 +1,10 @@
+{
+  "characters": [
+    { "id": "pc_elaris",      "type": "pc", "name": "Elaris Sol",            "class": "Warlock",  "species": "Elf"   },
+    { "id": "pc_fenrik",      "type": "pc", "name": "Fenrik",                "class": "Barbarian","species": "Human" },
+    { "id": "pc_frahnk",      "type": "pc", "name": "Frah'nk",               "class": "Paladin",  "species": "Orc"   },
+    { "id": "pc_kaelen",      "type": "pc", "name": "Kaelen Shadowsong",     "class": "Bard",     "species": "Elf"   },
+    { "id": "pc_plumbodian",  "type": "pc", "name": "Plumbodian V",          "class": "Wizard",   "species": "Human" },
+    { "id": "pc_wizzleforth", "type": "pc", "name": "Wizzleforth Crankfoot", "class": "Cleric",   "species": "Gnome" }
+  ]
+}
