@@ -2,6 +2,21 @@
 
 ---
 
+## v0.4.1 — May 2026
+
+### 🧑 Characters — Configurable Party & In-App PC Creation
+
+- **characters.json** — hardcoded seed PCs moved out of `Characters.js` into a committed `characters.json` at the project root; configure your own party without touching code
+- **Seed PC protection** — seeded PCs have no remove button; only in-app-added PCs can be deleted
+- **PC Creation Form** — add new PCs directly in the Characters panel (name, class, species), mirroring the existing NPC form
+- **`characters:loadSeed` IPC** — new handler + preload bridge to load the seed file at runtime
+
+### 🧹 Housekeeping
+
+- **`.gitignore` updated** — `karma.json`, `monsters.json`, `nanoleaf-config.json`, and the entire `srd-library/` directory are now ignored and untracked; runtime-generated data no longer pollutes the repo
+
+---
+
 ## v0.4 — May 2026
 
 ### 🧑 New Panel: Characters
