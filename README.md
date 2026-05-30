@@ -30,7 +30,13 @@ On first run the script will automatically:
 
 Every run after that it skips straight to launching.
 
-**Mac:** Double-click `2. Launch DM Cockpit (Mac).command`
+**Mac:** One-time setup before first launch — open Terminal and run:
+
+```bash
+chmod +x "Launch DM Cockpit.command"
+```
+
+Then double-click `Launch DM Cockpit.command` — now and every time after.
 
 ---
 
