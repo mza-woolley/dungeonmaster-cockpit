@@ -176,7 +176,6 @@ export default function TVDisplay() {
   const draggingPinId  = useRef(null);   // id of pin being dragged
   const hoveredPinId   = useRef(null);   // id of pin under cursor
   const pinsRef        = useRef(pins);   // mirror of pins for use in event handlers
-  const [pinCursor, setPinCursor] = useState(null); // 'grab' | 'grabbing' | null
 
   const isElectron = !!window.electronAPI;
 
@@ -466,7 +465,7 @@ export default function TVDisplay() {
     for (const pin of pinsRef.current) {
       const px = b.dx + pin.x * b.dw;
       const py = b.dy + pin.y * b.dh;
-      if (Math.hypot(cx - px, cy - py) <= 20) return pin.id;
+      if (Math.hypot(cx - px, cy - py) <= pinSize + 4) return pin.id;
     }
     return null;
   }
@@ -492,7 +491,7 @@ export default function TVDisplay() {
     const hitId = hitTestPin(cx, cy);
     if (hitId) {
       draggingPinId.current = hitId;
-      setPinCursor('grabbing');
+      canvasRef.current.style.cursor = 'grabbing';
       canvasRef.current.setPointerCapture(e.pointerId);
       return;
     }
@@ -513,7 +512,9 @@ export default function TVDisplay() {
       if (!norm) return;
       const nx = Math.max(0, Math.min(1, norm.nx));
       const ny = Math.max(0, Math.min(1, norm.ny));
-      setPins(prev => prev.map(p => p.id === draggingPinId.current ? { ...p, x: nx, y: ny } : p));
+      // Update ref directly so throttled sync and pointerUp always have the latest position
+      pinsRef.current = pinsRef.current.map(p => p.id === draggingPinId.current ? { ...p, x: nx, y: ny } : p);
+      setPins(pinsRef.current);
       // Throttled TV sync during drag
       if (isElectron) {
         const now = Date.now();
@@ -529,7 +530,7 @@ export default function TVDisplay() {
     const hitId = hitTestPin(cx, cy);
     if (hitId !== hoveredPinId.current) {
       hoveredPinId.current = hitId;
-      setPinCursor(hitId ? 'grab' : null);
+      canvasRef.current.style.cursor = hitId ? 'grab' : (fogEnabled ? 'none' : 'default');
     }
 
     if (painting.current && fogEnabled && !placingPin) {
@@ -543,7 +544,7 @@ export default function TVDisplay() {
     cursorPos.current    = null;
     painting.current     = false;
     hoveredPinId.current = null;
-    setPinCursor(null);
+    canvasRef.current.style.cursor = fogEnabled ? 'none' : 'default';
     drawDmCanvas();
     if (fogRef.current) setTimeout(flushFogToTV, 0);
   }
@@ -551,7 +552,7 @@ export default function TVDisplay() {
   function handlePointerUp() {
     if (draggingPinId.current) {
       draggingPinId.current = null;
-      setPinCursor(null);
+      canvasRef.current.style.cursor = fogEnabled ? 'none' : 'default';
       if (isElectron) window.electronAPI.tv.syncPins(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
       return;
     }
@@ -580,7 +581,7 @@ export default function TVDisplay() {
       window.electronAPI.tv.syncGrid(gridEnabled, gridSize);
       window.electronAPI.tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
     }
-  }, [tvOpen, gridEnabled, gridSize, pins, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas]);
+  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas]);
 
   // ── Grid sync ──
   function setGrid(enabled, size) {
@@ -639,6 +640,7 @@ export default function TVDisplay() {
       gridEnabled,
       gridSize,
       pins,
+      pinSize,
       hideAllNpcs,
       hideAllMonsters,
       savedAt: new Date().toISOString(),
@@ -656,6 +658,7 @@ export default function TVDisplay() {
     setGridEnabled(state.gridEnabled);
     setGridSize(state.gridSize || 'medium');
     setPins(state.pins || []);
+    if (state.pinSize != null) setPinSize(state.pinSize);
     setHideAllNpcs(!!state.hideAllNpcs);
     setHideAllMonsters(!!state.hideAllMonsters);
 
@@ -678,6 +681,7 @@ export default function TVDisplay() {
         gridEnabled:     state.gridEnabled,
         gridSize:        state.gridSize,
         pins:            state.pins,
+        pinSize:         state.pinSize,
         hideAllNpcs:     state.hideAllNpcs,
         hideAllMonsters: state.hideAllMonsters,
       });
@@ -819,7 +823,7 @@ export default function TVDisplay() {
             <canvas
               ref={canvasRef}
               className="overlay-canvas"
-              style={{ cursor: pinCursor ? pinCursor : placingPin ? 'cell' : fogEnabled ? 'none' : 'default' }}
+              style={{ cursor: placingPin ? 'cell' : fogEnabled ? 'none' : 'default' }}
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}

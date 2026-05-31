@@ -331,6 +331,7 @@ function getTvHtml() {
     gridEnabled = !!state.gridEnabled;
     gridSize    = state.gridSize || 'medium';
     pins        = state.pins || [];
+    if (state.pinSize != null) pinSize = state.pinSize;
     hideAllNpcs = !!state.hideAllNpcs;
     hideAllMons = !!state.hideAllMonsters;
     if (state.fogMask && mapImg) {

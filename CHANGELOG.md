@@ -2,6 +2,19 @@
 
 ---
 
+## v0.6.3b — May 2026
+
+### 🐛 Fixes
+
+- Session timer reset no longer leaks intervals when clicked while running
+- Pin size now correctly saved and restored with map states
+- Pin size synced to TV when pushing a new map image
+- Pin drag hit radius now scales with pin size setting
+- Pin drag final position now always accurately synced to TV on release
+- Cursor updates during pin hover/drag no longer trigger unnecessary re-renders
+
+---
+
 ## v0.6.3a — May 2026
 
 ### 🐛 Fix

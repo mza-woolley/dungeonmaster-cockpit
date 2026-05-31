@@ -22,26 +22,32 @@ const PANELS = [
 function useSessionClock() {
   const [elapsed, setElapsed] = useState(0);
   const [running, setRunning] = useState(true);
-  const startTime = useRef(Date.now());
+  const [resetKey, setResetKey] = useState(0);
   const savedElapsed = useRef(0);
+  const elapsedRef   = useRef(0);
 
   useEffect(() => {
     if (!running) return;
-    startTime.current = Date.now() - savedElapsed.current * 1000;
-    const tick = setInterval(() => setElapsed(Math.floor((Date.now() - startTime.current) / 1000)), 1000);
+    const t0 = Date.now() - savedElapsed.current * 1000;
+    const tick = setInterval(() => {
+      const val = Math.floor((Date.now() - t0) / 1000);
+      elapsedRef.current = val;
+      setElapsed(val);
+    }, 1000);
     return () => clearInterval(tick);
-  }, [running]);
+  }, [running, resetKey]);
 
   const toggle = () => {
-    if (running) savedElapsed.current = elapsed;
+    if (running) savedElapsed.current = elapsedRef.current;
     setRunning(r => !r);
   };
 
   const reset = () => {
     savedElapsed.current = 0;
-    startTime.current = Date.now();
+    elapsedRef.current   = 0;
     setElapsed(0);
     setRunning(true);
+    setResetKey(k => k + 1); // forces effect to re-run and clear the old interval
   };
 
   const h = Math.floor(elapsed / 3600);
