@@ -2,6 +2,14 @@
 
 ---
 
+## v0.6.3a — May 2026
+
+### 🐛 Fix
+
+- Pin size slider now correctly syncs to TV display (IPC bridge was dropping the value)
+
+---
+
 ## v0.6.3 — May 2026
 
 ### 🎨 UI

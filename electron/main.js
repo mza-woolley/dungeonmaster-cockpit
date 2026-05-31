@@ -172,8 +172,8 @@ ipcMain.handle('tv:syncFog', (_, fogDataUrl) => {
 ipcMain.on('tv:brushStroke', (_, { nx, ny, radius }) => {
   try { tv.syncBrushStroke(nx, ny, radius); } catch (_e) {}
 });
-ipcMain.handle('tv:syncPins', (_, { pins, hideAllNpcs, hideAllMonsters }) => {
-  try { tv.syncPins(pins, hideAllNpcs, hideAllMonsters); return { success: true }; }
+ipcMain.handle('tv:syncPins', (_, { pins, hideAllNpcs, hideAllMonsters, pinSize }) => {
+  try { tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('tv:syncGrid', (_, { enabled, size }) => {
