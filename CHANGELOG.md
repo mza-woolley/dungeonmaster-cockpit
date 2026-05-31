@@ -2,6 +2,25 @@
 
 ---
 
+## v0.6.3 — May 2026
+
+### 🎨 UI
+
+- Swapped body font to Lora for better readability
+- Nav tab labels now use body font at a legible size
+- Deeper dark backgrounds, brighter text contrast, warmer gold
+- Documentation folder arrows larger and gold-tinted
+- Session timer redesigned — gold, pill-bordered, with stop/start toggle
+
+### 🗺️ Display Panel
+
+- Pins can now be freely dragged to reposition on the DM canvas
+- Drag syncs to TV display in real time
+- Hover and drag cursor feedback with highlight ring
+- Global icon size slider (8–36px) scales all pins on both DM and TV displays
+
+---
+
 ## v0.6.2 — May 2026
 
 ### 📁 Documentation Structure

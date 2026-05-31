@@ -68,8 +68,8 @@ function syncBrushStroke(nx, ny, radius) {
   tvWindow.webContents.executeJavaScript(`applyBrushStroke(${nx},${ny},${radius})`).catch(() => {});
 }
 
-function syncPins(pins, hideAllNpcs, hideMons) {
-  exec(`setPins(${JSON.stringify({ pins, hideAllNpcs, hideAllMonsters: hideMons })})`);
+function syncPins(pins, hideAllNpcs, hideMons, pinSize) {
+  exec(`setPins(${JSON.stringify({ pins, hideAllNpcs, hideAllMonsters: hideMons, pinSize })})`);
 }
 
 function syncGrid(enabled, size) {
@@ -137,6 +137,7 @@ function getTvHtml() {
   let hideAllMons = false;
   let gridEnabled = false;
   let gridSize    = 'medium';
+  let pinSize     = 18;
 
   const GRID_PX = { tiny: 20, small: 40, medium: 60, large: 80 };
 
@@ -227,7 +228,7 @@ function getTvHtml() {
 
       const px = dx + pin.x * dw;
       const py = dy + pin.y * dh;
-      const r  = 18;
+      const r  = pinSize;
       const color = PIN_COLORS[pin.type] || '#888';
 
       // Shadow
@@ -312,10 +313,11 @@ function getTvHtml() {
     img.src = dataUrl;
   };
 
-  window.setPins = function({ pins: p, hideAllNpcs: hn, hideAllMonsters: hm }) {
+  window.setPins = function({ pins: p, hideAllNpcs: hn, hideAllMonsters: hm, pinSize: ps }) {
     pins        = p || [];
     hideAllNpcs = !!hn;
     hideAllMons = !!hm;
+    if (ps != null) pinSize = ps;
     render();
   };
 

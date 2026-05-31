@@ -152,6 +152,7 @@ export default function TVDisplay() {
   const [gridEnabled,     setGridEnabled]     = useState(false);
   const [gridSize,        setGridSize]        = useState('medium');
   const [pins,            setPins]            = useState([]);
+  const [pinSize,         setPinSize]         = useState(16);
   const [hideAllNpcs,     setHideAllNpcs]     = useState(false);
   const [hideAllMonsters, setHideAllMonsters] = useState(false);
   const [placingPin,      setPlacingPin]      = useState(null); // pin waiting to be placed
@@ -165,15 +166,22 @@ export default function TVDisplay() {
   const [monsterList, setMonsterList] = useState([]);
 
   // ── Canvas refs ──
-  const canvasRef  = useRef(null);
-  const fogRef     = useRef(null);   // offscreen fog canvas
-  const mapImgRef  = useRef(null);
-  const painting      = useRef(false);
-  const cursorPos     = useRef(null);   // {x, y} canvas coords for brush preview
-  const lastTvSync    = useRef(0);      // timestamp of last brush stroke sent to TV
-  const overlayRef    = useRef(null);   // wrapper div for bounds
+  const canvasRef      = useRef(null);
+  const fogRef         = useRef(null);   // offscreen fog canvas
+  const mapImgRef      = useRef(null);
+  const painting       = useRef(false);
+  const cursorPos      = useRef(null);   // {x, y} canvas coords for brush preview
+  const lastTvSync     = useRef(0);      // timestamp of last brush stroke sent to TV
+  const overlayRef     = useRef(null);   // wrapper div for bounds
+  const draggingPinId  = useRef(null);   // id of pin being dragged
+  const hoveredPinId   = useRef(null);   // id of pin under cursor
+  const pinsRef        = useRef(pins);   // mirror of pins for use in event handlers
+  const [pinCursor, setPinCursor] = useState(null); // 'grab' | 'grabbing' | null
 
   const isElectron = !!window.electronAPI;
+
+  // Keep pinsRef current so pointer handlers always read latest pins
+  useEffect(() => { pinsRef.current = pins; }, [pins]);
 
   // ── Init ──
   useEffect(() => {
@@ -257,7 +265,7 @@ export default function TVDisplay() {
     pins.forEach(pin => {
       const px = dx + pin.x * dw;
       const py = dy + pin.y * dh;
-      const r  = 16;
+      const r  = pinSize;
       const color = PIN_COLORS[pin.type] || '#888';
 
       ctx.save();
@@ -277,6 +285,16 @@ export default function TVDisplay() {
       ctx.stroke();
       ctx.setLineDash([]);
       ctx.shadowBlur  = 0;
+
+      // Highlight ring for hovered/dragged pin
+      const isActive = pin.id === draggingPinId.current || pin.id === hoveredPinId.current;
+      if (isActive) {
+        ctx.beginPath();
+        ctx.arc(px, py, r + 5, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+        ctx.lineWidth   = 2;
+        ctx.stroke();
+      }
 
       ctx.fillStyle    = '#fff';
       ctx.font         = 'bold 10px system-ui,sans-serif';
@@ -339,7 +357,7 @@ export default function TVDisplay() {
       ctx.fillText(`Click map to place ${placingPin.name}`, cw / 2, dy + dh + 18);
       ctx.restore();
     }
-  }, [fogEnabled, gridEnabled, gridSize, pins, placingPin]);
+  }, [fogEnabled, gridEnabled, gridSize, pins, pinSize, placingPin]);
 
   // Load DM canvas image after overlay is in the DOM (so canvas is sized correctly)
   useEffect(() => {
@@ -441,6 +459,18 @@ export default function TVDisplay() {
     }, 'image/png');
   }
 
+  // ── Pin hit-test ──
+  function hitTestPin(cx, cy) {
+    const b = getMapBounds();
+    if (!b) return null;
+    for (const pin of pinsRef.current) {
+      const px = b.dx + pin.x * b.dw;
+      const py = b.dy + pin.y * b.dh;
+      if (Math.hypot(cx - px, cy - py) <= 20) return pin.id;
+    }
+    return null;
+  }
+
   // ── Canvas pointer events ──
   function handlePointerDown(e) {
     const rect = canvasRef.current.getBoundingClientRect();
@@ -454,7 +484,16 @@ export default function TVDisplay() {
       const next   = [...pins, newPin];
       setPins(next);
       setPlacingPin(null);
-      if (isElectron) window.electronAPI.tv.syncPins(next, hideAllNpcs, hideAllMonsters);
+      if (isElectron) window.electronAPI.tv.syncPins(next, hideAllNpcs, hideAllMonsters, pinSize);
+      return;
+    }
+
+    // Pin drag takes priority over fog painting
+    const hitId = hitTestPin(cx, cy);
+    if (hitId) {
+      draggingPinId.current = hitId;
+      setPinCursor('grabbing');
+      canvasRef.current.setPointerCapture(e.pointerId);
       return;
     }
 
@@ -468,6 +507,31 @@ export default function TVDisplay() {
     const cx = e.clientX - rect.left;
     const cy = e.clientY - rect.top;
     cursorPos.current = { x: cx, y: cy };
+
+    if (draggingPinId.current) {
+      const norm = canvasToNorm(cx, cy);
+      if (!norm) return;
+      const nx = Math.max(0, Math.min(1, norm.nx));
+      const ny = Math.max(0, Math.min(1, norm.ny));
+      setPins(prev => prev.map(p => p.id === draggingPinId.current ? { ...p, x: nx, y: ny } : p));
+      // Throttled TV sync during drag
+      if (isElectron) {
+        const now = Date.now();
+        if (now - lastTvSync.current > 50) {
+          lastTvSync.current = now;
+          window.electronAPI.tv.syncPins(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
+        }
+      }
+      return;
+    }
+
+    // Update hover cursor
+    const hitId = hitTestPin(cx, cy);
+    if (hitId !== hoveredPinId.current) {
+      hoveredPinId.current = hitId;
+      setPinCursor(hitId ? 'grab' : null);
+    }
+
     if (painting.current && fogEnabled && !placingPin) {
       paintFog(cx, cy);
     } else {
@@ -476,13 +540,21 @@ export default function TVDisplay() {
   }
 
   function handlePointerLeaveCanvas() {
-    cursorPos.current = null;
-    painting.current  = false;
+    cursorPos.current    = null;
+    painting.current     = false;
+    hoveredPinId.current = null;
+    setPinCursor(null);
     drawDmCanvas();
     if (fogRef.current) setTimeout(flushFogToTV, 0);
   }
 
   function handlePointerUp() {
+    if (draggingPinId.current) {
+      draggingPinId.current = null;
+      setPinCursor(null);
+      if (isElectron) window.electronAPI.tv.syncPins(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
+      return;
+    }
     if (!painting.current) return;
     painting.current = false;
     setTimeout(flushFogToTV, 0);
@@ -506,7 +578,7 @@ export default function TVDisplay() {
 
     if (isElectron) {
       window.electronAPI.tv.syncGrid(gridEnabled, gridSize);
-      window.electronAPI.tv.syncPins(pins, hideAllNpcs, hideAllMonsters);
+      window.electronAPI.tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
     }
   }, [tvOpen, gridEnabled, gridSize, pins, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas]);
 
@@ -533,13 +605,18 @@ export default function TVDisplay() {
   function togglePinHidden(id) {
     const next = pins.map(p => p.id === id ? { ...p, hidden: !p.hidden } : p);
     setPins(next);
-    if (isElectron) window.electronAPI.tv.syncPins(next, hideAllNpcs, hideAllMonsters);
+    if (isElectron) window.electronAPI.tv.syncPins(next, hideAllNpcs, hideAllMonsters, pinSize);
+  }
+
+  function handlePinSize(val) {
+    setPinSize(val);
+    if (isElectron) window.electronAPI.tv.syncPins(pinsRef.current, hideAllNpcs, hideAllMonsters, val);
   }
 
   function removePin(id) {
     const next = pins.filter(p => p.id !== id);
     setPins(next);
-    if (isElectron) window.electronAPI.tv.syncPins(next, hideAllNpcs, hideAllMonsters);
+    if (isElectron) window.electronAPI.tv.syncPins(next, hideAllNpcs, hideAllMonsters, pinSize);
   }
 
   function setHideGroup(group, val) {
@@ -547,7 +624,7 @@ export default function TVDisplay() {
     const hm = group === 'monster' ? val : hideAllMonsters;
     setHideAllNpcs(hn);
     setHideAllMonsters(hm);
-    if (isElectron) window.electronAPI.tv.syncPins(pins, hn, hm);
+    if (isElectron) window.electronAPI.tv.syncPins(pins, hn, hm, pinSize);
   }
 
   // ── Map state presets ──
@@ -742,7 +819,7 @@ export default function TVDisplay() {
             <canvas
               ref={canvasRef}
               className="overlay-canvas"
-              style={{ cursor: fogEnabled && !placingPin ? 'none' : placingPin ? 'cell' : 'default' }}
+              style={{ cursor: pinCursor ? pinCursor : placingPin ? 'cell' : fogEnabled ? 'none' : 'default' }}
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
@@ -813,6 +890,17 @@ export default function TVDisplay() {
             {/* Pins */}
             <div className="ov-section ov-pins-section">
               <div className="ov-section-title">Pins</div>
+
+              {/* Icon size */}
+              <div className="ov-row ov-brush-row">
+                <span className="ov-label">Size</span>
+                <input
+                  type="range" min="8" max="36" value={pinSize}
+                  onChange={e => handlePinSize(Number(e.target.value))}
+                  className="ov-slider"
+                />
+                <span className="ov-value">{pinSize}px</span>
+              </div>
 
               {/* Group toggles */}
               <div className="ov-row ov-gap">

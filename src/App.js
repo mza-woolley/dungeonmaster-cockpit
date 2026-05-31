@@ -21,14 +21,28 @@ const PANELS = [
 
 function useSessionClock() {
   const [elapsed, setElapsed] = useState(0);
+  const [running, setRunning] = useState(true);
   const startTime = useRef(Date.now());
+  const savedElapsed = useRef(0);
 
   useEffect(() => {
+    if (!running) return;
+    startTime.current = Date.now() - savedElapsed.current * 1000;
     const tick = setInterval(() => setElapsed(Math.floor((Date.now() - startTime.current) / 1000)), 1000);
     return () => clearInterval(tick);
-  }, []);
+  }, [running]);
 
-  const reset = () => { startTime.current = Date.now(); setElapsed(0); };
+  const toggle = () => {
+    if (running) savedElapsed.current = elapsed;
+    setRunning(r => !r);
+  };
+
+  const reset = () => {
+    savedElapsed.current = 0;
+    startTime.current = Date.now();
+    setElapsed(0);
+    setRunning(true);
+  };
 
   const h = Math.floor(elapsed / 3600);
   const m = Math.floor((elapsed % 3600) / 60);
@@ -37,7 +51,7 @@ function useSessionClock() {
     ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
     : `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 
-  return { display, reset };
+  return { display, running, toggle, reset };
 }
 
 export default function App() {
@@ -47,7 +61,7 @@ export default function App() {
   const [animating, setAnimating] = useState(false);
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
-  const { display: clockDisplay, reset: resetClock } = useSessionClock();
+  const { display: clockDisplay, running: clockRunning, toggle: toggleClock, reset: resetClock } = useSessionClock();
 
   const navigateTo = useCallback((idx) => {
     if (idx === activeIdx || animating) return;
@@ -116,7 +130,10 @@ export default function App() {
         <h1 className="header-title">DM Cockpit</h1>
         <div className="header-spacer" />
         <div className="session-clock">
-          <span className="session-clock-display">{clockDisplay}</span>
+          <button className="session-clock-toggle" onClick={toggleClock} title={clockRunning ? 'Pause timer' : 'Resume timer'}>
+            {clockRunning ? '⏸' : '▶'}
+          </button>
+          <span className={`session-clock-display${clockRunning ? '' : ' paused'}`}>{clockDisplay}</span>
           <button className="session-clock-reset" onClick={resetClock} title="Reset session timer">↺</button>
         </div>
       </header>
