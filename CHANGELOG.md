@@ -2,6 +2,28 @@
 
 ---
 
+## v0.6 — The Documentation Update — May 2026
+
+### 📚 New Panel: Documentation
+
+- **Documentation hub** — full lore, session notes, and worldbuilding wiki built into the app; reads and writes local `.json` files under `documentation/`
+- **Folder-based navigation** — sidebar mirrors the filesystem; create folders and docs from within the app
+- **Markdown support** — full rendered markdown with GFM (tables, strikethrough, task lists); syntax-highlighted code blocks, styled blockquotes, and table formatting
+- **Edit / read-only toggle** — documents open read-only; hit Edit to enter edit mode, Save to write back to disk, Cancel to discard
+- **Split view** — toggle between full-width editor and side-by-side editor + live preview
+- **Markdown toolbox** — one-click formatting buttons for Bold, Italic, H1–H3, Blockquote, Bullet list, Numbered list, Inline code, Code block, Link, Table, and Divider
+- **Image support** — file picker copies images into `documentation/assets/`; large images cached and resized (max 1600px) in `userData` for performance
+- **Auto-created on first launch** — `documentation/` and `documentation/assets/` created automatically; git-ignored so docs stay local to each machine
+- **Search** — live filter across all document titles in the sidebar
+
+### 🧹 Housekeeping
+
+- **Google Docs integration removed** — IPC handlers, auth module, and preload entries cleaned up
+- **README updated** — Google API key removed from setup table; keyboard shortcuts updated to reflect all 7 panels
+- **Tab order** alphabetised: Characters, Display, Documentation, DND Wizard, Encounters, Scene, Scribble
+
+---
+
 ## v0.5.3 — May 2026
 
 ### ✨ New Features

@@ -1,6 +1,6 @@
 # DM Cockpit 🎲
 
-Your all-in-one campaign control panel. Control Spotify, Nanoleaf lighting, Google Docs notes, TV map display, and encounter tracking — all from one app built with Electron + React.
+Your all-in-one campaign control panel. Control Spotify, Nanoleaf lighting, TV map display, encounter tracking, and full campaign documentation — all from one app built with Electron + React.
 
 ---
 
@@ -11,7 +11,6 @@ You'll need these during setup. Grab them first:
 | Key | Where to get it |
 |-----|----------------|
 | `ANTHROPIC_API_KEY` | [console.anthropic.com](https://console.anthropic.com) → API Keys |
-| `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET` | [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials → Create OAuth 2.0 Client |
 | `SPOTIFY_CLIENT_ID` + `SPOTIFY_CLIENT_SECRET` | [Spotify Developer Dashboard](https://developer.spotify.com/dashboard) → Create App |
 
 ---
@@ -45,10 +44,13 @@ Then double-click `Launch DM Cockpit.command` — now and every time after.
 | Action | Shortcut |
 |--------|----------|
 | Navigate panels | ← → Arrow keys |
-| Jump to Notes | Ctrl/Cmd + 1 |
-| Jump to Scribble | Ctrl/Cmd + 2 |
-| Jump to Scene Control | Ctrl/Cmd + 3 |
-| Jump to TV Display | Ctrl/Cmd + 4 |
+| Jump to Characters | Ctrl/Cmd + 1 |
+| Jump to Display | Ctrl/Cmd + 2 |
+| Jump to Documentation | Ctrl/Cmd + 3 |
+| Jump to DND Wizard | Ctrl/Cmd + 4 |
+| Jump to Encounters | Ctrl/Cmd + 5 |
+| Jump to Scene | Ctrl/Cmd + 6 |
+| Jump to Scribble | Ctrl/Cmd + 7 |
 | Bring app to front (global) | Ctrl/Cmd + Shift + D |
 
 ---
@@ -57,4 +59,4 @@ Then double-click `Launch DM Cockpit.command` — now and every time after.
 
 **App won't start** — Close and re-run `DM Cockpit.bat`. It will check and fix most issues automatically.
 
-**Spotify/Google not connecting** — Check your `.env` keys are correct with no extra spaces.
+**Spotify not connecting** — Check your `.env` keys are correct with no extra spaces.

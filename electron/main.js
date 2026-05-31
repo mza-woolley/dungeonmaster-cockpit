@@ -14,14 +14,12 @@ app.commandLine.appendSwitch('enable-accelerated-2d-canvas');
 const path = require('path');
 const fs   = require('fs');
 
-const { authorize: gAuthorize, isAuthorized: gIsAuthorized,
-        getDocContent, createOAuthClient } = require('./auth');
-const { parseDocContent } = require('./docParser');
 const spotify  = require('./spotify');
 const nanoleaf = require('./nanoleaf');
 const tv        = require('./tvDisplay');
 const statblock = require('./statblock');
 const wizard   = require('./wizard');
+const docs     = require('./docs');
 
 const isDev = process.env.NODE_ENV === 'development';
 let mainWindow;
@@ -42,19 +40,7 @@ function createWindow() {
     : `file://${path.join(__dirname, '../build/index.html')}`;
   mainWindow.loadURL(startUrl);
   mainWindow.on('closed', () => { mainWindow = null; });
-  try { createOAuthClient(); } catch (_) {}
 }
-
-// ── Google Docs IPC ───────────────────────────────────────
-ipcMain.handle('google:isAuthorized', () => gIsAuthorized());
-ipcMain.handle('google:authorize', async () => {
-  try { await gAuthorize(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('google:getDoc', async (_, docId) => {
-  try { return { success: true, data: parseDocContent(await getDocContent(docId)) }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
 
 // ── Spotify IPC ───────────────────────────────────────────
 ipcMain.handle('spotify:isAuthorized', () => spotify.isAuthorized());
@@ -357,6 +343,7 @@ ipcMain.handle('karma:save', (_, data) => {
 app.whenReady().then(() => {
   createWindow();
   wizard.register(ipcMain);
+  docs.register(ipcMain);
   globalShortcut.register('CommandOrControl+Shift+D', () => {
     if (mainWindow) { mainWindow.show(); mainWindow.focus(); }
   });

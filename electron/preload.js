@@ -2,11 +2,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  // Google Docs
-  isAuthorized: ()      => ipcRenderer.invoke('google:isAuthorized'),
-  authorize:    ()      => ipcRenderer.invoke('google:authorize'),
-  getDoc:       (docId) => ipcRenderer.invoke('google:getDoc', docId),
-
   // Spotify
   spotify: {
     isAuthorized: ()    => ipcRenderer.invoke('spotify:isAuthorized'),
@@ -94,5 +89,19 @@ contextBridge.exposeInMainWorld('electronAPI', {
   presets: {
     load: ()         => ipcRenderer.invoke('presets:load'),
     save: (presets)  => ipcRenderer.invoke('presets:save', presets),
+  },
+
+  // Documentation
+  docs: {
+    getTree:     ()                          => ipcRenderer.invoke('docs:getTree'),
+    getFile:     (filePath)                  => ipcRenderer.invoke('docs:getFile', filePath),
+    saveFile:    (filePath, data)            => ipcRenderer.invoke('docs:saveFile', { filePath, data }),
+    createFile:  (folderPath, title)         => ipcRenderer.invoke('docs:createFile', { folderPath, title }),
+    createFolder:(parentPath, name)          => ipcRenderer.invoke('docs:createFolder', { parentPath, name }),
+    rename:      (oldPath, newName)          => ipcRenderer.invoke('docs:rename', { oldPath, newName }),
+    delete:      (targetPath)               => ipcRenderer.invoke('docs:delete', targetPath),
+    pickImage:   ()                          => ipcRenderer.invoke('docs:pickImage'),
+    importImage: (sourcePath)               => ipcRenderer.invoke('docs:importImage', { sourcePath }),
+    readImage:   (relativePath)             => ipcRenderer.invoke('docs:readImage', relativePath),
   },
 });

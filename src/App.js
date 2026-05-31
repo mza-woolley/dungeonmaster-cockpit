@@ -7,14 +7,16 @@ import TVDisplay from './panels/TVDisplay';
 import Encounters from './panels/Encounters';
 import DNDWizard from './panels/DNDWizard';
 import Characters from './panels/Characters';
+import Documentation from './panels/Documentation';
 
 const PANELS = [
-  { id: 'characters', label: 'Characters', icon: '🧑', shortcut: '1' },
-  { id: 'tv',         label: 'Display',    icon: '🗺️',  shortcut: '2' },
-  { id: 'wizard',     label: 'DND Wizard', icon: '🧙', shortcut: '3' },
-  { id: 'encounters', label: 'Encounters', icon: '⚔️',  shortcut: '4' },
-  { id: 'scene',      label: 'Scene',      icon: '🎭', shortcut: '5' },
-  { id: 'scribble',   label: 'Scribble',   icon: '✍️',  shortcut: '6' },
+  { id: 'characters',    label: 'Characters',    icon: '🧑', shortcut: '1' },
+  { id: 'tv',            label: 'Display',        icon: '🗺️',  shortcut: '2' },
+  { id: 'documentation', label: 'Documentation',  icon: '📚', shortcut: '3' },
+  { id: 'wizard',        label: 'DND Wizard',     icon: '🧙', shortcut: '4' },
+  { id: 'encounters',    label: 'Encounters',     icon: '⚔️',  shortcut: '5' },
+  { id: 'scene',         label: 'Scene',          icon: '🎭', shortcut: '6' },
+  { id: 'scribble',      label: 'Scribble',       icon: '✍️',  shortcut: '7' },
 ];
 
 function useSessionClock() {
@@ -100,8 +102,9 @@ export default function App() {
       case 'tv':         return <TVDisplay />;
       case 'encounters': return <Encounters />;
       case 'wizard':     return <DNDWizard />;
-      case 'characters': return <Characters />;
-      default:           return null;
+      case 'characters':    return <Characters />;
+      case 'documentation': return <Documentation />;
+      default:              return null;
     }
   };
 
