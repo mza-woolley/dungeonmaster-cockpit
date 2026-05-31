@@ -5,6 +5,7 @@ credentials.json
 spotify-config.json
 claude.md
 ClaudeStart.bat
+ClaudeStart.command
 .claude
 
 # Dependencies — regenerated via npm install
