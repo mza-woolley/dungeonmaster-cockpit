@@ -94,6 +94,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Documentation
   docs: {
     getTree:     ()                          => ipcRenderer.invoke('docs:getTree'),
+    search:      (query)                      => ipcRenderer.invoke('docs:search', query),
     getFile:     (filePath)                  => ipcRenderer.invoke('docs:getFile', filePath),
     saveFile:    (filePath, data)            => ipcRenderer.invoke('docs:saveFile', { filePath, data }),
     createFile:  (folderPath, title)         => ipcRenderer.invoke('docs:createFile', { folderPath, title }),

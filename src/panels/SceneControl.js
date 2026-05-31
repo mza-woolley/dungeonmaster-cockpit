@@ -213,9 +213,8 @@ function AmbiencePanel({ activeSounds, onToggle, onVolumeChange, onMasterChange,
               <div className="sound-cat-label">{CATEGORY_LABELS[cat]}</div>
               <div className="sound-grid">
                 {sounds.map(sound => {
-                  const isActive = soundId => activeSounds.hasOwnProperty(soundId);
-                  const active   = isActive(sound.id);
-                  const vol      = activeSounds[sound.id] ?? 0.5;
+                  const active = activeSounds.hasOwnProperty(sound.id);
+                  const vol    = activeSounds[sound.id] ?? 0.5;
                   return (
                     <div
                       key={sound.id}

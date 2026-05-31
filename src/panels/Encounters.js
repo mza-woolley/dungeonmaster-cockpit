@@ -112,7 +112,7 @@ function StatBlock({ monster, onClone, onEdit, onDelete, isCustom }) {
           {isCustom && (
             <>
               <button className="sb-btn" onClick={() => onEdit(monster)}>✏️ Edit</button>
-              <button className="sb-btn danger" onClick={() => onDelete(monster.id)}>🗑 Delete</button>
+              <button className="sb-btn danger" onClick={() => onDelete(monster)}>🗑 Delete</button>
             </>
           )}
         </div>
@@ -556,6 +556,22 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [] }) {
   );
 }
 
+// ── Delete confirmation modal ──────────────────────────────
+function DeleteConfirmModal({ name, onConfirm, onCancel }) {
+  return (
+    <div className="docs-overlay" onClick={onCancel}>
+      <div className="docs-modal" onClick={e => e.stopPropagation()}>
+        <h3>Delete Custom Monster?</h3>
+        <p className="docs-modal-body">"{name}" will be permanently deleted.</p>
+        <div className="docs-modal-actions">
+          <button className="docs-btn secondary" onClick={onCancel}>Cancel</button>
+          <button className="docs-btn danger" onClick={onConfirm}>Delete</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Main Encounters Panel ──────────────────────────────────
 export default function Encounters() {
   const [tab, setTab]               = useState('monsters');
@@ -571,6 +587,7 @@ export default function Encounters() {
   const [error, setError]           = useState('');
   const [showCustomOnly, setShowCustomOnly] = useState(false);
   const [pcQuick, setPcQuick]       = useState([]);
+  const [deleteConfirm, setDeleteConfirm] = useState(null); // { id, name }
   const isElectron = !!window.electronAPI;
 
   // Load PC data from characters.json (single source of truth)
@@ -605,7 +622,7 @@ export default function Encounters() {
   const srdResults = allSrd.filter(m => {
     if (showCustomOnly) return false;
     if (search   && !m.name.toLowerCase().includes(search.toLowerCase())) return false;
-    if (filterCr && (m.challenge_rating || String(m.cr)) !== filterCr) return false;
+    if (filterCr && String(m.challenge_rating ?? m.cr) !== filterCr) return false;
     if (filterType && m.type?.toLowerCase() !== filterType.toLowerCase()) return false;
     return true;
   });
@@ -650,12 +667,17 @@ export default function Encounters() {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this custom monster?')) return;
-    await window.electronAPI.monsters.deleteCustom(id);
+  const handleDelete = (monster) => {
+    setDeleteConfirm({ id: monster.id, name: monster.name });
+  };
+
+  const doDelete = async () => {
+    if (!deleteConfirm) return;
+    await window.electronAPI.monsters.deleteCustom(deleteConfirm.id);
     const data = await window.electronAPI.monsters.load();
     setCustomMonsters(data.custom || []);
     setSelectedMonster(null);
+    setDeleteConfirm(null);
   };
 
   // ── Render ─────────────────────────────────────────────
@@ -766,6 +788,13 @@ export default function Encounters() {
                 onClone={handleClone}
                 onEdit={handleEditCustom}
                 onDelete={handleDelete}
+              />
+            )}
+            {deleteConfirm && (
+              <DeleteConfirmModal
+                name={deleteConfirm.name}
+                onConfirm={doDelete}
+                onCancel={() => setDeleteConfirm(null)}
               />
             )}
             {!editing && !selectedMonster && (

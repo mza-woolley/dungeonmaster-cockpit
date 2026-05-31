@@ -44,6 +44,7 @@
 }
 .docs-search:focus { border-color: var(--gold-dim); }
 .docs-search::placeholder { color: var(--text-dim); }
+.docs-search--busy { opacity: 0.6; }
 
 .docs-sidebar-btns {
   display: flex;

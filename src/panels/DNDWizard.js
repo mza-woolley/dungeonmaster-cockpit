@@ -275,7 +275,7 @@ export default function DNDWizard() {
     : !status.ready
     ? 'Setup required'
     : status.srdReady
-    ? 'SRD loaded · Haiku powered'
+    ? 'SRD loaded · AI powered'
     : 'SRD not built · general knowledge only';
 
   return (

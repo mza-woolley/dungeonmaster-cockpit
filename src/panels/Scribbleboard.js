@@ -22,6 +22,8 @@ export default function Scribbleboard() {
   const [sessionDate] = useState(datestamp());
   const [copied, setCopied] = useState(false);
   const [cleared, setCleared] = useState(false);
+  const [clearPending, setClearPending] = useState(false);
+  const clearTimerRef = useRef(null);
   const logRef = useRef(null);
   const textareaRef = useRef(null);
 
@@ -85,6 +87,13 @@ export default function Scribbleboard() {
 
   const clearLog = () => {
     if (entries.length === 0) return;
+    if (!clearPending) {
+      setClearPending(true);
+      clearTimerRef.current = setTimeout(() => setClearPending(false), 3000);
+      return;
+    }
+    clearTimeout(clearTimerRef.current);
+    setClearPending(false);
     setEntries([]);
     setCleared(true);
     setTimeout(() => setCleared(false), 2000);
@@ -105,8 +114,8 @@ export default function Scribbleboard() {
           <button className="action-btn" onClick={exportLog} title="Export as .txt">
             Export
           </button>
-          <button className="action-btn danger" onClick={clearLog} title="Clear all entries">
-            {cleared ? '✓ Cleared' : 'Clear'}
+          <button className="action-btn danger" onClick={clearLog} title={clearPending ? 'Click again to confirm' : 'Clear all entries'}>
+            {cleared ? '✓ Cleared' : clearPending ? 'Sure?' : 'Clear'}
           </button>
         </div>
       </div>

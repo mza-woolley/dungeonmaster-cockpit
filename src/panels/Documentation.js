@@ -26,14 +26,15 @@ function getAllFolderPaths(nodes) {
   return paths;
 }
 
-function filterTree(nodes, query) {
+// matchPaths: Set of file paths from content search, or null for name-only filter
+function filterTree(nodes, query, matchPaths) {
   if (!query) return nodes;
   const q = query.toLowerCase();
   return nodes.reduce((acc, node) => {
     if (node.type === 'folder') {
-      const filteredChildren = filterTree(node.children || [], q);
+      const filteredChildren = filterTree(node.children || [], q, matchPaths);
       if (filteredChildren.length) acc.push({ ...node, children: filteredChildren });
-    } else if (prettifyName(node.name).toLowerCase().includes(q)) {
+    } else if (matchPaths ? matchPaths.has(node.path) : prettifyName(node.name).toLowerCase().includes(q)) {
       acc.push(node);
     }
     return acc;
@@ -290,7 +291,10 @@ export default function Documentation() {
   const [saving, setSaving]             = useState(false);
   const [modal, setModal]               = useState(null);
   const [confirmDel, setConfirmDel]     = useState(null);
+  const [matchPaths, setMatchPaths]     = useState(null); // Set<path> from content search, null when idle
+  const [searching, setSearching]       = useState(false);
   const textareaRef = useRef();
+  const searchTimer = useRef(null);
 
   const loadTree = useCallback(async () => {
     const res = await api.getTree();
@@ -298,6 +302,19 @@ export default function Documentation() {
   }, []);
 
   useEffect(() => { loadTree(); }, [loadTree]);
+
+  // Debounced content search
+  useEffect(() => {
+    clearTimeout(searchTimer.current);
+    if (!search.trim()) { setMatchPaths(null); setSearching(false); return; }
+    setSearching(true);
+    searchTimer.current = setTimeout(async () => {
+      const res = await api.search(search.trim());
+      setMatchPaths(res.success ? new Set(res.paths) : null);
+      setSearching(false);
+    }, 300);
+    return () => clearTimeout(searchTimer.current);
+  }, [search]);
 
   const openFile = async (filePath) => {
     const res = await api.getFile(filePath);
@@ -380,7 +397,7 @@ export default function Documentation() {
     }
   };
 
-  const displayTree        = filterTree(tree, search);
+  const displayTree        = filterTree(tree, search, matchPaths);
   const expandedForDisplay = search ? new Set(getAllFolderPaths(displayTree)) : expanded;
 
   // Stable reference — prevents ReactMarkdown unmounting DocImage on every keystroke
@@ -395,8 +412,8 @@ export default function Documentation() {
       <aside className="docs-sidebar">
         <div className="docs-sidebar-top">
           <input
-            className="docs-search"
-            placeholder="Search…"
+            className={`docs-search ${searching ? 'docs-search--busy' : ''}`}
+            placeholder="Search content…"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
@@ -409,7 +426,7 @@ export default function Documentation() {
         <div className="docs-tree">
           {displayTree.length === 0 && (
             <div className="docs-tree-empty">
-              {search ? 'No results.' : 'No documents yet.\nClick "+ Doc" to start.'}
+              {searching ? 'Searching…' : search ? 'No results.' : 'No documents yet.\nClick "+ Doc" to start.'}
             </div>
           )}
           {displayTree.map(node => (

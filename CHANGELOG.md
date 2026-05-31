@@ -2,6 +2,24 @@
 
 ---
 
+## v0.6.6 — May 2026
+
+### 🐛 Fixes
+
+- Encounters: CR filter now matches correctly for SRD monsters
+- Encounters: delete custom monster now uses an in-app confirmation modal
+- TV Display: NPC pin picker now populated from character data
+- Characters: crash guard added when running outside Electron
+
+### ✨ Improvements
+
+- Documentation: search now matches against file content, not just filenames — folders auto-expand to show matches
+- Scribbleboard: Clear log requires a second click to confirm
+- SceneControl: minor dead code cleanup
+- DND Wizard: status label no longer references a specific model
+
+---
+
 ## v0.6.5 — May 2026
 
 ### 📝 Housekeeping

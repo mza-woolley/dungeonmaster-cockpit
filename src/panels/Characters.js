@@ -53,8 +53,10 @@ export default function Characters() {
   const [saving, setSaving]         = useState(false);
   const [npcSort, setNpcSort]       = useState('name');
   const saveTimer = useRef(null);
+  const isElectron = !!window.electronAPI;
 
   useEffect(() => {
+    if (!isElectron) return;
     Promise.all([
       window.electronAPI.karma.load(),
       window.electronAPI.characters.loadSeed(),
@@ -69,7 +71,7 @@ export default function Characters() {
         setCharacters(loaded);
       }
     });
-  }, []);
+  }, [isElectron]);
 
   const persist = useCallback((chars) => {
     clearTimeout(saveTimer.current);

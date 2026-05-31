@@ -100,6 +100,28 @@ function register(ipcMain) {
     } catch (err) { return { success: false, error: err.message }; }
   });
 
+  ipcMain.handle('docs:search', (_, query) => {
+    try {
+      const q = query.trim().toLowerCase();
+      if (!q) return { success: true, paths: [] };
+      const matches = [];
+      function walk(dir) {
+        for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+          if (e.name.startsWith('.')) continue;
+          const full = path.join(dir, e.name);
+          if (e.isDirectory()) {
+            walk(full);
+          } else if (e.name.endsWith('.md')) {
+            const content = fs.readFileSync(full, 'utf8');
+            if (content.toLowerCase().includes(q)) matches.push(full);
+          }
+        }
+      }
+      walk(DOCS_ROOT);
+      return { success: true, paths: matches };
+    } catch (err) { return { success: false, error: err.message, paths: [] }; }
+  });
+
   ipcMain.handle('docs:pickImage', async (event) => {
     try {
       const win    = BrowserWindow.fromWebContents(event.sender);
