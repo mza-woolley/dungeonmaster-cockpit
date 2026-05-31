@@ -20,7 +20,7 @@ function buildTree(dir) {
     const fullPath = path.join(dir, e.name);
     if (e.isDirectory()) {
       nodes.push({ type: 'folder', name: e.name, path: fullPath, children: buildTree(fullPath) });
-    } else if (e.name.endsWith('.json')) {
+    } else if (e.name.endsWith('.md')) {
       nodes.push({ type: 'file', name: e.name, path: fullPath });
     }
   }
@@ -39,15 +39,21 @@ function register(ipcMain) {
   });
 
   ipcMain.handle('docs:getFile', (_, filePath) => {
-    try { return { success: true, data: JSON.parse(fs.readFileSync(filePath, 'utf8')) }; }
-    catch (err) { return { success: false, error: err.message }; }
+    try {
+      const content  = fs.readFileSync(filePath, 'utf8');
+      const stat     = fs.statSync(filePath);
+      const name     = path.basename(filePath, '.md');
+      const title    = name.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const modified = stat.mtime.toISOString().split('T')[0];
+      return { success: true, data: { title, modified, content } };
+    } catch (err) { return { success: false, error: err.message }; }
   });
 
   ipcMain.handle('docs:saveFile', (_, { filePath, data }) => {
     try {
-      data.modified = new Date().toISOString().split('T')[0];
-      fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-      return { success: true, modified: data.modified };
+      fs.writeFileSync(filePath, data.content, 'utf8');
+      const modified = new Date().toISOString().split('T')[0];
+      return { success: true, modified };
     } catch (err) { return { success: false, error: err.message }; }
   });
 
@@ -56,14 +62,13 @@ function register(ipcMain) {
       ensureDirs();
       const base   = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'untitled';
       const parent = folderPath || DOCS_ROOT;
-      let   fileName = `${base}.json`;
+      let   fileName = `${base}.md`;
       let   counter  = 1;
       while (fs.existsSync(path.join(parent, fileName))) {
-        fileName = `${base}-${counter++}.json`;
+        fileName = `${base}-${counter++}.md`;
       }
       const filePath = path.join(parent, fileName);
-      const now = new Date().toISOString().split('T')[0];
-      fs.writeFileSync(filePath, JSON.stringify({ title, created: now, modified: now, content: `# ${title}\n\n` }, null, 2));
+      fs.writeFileSync(filePath, `# ${title}\n\n`, 'utf8');
       return { success: true, filePath };
     } catch (err) { return { success: false, error: err.message }; }
   });

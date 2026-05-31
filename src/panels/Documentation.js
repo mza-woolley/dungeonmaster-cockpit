@@ -12,7 +12,7 @@ function formatDate(iso) {
 }
 
 function prettifyName(filename) {
-  return filename.replace(/\.json$/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  return filename.replace(/\.md$/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
 function getAllFolderPaths(nodes) {
@@ -103,7 +103,7 @@ function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRe
 
   const startRename = () => {
     setCtx(null);
-    setRenameVal(node.type === 'file' ? node.name.replace(/\.json$/, '') : node.name);
+    setRenameVal(node.type === 'file' ? node.name.replace(/\.md$/, '') : node.name);
     setRenaming(true);
   };
 
@@ -505,7 +505,7 @@ export default function Documentation() {
       {confirmDel && (
         <Modal
           title={`Delete ${confirmDel.type === 'folder' ? 'Folder' : 'Document'}?`}
-          body={`"${confirmDel.name.replace(/\.json$/, '')}" will be permanently deleted${confirmDel.type === 'folder' ? ' along with all its contents' : ''}.`}
+          body={`"${confirmDel.name.replace(/\.md$/, '')}" will be permanently deleted${confirmDel.type === 'folder' ? ' along with all its contents' : ''}.`}
           onConfirm={doDelete}
           onCancel={() => setConfirmDel(null)}
           confirmLabel="Delete"

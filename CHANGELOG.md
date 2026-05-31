@@ -2,6 +2,15 @@
 
 ---
 
+## v0.6.4 — May 2026
+
+### 📝 Documentation
+
+- Documentation panel now reads and writes `.md` files natively
+- New documents created in-app are saved as `.md`
+
+---
+
 ## v0.6.3b — May 2026
 
 ### 🐛 Fixes
