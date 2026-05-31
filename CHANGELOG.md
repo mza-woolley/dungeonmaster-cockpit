@@ -2,6 +2,14 @@
 
 ---
 
+## v0.6.5 — May 2026
+
+### 📝 Housekeeping
+
+- Version subtitles added to all major releases in the changelog
+
+---
+
 ## v0.6.4 — May 2026
 
 ### 📝 Documentation
@@ -70,7 +78,7 @@
 
 ---
 
-## v0.6 — The Documentation Update — May 2026
+## v0.6 — The Codex Update — May 2026
 
 ### 📚 New Panel: Documentation
 
@@ -131,7 +139,7 @@
 
 ---
 
-## v0.5 — May 2026
+## v0.5 — The Veil Update — May 2026
 
 ### 🗺️ Map Overlay — Fog of War, Grid, Pins & Map States
 
@@ -159,7 +167,7 @@
 
 ---
 
-## v0.4 — May 2026
+## v0.4 — The Roster Update — May 2026
 
 ### 🧑 New Panel: Characters
 
@@ -193,7 +201,7 @@
 
 ---
 
-## v0.3 — May 2026
+## v0.3 — The Oracle Update — May 2026
 
 ### 🧙 New Panel: DND Wizard
 
@@ -224,7 +232,7 @@
 
 ---
 
-## v0.2 — May 2026
+## v0.2 — The Initiative Update — May 2026
 
 ### ⚔ New Panel: Encounters
 
@@ -249,7 +257,7 @@
 
 ---
 
-## v0.1 — May 2026
+## v0.1 — The Genesis Update — May 2026
 
 ### ⚡ Core App
 
