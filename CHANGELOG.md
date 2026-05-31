@@ -2,6 +2,17 @@
 
 ---
 
+## v0.6.1 — May 2026
+
+### ⚔️ Initiative Tracker
+
+- **PC initiative is now manual** — PC quick-add buttons no longer auto-roll; initiative starts at 0 and must be entered by hand
+- **Roll All skips PCs** — the 🎲 Roll All button now only re-rolls monsters
+- **Editable initiative column** — click any combatant's initiative number to edit it inline; field turns red if left empty, reverts to last valid value on blur
+- **Monster HP fix** — custom monsters now correctly load their HP into the tracker when added from search
+
+---
+
 ## v0.6 — The Documentation Update — May 2026
 
 ### 📚 New Panel: Documentation

@@ -585,6 +585,19 @@
   font-weight: bold;
   color: #c9a84c;
   text-align: center;
+  width: 44px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #4a3f2f;
+  outline: none;
+  padding: 0;
+}
+.combatant-init:focus {
+  border-bottom-color: #c9a84c;
+}
+.combatant-init.init-invalid {
+  border-bottom-color: #f44336;
+  color: #f44336;
 }
 .combatant-name { font-size: 0.9rem; color: #e8d5a3; }
 .combatant-name--link { cursor: pointer; }

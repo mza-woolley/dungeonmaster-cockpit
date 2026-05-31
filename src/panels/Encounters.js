@@ -376,16 +376,17 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [] }) {
 
   const addPC = (pc) => {
     if (combatants.some(c => c.name === pc.name)) return;
-    addCombatant({ id: uid(), name: pc.name, initiative: roll(pc.initMod || 0), initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
+    addCombatant({ id: uid(), name: pc.name, initiative: 0, initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
   };
 
   const addAllPCs = () => pcQuick.forEach(pc => {
-    if (!combatants.some(c => c.name === pc.name)) addCombatant({ id: uid(), name: pc.name, initiative: roll(pc.initMod || 0), initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
+    if (!combatants.some(c => c.name === pc.name)) addCombatant({ id: uid(), name: pc.name, initiative: 0, initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
   });
 
   const addMonster = (m) => {
     const mod = dexMod(m);
-    addCombatant({ id: uid(), name: m.name, initiative: roll(mod), initMod: mod, hp: m.hit_points || 0, maxHp: m.hit_points || 0, isPC: false, monsterData: m });
+    const hp = m.hit_points || m.hp || 0;
+    addCombatant({ id: uid(), name: m.name, initiative: roll(mod), initMod: mod, hp, maxHp: hp, isPC: false, monsterData: m });
     setMonSearch('');
   };
 
@@ -422,7 +423,17 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [] }) {
   };
 
   const reset   = () => { setCombatants([]); setTurn(0); setRound(1); };
-  const rollAll = () => { setCombatants(prev => prev.map(c => ({ ...c, initiative: roll(c.initMod || 0) }))); setTurn(0); };
+  const [initInputs, setInitInputs] = useState({});
+  const setInitInput  = (id, val) => setInitInputs(prev => ({ ...prev, [id]: val }));
+  const commitInit    = (id, fallback) => {
+    const raw = initInputs[id];
+    if (raw === undefined) return;
+    const parsed = parseInt(raw, 10);
+    const value  = isNaN(parsed) ? fallback : parsed;
+    setCombatants(prev => prev.map(c => c.id === id ? { ...c, initiative: value } : c));
+    setInitInputs(prev => { const n = { ...prev }; delete n[id]; return n; });
+  };
+  const rollAll = () => { setCombatants(prev => prev.map(c => c.isPC ? c : { ...c, initiative: roll(c.initMod || 0) })); setTurn(0); };
 
   const monResults = monSearch.trim().length >= 2
     ? srdMonsters.filter(m => m.name.toLowerCase().includes(monSearch.toLowerCase())).slice(0, 8)
@@ -503,7 +514,13 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [] }) {
         {sorted.map((c, i) => (
           <div key={c.id} className={`combatant ${i === turn ? 'active-turn' : ''} ${c.hp === 0 ? 'unconscious' : ''} ${c.isPC ? 'combatant-pc' : ''}`}>
             <div className="combatant-turn-marker">{i === turn ? '▶' : ''}</div>
-            <div className="combatant-init">{c.initiative}</div>
+            <input
+              type="number"
+              className={`combatant-init ${initInputs[c.id] !== undefined && initInputs[c.id] === '' ? 'init-invalid' : ''}`}
+              value={initInputs[c.id] !== undefined ? initInputs[c.id] : c.initiative}
+              onChange={e => setInitInput(c.id, e.target.value)}
+              onBlur={() => commitInit(c.id, c.initiative)}
+            />
             <div
               className={`combatant-name ${c.monsterData ? 'combatant-name--link' : ''}`}
               onClick={() => openStatBlock(c)}
