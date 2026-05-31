@@ -2,6 +2,14 @@
 
 ---
 
+## v0.6.7 — May 2026
+
+### ✨ Improvements
+
+- Mac support: double-click launchers added for setup and app launch
+
+---
+
 ## v0.6.6 — May 2026
 
 ### 🐛 Fixes
