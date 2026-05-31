@@ -45,7 +45,6 @@ const ALL_SOUNDS = Object.values(AMBIENCE_SOUNDS).flat();
 const CATEGORY_LABELS = { nature: 'Nature', creatures: 'Creatures', atmosphere: 'Atmosphere' };
 
 const FADE_DURATION = 2500; // ms crossfade
-const PRESETS_KEY   = 'dm-cockpit-presets';
 const AMB_OPEN_KEY  = 'dm-cockpit-amb-open';
 
 // ── Ambience engine (Web Audio crossfader) ────────────────
@@ -144,11 +143,6 @@ const PRESET_COLORS = [
   { id: 'moss',   label: 'Moss',   hex: '#4a7c59' },
 ];
 
-function loadPresets() {
-  try { return JSON.parse(localStorage.getItem(PRESETS_KEY) || '[]'); }
-  catch { return []; }
-}
-function savePresets(p) { localStorage.setItem(PRESETS_KEY, JSON.stringify(p)); }
 
 // ── NowPlaying ────────────────────────────────────────────
 
@@ -640,7 +634,7 @@ export default function SceneControl() {
   const [currentTrack,    setCurrentTrack]    = useState(null);
   const [activePreset,    setActivePreset]    = useState(null);
   const [firingPreset,    setFiringPreset]    = useState(null);
-  const [presets,         setPresets]         = useState(loadPresets);
+  const [presets,         setPresets]         = useState([]);
   const [editing,         setEditing]         = useState(null);
   const [showNLManager,   setShowNLManager]   = useState(false);
   const [loading,         setLoading]         = useState('');
@@ -659,21 +653,24 @@ export default function SceneControl() {
   useEffect(() => {
     if (!isElectron) return;
     (async () => {
-      const [sAuth, devices] = await Promise.all([
+      const [sAuth, devices, savedPresets] = await Promise.all([
         window.electronAPI.spotify.isAuthorized(),
         window.electronAPI.nanoleaf.getDevices(),
+        window.electronAPI.presets.load(),
       ]);
       setSpotifyAuth(sAuth);
       setNanoleafDevices(devices || []);
+      setPresets(Array.isArray(savedPresets) ? savedPresets : []);
       if (sAuth)           fetchPlaylists();
       if (devices?.length) fetchNanoleafScenes();
     })();
   }, [isElectron]);
 
-  // Poll track
+  // Poll track — paused when window is hidden
   useEffect(() => {
     if (!spotifyAuth || !isElectron) return;
     const poll = async () => {
+      if (document.hidden) return;
       const res = await window.electronAPI.spotify.currentTrack();
       if (res.success) setCurrentTrack(res.data);
     };
@@ -777,14 +774,18 @@ export default function SceneControl() {
     setPresets(prev => {
       const existing = prev.findIndex(p => p.id === preset.id);
       const next = existing >= 0 ? prev.map(p => p.id === preset.id ? preset : p) : [...prev, preset];
-      savePresets(next);
+      if (isElectron) window.electronAPI.presets.save(next);
       return next;
     });
     setEditing(null);
   };
 
   const deletePreset = (id) => {
-    setPresets(prev => { const next = prev.filter(p => p.id !== id); savePresets(next); return next; });
+    setPresets(prev => {
+      const next = prev.filter(p => p.id !== id);
+      if (isElectron) window.electronAPI.presets.save(next);
+      return next;
+    });
     setEditing(null);
   };
 

@@ -2,6 +2,21 @@
 
 ---
 
+## v0.5.3 — May 2026
+
+### ✨ New Features
+
+- **Session clock** — elapsed session timer in the app header; resets with a single click
+
+### 🛠 Under the Hood
+
+- **PC data single source** — initiative quick-add buttons now read from `characters.json` instead of a duplicate hardcoded list; updating a PC's HP or init modifier in one place reflects everywhere
+- **Presets saved to disk** — scene presets moved from browser localStorage to `presets.json`; they now persist reliably across app reinstalls and cache clears
+- **Spotify poll skips hidden window** — track polling pauses when the app window is not in focus, reducing idle API calls
+- **Karma save debounce** — rapid karma adjustments are batched into a single disk write after a short pause instead of writing on every click
+
+---
+
 ## v0.5.2 — May 2026
 
 ### ✨ QoL Improvements

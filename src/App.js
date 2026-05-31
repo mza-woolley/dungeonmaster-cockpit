@@ -17,6 +17,27 @@ const PANELS = [
   { id: 'scribble',   label: 'Scribble',   icon: '✍️',  shortcut: '6' },
 ];
 
+function useSessionClock() {
+  const [elapsed, setElapsed] = useState(0);
+  const startTime = useRef(Date.now());
+
+  useEffect(() => {
+    const tick = setInterval(() => setElapsed(Math.floor((Date.now() - startTime.current) / 1000)), 1000);
+    return () => clearInterval(tick);
+  }, []);
+
+  const reset = () => { startTime.current = Date.now(); setElapsed(0); };
+
+  const h = Math.floor(elapsed / 3600);
+  const m = Math.floor((elapsed % 3600) / 60);
+  const s = elapsed % 60;
+  const display = h > 0
+    ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+    : `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+  return { display, reset };
+}
+
 export default function App() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [prevIdx, setPrevIdx] = useState(null);
@@ -24,6 +45,7 @@ export default function App() {
   const [animating, setAnimating] = useState(false);
   const touchStartX = useRef(null);
   const touchStartY = useRef(null);
+  const { display: clockDisplay, reset: resetClock } = useSessionClock();
 
   const navigateTo = useCallback((idx) => {
     if (idx === activeIdx || animating) return;
@@ -90,6 +112,10 @@ export default function App() {
         <div className="header-sigil">⚔</div>
         <h1 className="header-title">DM Cockpit</h1>
         <div className="header-spacer" />
+        <div className="session-clock">
+          <span className="session-clock-display">{clockDisplay}</span>
+          <button className="session-clock-reset" onClick={resetClock} title="Reset session timer">↺</button>
+        </div>
       </header>
 
       {/* Nav */}

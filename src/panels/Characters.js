@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './Characters.css';
 
 function uid() {
@@ -52,6 +52,7 @@ export default function Characters() {
   const [newClass, setNewClass]     = useState('');
   const [saving, setSaving]         = useState(false);
   const [npcSort, setNpcSort]       = useState('name');
+  const saveTimer = useRef(null);
 
   useEffect(() => {
     Promise.all([
@@ -70,10 +71,13 @@ export default function Characters() {
     });
   }, []);
 
-  const persist = useCallback(async (chars) => {
+  const persist = useCallback((chars) => {
+    clearTimeout(saveTimer.current);
     setSaving(true);
-    await window.electronAPI.karma.save({ characters: chars });
-    setSaving(false);
+    saveTimer.current = setTimeout(async () => {
+      await window.electronAPI.karma.save({ characters: chars });
+      setSaving(false);
+    }, 500);
   }, []);
 
   const adjustKarma = (id, delta) => {

@@ -317,6 +317,24 @@ ipcMain.handle('mapStates:delete', (_, id) => {
   } catch (err) { return { success: false, error: err.message }; }
 });
 
+// ── Presets IPC ───────────────────────────────────────────
+const PRESETS_PATH = path.join(__dirname, '..', 'presets.json');
+
+function loadPresetsFile() {
+  try {
+    if (fs.existsSync(PRESETS_PATH)) return JSON.parse(fs.readFileSync(PRESETS_PATH, 'utf8'));
+  } catch (_) {}
+  return [];
+}
+
+ipcMain.handle('presets:load', () => loadPresetsFile());
+ipcMain.handle('presets:save', (_, presets) => {
+  try {
+    fs.writeFileSync(PRESETS_PATH, JSON.stringify(presets, null, 2));
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+
 // ── Karma IPC ─────────────────────────────────────────────
 const KARMA_PATH = path.join(__dirname, '..', 'karma.json');
 

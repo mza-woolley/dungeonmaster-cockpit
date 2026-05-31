@@ -89,4 +89,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     load: ()     => ipcRenderer.invoke('karma:load'),
     save: (data) => ipcRenderer.invoke('karma:save', data),
   },
+
+  // Scene Presets
+  presets: {
+    load: ()         => ipcRenderer.invoke('presets:load'),
+    save: (presets)  => ipcRenderer.invoke('presets:save', presets),
+  },
 });

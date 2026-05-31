@@ -343,14 +343,6 @@ function MonsterEditor({ initial, onSave, onCancel }) {
 }
 
 // ── Initiative Tracker ─────────────────────────────────────
-const PC_QUICK = [
-  { name: 'Elaris Sol',              shortName: 'Elaris',    initMod: 0, maxHp: 24 },
-  { name: 'Fenrik',                  shortName: 'Fenrik',    initMod: 3, maxHp: 32 },
-  { name: "Frah'nk",                 shortName: "Frah'nk",   initMod: 2, maxHp: 34 },
-  { name: 'Kaelen Shadowsong',       shortName: 'Kaelen',    initMod: 2, maxHp: 18 },
-  { name: 'Plumbodian V',            shortName: 'Plumb.',    initMod: 1, maxHp: 26 },
-  { name: 'Wizzleforth Crankfoot',   shortName: 'Wizzle.',   initMod: 2, maxHp: 21 },
-];
 
 function roll(mod = 0) {
   return Math.floor(Math.random() * 20) + 1 + mod;
@@ -360,7 +352,7 @@ function dexMod(monster) {
   return Math.floor(((monster.dexterity || 10) - 10) / 2);
 }
 
-function InitiativeTracker({ srdMonsters = [] }) {
+function InitiativeTracker({ srdMonsters = [], pcQuick = [] }) {
   const [combatants, setCombatants] = useState([]);
   const [newName, setNewName]       = useState('');
   const [newInit, setNewInit]       = useState('');
@@ -384,11 +376,11 @@ function InitiativeTracker({ srdMonsters = [] }) {
 
   const addPC = (pc) => {
     if (combatants.some(c => c.name === pc.name)) return;
-    addCombatant({ id: uid(), name: pc.name, initiative: roll(pc.initMod), initMod: pc.initMod, hp: pc.maxHp, maxHp: pc.maxHp, isPC: true });
+    addCombatant({ id: uid(), name: pc.name, initiative: roll(pc.initMod || 0), initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
   };
 
-  const addAllPCs = () => PC_QUICK.forEach(pc => {
-    if (!combatants.some(c => c.name === pc.name)) addCombatant({ id: uid(), name: pc.name, initiative: roll(pc.initMod), initMod: pc.initMod, hp: pc.maxHp, maxHp: pc.maxHp, isPC: true });
+  const addAllPCs = () => pcQuick.forEach(pc => {
+    if (!combatants.some(c => c.name === pc.name)) addCombatant({ id: uid(), name: pc.name, initiative: roll(pc.initMod || 0), initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
   });
 
   const addMonster = (m) => {
@@ -445,15 +437,15 @@ function InitiativeTracker({ srdMonsters = [] }) {
 
         {/* PC buttons */}
         <div className="init-pc-row">
-          {PC_QUICK.map(pc => (
+          {pcQuick.map(pc => (
             <button
               key={pc.name}
               className={`init-pc-btn ${combatants.some(c => c.name === pc.name) ? 'added' : ''}`}
               onClick={() => addPC(pc)}
-              title={`${pc.name} (Init +${pc.initMod}, HP ${pc.maxHp})`}
+              title={`${pc.name} (Init +${pc.initMod || 0}, HP ${pc.maxHp || 0})`}
               disabled={combatants.some(c => c.name === pc.name)}
             >
-              {pc.shortName}
+              {pc.shortName || pc.name.split(' ')[0]}
             </button>
           ))}
           <button className="init-pc-btn add-all" onClick={addAllPCs}>+ All PCs</button>
@@ -561,7 +553,17 @@ export default function Encounters() {
   const [loading, setLoading]       = useState(false);
   const [error, setError]           = useState('');
   const [showCustomOnly, setShowCustomOnly] = useState(false);
+  const [pcQuick, setPcQuick]       = useState([]);
   const isElectron = !!window.electronAPI;
+
+  // Load PC data from characters.json (single source of truth)
+  useEffect(() => {
+    if (!isElectron) return;
+    window.electronAPI.characters.loadSeed().then(data => {
+      const pcs = (data.characters || []).filter(c => c.type === 'pc');
+      setPcQuick(pcs);
+    });
+  }, [isElectron]);
 
   // Load custom monsters on mount
   useEffect(() => {
@@ -761,7 +763,7 @@ export default function Encounters() {
       )}
 
       {/* ── INITIATIVE TAB ── */}
-      {tab === 'initiative' && <InitiativeTracker srdMonsters={[...customMonsters, ...allSrd]} />}
+      {tab === 'initiative' && <InitiativeTracker srdMonsters={[...customMonsters, ...allSrd]} pcQuick={pcQuick} />}
     </div>
   );
 }
