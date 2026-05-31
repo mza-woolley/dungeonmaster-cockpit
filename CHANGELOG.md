@@ -2,6 +2,14 @@
 
 ---
 
+## v0.6.2 — May 2026
+
+### 📁 Documentation Structure
+
+- Added base folder structure for campaign documentation
+
+---
+
 ## v0.6.1 — May 2026
 
 ### ⚔️ Initiative Tracker
