@@ -13,7 +13,6 @@
 | Vesper Hollowglen | Female | Shopkeep | Lumina Lab |
 | Tavian Grellan | Male | Bank Worker | Solvetra Vault |
 | Xylos Vex | Male | On the Road — Boasting Adventurer | Road |
-| Silas Shadowfoot | Male | Shadow Clan / Shadowbringers leader | Outside the Lightstation |
 | Jalen Grellwyn | Male | Bank Manager, Solvetra Vault | Middle Solvetra |
 
 ---
