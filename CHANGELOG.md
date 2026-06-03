@@ -2,6 +2,15 @@
 
 ---
 
+## v0.6.8 — June 2026
+
+### 📖 Content
+
+- Documentation: example campaign content added and committed to the repo
+- Documentation: README added explaining the folder structure and example content
+
+---
+
 ## v0.6.7 — May 2026
 
 ### ✨ Improvements
