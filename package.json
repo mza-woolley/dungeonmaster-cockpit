@@ -8,7 +8,7 @@
     "start": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "electron": "electron .",
-    "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && cross-env NODE_ENV=development electron .\"",
     "electron-start": "BROWSER=none npm start"
   },
   "dependencies": {

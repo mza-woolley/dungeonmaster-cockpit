@@ -62,7 +62,7 @@ const DocImage = React.memo(function DocImage({ src, alt }) {
 });
 
 // Portal-based context menu — bypasses panel CSS transform stacking context
-function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onDelete, onClose }) {
+function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onMove, onDelete, onClose }) {
   const ref = useRef();
 
   useEffect(() => {
@@ -71,8 +71,7 @@ function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onDelet
     return () => window.removeEventListener('mousedown', handler);
   }, [onClose]);
 
-  // Nudge menu left/up if it would overflow viewport
-  const menuW = 160, menuH = isFolder ? 148 : 80;
+  const menuW = 160, menuH = isFolder ? 148 : 108;
   const left = x + menuW > window.innerWidth  ? x - menuW : x;
   const top  = y + menuH > window.innerHeight ? y - menuH : y;
 
@@ -86,13 +85,14 @@ function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onDelet
         </>
       )}
       <button onClick={onRename}>Rename</button>
+      {!isFolder && <button onClick={onMove}>Move to…</button>}
       <button className="danger" onClick={onDelete}>Delete</button>
     </div>,
     document.body
   );
 }
 
-function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRename, onDelete, onNewFile, onNewFolder, depth }) {
+function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRename, onMove, onDelete, onNewFile, onNewFolder, depth }) {
   const [ctx, setCtx]           = useState(null);
   const [renaming, setRenaming] = useState(false);
   const [renameVal, setRenameVal] = useState('');
@@ -150,6 +150,7 @@ function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRe
           onNewFile={() => { setCtx(null); onNewFile(node.path); }}
           onNewFolder={() => { setCtx(null); onNewFolder(node.path); }}
           onRename={startRename}
+          onMove={() => { setCtx(null); onMove(node.path, node.name); }}
           onDelete={() => { setCtx(null); onDelete(node.path, node.type, node.name); }}
           onClose={() => setCtx(null)}
         />
@@ -164,6 +165,7 @@ function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRe
           expanded={expanded}
           onToggleExpand={onToggleExpand}
           onRename={onRename}
+          onMove={onMove}
           onDelete={onDelete}
           onNewFile={onNewFile}
           onNewFolder={onNewFolder}
@@ -206,6 +208,56 @@ function Modal({ title, placeholder, onConfirm, onCancel, confirmLabel = 'Create
           >
             {confirmLabel}
           </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FolderPickerNode({ node, selectedFolder, onSelect, depth = 0 }) {
+  const [open, setOpen] = useState(depth === 0);
+  const isSelected = selectedFolder === node.path;
+  return (
+    <div>
+      <div
+        className={`move-folder-item ${isSelected ? 'selected' : ''}`}
+        style={{ paddingLeft: 10 + depth * 14 }}
+        onClick={() => { setOpen(o => !o); onSelect(node.path); }}
+      >
+        <span className="tree-arrow">{node.children?.length ? (open ? '▾' : '▸') : '·'}</span>
+        <span>{node.name}</span>
+      </div>
+      {open && (node.children || []).filter(c => c.type === 'folder').map(child => (
+        <FolderPickerNode key={child.path} node={child} selectedFolder={selectedFolder} onSelect={onSelect} depth={depth + 1} />
+      ))}
+    </div>
+  );
+}
+
+function MoveModal({ fileName, tree, onConfirm, onCancel }) {
+  const [selectedFolder, setSelectedFolder] = useState(null);
+
+  return (
+    <div className="docs-overlay" onClick={onCancel}>
+      <div className="docs-modal" onClick={e => e.stopPropagation()}>
+        <h3>Move "{fileName.replace(/\.md$/, '')}"</h3>
+        <p className="docs-modal-body">Select a destination folder:</p>
+        <div className="move-folder-list">
+          <div
+            className={`move-folder-item ${selectedFolder === '__root__' ? 'selected' : ''}`}
+            style={{ paddingLeft: 10 }}
+            onClick={() => setSelectedFolder('__root__')}
+          >
+            <span className="tree-arrow">·</span>
+            <span>/ (Root)</span>
+          </div>
+          {tree.filter(n => n.type === 'folder').map(node => (
+            <FolderPickerNode key={node.path} node={node} selectedFolder={selectedFolder} onSelect={setSelectedFolder} depth={0} />
+          ))}
+        </div>
+        <div className="docs-modal-actions">
+          <button className="docs-btn secondary" onClick={onCancel}>Cancel</button>
+          <button className="docs-btn primary" disabled={!selectedFolder} onClick={() => onConfirm(selectedFolder)}>Move</button>
         </div>
       </div>
     </div>
@@ -293,6 +345,7 @@ export default function Documentation() {
   const [confirmDel, setConfirmDel]     = useState(null);
   const [matchPaths, setMatchPaths]     = useState(null); // Set<path> from content search, null when idle
   const [searching, setSearching]       = useState(false);
+  const [moveTarget, setMoveTarget]     = useState(null); // { path, name }
   const textareaRef = useRef();
   const searchTimer = useRef(null);
 
@@ -360,6 +413,20 @@ export default function Documentation() {
     await api.delete(confirmDel.path);
     setConfirmDel(null);
     await loadTree();
+  };
+
+  const handleMove = (itemPath, name) => setMoveTarget({ path: itemPath, name });
+
+  const doMove = async (destFolder) => {
+    const dest = destFolder === '__root__' ? null : destFolder;
+    const res = await api.move(moveTarget.path, dest);
+    if (res.success) {
+      if (moveTarget.path === selectedPath) { setSelectedPath(res.newPath); await openFile(res.newPath); }
+      await loadTree();
+    } else {
+      alert(res.error || 'Move failed.');
+    }
+    setMoveTarget(null);
   };
 
   const handleNewFile   = (parentPath) => setModal({ type: 'file', parentPath });
@@ -438,6 +505,7 @@ export default function Documentation() {
               expanded={expandedForDisplay}
               onToggleExpand={toggleExpand}
               onRename={handleRename}
+              onMove={handleMove}
               onDelete={handleDelete}
               onNewFile={handleNewFile}
               onNewFolder={handleNewFolder}
@@ -516,6 +584,15 @@ export default function Documentation() {
           placeholder={modal.type === 'file' ? 'Document title…' : 'Folder name…'}
           onConfirm={commitModal}
           onCancel={() => setModal(null)}
+        />
+      )}
+
+      {moveTarget && (
+        <MoveModal
+          fileName={moveTarget.name}
+          tree={tree}
+          onConfirm={doMove}
+          onCancel={() => setMoveTarget(null)}
         />
       )}
 

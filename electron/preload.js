@@ -100,6 +100,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     createFile:  (folderPath, title)         => ipcRenderer.invoke('docs:createFile', { folderPath, title }),
     createFolder:(parentPath, name)          => ipcRenderer.invoke('docs:createFolder', { parentPath, name }),
     rename:      (oldPath, newName)          => ipcRenderer.invoke('docs:rename', { oldPath, newName }),
+    move:        (itemPath, destFolder)     => ipcRenderer.invoke('docs:move', { itemPath, destFolder }),
     delete:      (targetPath)               => ipcRenderer.invoke('docs:delete', targetPath),
     pickImage:   ()                          => ipcRenderer.invoke('docs:pickImage'),
     importImage: (sourcePath)               => ipcRenderer.invoke('docs:importImage', { sourcePath }),

@@ -516,3 +516,27 @@
   justify-content: flex-end;
   gap: 8px;
 }
+
+.move-folder-list {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  background: var(--bg-panel);
+}
+
+.move-folder-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  border-radius: 3px;
+  user-select: none;
+}
+
+.move-folder-item:hover { background: var(--bg-hover); color: var(--text); }
+.move-folder-item.selected { background: rgba(180,150,80,0.15); color: var(--gold-dim); }

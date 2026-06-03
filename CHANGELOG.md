@@ -2,6 +2,18 @@
 
 ---
 
+## v0.6.9 — June 2026
+
+### ✨ Improvements
+
+- Documentation: documents can now be moved between folders via right-click context menu
+
+### 🐛 Fixes
+
+- SceneControl: ambient sounds now play correctly on Mac
+
+---
+
 ## v0.6.8 — June 2026
 
 ### 📖 Content

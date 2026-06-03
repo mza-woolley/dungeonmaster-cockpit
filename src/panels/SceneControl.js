@@ -71,7 +71,7 @@ function useAmbienceEngine() {
     const ctx = getCtx();
     if (ctx.state === 'suspended') ctx.resume();
 
-    const audio = new Audio(`/sounds/${sound.file}`);
+    const audio = new Audio(`sounds/${sound.file}`);
     audio.loop  = true;
     const source   = ctx.createMediaElementSource(audio);
     const gainNode = ctx.createGain();

@@ -91,6 +91,16 @@ function register(ipcMain) {
     } catch (err) { return { success: false, error: err.message }; }
   });
 
+  ipcMain.handle('docs:move', (_, { itemPath, destFolder }) => {
+    try {
+      const dest = destFolder || DOCS_ROOT;
+      const newPath = path.join(dest, path.basename(itemPath));
+      if (fs.existsSync(newPath)) return { success: false, error: 'A file with that name already exists in the destination.' };
+      fs.renameSync(itemPath, newPath);
+      return { success: true, newPath };
+    } catch (err) { return { success: false, error: err.message }; }
+  });
+
   ipcMain.handle('docs:delete', (_, targetPath) => {
     try {
       const stat = fs.statSync(targetPath);
