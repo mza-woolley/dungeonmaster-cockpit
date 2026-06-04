@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "table": "DOL Faction Activity",
+    "description": "Live intelligence on Division of Lumination operations, schemes, and movements.",
+    "count": 30
+  },
+  "entries": [
+    { "activity": "Order of the Sun patrols in Solvetra have doubled since the Lumina Lab explosion — squads of four are stopping residents without cause, demanding proof of employment and district registration." },
+    { "activity": "Lantern agents have been seen photographing building facades in the Solvetra Intermellum, likely mapping the district's layout ahead of a planned enforcement sweep." },
+    { "activity": "The DOL is circulating a new pamphlet titled 'The Light Endures' — a rewritten account of the Tre Illium founding that omits Kaela Shadowsong entirely and reframes Sibling Thorne as the sole architect of civilisation." },
+    { "activity": "OOTS officers have been stationed at every major road into Ars Lapis, checking carts for contraband — the checkpoints are ostensibly about gem smuggling, but agents are also confiscating lunar-symbol jewellery." },
+    { "activity": "The Lorewarden Emeritus has issued a formal retraction of three historical texts held in Ars Cultura's public archive, ordering them pulped. Scholars have been given forty-eight hours to surrender personal copies." },
+    { "activity": "A new DOL recruitment drive is underway in Ars Pontaris — recruitment tables staffed by NSPF representatives, offering signing bonuses and 'service to the eternal light' as incentive." },
+    { "activity": "Lumina Elixir distribution to Ars Lapis has been placed on hold following the lab's destruction. DOL couriers are being rerouted through Ars Pontaris, where a secondary stockpile is rumoured to exist." },
+    { "activity": "Lantern agents have begun conducting night interviews with tavern owners in Solvetra — asking for names of regulars who speak poorly of the DOL or ask about 'old stories'." },
+    { "activity": "The DOL has announced a public 'Illumination Festival' in Solvetra's central square next tenday — mandatory attendance for registered citizens, lanterns distributed, compliance monitored by OOTS observers on rooftops." },
+    { "activity": "A team of NSPF soldiers under Aurevon Beitomy Erstua has departed Solvetra heading north — their destination is unknown, but supply manifests suggest a weeks-long expedition." },
+    { "activity": "Solvetra Vault has increased its security rotation — guards now change every two hours instead of six, and a new secondary checkpoint has been installed at the inner vault entrance." },
+    { "activity": "DOL scribes at the Lumina Lab site are cataloguing the wreckage. Any documents recovered intact are being sealed and transported directly to the Solvetra Vault under OOTS escort." },
+    { "activity": "The Lorewarden Emeritus has been seen meeting privately with a senior OOTS commander three nights running at a private residence in Solvetra's administrative quarter." },
+    { "activity": "Lantern agents are distributing new household registration forms in the Intermellum — residents must list all occupants, visitors, and 'known associates'. Non-compliance results in district access revocation." },
+    { "activity": "DOL propaganda murals depicting the sun sigil are being painted over old lunar iconography throughout Solvetra — stonemasons contracted under guard, working through the night." },
+    { "activity": "A DOL inquisitor has arrived in Ars Cultura with a list of lecturers to be 'reassigned' — those who have taught on pre-Illumination history or lunar ideology are the primary targets." },
+    { "activity": "OOTS units have been seen conducting drills in a sealed courtyard near the Solvetra Vault — the exercises focus on crowd suppression and building-clearing, not standard patrol rotations." },
+    { "activity": "The DOL is quietly purchasing property in Lunarthorn through a shell merchant — no announcement has been made, but locals are receiving unsolicited buy-out offers for their homes." },
+    { "activity": "A new DOL-aligned solar priest has arrived in Ars Pontaris and begun preaching on the bridge market — his sermons include pointed warnings about 'those who court shadow'." },
+    { "activity": "Lantern agents have been distributing a wanted illustration across Solvetra — the face partially matches descriptions of Corwin Duskwatch. The bounty listed is for 'seditious conspiracy'." },
+    { "activity": "DOL couriers have been making weekly trips to Mount Mortifera escorted by OOTS — no official explanation given, but cargo manifests list 'archival materials for disposition'." },
+    { "activity": "The NSPF has begun training exercises near the Palegleam forest border — officially 'threat assessment drills', but locals in Lunarthorn report the soldiers are asking questions about the forest's interior." },
+    { "activity": "A DOL censor has embedded with Ars Cultura's public library staff — all requests for historical texts older than two hundred years now require written justification submitted to the Lorewarden's office." },
+    { "activity": "Lantern agents tipped off OOTS to a suspected Shadowbringer safehouse in Solvetra — the location was raided and found empty, but the DOL is now watching the surrounding streets." },
+    { "activity": "The DOL is funding a new stage production in Ars Pontaris — a dramatic retelling of the Tre Illium founding that glorifies Sibling Thorne and portrays the drow lineage as villains vanquished by divine light." },
+    { "activity": "OOTS have begun random searches of river barges docking at Ars Pontaris — ostensibly checking for untaxed goods, but passengers with lunar-marked belongings are being detained for questioning." },
+    { "activity": "The Lorewarden Emeritus has requested access to the Echo Veins research logs held in Ars Cultura — scholars who handed them over report the Lorewarden looked troubled by something in the documents." },
+    { "activity": "DOL administrators in Ars Lapis have frozen the gem export licences of three independent mining families — no cause given, but all three families were recently seen associating with non-DOL merchants from Virelle." },
+    { "activity": "A lantern agent known to operate in the Intermellum has gone missing — the DOL has not announced it, but OOTS patrols near Smuggler's Den have increased noticeably in the past three days." },
+    { "activity": "The DOL has quietly commissioned a new alchemical research team to resume Lumina Elixir production at an undisclosed location — requisition orders for Worg containment materials have been traced to a supplier in Ars Lapis." }
+  ]
+}

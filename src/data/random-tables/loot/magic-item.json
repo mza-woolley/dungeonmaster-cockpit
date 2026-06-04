@@ -1,0 +1,614 @@
+[
+  {
+    "name": "Solbrand Dagger",
+    "category": "Weapon",
+    "rarity": "Common",
+    "description": "This dagger's blade is etched with the Division of Lumination's sunburst sigil and sheds dim light in a 5-foot radius. Attacks with this weapon deal an extra 1 fire damage on a hit. DOL soldiers were issued these as sidearms; the warmth is said to keep morale high on long patrols."
+  },
+  {
+    "name": "Whispering Bolt Quiver",
+    "category": "Weapon",
+    "rarity": "Common",
+    "description": "A quiver of 20 crossbow bolts that whistle faintly as they fly, audible only to the target. On a hit, the target must succeed on a DC 10 Wisdom saving throw or be Frightened until the end of its next turn. The fear is brief but humiliating."
+  },
+  {
+    "name": "Dustwalker's Shortbow",
+    "category": "Weapon",
+    "rarity": "Common",
+    "description": "This bow requires no arrows — it generates spectral shafts of compressed air when drawn, with a range of 60/120 ft dealing 1d6 bludgeoning damage. Militia scouts in the outer reaches favour it for its silence and the fact that it never runs dry."
+  },
+  {
+    "name": "Cinder Handaxe",
+    "category": "Weapon",
+    "rarity": "Common",
+    "description": "The head of this axe smoulders perpetually without burning the haft, leaving a brief trail of embers when thrown. It deals an extra 1 fire damage on a hit and returns to your hand immediately after a thrown attack."
+  },
+  {
+    "name": "Moonveil Shortblade",
+    "category": "Weapon",
+    "rarity": "Uncommon",
+    "description": "Forged with suppressed lunar alloys, this shortsword deals an extra 1d4 psychic damage on a hit. While drawn under moonlight, the wielder has advantage on Dexterity (Stealth) checks. DOL inspectors confiscate these on sight."
+  },
+  {
+    "name": "Shard Flail of Echo",
+    "category": "Weapon",
+    "rarity": "Uncommon",
+    "description": "The head of this flail is studded with Echo Vein crystals that resonate on impact. On a critical hit, all creatures within 10 feet of the target must succeed on a DC 13 Constitution saving throw or be Deafened until the end of their next turn. The crystals hum softly even at rest."
+  },
+  {
+    "name": "Splitjaw Crossbow",
+    "category": "Weapon",
+    "rarity": "Uncommon",
+    "description": "This light crossbow fires two bolts simultaneously at the same target using one bolt of ammunition — roll both attacks. On a hit with both, the target's speed is reduced by 10 feet until the end of its next turn. The twin firing mechanisms click like teeth."
+  },
+  {
+    "name": "Chainwhip of the Overseer",
+    "category": "Weapon",
+    "rarity": "Uncommon",
+    "description": "A DOL-forged whip with 15-foot reach that deals 1d6 slashing damage. On a hit, the target is Grappled (escape DC 14) until you attack another creature. DOL wardens used these for crowd suppression during the Luminary Edicts."
+  },
+  {
+    "name": "Bladesong Rapier",
+    "category": "Weapon",
+    "rarity": "Uncommon",
+    "description": "This rapier hums at a frequency that disrupts concentration — when you deal damage with it, the target must make a DC 13 Concentration check instead of the normal DC. The tone is almost musical, which makes it stranger to face."
+  },
+  {
+    "name": "Duskforged Longsword",
+    "category": "Weapon",
+    "rarity": "Rare",
+    "description": "A +1 longsword whose blade is dark as a clouded sky, dealing an extra 1d6 necrotic damage on a hit. While attuned to it, you can see normally in magical darkness out to 60 feet. The DOL classified its origin as Shadowsong remnant technology."
+  },
+  {
+    "name": "Tre Illium Spear",
+    "category": "Weapon",
+    "rarity": "Rare",
+    "description": "An artefact recovered from the ruins of Tre Illium — a +1 spear that deals an extra 2d4 radiant damage when thrown, with doubled range (40/160 ft). The spear returns to your hand at the end of your turn. Its tip is engraved in a language nobody alive can read."
+  },
+  {
+    "name": "Sanguine Greatsword",
+    "category": "Weapon",
+    "rarity": "Rare",
+    "description": "This +1 greatsword deals an extra 1d6 necrotic damage, and you regain hit points equal to half the necrotic damage dealt. Attuned wielders find their appetite for food slowly replaced by something else."
+  },
+  {
+    "name": "Veilpiercer Longbow",
+    "category": "Weapon",
+    "rarity": "Rare",
+    "description": "A +1 longbow that ignores half and three-quarters cover. Once per day, you can fire an arrow that passes through solid matter to strike a target you know the location of within range. The silver trails arrows leave in the air linger for several seconds."
+  },
+  {
+    "name": "Bonecaller's Mace",
+    "category": "Weapon",
+    "rarity": "Rare",
+    "description": "A +1 mace carved from a single femur, lacquered black. When it reduces a creature to 0 hit points, you can use a reaction to animate the corpse as a skeleton under your command for 1 hour (max 3 at once)."
+  },
+  {
+    "name": "Splitter — The Divided Axe",
+    "category": "Weapon",
+    "rarity": "Rare",
+    "description": "A +2 battleaxe that, once per turn on a hit, deals an extra 1d8 slashing damage and forces the target to make a DC 15 Strength saving throw or be knocked Prone. Named for the DOL's policy of dividing conquered territories — a dark joke among resistance fighters."
+  },
+  {
+    "name": "Eclipseblade",
+    "category": "Weapon",
+    "rarity": "Very Rare",
+    "description": "A +2 shortsword that alternates between radiant and necrotic — choose the damage type each time you attack. Once per day on a critical hit, an Eclipse Burst erupts from the target: a 15-foot sphere of blinding shadow-light (DC 16 Constitution save or Blinded until end of your next turn). Forged at the moment of the last recorded solar eclipse."
+  },
+  {
+    "name": "Sunbreaker Warhammer",
+    "category": "Weapon",
+    "rarity": "Very Rare",
+    "description": "A +2 warhammer that deals an extra 2d6 radiant damage on a hit. When you hit a creature that is concentrating on a spell, it automatically fails its Concentration saving throw. Forged by a DOL artificer who later defected — and was never found."
+  },
+  {
+    "name": "Nightclaw Daggers",
+    "category": "Weapon",
+    "rarity": "Very Rare",
+    "description": "A matched pair of +2 daggers (attuned together). While holding both, your movement doesn't provoke opportunity attacks. On your turn, if you attack with both, the second attack deals an extra 2d6 necrotic damage. The blades are cold to the touch even in summer."
+  },
+  {
+    "name": "Luminary's Wrath",
+    "category": "Weapon",
+    "rarity": "Very Rare",
+    "description": "A +3 longsword dealing an extra 2d8 radiant damage against creatures in darkness or shadow. Once per day, speak its command word to cast Sunbeam without concentration for 1 minute. Wielding it in defiance of the DOL is considered high treason."
+  },
+  {
+    "name": "The Hunger — Ashbone Greataxe",
+    "category": "Weapon",
+    "rarity": "Legendary",
+    "description": "A +3 greataxe of ash-grey bone that grows stronger with each kill. Each time it reduces a creature to 0 hit points, gain a cumulative +1 to attack and damage rolls (max +5, resets at dawn). At +5, it deals an extra 3d12 necrotic damage and the wielder cannot be Charmed or Frightened. The axe whispers names — of the dead, and eventually of the living."
+  },
+  {
+    "name": "Solbreaker — Blade of the Fallen Sun",
+    "category": "Weapon",
+    "rarity": "Legendary",
+    "description": "A +3 greatsword dealing an extra 3d6 radiant damage. Once per day as an action, unleash the Fallen Sun: a 60-foot cone of solar energy deals 10d10 radiant damage (DC 18 Dexterity save, half on success) and permanently dispels any magical darkness it touches. The DOL has a standing order to retrieve this blade at any cost."
+  },
+  {
+    "name": "Solar Plate",
+    "category": "Armour",
+    "rarity": "Common",
+    "description": "Polished plate armour etched with the Division of Lumination's sigil. While wearing it, you have advantage on Charisma (Intimidation) checks against civilians. The gleam is impossible to miss, which is entirely the point."
+  },
+  {
+    "name": "Pilgrim's Vest",
+    "category": "Armour",
+    "rarity": "Common",
+    "description": "A sturdy leather doublet (AC 11 + Dex) stitched with small warding tokens. You have advantage on saving throws against the Frightened condition. Worn by travellers crossing the outer reaches where the DOL's reach grows thin."
+  },
+  {
+    "name": "Driftweave Cloak",
+    "category": "Armour",
+    "rarity": "Common",
+    "description": "A light travelling cloak that grants +1 to AC while worn over non-heavy armour. It billows dramatically regardless of wind direction, which is either unsettling or impressive depending on context."
+  },
+  {
+    "name": "Ironveil Mail",
+    "category": "Armour",
+    "rarity": "Uncommon",
+    "description": "Chainmail (AC 16) woven with fine shadow-treated wire. While wearing it, ranged attacks against you have disadvantage if you are in dim light or darkness. The weave was a Shadowsong innovation, banned under the Luminary Edicts."
+  },
+  {
+    "name": "Warden's Half-Plate",
+    "category": "Armour",
+    "rarity": "Uncommon",
+    "description": "Half-plate (AC 15 + Dex max 2) fitted with vambraces that can absorb one weapon attack per short rest, reducing its damage by 1d8. DOL wardens were issued this armour during the Pacification Campaigns, and old examples still bear their unit sigils."
+  },
+  {
+    "name": "Thornweave Leathers",
+    "category": "Armour",
+    "rarity": "Uncommon",
+    "description": "Studded leather (AC 12 + Dex) grown from a plant found only in the Outer Reaches. When a creature hits you with a melee attack, it takes 2 piercing damage. The armour regrows its thorns after each long rest."
+  },
+  {
+    "name": "Coldmist Breastplate",
+    "category": "Armour",
+    "rarity": "Rare",
+    "description": "A +1 breastplate (AC 14 + Dex max 2) that exudes a faint cold mist, granting resistance to fire damage. Once per day as a reaction, you can exhale stored cold in a 15-foot cone dealing 4d6 cold damage (DC 14 Constitution save, half on success)."
+  },
+  {
+    "name": "Carapace of the Buried",
+    "category": "Armour",
+    "rarity": "Rare",
+    "description": "A +1 suit of scale mail made from the shells of something that lived underground for a very long time. You have tremorsense out to 30 feet and cannot be knocked Prone while wearing it. It smells faintly of deep earth no matter how often it is cleaned."
+  },
+  {
+    "name": "Resonance Plate",
+    "category": "Armour",
+    "rarity": "Rare",
+    "description": "A +1 full plate (AC 18) studded with Echo Vein crystals. When a creature within 5 feet hits you with a melee attack, the crystals emit a pulse — the attacker takes 2d6 thunder damage and must succeed on a DC 14 Strength saving throw or be pushed 10 feet back."
+  },
+  {
+    "name": "Nullplate",
+    "category": "Armour",
+    "rarity": "Rare",
+    "description": "A +1 half-plate of dull grey metal that absorbs magical energy, granting advantage on saving throws against spells. Once per day when targeted by a spell of 3rd level or lower, you can use your reaction to negate the spell entirely."
+  },
+  {
+    "name": "Mirrorshell Armour",
+    "category": "Armour",
+    "rarity": "Very Rare",
+    "description": "A +2 breastplate whose surface is perfectly reflective. Once per day, when a spell that requires an attack roll hits you, you can use your reaction to reflect it back at the caster using their own spell attack bonus and save DC."
+  },
+  {
+    "name": "Voidweave Robes",
+    "category": "Armour",
+    "rarity": "Very Rare",
+    "description": "These robes grant AC 13 + Dex modifier (no armour proficiency required) and resistance to necrotic and psychic damage. While wearing them, you can cast Blink once per day without expending a spell slot. The fabric seems to absorb light rather than reflect it."
+  },
+  {
+    "name": "Plate of the Undying Sentinel",
+    "category": "Armour",
+    "rarity": "Very Rare",
+    "description": "A +2 full plate (AC 18). While wearing it, when you are reduced to 0 hit points, you instead drop to 1 hit point — usable once per dawn. Legends say it was worn by a DOL general who refused to die until the war was over, and then refused to die after."
+  },
+  {
+    "name": "Eclipse Carapace",
+    "category": "Armour",
+    "rarity": "Legendary",
+    "description": "A +3 suit of full plate (AC 18) forged during the last eclipse in living memory, granting immunity to radiant and necrotic damage. Once per day as a bonus action, you become incorporeal until the start of your next turn — moving through solid matter and immune to all physical damage for that duration. The armour makes no sound, no matter how hard you strike it."
+  },
+  {
+    "name": "Glowstone Amulet",
+    "category": "Wondrous Item",
+    "rarity": "Common",
+    "description": "A smooth stone worn on a cord that glows faintly when undead are within 30 feet, intensifying the closer they are. Merchants in the outer reaches sell these cheaply; outside the city walls, they sell out quickly."
+  },
+  {
+    "name": "Wayfinder's Compass",
+    "category": "Wondrous Item",
+    "rarity": "Common",
+    "description": "This brass compass always points toward the last place you called home. You can change the target during a long rest by holding it and concentrating on a specific location. If you have no home, the needle spins slowly."
+  },
+  {
+    "name": "Veil-Touched Coin",
+    "category": "Wondrous Item",
+    "rarity": "Common",
+    "description": "A silver coin stamped with both a sun and a crescent moon — illegal tender under DOL law. Flip it and call the result: if correct, gain advantage on your next ability check; if wrong, take disadvantage. The coin never cheats; neither does luck."
+  },
+  {
+    "name": "Resonance Shard",
+    "category": "Wondrous Item",
+    "rarity": "Common",
+    "description": "A thumb-sized Echo Vein crystal that vibrates when speech directed at the holder carries intent to deceive. It doesn't identify the lie — it just hums. Investigators prize these; accused individuals learn to speak carefully."
+  },
+  {
+    "name": "Lantern of Still Flame",
+    "category": "Wondrous Item",
+    "rarity": "Common",
+    "description": "This lantern's flame cannot be extinguished by wind or water and requires no oil, shedding bright light in a 20-foot radius and dim light for another 20 feet. Once per day as a bonus action, you can cause it to go completely dark for 10 minutes — the flame remembers exactly where it was."
+  },
+  {
+    "name": "Hollow Locket",
+    "category": "Wondrous Item",
+    "rarity": "Uncommon",
+    "description": "A brass locket that, when closed over a whispered message, preserves it until opened by the person whose name you spoke. The message plays back once in the speaker's voice, then is gone. Used by Shadowsong sympathisers to leave instructions without written evidence."
+  },
+  {
+    "name": "Boots of the Prowling Dark",
+    "category": "Wondrous Item",
+    "rarity": "Uncommon",
+    "description": "These soft leather boots muffle your footsteps entirely — you cannot be heard moving while wearing them. Additionally, difficult terrain caused by darkness or shadow costs you no extra movement. They are always slightly warm to the touch."
+  },
+  {
+    "name": "Mask of Borrowed Faces",
+    "category": "Wondrous Item",
+    "rarity": "Uncommon",
+    "description": "A plain white mask that lets you cast Disguise Self at will. Once per day, if you have seen a specific humanoid in the past 24 hours, the disguise can perfectly replicate their appearance. The mask feels uncomfortably warm when copying someone who is still alive."
+  },
+  {
+    "name": "Echo Vein Focus",
+    "category": "Wondrous Item",
+    "rarity": "Uncommon",
+    "description": "A faceted Echo Vein crystal on a chain used as a spellcasting focus. When you cast a spell of 1st level or higher using it, the spell save DC increases by 1. The crystal cracks slightly each time — it has seven cracks left before it shatters."
+  },
+  {
+    "name": "Cloak of the Pale Traveller",
+    "category": "Wondrous Item",
+    "rarity": "Uncommon",
+    "description": "While wearing this cloak, undead creatures ignore you unless you attack them or use magic in their presence. The effect breaks for 24 hours if you deal damage to an undead. Tomb-robbers and grave-wardens both covet this item, for entirely different reasons."
+  },
+  {
+    "name": "Bag of Useful Clutter",
+    "category": "Wondrous Item",
+    "rarity": "Uncommon",
+    "description": "Reach into this bag and name any mundane item worth 1 gp or less — you pull it out, usable up to 5 times per day. Whatever comes out vanishes after 10 minutes if not used. Nobody is sure what is actually inside the bag."
+  },
+  {
+    "name": "Pendant of the Second Breath",
+    "category": "Wondrous Item",
+    "rarity": "Rare",
+    "description": "Once per day, when you fail a death saving throw, you can choose to succeed instead. The pendant grows cold after use and must warm for 24 hours before the property is available again. It was made by a surgeon who lost too many patients."
+  },
+  {
+    "name": "Shadowsong Remnant Brooch",
+    "category": "Wondrous Item",
+    "rarity": "Rare",
+    "description": "A tarnished brooch recovered from a Shadowsong safehouse. While wearing it, you can cast Invisibility on yourself once per day. In dim light or darkness, the duration is unlimited until you attack, cast a spell, or enter bright light. Possessing this is a criminal offence under DOL law."
+  },
+  {
+    "name": "Mirrorstone of the Divide",
+    "category": "Wondrous Item",
+    "rarity": "Rare",
+    "description": "When held against a flat surface, this stone reveals a mirrored pocket dimension — an exact copy of the room inverted. You can enter and exit as an action; up to 5 willing creatures can follow. The copied room always looks slightly older than the original."
+  },
+  {
+    "name": "Crown of Sealed Mouths",
+    "category": "Wondrous Item",
+    "rarity": "Rare",
+    "description": "A circlet of black iron that once per day lets you cast Silence centred on yourself without concentration — the silence moves with you. You are also immune to the Deafened condition. Constructed during the Muting, when the DOL silenced the lower districts for three days."
+  },
+  {
+    "name": "Boots of the Unbroken Path",
+    "category": "Wondrous Item",
+    "rarity": "Rare",
+    "description": "These boots triple your overland travel pace on foot and grant immunity to difficult terrain during movement. You cannot be magically slowed, and once per day you can take the Dash action as a free action."
+  },
+  {
+    "name": "Lightcatcher Prism",
+    "category": "Wondrous Item",
+    "rarity": "Very Rare",
+    "description": "Hold this prism toward sunlight as an action to store solar energy. Release it as an action: a 60-foot cone deals 8d8 radiant damage (DC 16 Dexterity save, half on success) and permanently dispels any magical darkness it touches. Must recharge in direct sunlight for 8 hours."
+  },
+  {
+    "name": "Mantle of the Interred",
+    "category": "Wondrous Item",
+    "rarity": "Very Rare",
+    "description": "While wearing this grey shroud, you can move through solid earth and stone at half speed and breathe normally while submerged in earth. If you end your turn inside solid matter, you are shunted to the nearest empty space and take 5d6 force damage."
+  },
+  {
+    "name": "Hourglass of Taken Time",
+    "category": "Wondrous Item",
+    "rarity": "Very Rare",
+    "description": "Once per day, turn this hourglass as a bonus action to duplicate the next action you take — the action resolves, then immediately resolves again as though you had acted twice. The sand inside flows upward."
+  },
+  {
+    "name": "The Ledger of All Debts",
+    "category": "Wondrous Item",
+    "rarity": "Legendary",
+    "description": "Once per day, write a creature's name in the ledger and choose an amount of hit points (up to 50). That creature immediately loses those hit points, and you gain them. The ledger has 99 pages — entries cannot be erased. The 100th page is already written, in your handwriting."
+  },
+  {
+    "name": "The Stolen Hour",
+    "category": "Wondrous Item",
+    "rarity": "Legendary",
+    "description": "Once per day, shatter this ornate pocket watch as an action. For 6 seconds (one round), time stops for all other creatures. You may move and take one action but cannot deal damage or directly affect other creatures. The watch repairs itself at midnight — always exactly one hour before dawn."
+  },
+  {
+    "name": "Ring of the Unlit Flame",
+    "category": "Ring",
+    "rarity": "Common",
+    "description": "While wearing this ring, you can produce a small flame from your fingertip at will. The flame gives off no heat and does not ignite flammable material — it is light only. Useful. Strange."
+  },
+  {
+    "name": "Ring of the Steady Hand",
+    "category": "Ring",
+    "rarity": "Common",
+    "description": "Your hands do not tremble from fear, poison, or cold while wearing this ring. You have advantage on checks and saves against effects that would cause your hands to shake or lose fine motor control. Favoured by surgeons, forgers, and poisoners alike."
+  },
+  {
+    "name": "Tarnished Ring of Warnings",
+    "category": "Ring",
+    "rarity": "Uncommon",
+    "description": "This ring tightens slightly when you are being watched or followed by a creature that intends you harm, and grants a +2 bonus to Initiative. It was crafted by someone who was betrayed more than once and survived."
+  },
+  {
+    "name": "Ring of the Second Skin",
+    "category": "Ring",
+    "rarity": "Uncommon",
+    "description": "While wearing this ring, your unarmed strikes deal 1d6 bludgeoning damage and count as magical. Additionally, you can cast Mage Armor on yourself once per day without a spell slot. The ring leaves no mark on the finger despite being decades old."
+  },
+  {
+    "name": "Ring of Borrowed Voice",
+    "category": "Ring",
+    "rarity": "Uncommon",
+    "description": "Once per day, touch a willing or incapacitated creature and press this ring to their throat. For 1 hour your voice sounds exactly like theirs, and you gain advantage on Deception checks while mimicking them. The effect ends early if the original speaker is within 30 feet and speaks."
+  },
+  {
+    "name": "Ring of the Tethered Soul",
+    "category": "Ring",
+    "rarity": "Rare",
+    "description": "While attuned to this ring alongside a designated partner, when either of you fails a saving throw, the other can use a reaction to grant a reroll. Each creature can use this property once per short rest. The rings pulse warmly when used."
+  },
+  {
+    "name": "Ring of the Pale Dominion",
+    "category": "Ring",
+    "rarity": "Rare",
+    "description": "While wearing this ring, undead of CR 2 or lower not already under another's control regard you as their master. You can command up to 10 such creatures at once as a bonus action. The ring is carved from bone — it is unclear whose."
+  },
+  {
+    "name": "Ring of Stored Pain",
+    "category": "Ring",
+    "rarity": "Rare",
+    "description": "Each time you take damage while wearing this ring, 2 points of it are stored (max 30). As a bonus action, release all stored pain in a 20-foot cone — creatures in range take necrotic damage equal to the stored amount (DC 15 Constitution save, half on success). The ring grows warm as it fills."
+  },
+  {
+    "name": "Ring of the Unbroken",
+    "category": "Ring",
+    "rarity": "Very Rare",
+    "description": "While wearing this ring, you have advantage on death saving throws, and rolling a natural 20 on one restores you to 1 hit point instantly. Once per long rest, when you would be reduced to 0 hit points, you can choose to drop to 1 instead."
+  },
+  {
+    "name": "Ring of the Sundered Eye",
+    "category": "Ring",
+    "rarity": "Very Rare",
+    "description": "While wearing this ring, you can see invisible creatures and objects and perceive into the Ethereal Plane out to 60 feet. Once per day, cast True Seeing on yourself (no concentration, 10 minutes). One iris becomes silver — permanently."
+  },
+  {
+    "name": "Ring of Eclipse Dominion",
+    "category": "Ring",
+    "rarity": "Legendary",
+    "description": "While wearing this ring, you can cast Dominate Monster (DC 19) once per day. Against Undead, the save DC is 23 and the effect is permanent until dispelled. You also cannot be Charmed or Dominated by any effect. The ring is warm at noon and ice-cold at midnight — always, regardless of environment."
+  },
+  {
+    "name": "Sunrod of the DOL",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Common",
+    "description": "A metal rod issued to DOL officials that functions as a torch on command. Once per day it emits a blinding flash — creatures within 10 feet must make a DC 11 Constitution save or be Blinded until the end of their next turn. Standard-issue, rarely respected."
+  },
+  {
+    "name": "Wand of Muffled Passage",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Common",
+    "description": "This wand has 5 charges (recharges fully each dawn). Expend a charge to cast Silence (10-foot sphere, no concentration) centred on a point you touch, lasting 1 minute. Useful for arguments, escapes, and surgery."
+  },
+  {
+    "name": "Ashwood Staff of Communion",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Uncommon",
+    "description": "A staff carved from a tree that survived a wildfire, with 8 charges (regains 1d6+1 at dawn). Cast Speak with Animals (1 charge) or Speak with Dead (3 charges). Animals seem to recognise it and are not hostile to its bearer."
+  },
+  {
+    "name": "Rod of Echoed Thunder",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Uncommon",
+    "description": "A short iron rod with 6 charges. Strike a surface to send a shockwave in a 30-foot line — creatures in range take 2d6 thunder damage and must succeed on a DC 13 Strength save or be pushed 10 feet back. Recharges 1d4 charges at dawn."
+  },
+  {
+    "name": "Wand of Unravelling",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Rare",
+    "description": "A thin bone wand with 7 charges. Expend charges to cast Dispel Magic (1 charge per spell level targeted). If you expend 4+ charges at once, the target also cannot regain concentration until the end of their next turn. Recharges 1d6+1 charges at dawn."
+  },
+  {
+    "name": "Staff of the Pale Shepherd",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Rare",
+    "description": "A bleached wooden staff with 10 charges. Cast Animate Dead (3 charges, maximum HP), Speak with Dead (1 charge), or Inflict Wounds at 3rd level (2 charges). Recharges 1d8+2 charges at midnight. Undead animated with it obey without hesitation."
+  },
+  {
+    "name": "Nullwand",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Rare",
+    "description": "A featureless grey wand with 5 charges. Expend 1 charge as a reaction to Counterspell at 3rd level, or 2 charges for 5th level — no check required. Recharges 1d4 charges at dawn. Created during the DOL's anti-mage campaigns."
+  },
+  {
+    "name": "Rod of the Cracked Moon",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Very Rare",
+    "description": "A rod of pale stone etched with banned lunar sigils, holding 12 charges (recharges 1d10+2 at midnight). Cast Moonbeam (2), Darkness (1), Bane (1), Fear (2), or Modify Memory (5, DC 17). While holding it, you see in total darkness out to 60 feet."
+  },
+  {
+    "name": "Staff of the Divided World",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Very Rare",
+    "description": "One half sun-bleached bone, one half shadow-black ironwood, with 14 charges. Cast Wall of Light (2), Darkness (1), Sunburst (7), or Shadow of Moil (4). On a recharge roll of 1, an uncontrolled burst releases — roll on the Wild Magic Surge table."
+  },
+  {
+    "name": "The Interpreter — Staff of All Tongues",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Very Rare",
+    "description": "While holding this staff, you understand all spoken and written language. Once per day, cast Modify Memory (DC 17) and choose to alter only the subject's memory of a specific conversation — speaking the replacement version into the staff beforehand."
+  },
+  {
+    "name": "The Final Argument",
+    "category": "Staff / Rod / Wand",
+    "rarity": "Legendary",
+    "description": "A towering obsidian staff with 20 charges (recharges 2d8+4 at midnight). Cast Disintegrate (6 charges), Power Word Kill (10 charges, auto-kills targets below 150 HP), or Wish (20 charges, staff shatters). Once per day as a bonus action, automatically Counterspell any spell of 5th level or lower with no check required. The staff hums with something that sounds like a closing door."
+  },
+  {
+    "name": "Draught of the First Step",
+    "category": "Potion",
+    "rarity": "Common",
+    "description": "Drinking this clear liquid grants advantage on your next Initiative roll and adds 10 feet to your movement for the first round of combat. Brewed from stimulant herbs grown in the outer reaches, and banned in DOL-controlled markets without a writ."
+  },
+  {
+    "name": "Potion of Ironblood",
+    "category": "Potion",
+    "rarity": "Common",
+    "description": "Drinking this potion grants resistance to one damage type of your choice for 1 minute. It is thick and metallic-tasting. The DOL distributes these to soldiers before engagements — which tells you something about how those engagements tend to go."
+  },
+  {
+    "name": "Vial of the Second Wind",
+    "category": "Potion",
+    "rarity": "Common",
+    "description": "Restores 2d4+4 hit points when drunk. As a bonus action, you can pour it on a creature at 0 hit points to stabilise them instead. It smells faintly of copper and something floral."
+  },
+  {
+    "name": "Moonpetal Tincture",
+    "category": "Potion",
+    "rarity": "Uncommon",
+    "description": "Brewed from flowers that bloom only at night, this banned lunar concoction restores 4d4+8 hit points and grants darkvision out to 60 feet for 8 hours — or doubles existing darkvision range. The DOL burns moonpetal fields whenever they find them."
+  },
+  {
+    "name": "Potion of the Long Shadow",
+    "category": "Potion",
+    "rarity": "Uncommon",
+    "description": "For 1 hour after drinking, your shadow becomes detached and acts as a distraction — any creature that would attack you must first succeed on a DC 13 Wisdom save or attack the shadow instead (1 HP, AC 10). The shadow vanishes if destroyed or when the effect ends."
+  },
+  {
+    "name": "Elixir of Borrowed Speed",
+    "category": "Potion",
+    "rarity": "Uncommon",
+    "description": "For 1 minute after drinking, gain an additional action each turn usable only for Attack (one attack), Dash, Disengage, or Use an Object. When the effect ends, you gain one level of Exhaustion. Worth it, usually."
+  },
+  {
+    "name": "Shadowsong Draught",
+    "category": "Potion",
+    "rarity": "Rare",
+    "description": "A black liquid recovered from Shadowsong caches. For 10 minutes, you can move through solid matter as though it weren't there (cannot end turn inside it) and have advantage on all Dexterity saving throws. The liquid is ice-cold going down and leaves no taste."
+  },
+  {
+    "name": "Potion of the Unbroken Mind",
+    "category": "Potion",
+    "rarity": "Rare",
+    "description": "Grants immunity to the Charmed, Frightened, and Stunned conditions for 1 hour and immediately ends any ongoing versions of those conditions. It tastes like the smell of clean air after long rain."
+  },
+  {
+    "name": "Crucible Draught",
+    "category": "Potion",
+    "rarity": "Very Rare",
+    "description": "For 1 minute after drinking, your melee attacks deal an extra 3d6 fire damage. Any creature you hit must succeed on a DC 16 Constitution save or be unable to regain hit points until the start of your next turn. The bottle is always hot to the touch."
+  },
+  {
+    "name": "Potion of Eclipse Vision",
+    "category": "Potion",
+    "rarity": "Very Rare",
+    "description": "For 8 hours, you see through all illusions automatically, perceive invisible creatures and objects, and read the aura of any creature within 30 feet — knowing its type and current emotional state at a glance. The DOL offers a standing bounty for the recipe."
+  },
+  {
+    "name": "The Last Draught",
+    "category": "Potion",
+    "rarity": "Legendary",
+    "description": "When consumed, regain all hit points, all expended spell slots and class features, and end all conditions. For the next 24 hours you cannot die — dropping to 0 hit points instead restores 50 HP and forces nearby enemies to make a DC 20 Wisdom save or flee. This potion can only be brewed once per century. The vial is always found empty; it refills at the next solar eclipse."
+  },
+  {
+    "name": "Dustbone Flute",
+    "category": "Instrument",
+    "rarity": "Common",
+    "description": "A flute carved from hollow bone. When played during a short rest, creatures of your choice who hear it regain an additional 1d4 hit points from Hit Dice spent. The melody is simple and a little mournful, and travellers in the outer reaches learn it young."
+  },
+  {
+    "name": "Drum of the Marching Dead",
+    "category": "Instrument",
+    "rarity": "Common",
+    "description": "When this drum is played, undead that can hear it move in time with the rhythm, reducing their speed by 10 feet. The effect lasts as long as you play (concentration, no spell). Disturbing but useful in graveyards."
+  },
+  {
+    "name": "Lute of the Wandering Story",
+    "category": "Instrument",
+    "rarity": "Uncommon",
+    "description": "This lute stores the last 3 performances played on it and can replay them perfectly on command. When assisting a Persuasion or Performance check, expend one stored performance to grant advantage to an ally's Charisma check within earshot. It has played things no one asked it to."
+  },
+  {
+    "name": "Harp of the Veil",
+    "category": "Instrument",
+    "rarity": "Uncommon",
+    "description": "When played, this small harp can cast Calm Emotions (DC 13) once per day. Spirits and ghosts who hear it are compelled to approach rather than flee. Recovered from a Shadowsong sympathiser's estate — the original owner used it to speak with the dead."
+  },
+  {
+    "name": "Horn of the Outer Reaches",
+    "category": "Instrument",
+    "rarity": "Uncommon",
+    "description": "Sounding this horn creates a peal audible for 3 miles. All creatures within 60 feet not allied with you must succeed on a DC 14 Wisdom save or be Frightened of you until the end of your next turn. Can be sounded once per hour."
+  },
+  {
+    "name": "Moonchime Bell",
+    "category": "Instrument",
+    "rarity": "Rare",
+    "description": "A banned lunar instrument whose tone matches frequencies used in Shadowsong communication. When rung under moonlight, cast Sending to any creature you name. Once per day, ringing it dispels all active illusions within 60 feet. The DOL melts these down when found."
+  },
+  {
+    "name": "Echo Vein Singing Bowl",
+    "category": "Instrument",
+    "rarity": "Rare",
+    "description": "When struck, this crystal bowl resonates with Echo Vein frequencies. Creatures within 30 feet must succeed on a DC 14 Wisdom save or have their surface thoughts briefly readable — you know if they intend to lie for the next minute. Once per day, cast Detect Thoughts (DC 14) without concentration."
+  },
+  {
+    "name": "Strings of Binding",
+    "category": "Instrument",
+    "rarity": "Rare",
+    "description": "A violin strung with something that isn't quite gut. When played, choose a creature within 30 feet that can hear you — they must succeed on a DC 15 Wisdom save or be Restrained for as long as you play (concentration, max 1 minute). Each turn as a bonus action, you can extend the effect to one additional creature."
+  },
+  {
+    "name": "The Wailing Lute",
+    "category": "Instrument",
+    "rarity": "Very Rare",
+    "description": "A cracked lute that plays itself softly at midnight. In combat as a bonus action, expend a Bardic Inspiration die to cast Dissonant Whispers (DC 16) for free. While the lute is played, creatures affected by any of your spells take an extra 1d8 psychic damage per hit."
+  },
+  {
+    "name": "The Grand Organ of Pale Sorrow",
+    "category": "Instrument",
+    "rarity": "Very Rare",
+    "description": "A portable pipe organ requiring attunement by a bard or cleric. When played for at least 1 minute, all creatures within 300 feet that can hear it must make a DC 17 Wisdom save or be Incapacitated with grief for 1 minute (repeating each turn). Creatures that succeed are immune for 24 hours. The DOL confiscated the original — this is a copy."
+  },
+  {
+    "name": "The Midnight Instrument — Shadowsong's Last Voice",
+    "category": "Instrument",
+    "rarity": "Legendary",
+    "description": "The recovered instrument of the last Shadowsong conductor, inlaid with lunar silver and Echo Vein shards. Once per day, performing for 1 minute casts a region-wide effect: all creatures within 1 mile that can hear it make a DC 20 Wisdom save. On a failure, they are subject to Modify Memory — the performer may replace one conversation-length memory per affected creature, spoken into the instrument beforehand. The DOL has classified this as a weapon of mass subversion. It has been 'destroyed' three times."
+  },
+  {
+    "name": "Trumpet of the Shattered Accord",
+    "category": "Instrument",
+    "rarity": "Legendary",
+    "description": "When sounded as an action, this trumpet produces the exact sound of the first bell that rang when Le'Choix fell to the Division of Lumination. All creatures within 500 feet that hear it must make a DC 21 Wisdom save or be Paralysed for 1 minute (repeating each turn on failure). Undead and constructs are immune. The player takes 2d10 psychic damage — the weight of history. Usable once per week."
+  },
+  {
+    "name": "Drum of the Waking Army",
+    "category": "Instrument",
+    "rarity": "Legendary",
+    "description": "When beaten for 1 uninterrupted minute, this war drum raises up to 20 Wight-statistic undead soldiers from any ground where more than 10 humanoids died. They obey your commands without limit and last until destroyed or until the next sunrise. Cannot be used again until the following midnight. The sound carries for miles, and people who hear it know — somehow — exactly what it means."
+  }
+]

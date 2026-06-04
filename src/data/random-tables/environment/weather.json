@@ -1,0 +1,82 @@
+[
+  {
+    "description": "Heavy Rain",
+    "detail": "The road turns to slurry and the world narrows to ten feet in every direction."
+  },
+  {
+    "description": "Ashen Overcast",
+    "detail": "A flat grey sky the colour of old iron presses down, muffling sound and draining colour from everything beneath it."
+  },
+  {
+    "description": "Wrong Shadows",
+    "detail": "Shadows fall at angles that don't match the sun — pointing east when they should point west, stretching toward the light instead of away."
+  },
+  {
+    "description": "Oppressive Sunlight",
+    "detail": "The DOL's golden light blankets the land without warmth, bright as a verdict and just as final."
+  },
+  {
+    "description": "Moonless Night",
+    "detail": "The moon simply does not rise — the sky is stars only, and the dark between them feels deliberate."
+  },
+  {
+    "description": "Dust Haze",
+    "detail": "Fine mineral dust from the Ars Lapis quarries has drifted far on the wind, coating the air with a dry, coppery taste."
+  },
+  {
+    "description": "Bitter Cold Snap",
+    "detail": "The temperature drops without warning in the early afternoon, as if the season decided to skip ahead."
+  },
+  {
+    "description": "Blood Fog",
+    "detail": "A reddish mist clings to low ground, smelling faintly of iron — travellers report it feels thicker the longer you stand still."
+  },
+  {
+    "description": "Double Sunrise",
+    "detail": "At dawn, a second sun-coloured light blooms on the western horizon for twenty minutes before fading — no one has explained it."
+  },
+  {
+    "description": "Still Air",
+    "detail": "No wind at all — flames burn perfectly vertical, sounds carry absurdly far, and the stillness makes everyone uneasy."
+  },
+  {
+    "description": "Freezing Drizzle",
+    "detail": "Cold rain that isn't quite ice coats every surface in a thin glaze by nightfall."
+  },
+  {
+    "description": "Sulphur Winds",
+    "detail": "A hot, acrid breeze blows in from the direction of the mines, carrying the faint smell of something burnt deep underground."
+  },
+  {
+    "description": "Muted Twilight",
+    "detail": "The sun sets but the sky never quite darkens, holding a dull, pewter half-light for hours past dusk."
+  },
+  {
+    "description": "Star Storm",
+    "detail": "Dozens of shooting stars cross the sky over the course of an hour — not randomly, but all moving in the same direction."
+  },
+  {
+    "description": "Deep Frost",
+    "detail": "A hard overnight freeze leaves everything crystallised by morning — beautiful, treacherous, and strangely silent."
+  },
+  {
+    "description": "Sunken Clouds",
+    "detail": "Cloud cover sits at head-height in the valleys, reducing visibility to near-zero and making the hills seem to float above nothing."
+  },
+  {
+    "description": "Warm, Clear, Unsettling",
+    "detail": "Perfect weather — the kind that makes experienced travellers in Le'Choix stop and wonder what's about to happen."
+  },
+  {
+    "description": "Whiteout Snow",
+    "detail": "Snow falls horizontally, roads vanish, and distance becomes a suggestion."
+  },
+  {
+    "description": "Eclipse Partial",
+    "detail": "The sun is half-covered by something — no official eclipse was announced by the DOL, and the silence from Ars Cultura is notable."
+  },
+  {
+    "description": "Luminous Night",
+    "detail": "The full moon is so bright that shadows are sharp-edged and the night feels like an overexposed afternoon."
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Luminary's Gratitude",
+    "curse": "A DOL-issue medallion engraved with the Division's solar sigil. While worn, the bearer cannot willingly speak anything the Division of Lumination would classify as sedition — including mentions of the moon, lunar calendars, or the Shadowrealm. Attempts to do so cause the medallion to heat painfully. Remove Curse suppressed for 24h after each failed attempt."
+  },
+  {
+    "name": "The Shadowsong Signet",
+    "curse": "A drow-carved ring bearing Kaela Shadowsong's personal mark. Attunement causes vivid nightmares of the Shadowrealm being torn open — DC 14 Wisdom save each long rest or gain one level of exhaustion. The bearer also becomes magnetically visible to any remaining Shadowsong-lineage cultists, who will seek them out."
+  },
+  {
+    "name": "Vial of Lumina Elixir",
+    "curse": "Drinking grants advantage on Constitution saves for 8 hours. The bearer then hears, faintly and persistently, the sound of a Worg in distress. After 3 uses, the bearer begins to feel the Worg's torment as their own: -2 to Wisdom-based checks permanently until Greater Restoration."
+  },
+  {
+    "name": "Echo Stone Earring",
+    "curse": "Carved from Echo Vein crystal. The bearer can perfectly recall any conversation they have witnessed. However, the stone also records — broadcasting overheard secrets as resonant vibrations to any other Echo Vein fragments within 1 mile. DOL intelligence operatives carry such fragments."
+  },
+  {
+    "name": "Måneklang Splinter",
+    "curse": "A fragment of the legendary instrument. Once per day the bearer may hum a note that forces all creatures within 20ft to make a DC 16 Constitution save or be stunned until the end of their next turn. On a critical fail, the target takes 4d6 thunder damage. The curse: the bearer must make the same save each time they use this ability. On a fail, they take the damage instead — and the stun."
+  },
+  {
+    "name": "Orb Shard Pendant",
+    "curse": "A fragment from an item resembling The Orb. While worn, the Shadowrealm cannot intrude within 10ft of the bearer. However, the pendant slowly erodes the bearer's sense of self — after each long rest, DC 12 Wisdom save or forget one minor personal memory (a name, a place, a face). Cumulative. Irreversible without the full Orb."
+  },
+  {
+    "name": "OOTS Helm of Conviction",
+    "curse": "Sun-sigil plate helm of the Order of the Sun elite. Grants +2 AC and immunity to the Frightened condition. Curse: the bearer becomes supernaturally compelled to defer to any DOL authority figure and cannot take hostile action against anyone bearing DOL insignia unless they succeed on a DC 17 Wisdom save each round of attempting to do so."
+  },
+  {
+    "name": "Thorne's Feather",
+    "curse": "A single white feather from Sibling Thorne's wings, pressed into a brooch. Grants the bearer advantage on Persuasion checks and immunity to magical darkness. Curse: the bearer radiates a faint halo — uncontrollable, always present. Stealth checks are made with disadvantage. Thieves' Guild members attack the bearer on sight."
+  },
+  {
+    "name": "Myxtiferious's Oath-Scale",
+    "curse": "One scale from Myxtiferious's original form, sealed under glass. Attunement grants resistance to fire damage and advantage on Intimidation checks. Curse: on any night with a visible moon, the bearer must succeed on a DC 15 Wisdom save or begin involuntarily shifting toward draconic features — visible scales, slit pupils, a forked tongue. The change is cosmetic but increasingly difficult to conceal."
+  },
+  {
+    "name": "Luxfracta Prism",
+    "curse": "A shard of impossibly structured light from the Prismic Scar. Once per short rest, the bearer can cast Hypnotic Pattern (save DC 14). Curse: the bearer's own shadow bends incorrectly — pointing the wrong direction, falling upward, moving a half-second behind. Creatures with truesight or detect magic see something wrong with the bearer and are instinctively hostile."
+  },
+  {
+    "name": "Mount Mortifera Ash",
+    "curse": "A small sealed urn of grey ash from the mountain's slopes. Once opened, spreading the ash over a written record erases it permanently — mundane or magical. Curse: each use permanently erases one of the user's memories of equal emotional weight. The user cannot anticipate which memory. Cannot be recovered."
+  },
+  {
+    "name": "Silencing Brand",
+    "curse": "A DOL-issue iron brand shaped like a sun. Touching it to a surface creates a 10ft radius zone of magical silence (as the spell) that lasts 24 hours and cannot be dispelled below 5th level. Curse: the brand fuses to the bearer's palm at first use. It cannot be removed without a DC 20 Arcana check and a Remove Curse. Until removed, the bearer cannot cast spells with verbal components while in any enclosed space."
+  },
+  {
+    "name": "Worgbone Talisman",
+    "curse": "Made from the bones of a Worg used in Lumina Elixir production. Grants the bearer advantage on Animal Handling with predatory beasts and darkvision 60ft. Curse: the bearer smells faintly of fear — permanently. Hostile creatures always target them first. Social rolls with nobles, clergy, or DOL officials are made at disadvantage."
+  },
+  {
+    "name": "Lunar Suppression Clasp",
+    "curse": "A DOL artefact worn to 'protect' citizens from lunar influence. Grants immunity to lycanthropy and moon-based magical effects. Curse: the bearer's spellcasting is subtly leashed — spells that duplicate or channel moonlight, shadow, or void (DM's discretion) deal half damage and have their save DCs reduced by 3. The bearer feels nothing unusual."
+  },
+  {
+    "name": "Tre Illium Founder's Coin",
+    "curse": "A coin minted at the founding of Le'Choix, bearing the faces of all three founders. Flip it to gain a +5 bonus to any one roll — but the coin chooses the target of the effect, not the bearer. It has its own preferences. It tends toward chaos." },
+  {
+    "name": "Echo Vein Resonance Ring",
+    "curse": "Set with a humming Echo Vein gem. The bearer passively absorbs nearby memories — gaining flashes of the last emotionally significant event to occur in any room they enter. Curse: the memories accumulate. After each long rest, the bearer must make a DC 13 Wisdom save or become confused about which memories are theirs. Repeated failures result in persistent false memories replacing real ones."
+  },
+  {
+    "name": "The Unheard Echo",
+    "curse": "A black tuning fork that vibrates at a frequency no instrument can match. When struck, all creatures within 30ft hear a sound that is personally meaningful — a voice, a name, a dying breath. DC 15 Wisdom save or be Frightened for 1 minute. Curse: the fork strikes itself once per night, at a random hour, waking the bearer and anyone sharing their space. The sound is always the same for the bearer, and always something they cannot explain."
+  },
+  {
+    "name": "DOL Census Ledger",
+    "curse": "A small enchanted book that compulsively records the true name and location of anyone the bearer speaks to for more than 1 minute. The bearer cannot prevent this. The ledger cannot be destroyed by mundane means. Every 7 days, a copy of the ledger's contents is transmitted by unknown means to a DOL record-keeping office." },
+  {
+    "name": "Shadowrealm Compass",
+    "curse": "Points unerringly toward the nearest point where the Shadowrealm bleeds through. Extremely useful for avoiding such places — or finding them. Curse: the bearer is partially visible to entities within the Shadowrealm at all times. Such entities can sense the bearer's emotional state. Patient ones will use this."
+  },
+  {
+    "name": "Kaela's Mirror Shard",
+    "curse": "A fragment of a drow scrying mirror. Once per day, the bearer may observe any person they have met as if through Scrying (no save). Curse: the mirror also shows the bearer to whoever they scry upon — and shows them the bearer's greatest fear, not the bearer's face. The target always knows they were watched, and by something afraid."
+  }
+]

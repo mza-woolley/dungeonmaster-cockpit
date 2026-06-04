@@ -1,0 +1,302 @@
+[
+  {
+    "event": "A merchant cart has shed a wheel by the roadside. The driver is cursing loudly but seems fine.",
+    "severity": "low"
+  },
+  {
+    "event": "A child sits alone on a milestone, eating an apple and watching the road with unsettling patience.",
+    "severity": "low"
+  },
+  {
+    "event": "Two farmers argue heatedly over a fence line that bisects the road. Neither moves to let you pass.",
+    "severity": "low"
+  },
+  {
+    "event": "A dead crow has been nailed to a signpost pointing toward Ars Lapis. No one nearby seems to have noticed.",
+    "severity": "low"
+  },
+  {
+    "event": "A travelling tinker offers to sharpen blades for a copper each. His hands are steadier than they should be.",
+    "severity": "low"
+  },
+  {
+    "event": "The road dips through a shallow ford. The water is murky and cold, but passable.",
+    "severity": "low"
+  },
+  {
+    "event": "A pilgrim walking barefoot in the direction of Ars Cultura asks if you've seen any libraries along the road.",
+    "severity": "low"
+  },
+  {
+    "event": "An ox has wandered into the road and refuses to move. Its owner is nowhere in sight.",
+    "severity": "low"
+  },
+  {
+    "event": "Someone has chalked the Shadowbringers' crescent sigil onto a bridge abutment, then partially scraped it off.",
+    "severity": "low"
+  },
+  {
+    "event": "A peddler selling DOL-approved almanacs insists you take one. He keeps checking over his shoulder.",
+    "severity": "low"
+  },
+  {
+    "event": "The smell of woodsmoke drifts from a hamlet just off the road. A family watches from their doorway but doesn't wave.",
+    "severity": "low"
+  },
+  {
+    "event": "A cart loaded with mined stone from Ars Lapis passes slowly in the opposite direction, the driver's eyes hollow with exhaustion.",
+    "severity": "low"
+  },
+  {
+    "event": "A dog trots alongside you for half a mile before stopping abruptly and refusing to go further.",
+    "severity": "low"
+  },
+  {
+    "event": "A roadside shrine to an old god has been defaced — the head chiselled off, a DOL sunburst painted over it.",
+    "severity": "low"
+  },
+  {
+    "event": "A young courier sprints past at full speed, not stopping to answer any hails.",
+    "severity": "low"
+  },
+  {
+    "event": "Rain begins without warning and stops just as suddenly, leaving the road slick and steaming.",
+    "severity": "low"
+  },
+  {
+    "event": "A group of monks travelling to Ars Cultura share their fire and bread but ask not to be questioned about their order.",
+    "severity": "low"
+  },
+  {
+    "event": "A half-built watchtower sits abandoned at a crossroads. The DOL insignia is carved into the cornerstone.",
+    "severity": "low"
+  },
+  {
+    "event": "A wanted notice has been nailed to a tree. The face on it looks uncomfortably like someone the party knows.",
+    "severity": "low"
+  },
+  {
+    "event": "A blind beggar sits at the roadside reciting what sounds like encrypted verse. He stops the moment he hears footsteps.",
+    "severity": "low"
+  },
+  {
+    "event": "A flock of starlings moves in an unnatural formation overhead — too precise to be natural.",
+    "severity": "low"
+  },
+  {
+    "event": "Graffiti on a mile-marker reads: 'THE SUN LIES.' It was written recently — the paint is still tacky.",
+    "severity": "low"
+  },
+  {
+    "event": "A horse stands saddled and riderless in the middle of the road, reins dragging in the mud.",
+    "severity": "low"
+  },
+  {
+    "event": "Two OOTS soldiers share rations by the road and nod as the party passes — routine, relaxed, watching.",
+    "severity": "low"
+  },
+  {
+    "event": "A tree has fallen across the road overnight. It takes time to clear or find a way around.",
+    "severity": "low"
+  },
+  {
+    "event": "A woman is burying something small at the roadside. She does not look up.",
+    "severity": "low"
+  },
+  {
+    "event": "A travelling bard plays for coins outside a waystation. His songs are all DOL-approved hymns. His eyes are not singing.",
+    "severity": "low"
+  },
+  {
+    "event": "The milestone ahead has been moved — deliberately rotated to give a false distance to Ars Pontaris.",
+    "severity": "low"
+  },
+  {
+    "event": "A fine layer of grey dust coats everything on the road — mineral runoff from Ars Lapis, blown far by the wind.",
+    "severity": "low"
+  },
+  {
+    "event": "A handcart of DOL-confiscated books sits unattended by the road. Several volumes have been thrown into the ditch.",
+    "severity": "low"
+  },
+  {
+    "event": "A column of DOL lantern-bearers marches past, each one staring straight ahead. One lingers a beat too long.",
+    "severity": "mid"
+  },
+  {
+    "event": "A checkpoint has been erected since the last time anyone came this way. The OOTS guards are asking for travel writs.",
+    "severity": "mid"
+  },
+  {
+    "event": "A wounded man stumbles from the treeline, collapses, and whispers a name before losing consciousness.",
+    "severity": "mid"
+  },
+  {
+    "event": "A Shadowbringers courier passes in disguise — recognisable only by the crescent-moon pin hidden under their collar. They clock the party and speed up.",
+    "severity": "mid"
+  },
+  {
+    "event": "The bridge into Ars Pontaris is under OOTS control today. Papers are being checked one by one. The queue stretches back a quarter mile.",
+    "severity": "mid"
+  },
+  {
+    "event": "A village is being searched. OOTS soldiers move house to house. The villagers stand in the street in silence.",
+    "severity": "mid"
+  },
+  {
+    "event": "A prisoner transport passes — a wagon with iron bars and four guards. The prisoner inside makes eye contact and says nothing.",
+    "severity": "mid"
+  },
+  {
+    "event": "A fire has gutted a waystation. Still smouldering. DOL investigators are on the scene and question everyone who approaches.",
+    "severity": "mid"
+  },
+  {
+    "event": "An OOTS patrol stops the party and demands to search their packs. The senior officer is polite and thorough.",
+    "severity": "mid"
+  },
+  {
+    "event": "A cart overturned on the road reveals a hidden cargo — not grain as labelled, but printed pamphlets bearing the Shadowbringers' mark.",
+    "severity": "mid"
+  },
+  {
+    "event": "A lone OOTS agent sits at the roadside eating lunch, watching the party with professional interest. He makes no move.",
+    "severity": "mid"
+  },
+  {
+    "event": "A dying mule blocks the road. Its panniers are full of sealed correspondence stamped with a DOL wax seal.",
+    "severity": "mid"
+  },
+  {
+    "event": "A hooded figure steps from the shadow of a toll gate and offers, quietly, to make the party's papers 'look better.' For a price.",
+    "severity": "mid"
+  },
+  {
+    "event": "The road passes through a narrow canyon. Fresh rockfall has partially blocked it — and fresh boot prints are visible in the rubble.",
+    "severity": "mid"
+  },
+  {
+    "event": "A Shadowbringers safehouse has been burned and its occupants marched out. The OOTS commander reads from a list of charges loudly, for the road to hear.",
+    "severity": "mid"
+  },
+  {
+    "event": "A local farmer flags the party down and urgently warns them not to take the northern fork. He won't say why.",
+    "severity": "mid"
+  },
+  {
+    "event": "A patrol of OOTS cavalry thunders past at speed, heading toward Ars Lapis. No one explains why.",
+    "severity": "mid"
+  },
+  {
+    "event": "A body has been laid carefully at the roadside, hands folded. It bears no wounds, no insignia, and no identification.",
+    "severity": "mid"
+  },
+  {
+    "event": "A merchant with a locked strongbox offers to pay the party for an escort to the next town. He's sweating despite the cold.",
+    "severity": "mid"
+  },
+  {
+    "event": "A section of road has been deliberately torn up — the stones pried out and scattered. Travel through it is slow and loud.",
+    "severity": "mid"
+  },
+  {
+    "event": "A market day in a village has been shut down by OOTS order. The traders are packing up in angry silence.",
+    "severity": "mid"
+  },
+  {
+    "event": "A runner from Ars Cultura intercepts the party — breathless, carrying a sealed message meant for someone else entirely.",
+    "severity": "mid"
+  },
+  {
+    "event": "A second checkpoint appears a mile past the first. Different soldiers, different officer. They've been told to expect someone.",
+    "severity": "mid"
+  },
+  {
+    "event": "A DOL Inquisitor — gold-trimmed cloak, no weapon visible — stands alone on the road ahead, watching the party approach.",
+    "severity": "mid"
+  },
+  {
+    "event": "A Shadowbringers sympathiser quietly slips the party a folded note as they pass through a crowded waystation. It reads: 'Don't sleep here.'",
+    "severity": "mid"
+  },
+  {
+    "event": "Three armed figures step from the treeline with crossbows drawn. They wear no insignia.",
+    "severity": "high"
+  },
+  {
+    "event": "A rope snaps taut across the road at horse-chest height. Figures move in the undergrowth on both sides.",
+    "severity": "high"
+  },
+  {
+    "event": "A false merchant cart is parked at a bend — the moment the party draws level, the sides drop and armed men pour out.",
+    "severity": "high"
+  },
+  {
+    "event": "A Shadowbringers ambush meant for an OOTS convoy has been set on the wrong road. The party walks into it.",
+    "severity": "high"
+  },
+  {
+    "event": "An OOTS kill-squad is already in position on the road, hunting a specific target. The party matches the description closely enough.",
+    "severity": "high"
+  },
+  {
+    "event": "Wolves — three of them, big and deliberate — pace the treeline and then step onto the road.",
+    "severity": "high"
+  },
+  {
+    "event": "A pit trap has been dug across the road and covered with thin boards and dirt. It's deep enough to swallow a horse.",
+    "severity": "high"
+  },
+  {
+    "event": "Armed deserters from the DOL conscript corps have taken a waystation by force and are demanding toll from all travellers.",
+    "severity": "high"
+  },
+  {
+    "event": "A burned-out escort wagon sits on the road. Two dead guards. Whoever did this left minutes ago — the blood is still wet.",
+    "severity": "high"
+  },
+  {
+    "event": "A creature has been driven down from the mountains toward Ars Lapis — massive, confused, and now between the party and the road ahead.",
+    "severity": "high"
+  },
+  {
+    "event": "A bounty hunter — working a DOL contract — steps out and names a member of the party by description. She has papers.",
+    "severity": "high"
+  },
+  {
+    "event": "A road gang with DOL tacit approval has been taxing travellers in this stretch for weeks. Today they're not in a negotiating mood.",
+    "severity": "high"
+  },
+  {
+    "event": "The bridge at Ars Pontaris has been seized by a Shadowbringers cell. DOL reinforcements are twenty minutes out. The bridge is the only crossing.",
+    "severity": "high"
+  },
+  {
+    "event": "A pack of grave-ghouls has spilled onto the road from a collapsed mine shaft near Ars Lapis — drawn by light and movement.",
+    "severity": "high"
+  },
+  {
+    "event": "A crossbow bolt buries itself in a tree six inches from the party's lead traveller. A voice demands they leave everything on the road and walk.",
+    "severity": "high"
+  },
+  {
+    "event": "An OOTS inquisitorial squad — six soldiers, one caster — demands the party submit to a loyalty examination at sword-point.",
+    "severity": "high"
+  },
+  {
+    "event": "A desperate Shadowbringers cell, cornered and hunted, mistakes the party for DOL informants and attacks first.",
+    "severity": "high"
+  },
+  {
+    "event": "A wyvern circles low over the road, having followed an Ars Lapis ore shipment down from the highland passes.",
+    "severity": "high"
+  },
+  {
+    "event": "A DOL execution is underway at a crossroads. The condemned prisoner breaks free during the distraction of the party's arrival.",
+    "severity": "high"
+  },
+  {
+    "event": "A mercenary company hired by a rival of the party's patron blocks the road and issues an ultimatum: turn back or be taken.",
+    "severity": "high"
+  }
+]

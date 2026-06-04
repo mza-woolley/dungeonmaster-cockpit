@@ -2,6 +2,14 @@
 
 ---
 
+## v0.6.10 — June 2026
+
+### ✨ Improvements
+
+- Random Generator: data templates added for upcoming Random Generator tab
+
+---
+
 ## v0.6.9 — June 2026
 
 ### ✨ Improvements
