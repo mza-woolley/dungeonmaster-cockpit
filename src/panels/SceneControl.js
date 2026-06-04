@@ -46,91 +46,90 @@ const CATEGORY_LABELS = { nature: 'Nature', creatures: 'Creatures', atmosphere: 
 
 const FADE_DURATION = 2500; // ms crossfade
 const AMB_OPEN_KEY  = 'dm-cockpit-amb-open';
+const AMB_MIX_KEY   = 'dm-cockpit-amb-mix';
+const AMB_VOL_KEY   = 'dm-cockpit-amb-vol';
 
-// ── Ambience engine (Web Audio crossfader) ────────────────
+// ── Ambience engine (module-level singleton) ──────────────
 
-function useAmbienceEngine() {
-  const audioCtx    = useRef(null);
-  const masterGain  = useRef(null);
-  const nodes       = useRef({}); // id -> { source, gainNode, audio }
-  const masterVol   = useRef(0.7);
+const _engine = (() => {
+  let audioCtx   = null;
+  let masterGain = null;
+  let masterVol  = 0.7;
+  const nodes    = {}; // id -> { source, gainNode, audio }
 
   function getCtx() {
-    if (!audioCtx.current) {
-      audioCtx.current = new (window.AudioContext || window.webkitAudioContext)();
-      masterGain.current = audioCtx.current.createGain();
-      masterGain.current.gain.value = masterVol.current;
-      masterGain.current.connect(audioCtx.current.destination);
+    if (!audioCtx) {
+      audioCtx   = new (window.AudioContext || window.webkitAudioContext)();
+      masterGain = audioCtx.createGain();
+      masterGain.gain.value = masterVol;
+      masterGain.connect(audioCtx.destination);
     }
-    return audioCtx.current;
+    return audioCtx;
   }
 
-  const play = useCallback((soundId, volume = 0.5) => {
+  function play(soundId, volume = 0.5) {
     const sound = ALL_SOUNDS.find(s => s.id === soundId);
-    if (!sound || nodes.current[soundId]) return;
+    if (!sound || nodes[soundId]) return;
     const ctx = getCtx();
     if (ctx.state === 'suspended') ctx.resume();
-
-    const audio = new Audio(`sounds/${sound.file}`);
-    audio.loop  = true;
+    const audio    = new Audio(`sounds/${sound.file}`);
+    audio.loop     = true;
     const source   = ctx.createMediaElementSource(audio);
     const gainNode = ctx.createGain();
     gainNode.gain.setValueAtTime(0, ctx.currentTime);
     gainNode.gain.linearRampToValueAtTime(volume, ctx.currentTime + FADE_DURATION / 1000);
     source.connect(gainNode);
-    gainNode.connect(masterGain.current);
+    gainNode.connect(masterGain);
     audio.play().catch(() => {});
-    nodes.current[soundId] = { source, gainNode, audio };
-  }, []);
+    nodes[soundId] = { source, gainNode, audio };
+  }
 
-  const stop = useCallback((soundId) => {
-    const node = nodes.current[soundId];
+  function stop(soundId) {
+    const node = nodes[soundId];
     if (!node) return;
     const ctx = getCtx();
     const { gainNode, audio } = node;
+    delete nodes[soundId];
+    gainNode.gain.cancelScheduledValues(ctx.currentTime);
     gainNode.gain.setValueAtTime(gainNode.gain.value, ctx.currentTime);
     gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + FADE_DURATION / 1000);
-    setTimeout(() => {
-      audio.pause();
-      audio.src = '';
-      delete nodes.current[soundId];
-    }, FADE_DURATION + 100);
-  }, []);
+    setTimeout(() => { audio.pause(); audio.src = ''; }, FADE_DURATION + 100);
+  }
 
-  const stopAll = useCallback(() => {
-    Object.keys(nodes.current).forEach(id => stop(id));
-  }, [stop]);
+  function stopAll() {
+    Object.keys(nodes).forEach(id => stop(id));
+  }
 
-  const setVolume = useCallback((soundId, volume) => {
-    const node = nodes.current[soundId];
+  function setVolume(soundId, volume) {
+    const node = nodes[soundId];
     if (!node) return;
     const ctx = getCtx();
     node.gainNode.gain.setTargetAtTime(volume, ctx.currentTime, 0.1);
-  }, []);
+  }
 
-  const setMasterVolume = useCallback((vol) => {
-    masterVol.current = vol;
-    if (masterGain.current && audioCtx.current) {
-      masterGain.current.gain.setTargetAtTime(vol, audioCtx.current.currentTime, 0.1);
+  function setMasterVolume(vol) {
+    masterVol = vol;
+    if (masterGain && audioCtx) {
+      masterGain.gain.setTargetAtTime(vol, audioCtx.currentTime, 0.1);
     }
-  }, []);
+  }
 
-  // Apply a full mix object { soundId: volume, ... }, fading in new, fading out removed
-  const applyMix = useCallback((mix) => {
+  function applyMix(mix) {
     const incoming = new Set(Object.keys(mix));
-    const current  = new Set(Object.keys(nodes.current));
+    const current  = new Set(Object.keys(nodes));
     current.forEach(id => { if (!incoming.has(id)) stop(id); });
     incoming.forEach(id => {
-      if (current.has(id)) {
-        setVolume(id, mix[id]);
-      } else {
-        play(id, mix[id]);
-      }
+      if (current.has(id)) setVolume(id, mix[id]);
+      else play(id, mix[id]);
     });
-  }, [play, stop, setVolume]);
+  }
 
-  return { play, stop, stopAll, setVolume, setMasterVolume, applyMix };
-}
+  function isPlaying(soundId) { return !!nodes[soundId]; }
+
+  return { play, stop, stopAll, setVolume, setMasterVolume, applyMix, isPlaying };
+})();
+
+function useAmbienceEngine() { return _engine; }
 
 // ── Preset helpers ────────────────────────────────────────
 
@@ -640,13 +639,32 @@ export default function SceneControl() {
   const [error,           setError]           = useState('');
 
   // Ambience state: { soundId: volume (0-1) }
-  const [activeSounds, setActiveSounds] = useState({});
-  const [masterVol,    setMasterVolState] = useState(0.7);
+  const [activeSounds, setActiveSounds] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(AMB_MIX_KEY) ?? '{}'); } catch { return {}; }
+  });
+  const [masterVol, setMasterVolState] = useState(() => {
+    const v = parseFloat(localStorage.getItem(AMB_VOL_KEY));
+    return isNaN(v) ? 0.7 : v;
+  });
 
   const engine = useAmbienceEngine();
 
   const isElectron    = !!window.electronAPI;
   const nanoleafReady = nanoleafDevices.length > 0;
+
+  // Sync master volume on mount (engine is a singleton, sounds already playing)
+  useEffect(() => {
+    engine.setMasterVolume(masterVol);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(AMB_MIX_KEY, JSON.stringify(activeSounds));
+  }, [activeSounds]);
+
+  useEffect(() => {
+    localStorage.setItem(AMB_VOL_KEY, String(masterVol));
+  }, [masterVol]);
 
   // Init
   useEffect(() => {

@@ -98,45 +98,38 @@
   background: var(--bg-panel);
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
-  padding: 0 8px;
+  padding: 0 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+.panel-nav::-webkit-scrollbar { display: none; }
 .nav-btn {
-  flex: 1;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  padding: 10px 8px;
+  gap: 5px;
+  padding: 9px 12px;
   background: none;
   border: none;
   cursor: pointer;
   color: var(--text-secondary);
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   transition: color 0.2s;
   position: relative;
   z-index: 1;
+  white-space: nowrap;
 }
 .nav-btn:hover { color: var(--text-primary); }
-.nav-btn.active { color: var(--gold); }
-.nav-icon { font-size: 14px; }
-.nav-shortcut {
-  font-size: 9px;
-  opacity: 0.4;
-  font-family: var(--font-body);
-  letter-spacing: 0;
+.nav-btn.active {
+  color: var(--gold);
+  box-shadow: inset 0 -2px 0 var(--gold);
 }
-.nav-indicator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 25%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
+.nav-icon { font-size: 13px; }
+.nav-indicator { display: none; }
 
 /* ── Panel Stage ── */
 .panel-stage {
@@ -182,4 +175,104 @@
 @keyframes slideOutRight {
   from { transform: translateX(0);   opacity: 1; }
   to   { transform: translateX(40px); opacity: 0; }
+}
+
+/* ── Generator Panel ── */
+.generator-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px;
+  gap: 24px;
+  box-sizing: border-box;
+}
+
+.generator-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.generator-pill {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.generator-pill:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+.generator-pill.active {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.generator-result {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px 32px;
+  background: var(--bg-panel);
+}
+
+.generator-result.flash .generator-result-inner {
+  animation: gen-fade 0.25s ease;
+}
+
+@keyframes gen-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.generator-result-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.generator-line {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-primary);
+}
+
+.generator-line:first-child {
+  font-size: 20px;
+  font-family: var(--font-display, var(--font-body));
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+
+.generator-reroll {
+  align-self: flex-end;
+  margin-top: 24px;
+  padding: 7px 20px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: none;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.generator-reroll:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
 }

@@ -8,15 +8,17 @@ import Encounters from './panels/Encounters';
 import DNDWizard from './panels/DNDWizard';
 import Characters from './panels/Characters';
 import Documentation from './panels/Documentation';
+import Generator from './panels/Generator';
 
 const PANELS = [
-  { id: 'characters',    label: 'Characters',    icon: '🧑', shortcut: '1' },
-  { id: 'tv',            label: 'Display',        icon: '🗺️',  shortcut: '2' },
-  { id: 'documentation', label: 'Documentation',  icon: '📚', shortcut: '3' },
-  { id: 'wizard',        label: 'DND Wizard',     icon: '🧙', shortcut: '4' },
-  { id: 'encounters',    label: 'Encounters',     icon: '⚔️',  shortcut: '5' },
-  { id: 'scene',         label: 'Scene',          icon: '🎭', shortcut: '6' },
-  { id: 'scribble',      label: 'Scribble',       icon: '✍️',  shortcut: '7' },
+  { id: 'characters',    label: 'Characters',   icon: '🧑', shortcut: '1' },
+  { id: 'tv',            label: 'Display',      icon: '🗺️',  shortcut: '2' },
+  { id: 'documentation', label: 'Docs',         icon: '📚', shortcut: '3' },
+  { id: 'encounters',    label: 'Encounters',   icon: '⚔️',  shortcut: '4' },
+  { id: 'generator',     label: 'Generator',    icon: '⚄',  shortcut: '5' },
+  { id: 'scene',         label: 'Scene',        icon: '🎭', shortcut: '6' },
+  { id: 'scribble',      label: 'Scribble',     icon: '✍️',  shortcut: '7' },
+  { id: 'wizard',        label: 'Wizard',       icon: '🧙', shortcut: '8' },
 ];
 
 function useSessionClock() {
@@ -124,6 +126,7 @@ export default function App() {
       case 'wizard':     return <DNDWizard />;
       case 'characters':    return <Characters />;
       case 'documentation': return <Documentation />;
+      case 'generator':     return <Generator />;
       default:              return null;
     }
   };
@@ -154,7 +157,6 @@ export default function App() {
           >
             <span className="nav-icon">{p.icon}</span>
             <span className="nav-label">{p.label}</span>
-            <span className="nav-shortcut">⌘{p.shortcut}</span>
           </button>
         ))}
         <div

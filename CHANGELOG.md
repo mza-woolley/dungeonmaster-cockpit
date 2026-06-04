@@ -2,6 +2,22 @@
 
 ---
 
+## v0.7.0 — The Improv Update — June 2026
+
+### ✨ New
+
+- Generator tab: random table roller with 10 categories (NPC, Name, Weather, Wild Magic, Travel Event, Rumour, Faction Intel, NPC Encounter, Cursed Item, Magic Item)
+
+### 🐛 Fixes
+
+- Scene: ambience mix and master volume now persist when switching tabs
+- Scene: stopping an ambience sound after switching tabs and back now works correctly
+- Scene: rapidly toggling a sound on and off no longer leaves it stuck playing
+- Nav: tabs no longer squash on narrow windows — scrolls horizontally instead
+- Nav: tabs reordered alphabetically
+
+---
+
 ## v0.6.10 — June 2026
 
 ### ✨ Improvements
