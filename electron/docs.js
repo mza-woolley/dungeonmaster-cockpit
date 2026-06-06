@@ -11,6 +11,12 @@ function ensureDirs() {
   if (!fs.existsSync(ASSETS_DIR)) fs.mkdirSync(ASSETS_DIR, { recursive: true });
 }
 
+function assertInsideDocs(p) {
+  const resolved = path.resolve(p);
+  if (resolved !== DOCS_ROOT && !resolved.startsWith(DOCS_ROOT + path.sep))
+    throw new Error('Access denied: path outside documentation root');
+}
+
 function buildTree(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   const nodes = [];
@@ -40,6 +46,7 @@ function register(ipcMain) {
 
   ipcMain.handle('docs:getFile', (_, filePath) => {
     try {
+      assertInsideDocs(filePath);
       const content  = fs.readFileSync(filePath, 'utf8');
       const stat     = fs.statSync(filePath);
       const name     = path.basename(filePath, '.md');
@@ -51,6 +58,7 @@ function register(ipcMain) {
 
   ipcMain.handle('docs:saveFile', (_, { filePath, data }) => {
     try {
+      assertInsideDocs(filePath);
       fs.writeFileSync(filePath, data.content, 'utf8');
       const modified = new Date().toISOString().split('T')[0];
       return { success: true, modified };
@@ -62,6 +70,7 @@ function register(ipcMain) {
       ensureDirs();
       const base   = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'untitled';
       const parent = folderPath || DOCS_ROOT;
+      assertInsideDocs(parent);
       let   fileName = `${base}.md`;
       let   counter  = 1;
       while (fs.existsSync(path.join(parent, fileName))) {
@@ -75,7 +84,9 @@ function register(ipcMain) {
 
   ipcMain.handle('docs:createFolder', (_, { parentPath, name }) => {
     try {
-      const folderPath = path.join(parentPath || DOCS_ROOT, name);
+      const parent = parentPath || DOCS_ROOT;
+      assertInsideDocs(parent);
+      const folderPath = path.join(parent, name);
       fs.mkdirSync(folderPath, { recursive: true });
       return { success: true, folderPath };
     } catch (err) { return { success: false, error: err.message }; }
@@ -83,6 +94,7 @@ function register(ipcMain) {
 
   ipcMain.handle('docs:rename', (_, { oldPath, newName }) => {
     try {
+      assertInsideDocs(oldPath);
       const dir    = path.dirname(oldPath);
       const ext    = path.extname(oldPath);
       const newPath = path.join(dir, ext ? `${newName}${ext}` : newName);
@@ -93,7 +105,9 @@ function register(ipcMain) {
 
   ipcMain.handle('docs:move', (_, { itemPath, destFolder }) => {
     try {
+      assertInsideDocs(itemPath);
       const dest = destFolder || DOCS_ROOT;
+      assertInsideDocs(dest);
       const newPath = path.join(dest, path.basename(itemPath));
       if (fs.existsSync(newPath)) return { success: false, error: 'A file with that name already exists in the destination.' };
       fs.renameSync(itemPath, newPath);
@@ -103,6 +117,7 @@ function register(ipcMain) {
 
   ipcMain.handle('docs:delete', (_, targetPath) => {
     try {
+      assertInsideDocs(targetPath);
       const stat = fs.statSync(targetPath);
       if (stat.isDirectory()) fs.rmSync(targetPath, { recursive: true, force: true });
       else fs.unlinkSync(targetPath);
@@ -160,6 +175,7 @@ function register(ipcMain) {
   ipcMain.handle('docs:readImage', async (_, relativePath) => {
     try {
       const imagePath = path.join(DOCS_ROOT, relativePath);
+      assertInsideDocs(imagePath);
       if (!fs.existsSync(imagePath)) return { success: false, error: 'File not found' };
 
       const cacheDir = path.join(app.getPath('userData'), 'docs-img-cache');

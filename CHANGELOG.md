@@ -2,6 +2,14 @@
 
 ---
 
+## v0.8.2 — June 2026
+
+### 🔒 Security
+
+- General app hardening improvements
+
+---
+
 ## v0.8.1 — June 2026
 
 ### 🐛 Fixes

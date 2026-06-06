@@ -64,7 +64,7 @@ function authorize() {
 
         const { tokens } = await oAuth2Client.getToken(code);
         oAuth2Client.setCredentials(tokens);
-        fs.writeFileSync(TOKEN_PATH, JSON.stringify(tokens));
+        fs.writeFileSync(TOKEN_PATH, JSON.stringify(tokens), { mode: 0o600 });
 
         res.end('<html><body style="font-family:sans-serif;background:#0a0906;color:#c9a84c;display:flex;align-items:center;justify-content:center;height:100vh;margin:0"><h2>✓ DM Cockpit authorised. You can close this tab.</h2></body></html>');
         server.close();

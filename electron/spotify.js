@@ -44,7 +44,7 @@ function loadTokens() {
 
 function saveTokens(t) {
   tokens = t;
-  fs.writeFileSync(TOKEN_PATH, JSON.stringify(t));
+  fs.writeFileSync(TOKEN_PATH, JSON.stringify(t), { mode: 0o600 });
 }
 
 function isAuthorized() {
