@@ -81,23 +81,17 @@ const TABLES = [
 export default function Generator() {
   const [activeTable, setActiveTable] = useState(TABLES[0]);
   const [lines, setLines] = useState(() => TABLES[0].roll());
-  const [flash, setFlash] = useState(false);
+  const [resultKey, setResultKey] = useState(0);
 
   function selectTable(table) {
     setActiveTable(table);
-    const result = table.roll();
-    setLines(result);
-    triggerFlash();
+    setLines(table.roll());
+    setResultKey(k => k + 1);
   }
 
   function reroll() {
     setLines(activeTable.roll());
-    triggerFlash();
-  }
-
-  function triggerFlash() {
-    setFlash(false);
-    requestAnimationFrame(() => setFlash(true));
+    setResultKey(k => k + 1);
   }
 
   return (
@@ -114,7 +108,7 @@ export default function Generator() {
         ))}
       </div>
 
-      <div className={`generator-result ${flash ? 'flash' : ''}`} onAnimationEnd={() => setFlash(false)}>
+      <div key={resultKey} className="generator-result flash">
         <div className="generator-result-inner">
           {lines.map((line, i) => (
             <p key={i} className="generator-line">{line}</p>
@@ -125,3 +119,4 @@ export default function Generator() {
     </div>
   );
 }
+

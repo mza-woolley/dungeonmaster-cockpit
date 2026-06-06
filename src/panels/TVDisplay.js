@@ -167,6 +167,7 @@ export default function TVDisplay() {
   const [monsterList, setMonsterList] = useState([]);
 
   // ── Canvas refs ──
+  const pendingFogMask = useRef(null);
   const canvasRef      = useRef(null);
   const fogRef         = useRef(null);   // offscreen fog canvas
   const mapImgRef      = useRef(null);
@@ -371,6 +372,17 @@ export default function TVDisplay() {
       mapImgRef.current = img;
       fogRef.current    = null;
       ensureFog(img.naturalWidth, img.naturalHeight);
+      if (pendingFogMask.current) {
+        const fogImg = new Image();
+        fogImg.onload = () => {
+          const fc = fogRef.current.getContext('2d');
+          fc.clearRect(0, 0, fogRef.current.width, fogRef.current.height);
+          fc.drawImage(fogImg, 0, 0, fogRef.current.width, fogRef.current.height);
+          pendingFogMask.current = null;
+          drawDmCanvas();
+        };
+        fogImg.src = pendingFogMask.current;
+      }
       setMapLoaded(true);
     };
     img.src = dmImageDataUrl;
@@ -655,30 +667,33 @@ export default function TVDisplay() {
   }
 
   async function handleLoadState(state) {
-    // Push image if different from current
+    // Queue fog mask — applied once the map image finishes loading
+    pendingFogMask.current = state.fogMask || null;
+
+    // Push image if different from current (fog restore fires inside its onload)
     if (state.mapPath && state.mapPath !== active) {
       const file = files.find(f => f.path === state.mapPath);
       if (file) await handlePushImage(file);
-    }
-    setGridEnabled(state.gridEnabled);
-    setGridSize(state.gridSize || 'medium');
-    setPins(state.pins || []);
-    if (state.pinSize != null) setPinSize(state.pinSize);
-    setHideAllNpcs(!!state.hideAllNpcs);
-    setHideAllMonsters(!!state.hideAllMonsters);
-
-    // Restore fog mask
-    if (state.fogMask && mapImgRef.current) {
+    } else if (state.fogMask && mapImgRef.current) {
+      // Same map already loaded — restore fog immediately
       const img = new Image();
       img.onload = () => {
         ensureFog(mapImgRef.current.naturalWidth, mapImgRef.current.naturalHeight);
         const fc = fogRef.current.getContext('2d');
         fc.clearRect(0, 0, fogRef.current.width, fogRef.current.height);
         fc.drawImage(img, 0, 0, fogRef.current.width, fogRef.current.height);
+        pendingFogMask.current = null;
         drawDmCanvas();
       };
       img.src = state.fogMask;
     }
+
+    setGridEnabled(state.gridEnabled);
+    setGridSize(state.gridSize || 'medium');
+    setPins(state.pins || []);
+    if (state.pinSize != null) setPinSize(state.pinSize);
+    setHideAllNpcs(!!state.hideAllNpcs);
+    setHideAllMonsters(!!state.hideAllMonsters);
 
     if (isElectron) {
       window.electronAPI.tv.syncOverlay({

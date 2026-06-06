@@ -346,6 +346,7 @@ export default function Documentation() {
   const [matchPaths, setMatchPaths]     = useState(null); // Set<path> from content search, null when idle
   const [searching, setSearching]       = useState(false);
   const [moveTarget, setMoveTarget]     = useState(null); // { path, name }
+  const [error, setError]               = useState('');
   const textareaRef = useRef();
   const searchTimer = useRef(null);
 
@@ -401,7 +402,8 @@ export default function Documentation() {
   };
 
   const handleRename = async (itemPath, newName, type) => {
-    await api.rename(itemPath, newName);
+    const res = await api.rename(itemPath, newName);
+    if (!res?.success) { setError(res?.error || 'Rename failed'); return; }
     if (type === 'file' && itemPath === selectedPath) { setSelectedPath(null); setDoc(null); }
     await loadTree();
   };
@@ -409,8 +411,9 @@ export default function Documentation() {
   const handleDelete = (itemPath, type, name) => setConfirmDel({ path: itemPath, type, name });
 
   const doDelete = async () => {
+    const res = await api.delete(confirmDel.path);
+    if (!res?.success) { setError(res?.error || 'Delete failed'); setConfirmDel(null); return; }
     if (confirmDel.path === selectedPath) { setSelectedPath(null); setDoc(null); setEditing(false); }
-    await api.delete(confirmDel.path);
     setConfirmDel(null);
     await loadTree();
   };
@@ -420,13 +423,13 @@ export default function Documentation() {
   const doMove = async (destFolder) => {
     const dest = destFolder === '__root__' ? null : destFolder;
     const res = await api.move(moveTarget.path, dest);
+    setMoveTarget(null);
     if (res.success) {
       if (moveTarget.path === selectedPath) { setSelectedPath(res.newPath); await openFile(res.newPath); }
       await loadTree();
     } else {
-      alert(res.error || 'Move failed.');
+      setError(res.error || 'Move failed.');
     }
-    setMoveTarget(null);
   };
 
   const handleNewFile   = (parentPath) => setModal({ type: 'file', parentPath });
@@ -474,6 +477,13 @@ export default function Documentation() {
 
   return (
     <div className="docs-root">
+
+      {error && (
+        <div className="scene-error" style={{ gridColumn: '1 / -1' }}>
+          {error}
+          <button onClick={() => setError('')}>✕</button>
+        </div>
+      )}
 
       {/* ── Sidebar ── */}
       <aside className="docs-sidebar">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Encounters.css';
+import { ambienceEngine, hexToRgb } from './SceneControl';
 
 // ── Helpers ────────────────────────────────────────────────
 const CR_OPTIONS = [
@@ -352,7 +353,7 @@ function dexMod(monster) {
   return Math.floor(((monster.dexterity || 10) - 10) / 2);
 }
 
-function InitiativeTracker({ srdMonsters = [], pcQuick = [] }) {
+function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], combatPresetId, endPresetId, onSaveCombatPreset, onSaveEndPreset, encounterActive, onStartEncounter, onEndEncounter, encounterFiring, encounterError }) {
   const [combatants, setCombatants] = useState([]);
   const [newName, setNewName]       = useState('');
   const [newInit, setNewInit]       = useState('');
@@ -402,7 +403,15 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [] }) {
     setNewName(''); setNewInit(''); setNewHp('');
   };
 
-  const remove = (id) => { setCombatants(prev => prev.filter(c => c.id !== id)); setTurn(0); };
+  const remove = (id) => {
+    const currentSorted = [...combatants].sort((a, b) => b.initiative - a.initiative);
+    const removedIdx    = currentSorted.findIndex(c => c.id === id);
+    const next          = combatants.filter(c => c.id !== id);
+    setCombatants(next);
+    if (next.length === 0) { setTurn(0); return; }
+    if (removedIdx < turn)       setTurn(t => t - 1);
+    else if (removedIdx === turn) setTurn(t => Math.min(t, next.length - 1));
+  };
 
   const updateHp    = (id, delta) => setCombatants(prev => prev.map(c => c.id === id ? { ...c, hp: Math.max(0, c.hp + delta) } : c));
   const setHpDirect = (id, val)   => setCombatants(prev => prev.map(c => c.id === id ? { ...c, hp: Math.max(0, parseInt(val) || 0) } : c));
@@ -476,7 +485,7 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [] }) {
                 const mod = dexMod(m);
                 const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
                 return (
-                  <button key={m.slug} className="init-mon-result" onClick={() => addMonster(m)}>
+                  <button key={m.slug || m.id} className="init-mon-result" onClick={() => addMonster(m)}>
                     <span className="imr-name">{m.name}</span>
                     <span className="imr-meta">CR {m.cr || '?'} · HP {m.hit_points} · Init {modStr}</span>
                   </button>
@@ -495,6 +504,52 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [] }) {
           <button className="sb-btn primary" onClick={nextTurn} disabled={sorted.length === 0}>Next Turn ▶</button>
           <button className="sb-btn danger" onClick={reset}>✕ Reset</button>
         </div>
+      </div>
+
+      {/* ── Encounter toggle ── */}
+      <div className="encounter-start-row">
+        {!encounterActive ? (
+          <>
+            <select
+              className="encounter-preset-select"
+              value={combatPresetId}
+              onChange={e => onSaveCombatPreset(e.target.value)}
+              title="Scene preset to fire on encounter start"
+            >
+              <option value="">— Start scene —</option>
+              {presets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+            </select>
+            <button
+              className={`sb-btn encounter-start-btn${encounterFiring ? ' firing' : ''}`}
+              onClick={onStartEncounter}
+              disabled={encounterFiring}
+              title="Start encounter and fire scene preset"
+            >
+              {encounterFiring ? 'Starting…' : '⚔ Start Encounter'}
+            </button>
+          </>
+        ) : (
+          <>
+            <select
+              className="encounter-preset-select"
+              value={endPresetId}
+              onChange={e => onSaveEndPreset(e.target.value)}
+              title="Scene preset to fire on encounter end"
+            >
+              <option value="">— End scene —</option>
+              {presets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+            </select>
+            <button
+              className={`sb-btn encounter-end-btn${encounterFiring ? ' firing' : ''}`}
+              onClick={onEndEncounter}
+              disabled={encounterFiring}
+              title="End encounter and fire scene preset"
+            >
+              {encounterFiring ? 'Ending…' : '✓ End Encounter'}
+            </button>
+          </>
+        )}
+        {encounterError && <span className="encounter-start-error">{encounterError}</span>}
       </div>
 
       {/* ── Manual add ── */}
@@ -572,6 +627,10 @@ function DeleteConfirmModal({ name, onConfirm, onCancel }) {
   );
 }
 
+const COMBAT_PRESET_KEY = 'dm-cockpit:combat-preset-id';
+const END_PRESET_KEY    = 'dm-cockpit:end-preset-id';
+const ENCOUNTER_ACTIVE_KEY = 'dm-cockpit:encounter-active';
+
 // ── Main Encounters Panel ──────────────────────────────────
 export default function Encounters() {
   const [tab, setTab]               = useState('monsters');
@@ -588,7 +647,65 @@ export default function Encounters() {
   const [showCustomOnly, setShowCustomOnly] = useState(false);
   const [pcQuick, setPcQuick]       = useState([]);
   const [deleteConfirm, setDeleteConfirm] = useState(null); // { id, name }
+
+  // Encounter state — lifted here so it survives tab switches
+  const [presets,          setPresets]          = useState([]);
+  const [combatPresetId,   setCombatPresetId]   = useState(() => localStorage.getItem(COMBAT_PRESET_KEY) || '');
+  const [endPresetId,      setEndPresetId]      = useState(() => localStorage.getItem(END_PRESET_KEY) || '');
+  const [encounterActive,  setEncounterActive]  = useState(() => localStorage.getItem(ENCOUNTER_ACTIVE_KEY) === 'true');
+  const [encounterFiring,  setEncounterFiring]  = useState(false);
+  const [encounterError,   setEncounterError]   = useState('');
+
   const isElectron = !!window.electronAPI;
+
+  useEffect(() => {
+    if (!isElectron) return;
+    window.electronAPI.presets.load().then(saved => {
+      setPresets(Array.isArray(saved) ? saved : []);
+    });
+  }, [isElectron]);
+
+  const saveCombatPreset = (id) => { setCombatPresetId(id); localStorage.setItem(COMBAT_PRESET_KEY, id); };
+  const saveEndPreset    = (id) => { setEndPresetId(id);    localStorage.setItem(END_PRESET_KEY, id);    };
+
+  const firePresetById = async (id) => {
+    const preset = presets.find(p => p.id === id);
+    if (!preset) return;
+    if (preset.ambience && Object.keys(preset.ambience).length > 0) {
+      ambienceEngine.applyMix(preset.ambience);
+    }
+    if (!isElectron) return;
+    const actions = [];
+    if (preset.playlistUri)   actions.push(window.electronAPI.spotify.play(preset.playlistUri));
+    if (preset.nanoleafScene) actions.push(window.electronAPI.nanoleaf.setScene(preset.nanoleafScene));
+    if (preset.lightColor) {
+      const rgb = hexToRgb(preset.lightColor);
+      if (rgb) actions.push(window.electronAPI.pixie.setColor(rgb.r, rgb.g, rgb.b));
+    }
+    if (actions.length) {
+      const results = await Promise.all(actions);
+      const fail = results.find(r => !r.success);
+      if (fail) setEncounterError(fail.error);
+    }
+  };
+
+  const startEncounter = async () => {
+    setEncounterFiring(true);
+    setEncounterError('');
+    await firePresetById(combatPresetId);
+    setEncounterActive(true);
+    localStorage.setItem(ENCOUNTER_ACTIVE_KEY, 'true');
+    setEncounterFiring(false);
+  };
+
+  const endEncounter = async () => {
+    setEncounterFiring(true);
+    setEncounterError('');
+    await firePresetById(endPresetId);
+    setEncounterActive(false);
+    localStorage.setItem(ENCOUNTER_ACTIVE_KEY, 'false');
+    setEncounterFiring(false);
+  };
 
   // Load PC data from characters.json (single source of truth)
   useEffect(() => {
@@ -673,7 +790,8 @@ export default function Encounters() {
 
   const doDelete = async () => {
     if (!deleteConfirm) return;
-    await window.electronAPI.monsters.deleteCustom(deleteConfirm.id);
+    const res = await window.electronAPI.monsters.deleteCustom(deleteConfirm.id);
+    if (!res?.success) { setError(res?.error || 'Delete failed'); setDeleteConfirm(null); return; }
     const data = await window.electronAPI.monsters.load();
     setCustomMonsters(data.custom || []);
     setSelectedMonster(null);
@@ -809,7 +927,22 @@ export default function Encounters() {
       )}
 
       {/* ── INITIATIVE TAB ── */}
-      {tab === 'initiative' && <InitiativeTracker srdMonsters={[...customMonsters, ...allSrd]} pcQuick={pcQuick} />}
+      {tab === 'initiative' && (
+        <InitiativeTracker
+          srdMonsters={[...customMonsters, ...allSrd]}
+          pcQuick={pcQuick}
+          presets={presets}
+          combatPresetId={combatPresetId}
+          endPresetId={endPresetId}
+          onSaveCombatPreset={saveCombatPreset}
+          onSaveEndPreset={saveEndPreset}
+          encounterActive={encounterActive}
+          onStartEncounter={startEncounter}
+          onEndEncounter={endEncounter}
+          encounterFiring={encounterFiring}
+          encounterError={encounterError}
+        />
+      )}
     </div>
   );
 }

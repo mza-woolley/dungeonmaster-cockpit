@@ -20,20 +20,21 @@ export default function Scribbleboard() {
   const [entries, setEntries] = useState([]);
   const [draft, setDraft] = useState('');
   const [sessionDate] = useState(datestamp());
-  const [copied, setCopied] = useState(false);
+  const [copyState, setCopyState] = useState('idle'); // 'idle' | 'ok' | 'err'
   const [cleared, setCleared] = useState(false);
   const [clearPending, setClearPending] = useState(false);
   const clearTimerRef = useRef(null);
   const logRef = useRef(null);
   const textareaRef = useRef(null);
 
-  // Load from localStorage on mount
+  // Load from localStorage on mount; clean up pending timers on unmount
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) setEntries(JSON.parse(saved));
     } catch (_) {}
     textareaRef.current?.focus();
+    return () => clearTimeout(clearTimerRef.current);
   }, []);
 
   // Persist on every change
@@ -79,10 +80,9 @@ export default function Scribbleboard() {
 
   const copyLog = () => {
     const body = entries.map(e => `[${e.time}]  ${e.text}`).join('\n');
-    navigator.clipboard.writeText(body).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+    navigator.clipboard.writeText(body)
+      .then(() => { setCopyState('ok');  setTimeout(() => setCopyState('idle'), 2000); })
+      .catch(() => { setCopyState('err'); setTimeout(() => setCopyState('idle'), 2000); });
   };
 
   const clearLog = () => {
@@ -109,7 +109,7 @@ export default function Scribbleboard() {
         </div>
         <div className="scribble-actions">
           <button className="action-btn" onClick={copyLog} title="Copy log">
-            {copied ? '✓ Copied' : 'Copy'}
+            {copyState === 'ok' ? '✓ Copied' : copyState === 'err' ? '✕ Failed' : 'Copy'}
           </button>
           <button className="action-btn" onClick={exportLog} title="Export as .txt">
             Export

@@ -56,6 +56,10 @@ export default function Characters() {
   const isElectron = !!window.electronAPI;
 
   useEffect(() => {
+    return () => clearTimeout(saveTimer.current);
+  }, []);
+
+  useEffect(() => {
     if (!isElectron) return;
     Promise.all([
       window.electronAPI.karma.load(),
@@ -126,10 +130,10 @@ export default function Characters() {
       </div>
 
       <div className="chars-tabs">
-        <button className={`chars-tab ${tab === 'pc'  ? 'active' : ''}`} onClick={() => setTab('pc')}>
+        <button className={`chars-tab ${tab === 'pc'  ? 'active' : ''}`} onClick={() => { setTab('pc');  setNewName(''); setNewSpecies(''); setNewClass(''); }}>
           Player Characters <span className="chars-tab-count">{pcs.length}</span>
         </button>
-        <button className={`chars-tab ${tab === 'npc' ? 'active' : ''}`} onClick={() => setTab('npc')}>
+        <button className={`chars-tab ${tab === 'npc' ? 'active' : ''}`} onClick={() => { setTab('npc'); setNewName(''); setNewSpecies(''); setNewClass(''); }}>
           NPCs <span className="chars-tab-count">{npcs.length}</span>
         </button>
       </div>

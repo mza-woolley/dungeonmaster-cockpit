@@ -129,7 +129,7 @@ const _engine = (() => {
   return { play, stop, stopAll, setVolume, setMasterVolume, applyMix, isPlaying };
 })();
 
-function useAmbienceEngine() { return _engine; }
+export { _engine as ambienceEngine };
 
 // ── Preset helpers ────────────────────────────────────────
 
@@ -209,7 +209,7 @@ function AmbiencePanel({ activeSounds, onToggle, onVolumeChange, onMasterChange,
         <div className="ambience-body">
           {Object.entries(AMBIENCE_SOUNDS).map(([cat, sounds]) => (
             <div key={cat} className="sound-category">
-              <div className="sound-cat-label">{CATEGORY_LABELS[cat]}</div>
+              <div className="sound-cat-label">{CATEGORY_LABELS[cat] ?? cat}</div>
               <div className="sound-grid">
                 {sounds.map(sound => {
                   const active = activeSounds.hasOwnProperty(sound.id);
@@ -350,7 +350,7 @@ function AmbienceMixer({ mix, onChange }) {
     <div className="amb-mixer">
       {Object.entries(AMBIENCE_SOUNDS).map(([cat, sounds]) => (
         <div key={cat} className="amb-mixer-cat">
-          <div className="amb-mixer-cat-label">{CATEGORY_LABELS[cat]}</div>
+          <div className="amb-mixer-cat-label">{CATEGORY_LABELS[cat] ?? cat}</div>
           <div className="sound-grid">
             {sounds.map(sound => {
               const active = mix.hasOwnProperty(sound.id);
@@ -631,7 +631,7 @@ function NanoleafManager({ devices, onAdd, onRemove, onVerify, onClose }) {
 
 // ── Main SceneControl ─────────────────────────────────────
 
-function hexToRgb(hex) {
+export function hexToRgb(hex) {
   const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return m ? { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) } : null;
 }
@@ -649,6 +649,7 @@ export default function SceneControl() {
   const [showNLManager,   setShowNLManager]   = useState(false);
   const [loading,         setLoading]         = useState('');
   const [error,           setError]           = useState('');
+  const [pixieLoading,    setPixieLoading]    = useState('');
 
   // Ambience state: { soundId: volume (0-1) }
   const [activeSounds, setActiveSounds] = useState(() => {
@@ -659,7 +660,7 @@ export default function SceneControl() {
     return isNaN(v) ? 0.7 : v;
   });
 
-  const engine = useAmbienceEngine();
+  const engine = _engine;
 
   const isElectron    = !!window.electronAPI;
   const nanoleafReady = nanoleafDevices.length > 0;
@@ -678,6 +679,9 @@ export default function SceneControl() {
     localStorage.setItem(AMB_VOL_KEY, String(masterVol));
   }, [masterVol]);
 
+  const fetchPlaylists      = useCallback(async () => { const r = await window.electronAPI.spotify.getPlaylists();  if (r.success) setPlaylists(r.data); }, []);
+  const fetchNanoleafScenes = useCallback(async () => { const r = await window.electronAPI.nanoleaf.getScenes();   if (r.success) setNanoleafScenes(r.data); }, []);
+
   // Init
   useEffect(() => {
     if (!isElectron) return;
@@ -693,7 +697,7 @@ export default function SceneControl() {
       if (sAuth)           fetchPlaylists();
       if (devices?.length) fetchNanoleafScenes();
     })();
-  }, [isElectron]);
+  }, [isElectron, fetchPlaylists, fetchNanoleafScenes]);
 
   // Poll track — paused when window is hidden
   useEffect(() => {
@@ -707,9 +711,6 @@ export default function SceneControl() {
     const interval = setInterval(poll, 5000);
     return () => clearInterval(interval);
   }, [spotifyAuth, isElectron]);
-
-  const fetchPlaylists     = async () => { const r = await window.electronAPI.spotify.getPlaylists();    if (r.success) setPlaylists(r.data); };
-  const fetchNanoleafScenes = async () => { const r = await window.electronAPI.nanoleaf.getScenes();    if (r.success) setNanoleafScenes(r.data); };
   const handleSpotifyAuth  = async () => {
     setLoading('spotify');
     const res = await window.electronAPI.spotify.authorize();
@@ -718,10 +719,10 @@ export default function SceneControl() {
     setLoading('');
   };
 
-  const pollTrack = async () => {
+  const pollTrack = useCallback(async () => {
     const res = await window.electronAPI.spotify.currentTrack();
     if (res.success) setCurrentTrack(res.data);
-  };
+  }, []);
 
   const handleResume   = async () => { await window.electronAPI.spotify.resume();   setTimeout(pollTrack, 300); };
   const handlePause    = async () => { await window.electronAPI.spotify.pause();    setTimeout(pollTrack, 300); };
@@ -738,6 +739,7 @@ export default function SceneControl() {
 
   // Ambience controls
   const handleSoundToggle = useCallback((soundId, currentVol) => {
+    setActivePreset(null);
     setActiveSounds(prev => {
       const next = { ...prev };
       if (next[soundId] !== undefined) {
@@ -764,6 +766,7 @@ export default function SceneControl() {
   const handleKillAmbience = useCallback(() => {
     engine.stopAll();
     setActiveSounds({});
+    setActivePreset(null);
   }, [engine]);
 
   // Fire preset
@@ -801,7 +804,7 @@ export default function SceneControl() {
 
     setFiringPreset(null);
     setTimeout(pollTrack, 1000);
-  }, [engine, isElectron]);
+  }, [engine, isElectron, pollTrack]);
 
   const savePreset = (preset) => {
     setPresets(prev => {
@@ -867,8 +870,26 @@ export default function SceneControl() {
         <div className="status-item">
           <span className="status-dot" style={{ background: 'var(--text-dim)' }} />
           <span className="status-label">Table Light</span>
-          <button className="status-connect" onClick={() => window.electronAPI.pixie.turnOn()}>On</button>
-          <button className="status-connect" onClick={() => window.electronAPI.pixie.turnOff()}>Off</button>
+          <button
+            className="status-connect"
+            disabled={!!pixieLoading}
+            onClick={async () => {
+              setPixieLoading('on');
+              const res = await window.electronAPI.pixie.turnOn();
+              if (res && !res.success) setError('Table Light: ' + res.error);
+              setPixieLoading('');
+            }}
+          >{pixieLoading === 'on' ? '…' : 'On'}</button>
+          <button
+            className="status-connect"
+            disabled={!!pixieLoading}
+            onClick={async () => {
+              setPixieLoading('off');
+              const res = await window.electronAPI.pixie.turnOff();
+              if (res && !res.success) setError('Table Light: ' + res.error);
+              setPixieLoading('');
+            }}
+          >{pixieLoading === 'off' ? '…' : 'Off'}</button>
         </div>
         {currentTrack && (
           <NowPlaying
