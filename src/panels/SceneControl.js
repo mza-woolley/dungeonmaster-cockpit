@@ -290,7 +290,7 @@ function AmbienceStrip({ activeSounds, masterVol, onMasterChange, onKill }) {
 // ── PresetTile ────────────────────────────────────────────
 
 function PresetTile({ preset, onFire, onEdit, active, firing }) {
-  const color = PRESET_COLORS.find(c => c.id === preset.color) || PRESET_COLORS[0];
+  const tileHex = preset.color?.startsWith('#') ? preset.color : (PRESET_COLORS.find(c => c.id === preset.color)?.hex || '#d4622a');
   const ambLabel = preset.ambience && Object.keys(preset.ambience).length > 0
     ? Object.keys(preset.ambience)
         .map(id => ALL_SOUNDS.find(s => s.id === id)?.label ?? id)
@@ -300,7 +300,7 @@ function PresetTile({ preset, onFire, onEdit, active, firing }) {
   return (
     <div
       className={`preset-tile ${active ? 'active' : ''} ${firing ? 'firing' : ''}`}
-      style={{ '--tile-color': color.hex }}
+      style={{ '--tile-color': tileHex }}
     >
       <button className="tile-fire" onClick={() => onFire(preset)}>
         <div className="tile-header">
@@ -326,7 +326,13 @@ function PresetTile({ preset, onFire, onEdit, active, firing }) {
               <span className="tile-detail-text">{ambLabel}</span>
             </span>
           )}
-          {!preset.playlistName && !preset.nanoleafScene && !ambLabel && (
+          {preset.lightColor && (
+            <span className="tile-detail-row">
+              <span className="tile-detail-icon" style={{ color: preset.lightColor }}>◉</span>
+              <span className="tile-detail-text">Lights</span>
+            </span>
+          )}
+          {!preset.playlistName && !preset.nanoleafScene && !preset.lightColor && !ambLabel && (
             <span className="tile-detail-row tile-detail-empty">No actions set</span>
           )}
         </div>
@@ -385,15 +391,14 @@ function AmbienceMixer({ mix, onChange }) {
 
 function PresetEditor({ preset, playlists, nanoleafScenes, onSave, onDelete, onClose }) {
   const [name,          setName]          = useState(preset?.name || '');
-  const [color,         setColor]         = useState(preset?.color || 'ember');
+  const [color,         setColor]         = useState(preset?.color?.startsWith('#') ? preset.color : (PRESET_COLORS.find(c => c.id === preset?.color)?.hex || '#d4622a'));
   const [playlistId,    setPlaylistId]    = useState(preset?.playlistId || '');
   const [playlistUri,   setPlaylistUri]   = useState(preset?.playlistUri || '');
   const [playlistName,  setPlaylistName]  = useState(preset?.playlistName || '');
   const [nanoleafScene, setNanoleafScene] = useState(preset?.nanoleafScene || '');
-  const [useSpotify,    setUseSpotify]    = useState(preset ? !!preset.playlistId : true);
-  const [useNanoleaf,   setUseNanoleaf]   = useState(preset ? !!preset.nanoleafScene : true);
   const [useAmbience,   setUseAmbience]   = useState(preset ? !!(preset.ambience && Object.keys(preset.ambience).length) : false);
   const [ambienceMix,   setAmbienceMix]   = useState(preset?.ambience || {});
+  const [lightColor,    setLightColor]    = useState(preset?.lightColor || '');
 
   const handlePlaylistChange = (e) => {
     const pl = playlists.find(p => p.id === e.target.value);
@@ -404,14 +409,15 @@ function PresetEditor({ preset, playlists, nanoleafScenes, onSave, onDelete, onC
   const handleSave = () => {
     if (!name.trim()) return;
     onSave({
-      id:           preset?.id || Date.now().toString(),
-      name:         name.trim(),
+      id:            preset?.id || Date.now().toString(),
+      name:          name.trim(),
       color,
-      playlistId:   useSpotify ? playlistId : '',
-      playlistUri:  useSpotify ? playlistUri : '',
-      playlistName: useSpotify ? playlistName : '',
-      nanoleafScene: useNanoleaf ? nanoleafScene : '',
-      ambience:     useAmbience ? ambienceMix : {},
+      playlistId,
+      playlistUri,
+      playlistName,
+      nanoleafScene,
+      ambience:      useAmbience ? ambienceMix : {},
+      lightColor,
     });
   };
 
@@ -434,53 +440,54 @@ function PresetEditor({ preset, playlists, nanoleafScenes, onSave, onDelete, onC
               autoFocus
             />
           </div>
-          <div className="editor-field">
-            <label>Colour</label>
-            <div className="color-row">
-              {PRESET_COLORS.map(c => (
-                <button
-                  key={c.id}
-                  className={`color-swatch ${color === c.id ? 'selected' : ''}`}
-                  style={{ '--swatch': c.hex }}
-                  onClick={() => setColor(c.id)}
-                  title={c.label}
-                />
-              ))}
-            </div>
+          <div className="editor-field editor-field--inline">
+            <label>Tile Colour</label>
+            <input
+              type="color"
+              className="light-color-picker"
+              value={color}
+              onChange={e => setColor(e.target.value)}
+            />
           </div>
 
           <div className="editor-section">
-            <div className="editor-section-header">
-              <label className="toggle-label">
-                <input type="checkbox" checked={useSpotify} onChange={e => setUseSpotify(e.target.checked)} />
-                <span>Spotify Playlist</span>
-              </label>
-            </div>
-            {useSpotify && (
-              playlists.length > 0
-                ? <select className="editor-select" value={playlistId} onChange={handlePlaylistChange}>
-                    <option value="">— Select a playlist —</option>
-                    {playlists.map(p => <option key={p.id} value={p.id}>{p.name} ({p.total} tracks)</option>)}
-                  </select>
-                : <p className="editor-hint">Connect Spotify first to assign a playlist.</p>
-            )}
+            <label className="editor-section-label">Spotify Playlist</label>
+            {playlists.length > 0
+              ? <select className="editor-select" value={playlistId} onChange={handlePlaylistChange}>
+                  <option value="">— None —</option>
+                  {playlists.map(p => <option key={p.id} value={p.id}>{p.name} ({p.total} tracks)</option>)}
+                </select>
+              : <p className="editor-hint">Connect Spotify first to assign a playlist.</p>
+            }
           </div>
 
           <div className="editor-section">
-            <div className="editor-section-header">
-              <label className="toggle-label">
-                <input type="checkbox" checked={useNanoleaf} onChange={e => setUseNanoleaf(e.target.checked)} />
-                <span>Nanoleaf Scene</span>
-              </label>
+            <label className="editor-section-label">Nanoleaf Scene</label>
+            {nanoleafScenes.length > 0
+              ? <select className="editor-select" value={nanoleafScene} onChange={e => setNanoleafScene(e.target.value)}>
+                  <option value="">— None —</option>
+                  {nanoleafScenes.map(s => <option key={s} value={s}>{s}</option>)}
+                </select>
+              : <p className="editor-hint">Add a Nanoleaf device first to assign a scene.</p>
+            }
+          </div>
+
+          <div className="editor-section">
+            <label className="editor-section-label">Table Light Colour</label>
+            <div className="light-color-row">
+              {lightColor
+                ? <>
+                    <input
+                      type="color"
+                      className="light-color-picker"
+                      value={lightColor}
+                      onChange={e => setLightColor(e.target.value)}
+                    />
+                    <button className="light-color-clear" onClick={() => setLightColor('')}>✕ None</button>
+                  </>
+                : <button className="light-color-set" onClick={() => setLightColor('#ff6600')}>+ Set colour</button>
+              }
             </div>
-            {useNanoleaf && (
-              nanoleafScenes.length > 0
-                ? <select className="editor-select" value={nanoleafScene} onChange={e => setNanoleafScene(e.target.value)}>
-                    <option value="">— Select a scene —</option>
-                    {nanoleafScenes.map(s => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                : <p className="editor-hint">Add a Nanoleaf device first, or save and assign a scene later.</p>
-            )}
           </div>
 
           <div className="editor-section">
@@ -623,6 +630,11 @@ function NanoleafManager({ devices, onAdd, onRemove, onVerify, onClose }) {
 }
 
 // ── Main SceneControl ─────────────────────────────────────
+
+function hexToRgb(hex) {
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return m ? { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) } : null;
+}
 
 export default function SceneControl() {
   const [spotifyAuth,     setSpotifyAuth]     = useState(false);
@@ -768,11 +780,15 @@ export default function SceneControl() {
       // Preset has no ambience — leave current mix alone (don't kill it)
     }
 
-    // Spotify + Nanoleaf
+    // Spotify + Nanoleaf + Pixie
     if (!isElectron) { setFiringPreset(null); return; }
     const actions = [];
     if (preset.playlistUri)   actions.push(window.electronAPI.spotify.play(preset.playlistUri));
     if (preset.nanoleafScene) actions.push(window.electronAPI.nanoleaf.setScene(preset.nanoleafScene));
+    if (preset.lightColor) {
+      const rgb = hexToRgb(preset.lightColor);
+      if (rgb) actions.push(window.electronAPI.pixie.setColor(rgb.r, rgb.g, rgb.b));
+    }
     if (actions.length) {
       const results  = await Promise.all(actions);
       const hardFail = results.find(r => !r.success);
@@ -847,6 +863,12 @@ export default function SceneControl() {
           <button className="status-connect" onClick={() => setShowNLManager(true)}>
             {nanoleafReady ? 'Manage' : 'Setup'}
           </button>
+        </div>
+        <div className="status-item">
+          <span className="status-dot" style={{ background: 'var(--text-dim)' }} />
+          <span className="status-label">Table Light</span>
+          <button className="status-connect" onClick={() => window.electronAPI.pixie.turnOn()}>On</button>
+          <button className="status-connect" onClick={() => window.electronAPI.pixie.turnOff()}>Off</button>
         </div>
         {currentTrack && (
           <NowPlaying

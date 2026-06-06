@@ -2,6 +2,19 @@
 
 ---
 
+## v0.8.0 — The Lumina Update — June 2026
+
+### ✨ New
+
+- Scene: Table Light integration — BLE RGB strip now fires alongside Nanoleaf and Spotify from a single preset
+- Scene: preset editor redesigned — Spotify, Nanoleaf, and Table Light controls always visible with None option; no more toggles
+- Scene: Table Light colour picker per preset — fires independently of Nanoleaf scene
+- Scene: Table Light On/Off buttons in status bar for pre-session connection
+- Scene: preset tile colour is now a full RGB colour picker instead of a fixed palette
+- Scene: preset tiles redesigned — flat dark card with colour accent bar and glow
+
+---
+
 ## v0.7.0 — The Improv Update — June 2026
 
 ### ✨ New

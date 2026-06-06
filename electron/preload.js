@@ -1,4 +1,3 @@
-// electron/preload.js  —  v0.3 scene fix patch
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -8,10 +7,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     authorize:    ()    => ipcRenderer.invoke('spotify:authorize'),
     getPlaylists: ()    => ipcRenderer.invoke('spotify:getPlaylists'),
     play:         (uri) => ipcRenderer.invoke('spotify:play', uri),
-    resume:       ()    => ipcRenderer.invoke('spotify:resume'),       // ← NEW
+    resume:       ()    => ipcRenderer.invoke('spotify:resume'),
     pause:        ()    => ipcRenderer.invoke('spotify:pause'),
     skip:         ()    => ipcRenderer.invoke('spotify:skip'),
-    previous:     ()    => ipcRenderer.invoke('spotify:previous'),     // ← NEW
+    previous:     ()    => ipcRenderer.invoke('spotify:previous'),
     currentTrack: ()    => ipcRenderer.invoke('spotify:currentTrack'),
   },
 
@@ -19,16 +18,23 @@ contextBridge.exposeInMainWorld('electronAPI', {
   nanoleaf: {
     isConfigured:  ()                   => ipcRenderer.invoke('nanoleaf:isConfigured'),
     getConfig:     ()                   => ipcRenderer.invoke('nanoleaf:getConfig'),
-    getDevices:    ()                   => ipcRenderer.invoke('nanoleaf:getDevices'),  // ← NEW
+    getDevices:    ()                   => ipcRenderer.invoke('nanoleaf:getDevices'),
     setup:         (ip, port, label)    => ipcRenderer.invoke('nanoleaf:setup', { ip, port, label }),
-    removeDevice:  (deviceId)           => ipcRenderer.invoke('nanoleaf:removeDevice', deviceId),   // ← NEW
-    updateLabel:   (deviceId, label)    => ipcRenderer.invoke('nanoleaf:updateLabel', { deviceId, label }), // ← NEW
-    verifyDevice:  (deviceId)           => ipcRenderer.invoke('nanoleaf:verifyDevice', deviceId),   // ← NEW
+    removeDevice:  (deviceId)           => ipcRenderer.invoke('nanoleaf:removeDevice', deviceId),
+    updateLabel:   (deviceId, label)    => ipcRenderer.invoke('nanoleaf:updateLabel', { deviceId, label }),
+    verifyDevice:  (deviceId)           => ipcRenderer.invoke('nanoleaf:verifyDevice', deviceId),
     getScenes:     ()                   => ipcRenderer.invoke('nanoleaf:getScenes'),
     setScene:      (scene)              => ipcRenderer.invoke('nanoleaf:setScene', scene),
     setBrightness: (val)                => ipcRenderer.invoke('nanoleaf:setBrightness', val),
     setPower:      (on)                 => ipcRenderer.invoke('nanoleaf:setPower', on),
     getState:      ()                   => ipcRenderer.invoke('nanoleaf:getState'),
+  },
+
+  // Pixie Table Light
+  pixie: {
+    setColor: (r, g, b) => ipcRenderer.invoke('pixie:setColor', { r, g, b }),
+    turnOn:   ()        => ipcRenderer.invoke('pixie:turnOn'),
+    turnOff:  ()        => ipcRenderer.invoke('pixie:turnOff'),
   },
 
   // Stat Block window

@@ -210,51 +210,51 @@
 /* ── Preset Grid ── */
 .preset-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
 }
 
 /* ── Preset Tile ── */
 .preset-tile {
   position: relative;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--bg-card);
   overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
 }
 .preset-tile:hover {
-  border-color: var(--tile-color);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--tile-color) 25%, transparent);
-  transform: translateY(-1px);
+  border-color: var(--border);
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--tile-color) 20%, transparent);
+  transform: translateY(-2px);
 }
 .preset-tile.active {
-  border-color: var(--tile-color);
-  box-shadow: 0 0 24px color-mix(in srgb, var(--tile-color) 35%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--tile-color) 30%, transparent);
 }
 .preset-tile.firing {
   transform: scale(0.98);
 }
-/* Colour stripe at top */
+/* Bold left accent bar */
 .preset-tile::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
+  top: 0; left: 0; bottom: 0;
+  width: 4px;
   background: var(--tile-color);
   opacity: 0.9;
 }
 
 .tile-fire {
   width: 100%;
-  padding: 18px 16px 14px;
+  padding: 14px 14px 12px 18px;
   background: none;
   border: none;
   cursor: pointer;
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  box-sizing: border-box;
 }
 .tile-fire:hover .tile-name {
   color: var(--tile-color);
@@ -411,6 +411,8 @@
   flex-direction: column;
   gap: 6px;
 }
+.editor-field--inline { flex-direction: row; align-items: center; gap: 12px; }
+.editor-field--inline label { margin: 0; }
 .editor-field label {
   font-family: var(--font-display);
   font-size: 9px;
@@ -472,6 +474,55 @@
   color: var(--text-secondary);
 }
 .toggle-label input[type="checkbox"] { accent-color: var(--gold); cursor: pointer; }
+.editor-section-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.light-color-clear {
+  font-size: 11px;
+  color: var(--text-dim);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+.light-color-clear:hover { color: var(--ember); border-color: var(--ember); }
+.light-color-set {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+.light-color-set:hover { border-color: var(--gold); color: var(--gold); }
+.light-color-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.light-color-picker {
+  width: 48px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+  padding: 2px;
+}
+.light-color-hint {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-style: italic;
+}
 .editor-hint {
   font-family: var(--font-body);
   font-size: 12px;

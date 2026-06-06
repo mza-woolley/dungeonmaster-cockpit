@@ -1,9 +1,4 @@
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
-// electron/main.js  —  v0.3 scene fix patch
-// Changes from v0.3 base:
-//   Spotify: added spotify:resume, spotify:previous IPC
-//   Nanoleaf: added nanoleaf:getDevices, nanoleaf:addDevice, nanoleaf:removeDevice,
-//             nanoleaf:updateLabel, nanoleaf:verifyDevice, nanoleaf:getState now returns array
 
 const { app, BrowserWindow, globalShortcut, ipcMain, dialog, nativeImage } = require('electron');
 
@@ -16,6 +11,7 @@ const fs   = require('fs');
 
 const spotify  = require('./spotify');
 const nanoleaf = require('./nanoleaf');
+const pixie    = require('./pixie');
 const tv        = require('./tvDisplay');
 const statblock = require('./statblock');
 const wizard   = require('./wizard');
@@ -56,7 +52,7 @@ ipcMain.handle('spotify:play', async (_, uri) => {
   try { await spotify.playPlaylist(uri); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
-ipcMain.handle('spotify:resume', async () => {           // ← NEW
+ipcMain.handle('spotify:resume', async () => {
   try { await spotify.resumePlayback(); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
@@ -68,7 +64,7 @@ ipcMain.handle('spotify:skip', async () => {
   try { await spotify.skipTrack(); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
-ipcMain.handle('spotify:previous', async () => {         // ← NEW
+ipcMain.handle('spotify:previous', async () => {
   try { await spotify.previousTrack(); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
@@ -80,26 +76,26 @@ ipcMain.handle('spotify:currentTrack', async () => {
 // ── Nanoleaf IPC ──────────────────────────────────────────
 ipcMain.handle('nanoleaf:isConfigured', () => nanoleaf.isConfigured());
 ipcMain.handle('nanoleaf:getConfig',    () => nanoleaf.loadConfig());
-ipcMain.handle('nanoleaf:getDevices',   () => nanoleaf.getDevices());          // ← NEW
+ipcMain.handle('nanoleaf:getDevices',   () => nanoleaf.getDevices());
 
-ipcMain.handle('nanoleaf:setup', async (_, { ip, port, label }) => {           // label param added
+ipcMain.handle('nanoleaf:setup', async (_, { ip, port, label }) => {
   try {
     const device = await nanoleaf.generateToken(ip, port, label);
     return { success: true, device };
   } catch (err) { return { success: false, error: err.message }; }
 });
 
-ipcMain.handle('nanoleaf:removeDevice', (_, deviceId) => {                     // ← NEW
+ipcMain.handle('nanoleaf:removeDevice', (_, deviceId) => {
   try { nanoleaf.removeDevice(deviceId); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
 
-ipcMain.handle('nanoleaf:updateLabel', (_, { deviceId, label }) => {           // ← NEW
+ipcMain.handle('nanoleaf:updateLabel', (_, { deviceId, label }) => {
   try { nanoleaf.updateDeviceLabel(deviceId, label); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
 
-ipcMain.handle('nanoleaf:verifyDevice', async (_, deviceId) => {               // ← NEW
+ipcMain.handle('nanoleaf:verifyDevice', async (_, deviceId) => {
   try { return { success: true, data: await nanoleaf.verifyDevice(deviceId) }; }
   catch (err) { return { success: false, error: err.message }; }
 });
@@ -124,6 +120,20 @@ ipcMain.handle('nanoleaf:setPower', async (_, on) => {
 });
 ipcMain.handle('nanoleaf:getState', async () => {
   try { return { success: true, data: await nanoleaf.getState() }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+
+// ── Pixie Table Light IPC ─────────────────────────────────
+ipcMain.handle('pixie:setColor', async (_, { r, g, b }) => {
+  try { await pixie.setColor(r, g, b); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('pixie:turnOn', async () => {
+  try { await pixie.turnOn(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('pixie:turnOff', async () => {
+  try { await pixie.turnOff(); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
 
