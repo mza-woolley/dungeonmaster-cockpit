@@ -2,6 +2,23 @@
 
 ---
 
+## v0.8.1 — June 2026
+
+### 🐛 Fixes
+
+- Encounters: Start/End Encounter presets now fire ambience and table light, not just Spotify and Nanoleaf
+- Encounters: removing a combatant no longer resets the turn to the top of the order
+- Encounters: deleting a custom monster now shows an error if it fails
+- TV Display: fog of war now restores correctly when loading a saved map state with a different map
+- Characters: add form clears when switching between PC and NPC tabs
+- Scribble: copy button now shows a failure state if clipboard access is denied
+- Docs: rename, delete, and move failures now show inline errors instead of silent failures or browser popups
+- Generator: roll flash animation now reliably plays every time
+- Scene: Table Light On/Off buttons now show loading state and surface errors
+- Pixie: BLE native module rebuilt for Electron — fixes "no handler registered" error on startup
+
+---
+
 ## v0.8.0 — The Lumina Update — June 2026
 
 ### ✨ New
