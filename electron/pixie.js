@@ -314,11 +314,11 @@ async function setBrightness(percent) {
   console.log(`[Pixie] Brightness: ${percent}%`);
 }
 
-async function setColor(r, g, b) {
+async function setColor(r, g, b, brightness = 100) {
   await connect();
-  // Color: op=1 compound (0xC1), dst=device addr, data=[R,G,B,brightness]
-  await sendPacket(DEVICE_ADDR, 0xC1, [r, g, b, 0xff]);
-  console.log(`[Pixie] Color: rgb(${r},${g},${b})`);
+  const br = Math.round(Math.max(0, Math.min(100, brightness)) * 2.55);
+  await sendPacket(DEVICE_ADDR, 0xC1, [r, g, b, br]);
+  console.log(`[Pixie] Color: rgb(${r},${g},${b}) @ ${brightness}%`);
 }
 
 // ── Test runner ───────────────────────────────────────────────────────────────

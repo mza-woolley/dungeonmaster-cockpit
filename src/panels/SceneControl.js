@@ -142,6 +142,13 @@ const PRESET_COLORS = [
   { id: 'moss',   label: 'Moss',   hex: '#4a7c59' },
 ];
 
+function buildGradient(colors) {
+  if (!colors || colors.length === 0) return 'var(--bg-card)';
+  if (colors.length === 1) return colors[0];
+  const stops = [...colors, colors[0]];
+  return `linear-gradient(to right, ${stops.map((c, i) => `${c} ${Math.round(i / (stops.length - 1) * 100)}%`).join(', ')})`;
+}
+
 
 // ── NowPlaying ────────────────────────────────────────────
 
@@ -207,38 +214,34 @@ function AmbiencePanel({ activeSounds, onToggle, onVolumeChange, onMasterChange,
 
       {open && (
         <div className="ambience-body">
-          {Object.entries(AMBIENCE_SOUNDS).map(([cat, sounds]) => (
-            <div key={cat} className="sound-category">
-              <div className="sound-cat-label">{CATEGORY_LABELS[cat] ?? cat}</div>
-              <div className="sound-grid">
-                {sounds.map(sound => {
-                  const active = activeSounds.hasOwnProperty(sound.id);
-                  const vol    = activeSounds[sound.id] ?? 0.5;
-                  return (
-                    <div
-                      key={sound.id}
-                      className={`sound-tile ${active ? 'active' : ''}`}
-                      onClick={() => onToggle(sound.id, vol)}
-                    >
-                      <span className="sound-tile-icon">{sound.icon}</span>
-                      <span className="sound-tile-label">{sound.label}</span>
-                      {active && (
-                        <div className="sound-vol-wrap" onClick={e => e.stopPropagation()}>
-                          <input
-                            type="range"
-                            min="0" max="1" step="0.01"
-                            value={vol}
-                            className="sound-vol-slider"
-                            onChange={e => onVolumeChange(sound.id, parseFloat(e.target.value))}
-                          />
-                        </div>
-                      )}
+          <div className="sound-grid">
+            {ALL_SOUNDS.map(sound => {
+              const active = activeSounds.hasOwnProperty(sound.id);
+              const vol    = activeSounds[sound.id] ?? 0.5;
+              return (
+                <div
+                  key={sound.id}
+                  className={`sound-tile ${active ? 'active' : ''}`}
+                  title={sound.label}
+                  onClick={() => onToggle(sound.id, vol)}
+                >
+                  <span className="sound-tile-icon">{sound.icon}</span>
+                  <span className="sound-tile-label">{sound.label}</span>
+                  {active && (
+                    <div className="sound-vol-wrap" onClick={e => e.stopPropagation()}>
+                      <input
+                        type="range"
+                        min="0" max="1" step="0.01"
+                        value={vol}
+                        className="sound-vol-slider"
+                        onChange={e => onVolumeChange(sound.id, parseFloat(e.target.value))}
+                      />
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>
@@ -290,12 +293,11 @@ function AmbienceStrip({ activeSounds, masterVol, onMasterChange, onKill }) {
 // ── PresetTile ────────────────────────────────────────────
 
 function PresetTile({ preset, onFire, onEdit, active, firing }) {
-  const tileHex = preset.color?.startsWith('#') ? preset.color : (PRESET_COLORS.find(c => c.id === preset.color)?.hex || '#d4622a');
+  const tileHex  = preset.color?.startsWith('#') ? preset.color : (PRESET_COLORS.find(c => c.id === preset.color)?.hex || '#d4622a');
   const ambLabel = preset.ambience && Object.keys(preset.ambience).length > 0
-    ? Object.keys(preset.ambience)
-        .map(id => ALL_SOUNDS.find(s => s.id === id)?.label ?? id)
-        .join(', ')
+    ? Object.keys(preset.ambience).map(id => ALL_SOUNDS.find(s => s.id === id)?.label ?? id).join(', ')
     : null;
+  const hasLights = preset.lightSequence?.stops?.length > 0;
 
   return (
     <div
@@ -314,10 +316,13 @@ function PresetTile({ preset, onFire, onEdit, active, firing }) {
               <span className="tile-detail-text">{preset.playlistName}</span>
             </span>
           )}
-          {preset.nanoleafScene && (
+          {hasLights && (
             <span className="tile-detail-row">
-              <span className="tile-detail-icon">◈</span>
-              <span className="tile-detail-text">{preset.nanoleafScene}</span>
+              <span className="tile-detail-icon">◉</span>
+              <span
+                className="tile-light-bar"
+                style={{ background: buildGradient(preset.lightSequence.stops.map(s => s.color)) }}
+              />
             </span>
           )}
           {ambLabel && (
@@ -326,19 +331,108 @@ function PresetTile({ preset, onFire, onEdit, active, firing }) {
               <span className="tile-detail-text">{ambLabel}</span>
             </span>
           )}
-          {preset.lightColor && (
-            <span className="tile-detail-row">
-              <span className="tile-detail-icon" style={{ color: preset.lightColor }}>◉</span>
-              <span className="tile-detail-text">Lights</span>
-            </span>
-          )}
-          {!preset.playlistName && !preset.nanoleafScene && !preset.lightColor && !ambLabel && (
+          {!preset.playlistName && !hasLights && !ambLabel && (
             <span className="tile-detail-row tile-detail-empty">No actions set</span>
           )}
         </div>
         {firing && <div className="tile-firing-bar" />}
       </button>
       <button className="tile-edit-btn" onClick={() => onEdit(preset)} title="Edit preset">✎</button>
+    </div>
+  );
+}
+
+// ── ColourSequenceBuilder ─────────────────────────────────
+
+function ColourSequenceBuilder({ sequence, onChange, onTest, onStopTest, testing }) {
+  const stops = sequence?.stops ?? [{ color: '#d4622a', crossfade: 800, brightness: 100 }];
+
+  const update = (i, patch) => onChange({ stops: stops.map((s, j) => j === i ? { ...s, ...patch } : s) });
+  const remove = (i)        => onChange({ stops: stops.filter((_, j) => j !== i) });
+  const add    = ()         => onChange({ stops: [...stops, { color: '#4a7fa5', crossfade: 800, brightness: 100 }] });
+
+  // Animated preview — cycles through stops using CSS background transitions
+  const [previewIdx, setPreviewIdx] = useState(0);
+  const stopsRef = useRef(stops);
+  useEffect(() => { stopsRef.current = stops; }, [stops]);
+  useEffect(() => {
+    if (stops.length <= 1) { setPreviewIdx(0); return; }
+    let idx = 0;
+    let cancelled = false;
+    function advance() {
+      if (cancelled) return;
+      idx = (idx + 1) % stopsRef.current.length;
+      setPreviewIdx(idx);
+      setTimeout(advance, Math.max(stopsRef.current[idx].crossfade || 0, 300));
+    }
+    const t = setTimeout(advance, Math.max(stops[0].crossfade || 0, 300));
+    return () => { cancelled = true; clearTimeout(t); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stops.length]);
+
+  const previewStop = stops[previewIdx] ?? stops[0];
+  const gradient    = buildGradient(stops.map(s => s.color));
+
+  return (
+    <div className="csb">
+      <div className="csb-top-row">
+        <div className="csb-preview" style={{ background: gradient }} />
+        <div
+          className="csb-live-square"
+          style={{
+            background:  previewStop.color,
+            filter:      `brightness(${(previewStop.brightness ?? 100) / 100})`,
+            transition:  `background ${previewStop.crossfade}ms ease, filter ${previewStop.crossfade}ms ease`,
+          }}
+        />
+      </div>
+      <div className="csb-stops">
+        {stops.map((stop, i) => (
+          <div key={i} className="csb-stop">
+            {stops.length > 1 && (
+              <button className="csb-stop-remove" onClick={() => remove(i)} title="Remove">×</button>
+            )}
+            <label className="csb-stop-label" style={{ '--stop-color': stop.color }}>
+              <input
+                type="color"
+                value={stop.color}
+                className="csb-color-input"
+                onChange={e => update(i, { color: e.target.value })}
+              />
+            </label>
+            <input
+              type="range" min={0} max={15} step={1}
+              value={Math.round((stop.crossfade ?? 800) / 100)}
+              className="csb-stop-slider"
+              title="Crossfade"
+              onChange={e => update(i, { crossfade: parseInt(e.target.value) * 100 })}
+            />
+            <span className="csb-stop-ms">
+              {(stop.crossfade ?? 800) === 0 ? 'instant' : `${stop.crossfade ?? 800}ms`}
+            </span>
+            <input
+              type="range" min={0} max={100} step={5}
+              value={stop.brightness ?? 100}
+              className="csb-stop-slider csb-stop-slider--bright"
+              title="Brightness"
+              onChange={e => update(i, { brightness: parseInt(e.target.value) })}
+            />
+            <span className="csb-stop-ms">{stop.brightness ?? 100}%</span>
+          </div>
+        ))}
+        {stops.length < 6 && (
+          <button className="csb-add" onClick={add} title="Add colour">+</button>
+        )}
+      </div>
+      <div className="csb-controls">
+        <span className="csb-test-hint">Preview above is in-app only</span>
+        <button
+          className={`csb-test-btn ${testing ? 'active' : ''}`}
+          onClick={testing ? onStopTest : onTest}
+        >
+          {testing ? '■ Stop' : '▶ Push Live'}
+        </button>
+      </div>
     </div>
   );
 }
@@ -389,16 +483,21 @@ function AmbienceMixer({ mix, onChange }) {
 
 // ── PresetEditor ──────────────────────────────────────────
 
-function PresetEditor({ preset, playlists, nanoleafScenes, onSave, onDelete, onClose }) {
+function PresetEditor({ preset, playlists, onSave, onDelete, onClose }) {
   const [name,          setName]          = useState(preset?.name || '');
   const [color,         setColor]         = useState(preset?.color?.startsWith('#') ? preset.color : (PRESET_COLORS.find(c => c.id === preset?.color)?.hex || '#d4622a'));
   const [playlistId,    setPlaylistId]    = useState(preset?.playlistId || '');
   const [playlistUri,   setPlaylistUri]   = useState(preset?.playlistUri || '');
   const [playlistName,  setPlaylistName]  = useState(preset?.playlistName || '');
-  const [nanoleafScene, setNanoleafScene] = useState(preset?.nanoleafScene || '');
   const [useAmbience,   setUseAmbience]   = useState(preset ? !!(preset.ambience && Object.keys(preset.ambience).length) : false);
   const [ambienceMix,   setAmbienceMix]   = useState(preset?.ambience || {});
-  const [lightColor,    setLightColor]    = useState(preset?.lightColor || '');
+  const [useLights,     setUseLights]     = useState(!!(preset?.lightSequence?.stops?.length));
+  const [lightSequence, setLightSequence] = useState(
+    preset?.lightSequence ?? { stops: [{ color: '#d4622a', crossfade: 800, brightness: 100 }] }
+  );
+  const [testingLights, setTestingLights] = useState(false);
+
+  const isElectron = !!window.electronAPI;
 
   const handlePlaylistChange = (e) => {
     const pl = playlists.find(p => p.id === e.target.value);
@@ -406,8 +505,26 @@ function PresetEditor({ preset, playlists, nanoleafScenes, onSave, onDelete, onC
     else    { setPlaylistId(''); setPlaylistUri(''); setPlaylistName(''); }
   };
 
+  const handleTestLights = () => {
+    if (!isElectron) return;
+    window.electronAPI.lights.startLoop(lightSequence);
+    setTestingLights(true);
+  };
+
+  const handleStopTest = () => {
+    if (!isElectron) return;
+    window.electronAPI.lights.stopLoop();
+    setTestingLights(false);
+  };
+
+  const handleClose = () => {
+    if (testingLights) handleStopTest();
+    onClose();
+  };
+
   const handleSave = () => {
     if (!name.trim()) return;
+    if (testingLights) handleStopTest();
     onSave({
       id:            preset?.id || Date.now().toString(),
       name:          name.trim(),
@@ -415,9 +532,8 @@ function PresetEditor({ preset, playlists, nanoleafScenes, onSave, onDelete, onC
       playlistId,
       playlistUri,
       playlistName,
-      nanoleafScene,
+      lightSequence: useLights ? lightSequence : null,
       ambience:      useAmbience ? ambienceMix : {},
-      lightColor,
     });
   };
 
@@ -426,7 +542,7 @@ function PresetEditor({ preset, playlists, nanoleafScenes, onSave, onDelete, onC
       <div className="editor-modal">
         <div className="editor-header">
           <h3>{preset ? 'Edit Preset' : 'New Preset'}</h3>
-          <button className="editor-close" onClick={onClose}>✕</button>
+          <button className="editor-close" onClick={handleClose}>✕</button>
         </div>
         <div className="editor-body">
           <div className="editor-field">
@@ -461,44 +577,43 @@ function PresetEditor({ preset, playlists, nanoleafScenes, onSave, onDelete, onC
             }
           </div>
 
-          <div className="editor-section">
-            <label className="editor-section-label">Nanoleaf Scene</label>
-            {nanoleafScenes.length > 0
-              ? <select className="editor-select" value={nanoleafScene} onChange={e => setNanoleafScene(e.target.value)}>
-                  <option value="">— None —</option>
-                  {nanoleafScenes.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-              : <p className="editor-hint">Add a Nanoleaf device first to assign a scene.</p>
-            }
+          <div className="editor-section editor-section--accordion">
+            <button className="editor-acc-header" onClick={() => {
+              const next = !useLights;
+              setUseLights(next);
+              if (!next && testingLights) handleStopTest();
+            }}>
+              <span className="editor-acc-label">Lighting Sequence</span>
+              {useLights && lightSequence?.stops?.length > 0 && (
+                <span className="editor-acc-summary">{lightSequence.stops.length} colour{lightSequence.stops.length !== 1 ? 's' : ''}</span>
+              )}
+              <span className={`editor-acc-chevron ${useLights ? 'open' : ''}`}>▾</span>
+            </button>
+            {useLights && (
+              <div className="editor-acc-body">
+                <ColourSequenceBuilder
+                  sequence={lightSequence}
+                  onChange={setLightSequence}
+                  onTest={handleTestLights}
+                  onStopTest={handleStopTest}
+                  testing={testingLights}
+                />
+              </div>
+            )}
           </div>
 
-          <div className="editor-section">
-            <label className="editor-section-label">Table Light Colour</label>
-            <div className="light-color-row">
-              {lightColor
-                ? <>
-                    <input
-                      type="color"
-                      className="light-color-picker"
-                      value={lightColor}
-                      onChange={e => setLightColor(e.target.value)}
-                    />
-                    <button className="light-color-clear" onClick={() => setLightColor('')}>✕ None</button>
-                  </>
-                : <button className="light-color-set" onClick={() => setLightColor('#ff6600')}>+ Set colour</button>
-              }
-            </div>
-          </div>
-
-          <div className="editor-section">
-            <div className="editor-section-header">
-              <label className="toggle-label">
-                <input type="checkbox" checked={useAmbience} onChange={e => setUseAmbience(e.target.checked)} />
-                <span>Ambient Mix</span>
-              </label>
-            </div>
+          <div className="editor-section editor-section--accordion">
+            <button className="editor-acc-header" onClick={() => setUseAmbience(!useAmbience)}>
+              <span className="editor-acc-label">Ambient Mix</span>
+              {useAmbience && Object.keys(ambienceMix).length > 0 && (
+                <span className="editor-acc-summary">{Object.keys(ambienceMix).length} sound{Object.keys(ambienceMix).length !== 1 ? 's' : ''}</span>
+              )}
+              <span className={`editor-acc-chevron ${useAmbience ? 'open' : ''}`}>▾</span>
+            </button>
             {useAmbience && (
-              <AmbienceMixer mix={ambienceMix} onChange={setAmbienceMix} />
+              <div className="editor-acc-body">
+                <AmbienceMixer mix={ambienceMix} onChange={setAmbienceMix} />
+              </div>
             )}
           </div>
         </div>
@@ -507,7 +622,7 @@ function PresetEditor({ preset, playlists, nanoleafScenes, onSave, onDelete, onC
             <button className="editor-btn danger" onClick={() => onDelete(preset.id)}>Delete</button>
           )}
           <div className="editor-footer-right">
-            <button className="editor-btn" onClick={onClose}>Cancel</button>
+            <button className="editor-btn" onClick={handleClose}>Cancel</button>
             <button className="editor-btn primary" onClick={handleSave} disabled={!name.trim()}>
               {preset ? 'Save' : 'Create'}
             </button>
@@ -640,7 +755,6 @@ export default function SceneControl() {
   const [spotifyAuth,     setSpotifyAuth]     = useState(false);
   const [nanoleafDevices, setNanoleafDevices] = useState([]);
   const [playlists,       setPlaylists]       = useState([]);
-  const [nanoleafScenes,  setNanoleafScenes]  = useState([]);
   const [currentTrack,    setCurrentTrack]    = useState(null);
   const [activePreset,    setActivePreset]    = useState(null);
   const [firingPreset,    setFiringPreset]    = useState(null);
@@ -679,8 +793,7 @@ export default function SceneControl() {
     localStorage.setItem(AMB_VOL_KEY, String(masterVol));
   }, [masterVol]);
 
-  const fetchPlaylists      = useCallback(async () => { const r = await window.electronAPI.spotify.getPlaylists();  if (r.success) setPlaylists(r.data); }, []);
-  const fetchNanoleafScenes = useCallback(async () => { const r = await window.electronAPI.nanoleaf.getScenes();   if (r.success) setNanoleafScenes(r.data); }, []);
+  const fetchPlaylists = useCallback(async () => { const r = await window.electronAPI.spotify.getPlaylists(); if (r.success) setPlaylists(r.data); }, []);
 
   // Init
   useEffect(() => {
@@ -694,10 +807,9 @@ export default function SceneControl() {
       setSpotifyAuth(sAuth);
       setNanoleafDevices(devices || []);
       setPresets(Array.isArray(savedPresets) ? savedPresets : []);
-      if (sAuth)           fetchPlaylists();
-      if (devices?.length) fetchNanoleafScenes();
+      if (sAuth) fetchPlaylists();
     })();
-  }, [isElectron, fetchPlaylists, fetchNanoleafScenes]);
+  }, [isElectron, fetchPlaylists]);
 
   // Poll track — paused when window is hidden
   useEffect(() => {
@@ -731,7 +843,7 @@ export default function SceneControl() {
 
   const handleNLAdd    = async (ip, port, label) => {
     const res = await window.electronAPI.nanoleaf.setup(ip, port, label);
-    if (res.success) { const d = await window.electronAPI.nanoleaf.getDevices(); setNanoleafDevices(d || []); fetchNanoleafScenes(); }
+    if (res.success) { const d = await window.electronAPI.nanoleaf.getDevices(); setNanoleafDevices(d || []); }
     return res;
   };
   const handleNLRemove = async (id) => { await window.electronAPI.nanoleaf.removeDevice(id); const d = await window.electronAPI.nanoleaf.getDevices(); setNanoleafDevices(d || []); };
@@ -783,23 +895,19 @@ export default function SceneControl() {
       // Preset has no ambience — leave current mix alone (don't kill it)
     }
 
-    // Spotify + Nanoleaf + Pixie
+    // Spotify + Lights
     if (!isElectron) { setFiringPreset(null); return; }
     const actions = [];
-    if (preset.playlistUri)   actions.push(window.electronAPI.spotify.play(preset.playlistUri));
-    if (preset.nanoleafScene) actions.push(window.electronAPI.nanoleaf.setScene(preset.nanoleafScene));
-    if (preset.lightColor) {
-      const rgb = hexToRgb(preset.lightColor);
-      if (rgb) actions.push(window.electronAPI.pixie.setColor(rgb.r, rgb.g, rgb.b));
+    if (preset.playlistUri) actions.push(window.electronAPI.spotify.play(preset.playlistUri));
+    if (preset.lightSequence?.stops?.length) {
+      actions.push(window.electronAPI.lights.startLoop(preset.lightSequence));
+    } else {
+      window.electronAPI.lights.stopLoop();
     }
     if (actions.length) {
       const results  = await Promise.all(actions);
       const hardFail = results.find(r => !r.success);
       if (hardFail) setError(hardFail.error);
-      else {
-        const partial = results.find(r => r.success && r.partialErrors?.length);
-        if (partial) setError('⚠ Partial: ' + partial.partialErrors.join(', '));
-      }
     }
 
     setFiringPreset(null);
@@ -971,7 +1079,6 @@ export default function SceneControl() {
         <PresetEditor
           preset={editing === 'new' ? null : editing}
           playlists={playlists}
-          nanoleafScenes={nanoleafScenes}
           onSave={savePreset}
           onDelete={deletePreset}
           onClose={() => setEditing(null)}

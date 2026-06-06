@@ -37,6 +37,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     turnOff:  ()        => ipcRenderer.invoke('pixie:turnOff'),
   },
 
+  // Colour Loop (Nanoleaf + Pixie unified)
+  lights: {
+    startLoop: (seq)  => ipcRenderer.invoke('lights:startLoop', { stops: seq.stops }),
+    stopLoop:  ()     => ipcRenderer.invoke('lights:stopLoop'),
+  },
+
   // Stat Block window
   statblock: {
     open: (monster) => ipcRenderer.invoke('statblock:open', monster),

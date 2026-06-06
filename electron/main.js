@@ -11,7 +11,8 @@ const fs   = require('fs');
 
 const spotify  = require('./spotify');
 const nanoleaf = require('./nanoleaf');
-const pixie    = require('./pixie');
+const pixie     = require('./pixie');
+const colorLoop = require('./colorLoop');
 const tv        = require('./tvDisplay');
 const statblock = require('./statblock');
 const wizard   = require('./wizard');
@@ -134,6 +135,16 @@ ipcMain.handle('pixie:turnOn', async () => {
 });
 ipcMain.handle('pixie:turnOff', async () => {
   try { await pixie.turnOff(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+
+// ── Colour Loop IPC ──────────────────────────────────────
+ipcMain.handle('lights:startLoop', (_, { stops }) => {
+  try { colorLoop.startLoop(stops); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('lights:stopLoop', () => {
+  try { colorLoop.stopLoop(); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
 

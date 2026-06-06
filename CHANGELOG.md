@@ -2,6 +2,25 @@
 
 ---
 
+## v0.8.3 — June 2026
+
+### ✨ New
+
+- Scene: custom lighting sequences — define ordered colour stops per preset, each with individual crossfade duration and brightness
+- Scene: sequences loop continuously until a new preset fires or is manually stopped
+- Scene: in-app animated preview square shows the sequence before pushing to lights
+- Scene: "Push Live" button in editor sends sequence to devices without saving
+- Scene: Nanoleaf and Table Light now driven by the same unified sequence — one setup, both devices
+
+### 🔧 Changes
+
+- Scene: removed Nanoleaf scene selector — replaced entirely by custom sequences
+- Scene: removed single table light colour field — replaced by sequences
+- Scene: preset editor toggles replaced with accordion-style expand/collapse sections
+- Scene: ambience panel flattened to a single compact grid, category rows removed
+
+---
+
 ## v0.8.2 — June 2026
 
 ### 🔒 Security

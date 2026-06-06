@@ -213,6 +213,33 @@ async function getScenes() {
   return [...allScenes];
 }
 
+function hexToHsb(hex) {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b), delta = max - min;
+  let h = 0;
+  if (delta > 0) {
+    if (max === r)      h = ((g - b) / delta) % 6;
+    else if (max === g) h = (b - r) / delta + 2;
+    else                h = (r - g) / delta + 4;
+    h = Math.round(h * 60);
+    if (h < 0) h += 360;
+  }
+  return { h, s: max === 0 ? 0 : Math.round((delta / max) * 100), b: Math.round(max * 100) };
+}
+
+async function setColorDirect(hex, transitionMs, brightness) {
+  const devices = getDevices();
+  if (!devices.length) return;
+  const hsb = hexToHsb(hex);
+  const b   = brightness !== undefined ? Math.round(Math.max(0, Math.min(100, brightness))) : hsb.b;
+  const transitionTime = Math.round((transitionMs || 0) / 100);
+  const body = { hue: { value: hsb.h }, sat: { value: hsb.s }, brightness: { value: b } };
+  if (transitionTime > 0) body.transitionTime = transitionTime;
+  await Promise.allSettled(devices.map(d => deviceRequest(d, 'PUT', '/state', body)));
+}
+
 async function setScene(sceneName) {
   const devices = getDevices();
   if (!devices.length) throw new Error('No Nanoleaf devices configured');
@@ -299,5 +326,5 @@ async function verifyDevice(deviceId) {
 module.exports = {
   isConfigured, loadConfig, getDevices,
   generateToken, removeDevice, updateDeviceLabel,
-  getScenes, setScene, setBrightness, setPower, getState, verifyDevice,
+  getScenes, setScene, setColorDirect, setBrightness, setPower, getState, verifyDevice,
 };
