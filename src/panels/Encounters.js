@@ -345,6 +345,19 @@ function MonsterEditor({ initial, onSave, onCancel }) {
 
 // ── Initiative Tracker ─────────────────────────────────────
 
+const CONDITIONS = [
+  { key: 'blinded',       label: 'Blinded',       icon: '👁' },
+  { key: 'charmed',       label: 'Charmed',       icon: '💗' },
+  { key: 'frightened',    label: 'Frightened',    icon: '😱' },
+  { key: 'grappled',      label: 'Grappled',      icon: '🤝' },
+  { key: 'poisoned',      label: 'Poisoned',      icon: '☠' },
+  { key: 'prone',         label: 'Prone',         icon: '⬇' },
+  { key: 'restrained',    label: 'Restrained',    icon: '🔗' },
+  { key: 'stunned',       label: 'Stunned',       icon: '💫' },
+  { key: 'paralyzed',     label: 'Paralyzed',     icon: '⚡' },
+  { key: 'concentrating', label: 'Concentrating', icon: '🎯' },
+];
+
 function roll(mod = 0) {
   return Math.floor(Math.random() * 20) + 1 + mod;
 }
@@ -466,6 +479,12 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], comba
     setInitInputs(prev => { const n = { ...prev }; delete n[id]; return n; });
   };
   const rollAll = () => { setCombatants(prev => prev.map(c => c.isPC ? c : { ...c, initiative: roll(c.initMod || 0) })); setTurn(0); };
+
+  const toggleCondition = (id, cond) => setCombatants(prev => prev.map(c => {
+    if (c.id !== id) return c;
+    const has = (c.conditions || []).includes(cond);
+    return { ...c, conditions: has ? c.conditions.filter(x => x !== cond) : [...(c.conditions || []), cond] };
+  }));
 
   const monResults = monSearch.trim().length >= 2
     ? srdMonsters.filter(m => m.name.toLowerCase().includes(monSearch.toLowerCase())).slice(0, 8)
@@ -621,42 +640,67 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], comba
         {sorted.length === 0 && <div className="initiative-empty">Add combatants above to begin tracking.</div>}
         {sorted.map((c, i) => (
           <div key={c.id} className={`combatant ${i === turn ? 'active-turn' : ''} ${c.hp === 0 ? 'unconscious' : ''} ${c.isPC ? 'combatant-pc' : ''}`}>
-            <div className="combatant-turn-marker">{i === turn ? '▶' : ''}</div>
-            <input
-              type="number"
-              className={`combatant-init ${initInputs[c.id] !== undefined && initInputs[c.id] === '' ? 'init-invalid' : ''}`}
-              value={initInputs[c.id] !== undefined ? initInputs[c.id] : c.initiative}
-              onChange={e => setInitInput(c.id, e.target.value)}
-              onBlur={() => commitInit(c.id, c.initiative)}
-            />
-            <div
-              className={`combatant-name ${c.monsterData ? 'combatant-name--link' : ''}`}
-              onClick={() => openStatBlock(c)}
-              title={c.monsterData ? 'View stat block' : undefined}
-            >
-              {c.name}
-              {c.isPC && <span className="combatant-pc-badge">PC</span>}
+            <div className="combatant-row-top">
+              <div className="combatant-turn-marker">{i === turn ? '▶' : ''}</div>
+              <input
+                type="number"
+                className={`combatant-init ${initInputs[c.id] !== undefined && initInputs[c.id] === '' ? 'init-invalid' : ''}`}
+                value={initInputs[c.id] !== undefined ? initInputs[c.id] : c.initiative}
+                onChange={e => setInitInput(c.id, e.target.value)}
+                onBlur={() => commitInit(c.id, c.initiative)}
+              />
+              <div
+                className={`combatant-name ${c.monsterData ? 'combatant-name--link' : ''}`}
+                onClick={() => openStatBlock(c)}
+                title={c.monsterData ? 'View stat block' : undefined}
+              >
+                {c.name}
+                {c.isPC && <span className="combatant-pc-badge">PC</span>}
+              </div>
+              <button className="sb-btn small" onClick={() => duplicateCombatant(c)} title="Duplicate">⧉</button>
+              <button className="sb-btn danger small" onClick={() => remove(c.id)}>✕</button>
             </div>
-            <div className="combatant-hp">
+
+            <div className="combatant-row-hp">
               <button onClick={() => updateHp(c.id, -1)}>−</button>
-              <input type="number" value={c.hp} onChange={e => setHpDirect(c.id, e.target.value)} style={{ width: 52 }} />
-              <span className="hp-max">/ {c.maxHp}</span>
+              <div className="hp-bar-wrap">
+                <div className="hp-bar" style={{
+                  width: `${c.maxHp > 0 ? Math.round((c.hp / c.maxHp) * 100) : 0}%`,
+                  background: c.hp / c.maxHp > 0.5 ? '#4caf50' : c.hp / c.maxHp > 0.25 ? '#ff9800' : '#f44336'
+                }} />
+                <div className="hp-bar-label">
+                  <input type="number" value={c.hp} onChange={e => setHpDirect(c.id, e.target.value)} />
+                  <span className="hp-max">/ {c.maxHp}</span>
+                </div>
+              </div>
               <button onClick={() => updateHp(c.id, 1)}>+</button>
+              <div className="combatant-delta">
+                <button onClick={() => applyDelta(c.id, -1)} title="Subtract">−</button>
+                <input type="number" min="0" value={deltas[c.id] || ''} onChange={e => setDelta(c.id, e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') applyDelta(c.id, -1); }} placeholder="dmg" style={{ width: 52 }} />
+                <button onClick={() => applyDelta(c.id, 1)} title="Heal">+</button>
+              </div>
             </div>
-            <div className="combatant-delta">
-              <button onClick={() => applyDelta(c.id, -1)} title="Subtract">−</button>
-              <input type="number" min="0" value={deltas[c.id] || ''} onChange={e => setDelta(c.id, e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') applyDelta(c.id, -1); }} placeholder="dmg" style={{ width: 52 }} />
-              <button onClick={() => applyDelta(c.id, 1)} title="Heal">+</button>
+
+            <div className="combatant-row-conditions">
+              {(c.conditions || []).map(key => {
+                const cond = CONDITIONS.find(x => x.key === key);
+                if (!cond) return null;
+                return (
+                  <button key={key} className="condition-chip active" onClick={() => toggleCondition(c.id, key)} title={`Remove ${cond.label}`}>
+                    <span className="condition-icon">{cond.icon}</span>{cond.label}
+                  </button>
+                );
+              })}
+              <div className="condition-add-wrap">
+                <select className="condition-add-select" value="" onChange={e => { if (e.target.value) toggleCondition(c.id, e.target.value); }}>
+                  <option value="">+ Condition…</option>
+                  {CONDITIONS.filter(cond => !(c.conditions || []).includes(cond.key)).map(cond => (
+                    <option key={cond.key} value={cond.key}>{cond.icon} {cond.label}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div className="hp-bar-wrap">
-              <div className="hp-bar" style={{
-                width: `${c.maxHp > 0 ? Math.round((c.hp / c.maxHp) * 100) : 0}%`,
-                background: c.hp / c.maxHp > 0.5 ? '#4caf50' : c.hp / c.maxHp > 0.25 ? '#ff9800' : '#f44336'
-              }} />
-            </div>
-            <button className="sb-btn small" onClick={() => duplicateCombatant(c)} title="Duplicate">⧉</button>
-            <button className="sb-btn danger small" onClick={() => remove(c.id)}>✕</button>
           </div>
         ))}
       </div>

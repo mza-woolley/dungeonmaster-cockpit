@@ -2,6 +2,16 @@
 
 ---
 
+## v0.8.5 — June 2026
+
+### 🔧 Changes
+
+- Encounters: combat tracker redesigned — combatants now display as compact status cards instead of a dense table
+- Encounters: HP bar restyled into a fatter, Pokémon-style bar with bold readable HP/max text, and damage controls placed alongside it
+- Encounters: added toggleable condition badges (Blinded, Poisoned, Prone, Stunned, etc.) on each combatant for quick status tracking mid-fight
+
+---
+
 ## v0.8.4 — June 2026
 
 ### ✨ New

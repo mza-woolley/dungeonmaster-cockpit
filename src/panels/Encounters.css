@@ -752,14 +752,13 @@
 }
 
 .combatant {
-  display: grid;
-  grid-template-columns: 18px 44px 1fr auto auto auto auto;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
   background: #0f0c08;
   border: 1px solid #2e2416;
-  border-radius: 4px;
+  border-radius: 6px;
   position: relative;
   transition: background 0.15s, border-color 0.15s;
 }
@@ -769,6 +768,12 @@
 }
 .combatant.unconscious { opacity: 0.5; }
 
+.combatant-row-top {
+  display: grid;
+  grid-template-columns: 18px 44px 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+}
 .combatant-turn-marker { color: #c9a84c; font-size: 0.85rem; width: 18px; }
 .combatant-init {
   font-size: 1.1rem;
@@ -789,43 +794,9 @@
   border-bottom-color: #f44336;
   color: #f44336;
 }
-.combatant-name { font-size: 0.9rem; color: #e8d5a3; }
+.combatant-name { font-size: 0.95rem; color: #e8d5a3; font-weight: 600; letter-spacing: 0.02em; }
 .combatant-name--link { cursor: pointer; }
 .combatant-name--link:hover { color: #c9a84c; text-decoration: underline; text-underline-offset: 2px; }
-
-.combatant-hp {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.combatant-hp button {
-  background: #17120c;
-  border: 1px solid #3a2e1a;
-  color: #c9a84c;
-  width: 24px;
-  height: 24px;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.combatant-hp button:hover { background: #2a1e0a; border-color: #c9a84c; }
-.combatant-hp input {
-  width: 52px;
-  text-align: center;
-  background: #17120c;
-  border: 1px solid #3a2e1a;
-  color: #e8d5a3;
-  padding: 3px 4px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  border-radius: 3px;
-  outline: none;
-}
-.hp-max { font-size: 0.78rem; color: #5a4a28; white-space: nowrap; }
 
 .combatant-delta {
   display: flex;
@@ -863,17 +834,102 @@
 }
 .combatant-delta input:focus { border-color: #c9a84c; }
 .combatant-delta input::placeholder { color: #5a4a28; font-size: 0.75rem; }
+
+/* ── Pokémon-style HP bar: fat & short ── */
+.combatant-row-hp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.combatant-row-hp button {
+  background: #17120c;
+  border: 1px solid #3a2e1a;
+  color: #c9a84c;
+  width: 26px;
+  height: 26px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.combatant-row-hp button:hover { background: #2a1e0a; border-color: #c9a84c; }
 .hp-bar-wrap {
-  height: 4px;
+  position: relative;
+  flex: 0 1 380px;
+  height: 18px;
   background: #1e1a12;
-  border-radius: 2px;
+  border: 1px solid #3a2e1a;
+  border-radius: 8px;
   overflow: hidden;
-  grid-column: 1 / -1;
-  margin-top: -4px;
 }
 .hp-bar {
   height: 100%;
-  border-radius: 2px;
+  border-radius: 8px 0 0 8px;
   transition: width 0.3s, background 0.3s;
 }
+.hp-bar-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  pointer-events: none;
+}
+.hp-bar-label input,
+.hp-bar-label .hp-max {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.78rem;
+  line-height: 1;
+  color: #000;
+}
+.hp-bar-label input {
+  pointer-events: auto;
+  width: 34px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+}
+.hp-max { white-space: nowrap; }
+
+/* ── Conditions ── */
+.combatant-row-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.condition-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #2a1e0a;
+  border: 1px solid #c9a84c;
+  color: #e8d5a3;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  line-height: 1.6;
+}
+.condition-chip:hover { background: #3a2e14; border-color: #f44336; color: #f44336; }
+.condition-chip .condition-icon { font-size: 0.85rem; }
+.condition-add-select {
+  background: #17120c;
+  border: 1px solid #3a2e1a;
+  color: #5a4a28;
+  font-size: 0.72rem;
+  padding: 2px 6px;
+  border-radius: 12px;
+  outline: none;
+  cursor: pointer;
+}
+.condition-add-select:hover { border-color: #c9a84c; color: #c9a84c; }
 
