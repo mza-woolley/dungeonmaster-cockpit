@@ -19,8 +19,8 @@ const PANELS = [
   { id: 'generator',     label: 'Generator',    icon: '⚄',  shortcut: '5' },
   { id: 'scene',         label: 'Scene',        icon: '🎭', shortcut: '6' },
   { id: 'scribble',      label: 'Scribble',     icon: '✍️',  shortcut: '7' },
-  { id: 'wizard',        label: 'Wizard',       icon: '🧙', shortcut: '8' },
-  { id: 'charsheet',     label: 'Sheets',       icon: '📜', shortcut: '9' },
+  { id: 'charsheet',     label: 'Sheets',       icon: '📜', shortcut: '8' },
+  { id: 'wizard',        label: 'Wizard',       icon: '🧙', shortcut: '9' },
 ];
 
 function useSessionClock() {
