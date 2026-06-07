@@ -38,6 +38,20 @@ function blankMonster() {
   };
 }
 
+function blankNpc() {
+  return {
+    id: uid(), name: '', source: 'custom',
+    cr: '—', size: 'Medium', type: 'Humanoid', alignment: 'True Neutral',
+    ac: 10, ac_desc: '', hp: 10, hp_dice: '2d8+1', speed: '30 ft.',
+    str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10,
+    saving_throws: '', skills: '', damage_immunities: '',
+    damage_resistances: '', damage_vulnerabilities: '',
+    condition_immunities: '', senses: 'passive Perception 10', languages: '—',
+    special_abilities: [], actions: [], legendary_actions: [],
+    description: '',
+  };
+}
+
 function srdToCustom(srd) {
   return {
     id: uid(),
@@ -366,7 +380,7 @@ function dexMod(monster) {
   return Math.floor(((monster.dexterity || 10) - 10) / 2);
 }
 
-function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], combatPresetId, endPresetId, onSaveCombatPreset, onSaveEndPreset, encounterActive, onStartEncounter, onEndEncounter, encounterFiring, encounterError }) {
+function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets = [], combatPresetId, endPresetId, onSaveCombatPreset, onSaveEndPreset, encounterActive, onStartEncounter, onEndEncounter, encounterFiring, encounterError }) {
   const [combatants, setCombatants] = useState([]);
   const [turn,    setTurn]          = useState(0);
   const [round,   setRound]         = useState(1);
@@ -490,6 +504,10 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], comba
     ? srdMonsters.filter(m => m.name.toLowerCase().includes(monSearch.toLowerCase())).slice(0, 8)
     : [];
 
+  const npcResults = monSearch.trim().length >= 2
+    ? npcs.filter(n => n.name.toLowerCase().includes(monSearch.toLowerCase())).slice(0, 8)
+    : [];
+
   return (
     <div className="initiative">
 
@@ -553,12 +571,22 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], comba
         <div className="init-row init-mon-search-wrap">
           <input
             className="init-mon-search"
-            placeholder="Search monsters to add…"
+            placeholder="Search monsters or NPCs to add…"
             value={monSearch}
             onChange={e => setMonSearch(e.target.value)}
           />
-          {monResults.length > 0 && (
+          {(npcResults.length > 0 || monResults.length > 0) && (
             <div className="init-mon-results">
+              {npcResults.map(n => {
+                const mod = dexMod(n);
+                const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
+                return (
+                  <button key={`npc-${n.id}`} className="init-mon-result" onClick={() => addMonster(n)}>
+                    <span className="imr-name">🎭 {n.name}</span>
+                    <span className="imr-meta">NPC · HP {n.hp} · Init {modStr}</span>
+                  </button>
+                );
+              })}
               {monResults.map(m => {
                 const mod = dexMod(m);
                 const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
@@ -737,6 +765,11 @@ export default function Encounters() {
   const [filterType, setFilterType] = useState('');
   const [allSrd, setAllSrd]         = useState([]);   // full list, loaded once
   const [customMonsters, setCustomMonsters] = useState([]);
+  const [npcs, setNpcs]             = useState([]);
+  const [npcSearch, setNpcSearch]   = useState('');
+  const [selectedNpc, setSelectedNpc] = useState(null);
+  const [editingNpc, setEditingNpc] = useState(null);
+  const [deleteNpcConfirm, setDeleteNpcConfirm] = useState(null); // { id, name }
   const [selectedMonster, setSelectedMonster] = useState(null);
   const [selectedSource, setSelectedSource]   = useState(null);
   const [editing, setEditing]       = useState(null);
@@ -822,6 +855,14 @@ export default function Encounters() {
     });
   }, [isElectron]);
 
+  // Load NPCs on mount
+  useEffect(() => {
+    if (!isElectron) return;
+    window.electronAPI.npcs.load().then(data => {
+      setNpcs(data.custom || []);
+    });
+  }, [isElectron]);
+
   // Load SRD monsters from local srd-library/monsters.json via IPC
   useEffect(() => {
     if (!isElectron) return;
@@ -896,12 +937,48 @@ export default function Encounters() {
     setDeleteConfirm(null);
   };
 
+  const filteredNpcs = npcs.filter(n =>
+    !npcSearch || n.name.toLowerCase().includes(npcSearch.toLowerCase())
+  );
+
+  const handleSelectNpc = (n) => { setSelectedNpc(n); setEditingNpc(null); };
+  const handleNewNpc    = () => { setEditingNpc(blankNpc()); setSelectedNpc(null); };
+  const handleEditNpc   = (n) => { setEditingNpc({ ...n }); setSelectedNpc(null); };
+
+  const handleSaveNpc = async (npc) => {
+    if (!isElectron) return;
+    const res = await window.electronAPI.npcs.saveCustom(npc);
+    if (res.success) {
+      const data = await window.electronAPI.npcs.load();
+      setNpcs(data.custom || []);
+      setEditingNpc(null);
+      setSelectedNpc(npc);
+    } else {
+      setError(res.error);
+    }
+  };
+
+  const handleDeleteNpc = (npc) => setDeleteNpcConfirm({ id: npc.id, name: npc.name });
+
+  const doDeleteNpc = async () => {
+    if (!deleteNpcConfirm) return;
+    const res = await window.electronAPI.npcs.deleteCustom(deleteNpcConfirm.id);
+    if (!res?.success) { setError(res?.error || 'Delete failed'); setDeleteNpcConfirm(null); return; }
+    const data = await window.electronAPI.npcs.load();
+    setNpcs(data.custom || []);
+    setSelectedNpc(null);
+    setDeleteNpcConfirm(null);
+  };
+
   // ── Render ─────────────────────────────────────────────
   return (
     <div className="encounters-panel">
 
       {/* Tab switcher */}
       <div className="enc-tabs">
+        <button className={`enc-tab ${tab === 'npcs'       ? 'active' : ''}`} onClick={() => setTab('npcs')}>
+          🎭 NPCs
+        </button>
         <button className={`enc-tab ${tab === 'monsters'   ? 'active' : ''}`} onClick={() => setTab('monsters')}>
           🐉 Monsters
         </button>
@@ -909,6 +986,82 @@ export default function Encounters() {
           ⚔️ Initiative
         </button>
       </div>
+
+      {/* ── NPCS TAB ── */}
+      {tab === 'npcs' && (
+        <div className="monsters-layout">
+
+          {/* Left: search + list */}
+          <div className="monsters-sidebar">
+            <div className="monsters-search-bar">
+              <input
+                className="enc-search"
+                value={npcSearch}
+                onChange={e => setNpcSearch(e.target.value)}
+                placeholder="Search NPCs…"
+              />
+            </div>
+
+            <div className="monsters-list-controls">
+              <button className="sb-btn primary small" onClick={handleNewNpc}>+ New NPC</button>
+            </div>
+
+            {error && <div className="enc-error">{error}</div>}
+
+            <div className="monsters-list">
+              <div className="list-group">
+                {filteredNpcs.length === 0 && (
+                  <div className="enc-empty">No NPCs yet. Create one with <strong>+ New NPC</strong>.</div>
+                )}
+                {filteredNpcs.map(n => (
+                  <div
+                    key={n.id}
+                    className={`monster-row ${selectedNpc?.id === n.id ? 'selected' : ''}`}
+                    onClick={() => handleSelectNpc(n)}
+                  >
+                    <span className="mr-name">{n.name}</span>
+                    <span className="mr-cr">CR {n.cr}</span>
+                    <span className="mr-type">{n.type}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right: stat block or editor */}
+          <div className="monsters-detail">
+            {editingNpc && (
+              <MonsterEditor
+                initial={editingNpc}
+                onSave={handleSaveNpc}
+                onCancel={() => setEditingNpc(null)}
+              />
+            )}
+            {!editingNpc && selectedNpc && (
+              <StatBlock
+                monster={selectedNpc}
+                isCustom={true}
+                onEdit={handleEditNpc}
+                onDelete={handleDeleteNpc}
+              />
+            )}
+            {deleteNpcConfirm && (
+              <DeleteConfirmModal
+                name={deleteNpcConfirm.name}
+                onConfirm={doDeleteNpc}
+                onCancel={() => setDeleteNpcConfirm(null)}
+              />
+            )}
+            {!editingNpc && !selectedNpc && (
+              <div className="detail-empty">
+                <div className="detail-empty-icon">🎭</div>
+                <p>Select an NPC to view its stat block.</p>
+                <p className="detail-empty-hint">Or create one with <strong>+ New NPC</strong>.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ── MONSTERS TAB ── */}
       {tab === 'monsters' && (
@@ -1028,6 +1181,7 @@ export default function Encounters() {
       {tab === 'initiative' && (
         <InitiativeTracker
           srdMonsters={[...customMonsters, ...allSrd]}
+          npcs={npcs}
           pcQuick={pcQuick}
           presets={presets}
           combatPresetId={combatPresetId}

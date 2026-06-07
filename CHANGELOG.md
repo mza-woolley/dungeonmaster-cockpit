@@ -2,6 +2,20 @@
 
 ---
 
+## v0.10.0 — June 2026
+
+### ✨ New
+
+- Encounters: new "NPCs" tab — create and manage your own custom NPCs with full stat blocks, separate from the SRD monster library
+- Encounters: Initiative tracker can now search and add your custom NPCs alongside monsters when building an encounter
+
+### 🔧 Changes
+
+- TV Display: brush size preview ring now updates immediately when you adjust the brush slider
+- TV Display: character pin movement syncs to the TV at a much higher rate for smoother on-screen dragging
+
+---
+
 ## v0.9.0 — The Beyond Update — June 2026
 
 ### ✨ New

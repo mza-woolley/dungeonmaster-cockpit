@@ -79,6 +79,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     saveCustom:   (monster) => ipcRenderer.invoke('monsters:saveCustom', monster),
     deleteCustom: (id)      => ipcRenderer.invoke('monsters:deleteCustom', id),
   },
+  npcs: {
+    load:         ()        => ipcRenderer.invoke('npcs:load'),
+    saveCustom:   (npc)     => ipcRenderer.invoke('npcs:saveCustom', npc),
+    deleteCustom: (id)      => ipcRenderer.invoke('npcs:deleteCustom', id),
+  },
 
   // DND Wizard
   wizard: {

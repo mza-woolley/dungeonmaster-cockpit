@@ -174,6 +174,7 @@ export default function TVDisplay() {
   const painting       = useRef(false);
   const cursorPos      = useRef(null);   // {x, y} canvas coords for brush preview
   const lastTvSync     = useRef(0);      // timestamp of last brush stroke sent to TV
+  const lastPinSync    = useRef(0);      // timestamp of last pin position sent to TV
   const overlayRef     = useRef(null);   // wrapper div for bounds
   const draggingPinId  = useRef(null);   // id of pin being dragged
   const hoveredPinId   = useRef(null);   // id of pin under cursor
@@ -362,7 +363,7 @@ export default function TVDisplay() {
       ctx.fillText(`Click map to place ${placingPin.name}`, cw / 2, dy + dh + 18);
       ctx.restore();
     }
-  }, [fogEnabled, gridEnabled, gridSize, pins, pinSize, placingPin]);
+  }, [fogEnabled, gridEnabled, gridSize, pins, pinSize, placingPin, brushSize]);
 
   // Load DM canvas image after overlay is in the DOM (so canvas is sized correctly)
   useEffect(() => {
@@ -532,11 +533,11 @@ export default function TVDisplay() {
       // Update ref directly so throttled sync and pointerUp always have the latest position
       pinsRef.current = pinsRef.current.map(p => p.id === draggingPinId.current ? { ...p, x: nx, y: ny } : p);
       setPins(pinsRef.current);
-      // Throttled TV sync during drag
+      // Throttled TV sync during drag — ~60fps for smooth pin movement on the TV
       if (isElectron) {
         const now = Date.now();
-        if (now - lastTvSync.current > 50) {
-          lastTvSync.current = now;
+        if (now - lastPinSync.current > 16) {
+          lastPinSync.current = now;
           window.electronAPI.tv.syncPins(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
         }
       }

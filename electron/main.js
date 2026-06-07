@@ -319,6 +319,36 @@ ipcMain.handle('monsters:deleteCustom', (_, id) => {
   } catch (err) { return { success: false, error: err.message }; }
 });
 
+// ── NPCs IPC ──────────────────────────────────────────────
+const NPCS_PATH = path.join(__dirname, '..', 'npcs.json');
+
+function loadNpcsFile() {
+  try {
+    if (fs.existsSync(NPCS_PATH)) return JSON.parse(fs.readFileSync(NPCS_PATH, 'utf8'));
+  } catch (_) {}
+  return { custom: [] };
+}
+
+ipcMain.handle('npcs:load', () => loadNpcsFile());
+ipcMain.handle('npcs:saveCustom', (_, npc) => {
+  try {
+    const data = loadNpcsFile();
+    const idx  = data.custom.findIndex(n => n.id === npc.id);
+    if (idx >= 0) data.custom[idx] = npc;
+    else data.custom.push(npc);
+    fs.writeFileSync(NPCS_PATH, JSON.stringify(data, null, 2));
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('npcs:deleteCustom', (_, id) => {
+  try {
+    const data  = loadNpcsFile();
+    data.custom = data.custom.filter(n => n.id !== id);
+    fs.writeFileSync(NPCS_PATH, JSON.stringify(data, null, 2));
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+
 // ── Characters seed IPC ───────────────────────────────────
 const CHARACTERS_PATH = path.join(__dirname, '..', 'characters.json');
 

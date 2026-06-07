@@ -16,6 +16,10 @@
 const noble  = require('@abandonware/noble');
 const crypto = require('crypto');
 
+// Verbose BLE/pairing logs only when explicitly enabled
+const DEBUG = process.env.PIXIE_DEBUG === '1';
+const log = (...args) => { if (DEBUG) console.log(...args); };
+
 // ── Telink mesh credentials ───────────────────────────────────────────────────
 // SAL Pixie may use non-default credentials — try each until one works
 // 421017430 = 0x191EBE56
@@ -131,16 +135,16 @@ function scan() {
       const name = p.advertisement?.localName || '';
       if (name === 'Smart Light' || name.toLowerCase().includes('pixie')) {
         clearTimeout(t); noble.stopScanning(); noble.removeAllListeners('discover');
-        console.log('[Pixie] Advertisement data:');
-        console.log('  localName:', p.advertisement?.localName);
-        console.log('  address:', p.address);
-        console.log('  addressType:', p.addressType);
+        log('[Pixie] Advertisement data:');
+        log('  localName:', p.advertisement?.localName);
+        log('  address:', p.address);
+        log('  addressType:', p.addressType);
         if (p.advertisement?.manufacturerData) {
-          console.log('  manufacturerData:', p.advertisement.manufacturerData.toString('hex'));
+          log('  manufacturerData:', p.advertisement.manufacturerData.toString('hex'));
         }
         if (p.advertisement?.serviceData?.length) {
           p.advertisement.serviceData.forEach(sd => {
-            console.log('  serviceData:', sd.uuid, sd.data.toString('hex'));
+            log('  serviceData:', sd.uuid, sd.data.toString('hex'));
           });
         }
         resolve(p);
@@ -200,18 +204,18 @@ async function pair() {
     const encData     = keyEncrypt(MESH_NAME, MESH_PASSWORD, data);
     const packet      = [0x0c, ...data.slice(0, 8), ...encData.slice(0, 8)];
 
-    console.log(`[Pixie] Trying credentials: "${MESH_NAME}" / "${MESH_PASSWORD}"`);
+    log(`[Pixie] Trying credentials: "${MESH_NAME}" / "${MESH_PASSWORD}"`);
     await writeChar(PAIR_UUID, packet);
 
     // Pair response arrives via notification, not by reading the pair char
     const notif = notifChar ? await waitForNotification(notifChar, 1000) : null;
     const data2 = notif || Array.from(await readChar(PAIR_UUID));
-    console.log(`[Pixie] Pair response (${data2.length} bytes): ${Buffer.from(data2).toString('hex')}`);
+    log(`[Pixie] Pair response (${data2.length} bytes): ${Buffer.from(data2).toString('hex')}`);
 
     if (data2.length >= 9) {
       _sk = generateSk(MESH_NAME, MESH_PASSWORD, randomBytes, data2.slice(1, 9));
-      console.log(`[Pixie] ✓ Paired with "${MESH_NAME}" / "${MESH_PASSWORD}"`);
-      console.log('[Pixie] Session key:', Buffer.from(_sk).toString('hex'));
+      log(`[Pixie] ✓ Paired with "${MESH_NAME}" / "${MESH_PASSWORD}"`);
+      log('[Pixie] Session key:', Buffer.from(_sk).toString('hex'));
       return;
     }
   }
@@ -246,21 +250,21 @@ async function connect() {
     await waitForPoweredOn();
 
     if (!_peripheral) {
-      console.log('[Pixie] Scanning...');
+      log('[Pixie] Scanning...');
       _peripheral = await scan();
-      console.log(`[Pixie] Found: ${_peripheral.advertisement?.localName} (${_peripheral.address})`);
+      log(`[Pixie] Found: ${_peripheral.advertisement?.localName} (${_peripheral.address})`);
     }
 
     if (_peripheral.state !== 'connected') {
       await new Promise((res, rej) => _peripheral.connect(e => e ? rej(e) : res()));
-      console.log('[Pixie] Connected');
+      log('[Pixie] Connected');
 
       // Use known MAC address (macOS noble doesn't expose real BT MAC)
       const mac = DEVICE_MAC.split(':').map(b => parseInt(b, 16));
       _macData = [mac[5], mac[4], mac[3], mac[2], mac[1], mac[0]];
 
       _peripheral.once('disconnect', () => {
-        console.log('[Pixie] Disconnected');
+        log('[Pixie] Disconnected');
         _connected = false; _chars = {}; _sk = null; _peripheral = null; _connectPromise = null;
       });
     }
@@ -271,13 +275,13 @@ async function connect() {
     const notif = _chars[NOTIF_UUID];
     if (notif) {
       notif.subscribe();
-      notif.on('data', d => console.log('[Pixie] Notify:', d.toString('hex')));
+      notif.on('data', d => log('[Pixie] Notify:', d.toString('hex')));
       await writeChar(NOTIF_UUID, [0x01]);
     }
 
     await pair();
     _connected = true;
-    console.log('[Pixie] Ready');
+    log('[Pixie] Ready');
   })();
 
   try { await _connectPromise; } finally { _connectPromise = null; }
@@ -297,13 +301,13 @@ const DEVICE_ADDR = 0x001B; // mesh address assigned during provisioning
 async function turnOn() {
   await connect();
   await sendPacket(0xffff, 0xed, [0x01]);
-  console.log('[Pixie] On');
+  log('[Pixie] On');
 }
 
 async function turnOff() {
   await connect();
   await sendPacket(0xffff, 0xed, [0x00]);
-  console.log('[Pixie] Off');
+  log('[Pixie] Off');
 }
 
 async function setBrightness(percent) {
@@ -311,14 +315,14 @@ async function setBrightness(percent) {
   // Brightness via color command keeping white, scaling brightness 0-255
   const br = Math.round(Math.max(0, Math.min(100, percent)) * 2.55);
   await sendPacket(DEVICE_ADDR, 0xC1, [0xff, 0xff, 0xff, br]);
-  console.log(`[Pixie] Brightness: ${percent}%`);
+  log(`[Pixie] Brightness: ${percent}%`);
 }
 
 async function setColor(r, g, b, brightness = 100) {
   await connect();
   const br = Math.round(Math.max(0, Math.min(100, brightness)) * 2.55);
   await sendPacket(DEVICE_ADDR, 0xC1, [r, g, b, br]);
-  console.log(`[Pixie] Color: rgb(${r},${g},${b}) @ ${brightness}%`);
+  log(`[Pixie] Color: rgb(${r},${g},${b}) @ ${brightness}%`);
 }
 
 // ── Test runner ───────────────────────────────────────────────────────────────
@@ -335,23 +339,23 @@ async function probeCommands() {
   await delay(800);
 
   // Color: op=1, op_type=3 → 0xC1, data=[R,G,B,brightness], dst=device addr
-  console.log('--- Red ---');
+  log('--- Red ---');
   await writeChar(CMD_UUID, buildPacket(target, 0xC1, [0xff, 0x00, 0x00, 0xff]));
   await delay(1500);
 
-  console.log('--- Green ---');
+  log('--- Green ---');
   await writeChar(CMD_UUID, buildPacket(target, 0xC1, [0x00, 0xff, 0x00, 0xff]));
   await delay(1500);
 
-  console.log('--- Blue ---');
+  log('--- Blue ---');
   await writeChar(CMD_UUID, buildPacket(target, 0xC1, [0x00, 0x00, 0xff, 0xff]));
   await delay(1500);
 
-  console.log('--- White 50% bright ---');
+  log('--- White 50% bright ---');
   await writeChar(CMD_UUID, buildPacket(target, 0xC1, [0xff, 0xff, 0xff, 0x80]));
   await delay(1500);
 
-  console.log('--- OFF ---');
+  log('--- OFF ---');
   await writeChar(CMD_UUID, buildPacket(0xffff, 0xed, [0x00]));
 }
 
@@ -380,7 +384,7 @@ async function runTest() {
       await setColor(255, 0, 0); await delay(300);
       await setColor(0, 0, 255); await delay(300);
     }
-    console.log('[Pixie] ✓ Done');
+    log('[Pixie] ✓ Done');
   } catch (err) {
     console.error('[Pixie] ✗', err.message);
   } finally {
