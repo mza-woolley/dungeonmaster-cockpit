@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "1780797454757",
+    "name": "! Off - No Music",
+    "color": "#695d5d",
+    "playlistId": "",
+    "playlistUri": "",
+    "playlistName": "",
+    "lightSequence": {
+      "stops": [
+        {
+          "color": "#ffffff",
+          "crossfade": 1500,
+          "brightness": 100
+        }
+      ]
+    },
+    "ambience": {}
+  }
+]

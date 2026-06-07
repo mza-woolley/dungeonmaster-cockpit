@@ -2,6 +2,21 @@
 
 ---
 
+## v0.8.4 — The Tactician Update — June 2026
+
+### ✨ New
+
+- Encounters: Initiative tab now supports saved Encounter Presets — build a roster of PCs/monsters, save it by name, and load it again whenever that fight comes up
+- Encounters: Initiative tab reorganised into clear sections (Encounter Presets, Build Encounter, Combat Controls) so the workflow follows how a session actually plays out — load/build first, then run combat
+
+### 🔧 Changes
+
+- Encounters: monster search is now the primary way to add combatants — made larger and more prominent
+- Encounters: removed the manual/custom combatant-add fields to keep the tracker focused
+- Nav bar tabs now stretch evenly to fill available width
+
+---
+
 ## v0.8.3 — June 2026
 
 ### ✨ New

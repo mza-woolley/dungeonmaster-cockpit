@@ -355,14 +355,43 @@ function dexMod(monster) {
 
 function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], combatPresetId, endPresetId, onSaveCombatPreset, onSaveEndPreset, encounterActive, onStartEncounter, onEndEncounter, encounterFiring, encounterError }) {
   const [combatants, setCombatants] = useState([]);
-  const [newName, setNewName]       = useState('');
-  const [newInit, setNewInit]       = useState('');
-  const [newHp,   setNewHp]         = useState('');
   const [turn,    setTurn]          = useState(0);
   const [round,   setRound]         = useState(1);
   const [monSearch, setMonSearch]   = useState('');
   const [deltas, setDeltas]         = useState({});
+  const [encPresets, setEncPresets] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(ENCOUNTER_PRESETS_KEY)) || []; } catch { return []; }
+  });
+  const [libraryPresetId, setLibraryPresetId] = useState('');
+  const [savingPresetName, setSavingPresetName] = useState(null);
   const isElectron = !!window.electronAPI;
+
+  const persistEncPresets = (next) => {
+    setEncPresets(next);
+    localStorage.setItem(ENCOUNTER_PRESETS_KEY, JSON.stringify(next));
+  };
+
+  const startSavePreset = () => { if (combatants.length > 0) setSavingPresetName(''); };
+
+  const confirmSavePreset = () => {
+    const name = (savingPresetName || '').trim();
+    if (!name) return;
+    const preset = { id: uid(), name, combatants: combatants.map(({ id, ...rest }) => rest) };
+    persistEncPresets([...encPresets, preset]);
+    setSavingPresetName(null);
+    setLibraryPresetId(preset.id);
+  };
+
+  const loadEncounterPreset = (id) => {
+    const preset = encPresets.find(p => p.id === id);
+    if (!preset) return;
+    setCombatants(prev => [...prev, ...preset.combatants.map(c => ({ ...c, id: uid() }))]);
+  };
+
+  const deleteEncounterPreset = (id) => {
+    persistEncPresets(encPresets.filter(p => p.id !== id));
+    if (libraryPresetId === id) setLibraryPresetId('');
+  };
 
   const openStatBlock = (c) => {
     if (!c.monsterData) return;
@@ -395,12 +424,6 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], comba
     const base = c.name.replace(/ \(\d+\)$/, '');
     const count = combatants.filter(x => x.name === base || x.name.startsWith(base + ' (')).length;
     addCombatant({ ...c, id: uid(), name: `${base} (${count + 1})` });
-  };
-
-  const addManual = () => {
-    if (!newName.trim()) return;
-    addCombatant({ id: uid(), name: newName.trim(), initiative: parseInt(newInit) || 0, initMod: 0, hp: parseInt(newHp) || 0, maxHp: parseInt(newHp) || 0, isPC: false });
-    setNewName(''); setNewInit(''); setNewHp('');
   };
 
   const remove = (id) => {
@@ -451,12 +474,48 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], comba
   return (
     <div className="initiative">
 
-      {/* ── Quick Setup ── */}
-      <div className="init-quick-setup">
-        <div className="init-quick-label">Quick Add</div>
+      {/* ══ SECTION: Presets ══ */}
+      <section className="init-section">
+        <div className="init-section-title">Encounter Presets</div>
+        <div className="init-row init-encounter-preset-row">
+          <select
+            className="encounter-preset-select"
+            value={libraryPresetId}
+            onChange={e => { setLibraryPresetId(e.target.value); if (e.target.value) loadEncounterPreset(e.target.value); }}
+            title="Load a saved encounter preset into the tracker"
+          >
+            <option value="">— Load encounter preset —</option>
+            {encPresets.map(p => <option key={p.id} value={p.id}>{p.name} ({p.combatants.length})</option>)}
+          </select>
+          {libraryPresetId && (
+            <button className="sb-btn danger small" title="Delete this preset" onClick={() => deleteEncounterPreset(libraryPresetId)}>✕</button>
+          )}
+          {savingPresetName === null ? (
+            <button className="sb-btn" onClick={startSavePreset} disabled={combatants.length === 0} title="Save current combatants as a preset">💾 Save Preset</button>
+          ) : (
+            <>
+              <input
+                type="text"
+                autoFocus
+                className="initiative-name-input"
+                placeholder="Preset name…"
+                value={savingPresetName}
+                onChange={e => setSavingPresetName(e.target.value)}
+                onKeyDown={e => { if (e.key === 'Enter') confirmSavePreset(); if (e.key === 'Escape') setSavingPresetName(null); }}
+              />
+              <button className="sb-btn primary small" onClick={confirmSavePreset}>Save</button>
+              <button className="sb-btn small" onClick={() => setSavingPresetName(null)}>Cancel</button>
+            </>
+          )}
+        </div>
+      </section>
 
-        {/* PC buttons */}
-        <div className="init-pc-row">
+      {/* ══ SECTION: Build Encounter ══ */}
+      <section className="init-section">
+        <div className="init-section-title">Build Encounter</div>
+
+        {/* PC quick-add */}
+        <div className="init-row init-pc-row">
           {pcQuick.map(pc => (
             <button
               key={pc.name}
@@ -472,7 +531,7 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], comba
         </div>
 
         {/* Monster search */}
-        <div className="init-mon-search-wrap">
+        <div className="init-row init-mon-search-wrap">
           <input
             className="init-mon-search"
             placeholder="Search monsters to add…"
@@ -494,74 +553,68 @@ function InitiativeTracker({ srdMonsters = [], pcQuick = [], presets = [], comba
             </div>
           )}
         </div>
-      </div>
 
-      {/* ── Header ── */}
-      <div className="initiative-header">
-        <div className="round-badge">Round {round}</div>
-        <div className="initiative-controls">
-          <button className="sb-btn" onClick={rollAll} title="Re-roll all initiatives">🎲 Roll All</button>
-          <button className="sb-btn primary" onClick={nextTurn} disabled={sorted.length === 0}>Next Turn ▶</button>
-          <button className="sb-btn danger" onClick={reset}>✕ Reset</button>
+      </section>
+
+      {/* ══ SECTION: Combat Controls ══ */}
+      <section className="init-section">
+        <div className="init-section-title">Combat Controls</div>
+
+
+        <div className="init-row initiative-header">
+          <div className="round-badge">Round {round}</div>
+          <div className="initiative-controls">
+            <button className="sb-btn" onClick={rollAll} title="Re-roll all initiatives">🎲 Roll All</button>
+            <button className="sb-btn primary" onClick={nextTurn} disabled={sorted.length === 0}>Next Turn ▶</button>
+            <button className="sb-btn danger" onClick={reset}>✕ Reset</button>
+          </div>
         </div>
-      </div>
 
-      {/* ── Encounter toggle ── */}
-      <div className="encounter-start-row">
-        {!encounterActive ? (
-          <>
-            <select
-              className="encounter-preset-select"
-              value={combatPresetId}
-              onChange={e => onSaveCombatPreset(e.target.value)}
-              title="Scene preset to fire on encounter start"
-            >
-              <option value="">— Start scene —</option>
-              {presets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-            </select>
-            <button
-              className={`sb-btn encounter-start-btn${encounterFiring ? ' firing' : ''}`}
-              onClick={onStartEncounter}
-              disabled={encounterFiring}
-              title="Start encounter and fire scene preset"
-            >
-              {encounterFiring ? 'Starting…' : '⚔ Start Encounter'}
-            </button>
-          </>
-        ) : (
-          <>
-            <select
-              className="encounter-preset-select"
-              value={endPresetId}
-              onChange={e => onSaveEndPreset(e.target.value)}
-              title="Scene preset to fire on encounter end"
-            >
-              <option value="">— End scene —</option>
-              {presets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-            </select>
-            <button
-              className={`sb-btn encounter-end-btn${encounterFiring ? ' firing' : ''}`}
-              onClick={onEndEncounter}
-              disabled={encounterFiring}
-              title="End encounter and fire scene preset"
-            >
-              {encounterFiring ? 'Ending…' : '✓ End Encounter'}
-            </button>
-          </>
-        )}
-        {encounterError && <span className="encounter-start-error">{encounterError}</span>}
-      </div>
-
-      {/* ── Manual add ── */}
-      <div className="initiative-add">
-        <input type="text" value={newName} onChange={e => setNewName(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && addManual()} placeholder="Name" className="initiative-name-input" />
-        <input type="number" value={newInit} onChange={e => setNewInit(e.target.value)}
-          placeholder="Init" className="initiative-num-input" />
-        <input type="number" value={newHp} onChange={e => setNewHp(e.target.value)}
-          placeholder="HP" className="initiative-num-input" />
-        <button className="sb-btn primary" onClick={addManual}>+ Add</button>
-      </div>
+        <div className="init-row encounter-start-row">
+          {!encounterActive ? (
+            <>
+              <select
+                className="encounter-preset-select"
+                value={combatPresetId}
+                onChange={e => onSaveCombatPreset(e.target.value)}
+                title="Scene preset to fire on encounter start"
+              >
+                <option value="">— Start scene —</option>
+                {presets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
+              <button
+                className={`sb-btn encounter-start-btn${encounterFiring ? ' firing' : ''}`}
+                onClick={onStartEncounter}
+                disabled={encounterFiring}
+                title="Start encounter and fire scene preset"
+              >
+                {encounterFiring ? 'Starting…' : '⚔ Start Encounter'}
+              </button>
+            </>
+          ) : (
+            <>
+              <select
+                className="encounter-preset-select"
+                value={endPresetId}
+                onChange={e => onSaveEndPreset(e.target.value)}
+                title="Scene preset to fire on encounter end"
+              >
+                <option value="">— End scene —</option>
+                {presets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
+              <button
+                className={`sb-btn encounter-end-btn${encounterFiring ? ' firing' : ''}`}
+                onClick={onEndEncounter}
+                disabled={encounterFiring}
+                title="End encounter and fire scene preset"
+              >
+                {encounterFiring ? 'Ending…' : '✓ End Encounter'}
+              </button>
+            </>
+          )}
+          {encounterError && <span className="encounter-start-error">{encounterError}</span>}
+        </div>
+      </section>
 
       {/* ── Combatant list ── */}
       <div className="combatant-list">
@@ -627,6 +680,7 @@ function DeleteConfirmModal({ name, onConfirm, onCancel }) {
   );
 }
 
+const ENCOUNTER_PRESETS_KEY = 'dm-cockpit:encounter-presets';
 const COMBAT_PRESET_KEY = 'dm-cockpit:combat-preset-id';
 const END_PRESET_KEY    = 'dm-cockpit:end-preset-id';
 const ENCOUNTER_ACTIVE_KEY = 'dm-cockpit:encounter-active';
