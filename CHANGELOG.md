@@ -2,7 +2,7 @@
 
 ---
 
-## v0.8.4 — The Tactician Update — June 2026
+## v0.8.4 — June 2026
 
 ### ✨ New
 
