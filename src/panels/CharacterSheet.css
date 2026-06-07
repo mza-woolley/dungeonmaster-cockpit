@@ -1,0 +1,189 @@
+.charsheet-panel {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  color: #e8dfce;
+}
+
+/* ── Sidebar ─────────────────────────────────── */
+.charsheet-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  overflow-y: auto;
+}
+.charsheet-add-form { display: flex; flex-direction: column; gap: 6px; }
+.charsheet-add-input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #e8dfce;
+  font-size: 12px;
+  padding: 7px 10px;
+  outline: none;
+}
+.charsheet-add-input:focus { border-color: rgba(201, 168, 76, 0.5); }
+.charsheet-add-btn {
+  background: rgba(201, 168, 76, 0.18);
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  border-radius: 6px;
+  color: #e8dfce;
+  font-size: 12px;
+  padding: 6px;
+  cursor: pointer;
+}
+.charsheet-add-btn:hover { background: rgba(201, 168, 76, 0.3); }
+.charsheet-list { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.charsheet-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.charsheet-list-item:hover { background: rgba(255, 255, 255, 0.05); }
+.charsheet-list-item.active { background: rgba(201, 168, 76, 0.15); }
+.charsheet-list-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.charsheet-list-remove { background: none; border: none; color: #c9a84c; opacity: 0.5; cursor: pointer; font-size: 11px; padding: 2px 4px; }
+.charsheet-list-remove:hover { opacity: 1; }
+.charsheet-empty-hint { font-size: 12px; opacity: 0.5; padding: 6px 4px; }
+.charsheet-refresh-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #e8dfce;
+  font-size: 12px;
+  padding: 8px;
+  cursor: pointer;
+}
+.charsheet-refresh-btn:hover { background: rgba(255, 255, 255, 0.12); }
+.charsheet-refresh-btn:disabled { opacity: 0.5; cursor: default; }
+
+/* ── Main area ───────────────────────────────── */
+.charsheet-main { flex: 1; overflow-y: auto; padding: 20px 24px; }
+.charsheet-status { opacity: 0.6; font-size: 14px; padding: 40px 0; text-align: center; }
+.charsheet-error { color: #d98c8c; opacity: 1; text-align: left; max-width: 480px; margin: 40px auto; }
+.charsheet-error-hint { margin-top: 10px; font-size: 12px; opacity: 0.7; color: #e8dfce; }
+
+/* ── Header ──────────────────────────────────── */
+.charsheet-header { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.charsheet-avatar { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; border: 1px solid rgba(255, 255, 255, 0.12); }
+.charsheet-name { margin: 0 0 4px; font-size: 21px; font-weight: 600; }
+.charsheet-subline { display: flex; flex-wrap: wrap; gap: 10px; font-size: 13px; opacity: 0.65; }
+
+/* ── Two-column body ─────────────────────────── */
+.charsheet-body { display: flex; gap: 20px; align-items: flex-start; }
+
+/* Left: ability blocks (mirrors DDB's left rail of ability score boxes w/ saves & skills) */
+.charsheet-col-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 360px;
+  flex-shrink: 0;
+}
+.charsheet-ability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.charsheet-ability-block {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.charsheet-ability-top {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.charsheet-ability-name { font-size: 12px; letter-spacing: 0.06em; opacity: 0.6; flex: 1; }
+.charsheet-ability-score { font-size: 17px; font-weight: 700; }
+.charsheet-ability-mod { font-size: 12px; opacity: 0.5; }
+.charsheet-ability-sub { display: flex; flex-direction: column; }
+.charsheet-subrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  font-size: 13px;
+  opacity: 0.55;
+}
+.charsheet-ability-block .charsheet-subrow:only-child {
+  font-size: 14px;
+  font-weight: 500;
+}
+.charsheet-subrow.proficient,
+.charsheet-subrow.expertise { opacity: 1; }
+.charsheet-prof-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+.charsheet-subrow.proficient .charsheet-prof-dot {
+  background: #c9a84c;
+  border-color: #c9a84c;
+}
+.charsheet-subrow.expertise .charsheet-prof-dot {
+  background: #4a8fd4;
+  border-color: #4a8fd4;
+}
+.charsheet-subrow-label { flex: 1; }
+.charsheet-subrow-ability { opacity: 0.5; font-size: 11px; }
+.charsheet-subrow-mod { font-weight: 600; }
+
+/* Center: combat stats + tabs */
+.charsheet-col-main { flex: 1; min-width: 0; }
+.charsheet-combat-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.charsheet-hp-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.charsheet-combat-box, .charsheet-hp-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 16px;
+}
+.charsheet-combat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.6; }
+
+.charsheet-traits-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+.charsheet-trait-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 16px;
+}
+.charsheet-trait-value { font-size: 13px; opacity: 0.85; }
+.charsheet-combat-value { font-size: 19px; font-weight: 600; }
+

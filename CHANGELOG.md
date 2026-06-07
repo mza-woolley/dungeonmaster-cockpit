@@ -2,6 +2,17 @@
 
 ---
 
+## v0.9.0 — The Beyond Update — June 2026
+
+### ✨ New
+
+- New "Sheets" tab — pulls live character data straight from D&D Beyond and renders it as a native in-app sheet (no browser embedding required)
+- Sheet view includes ability scores, saving throws, skills, AC, initiative, speed, HP, hit dice, proficiency bonus, passive perception, and senses/resistances/immunities/vulnerabilities where applicable
+- Save multiple characters to a quick-switch sidebar list, with a one-click refresh to pull the latest data whenever your sheet changes
+- Note: only works for characters set to "Public" visibility on D&D Beyond
+
+---
+
 ## v0.8.6 — June 2026
 
 ### 🔧 Changes

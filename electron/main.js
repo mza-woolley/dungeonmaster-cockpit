@@ -155,6 +155,39 @@ ipcMain.handle('statblock:open', (_, monster) => {
 });
 
 // ── TV Display IPC ────────────────────────────────────────
+// ── D&D Beyond character fetch (public characters only) ──
+ipcMain.handle('dndbeyond:getCharacter', async (e, characterId) => {
+  const id = String(characterId).replace(/\D/g, '');
+  if (!id) return { success: false, error: 'Invalid character ID' };
+  try {
+    const res = await fetch(`https://character-service.dndbeyond.com/character/v5/character/${id}`, {
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      },
+    });
+    const text = await res.text();
+    if (!res.ok) {
+      console.error('[dndbeyond:getCharacter] HTTP', res.status, text.slice(0, 500));
+      return { success: false, error: `D&D Beyond returned HTTP ${res.status}: ${text.slice(0, 200)}` };
+    }
+    let json;
+    try { json = JSON.parse(text); }
+    catch (parseErr) {
+      console.error('[dndbeyond:getCharacter] non-JSON response', text.slice(0, 500));
+      return { success: false, error: `Unexpected response (not JSON): ${text.slice(0, 200)}` };
+    }
+    if (!json || !json.data) {
+      console.error('[dndbeyond:getCharacter] no data field', JSON.stringify(json).slice(0, 500));
+      return { success: false, error: `No character data in response: ${JSON.stringify(json).slice(0, 200)}` };
+    }
+    return { success: true, data: json.data };
+  } catch (err) {
+    console.error('[dndbeyond:getCharacter] exception', err);
+    return { success: false, error: `${err.name}: ${err.message}` };
+  }
+});
+
 ipcMain.handle('tv:open', () => {
   try { tv.openTvWindow(); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }

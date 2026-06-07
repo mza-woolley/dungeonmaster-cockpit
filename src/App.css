@@ -32,6 +32,9 @@
   opacity: 0.8;
 }
 .header-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-display);
   font-size: 15px;
   font-weight: 600;

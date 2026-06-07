@@ -103,6 +103,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     save: (presets)  => ipcRenderer.invoke('presets:save', presets),
   },
 
+  // D&D Beyond character data
+  dndbeyond: {
+    getCharacter: (id) => ipcRenderer.invoke('dndbeyond:getCharacter', id),
+  },
+
   // Documentation
   docs: {
     getTree:     ()                          => ipcRenderer.invoke('docs:getTree'),

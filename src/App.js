@@ -9,6 +9,7 @@ import DNDWizard from './panels/DNDWizard';
 import Characters from './panels/Characters';
 import Documentation from './panels/Documentation';
 import Generator from './panels/Generator';
+import CharacterSheet from './panels/CharacterSheet';
 
 const PANELS = [
   { id: 'characters',    label: 'Characters',   icon: '🧑', shortcut: '1' },
@@ -19,6 +20,7 @@ const PANELS = [
   { id: 'scene',         label: 'Scene',        icon: '🎭', shortcut: '6' },
   { id: 'scribble',      label: 'Scribble',     icon: '✍️',  shortcut: '7' },
   { id: 'wizard',        label: 'Wizard',       icon: '🧙', shortcut: '8' },
+  { id: 'charsheet',     label: 'Sheets',       icon: '📜', shortcut: '9' },
 ];
 
 function useSessionClock() {
@@ -127,6 +129,7 @@ export default function App() {
       case 'characters':    return <Characters />;
       case 'documentation': return <Documentation />;
       case 'generator':     return <Generator />;
+      case 'charsheet':     return <CharacterSheet />;
       default:              return null;
     }
   };
