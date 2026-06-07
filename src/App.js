@@ -1,4 +1,4 @@
-// src/App.js  —  v0.3  (DND Wizard panel added as panel 6)
+// src/App.js  —  v0.10  (NPCs tab added to Encounters)
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './App.css';
 import Scribbleboard from './panels/Scribbleboard';
