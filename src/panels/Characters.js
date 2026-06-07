@@ -46,12 +46,7 @@ function CharacterCard({ char, onAdjust, onRemove }) {
 
 export default function Characters() {
   const [characters, setCharacters] = useState([]);
-  const [tab, setTab]               = useState('pc');
-  const [newName, setNewName]       = useState('');
-  const [newSpecies, setNewSpecies] = useState('');
-  const [newClass, setNewClass]     = useState('');
   const [saving, setSaving]         = useState(false);
-  const [npcSort, setNpcSort]       = useState('name');
   const saveTimer = useRef(null);
   const isElectron = !!window.electronAPI;
 
@@ -92,22 +87,6 @@ export default function Characters() {
     persist(next);
   };
 
-  const addCharacter = (type) => {
-    const name = newName.trim();
-    if (!name) return;
-    const entry = { id: uid(), name, karma: 0, type };
-    if (type === 'pc') {
-      if (newClass.trim())   entry.class   = newClass.trim();
-      if (newSpecies.trim()) entry.species = newSpecies.trim();
-    } else {
-      if (newSpecies.trim()) entry.species = newSpecies.trim();
-    }
-    const next = [...characters, entry];
-    setCharacters(next);
-    persist(next);
-    setNewName(''); setNewSpecies(''); setNewClass('');
-  };
-
   const removeCharacter = (id) => {
     const next = characters.filter(c => c.id !== id);
     setCharacters(next);
@@ -115,12 +94,6 @@ export default function Characters() {
   };
 
   const pcs  = characters.filter(c => c.type === 'pc');
-  const npcsRaw = characters.filter(c => c.type === 'npc');
-  const npcs = [...npcsRaw].sort((a, b) =>
-    npcSort === 'karma'
-      ? (b.karma || 0) - (a.karma || 0)
-      : a.name.localeCompare(b.name)
-  );
 
   return (
     <div className="characters-panel">
@@ -129,58 +102,11 @@ export default function Characters() {
         {saving && <span className="chars-saving">saving…</span>}
       </div>
 
-      <div className="chars-tabs">
-        <button className={`chars-tab ${tab === 'pc'  ? 'active' : ''}`} onClick={() => { setTab('pc');  setNewName(''); setNewSpecies(''); setNewClass(''); }}>
-          Player Characters <span className="chars-tab-count">{pcs.length}</span>
-        </button>
-        <button className={`chars-tab ${tab === 'npc' ? 'active' : ''}`} onClick={() => { setTab('npc'); setNewName(''); setNewSpecies(''); setNewClass(''); }}>
-          NPCs <span className="chars-tab-count">{npcs.length}</span>
-        </button>
-      </div>
-
       <div className="chars-list">
-        {tab === 'pc' && pcs.map(c => (
+        {pcs.map(c => (
           <CharacterCard key={c.id} char={c} onAdjust={adjustKarma} onRemove={removeCharacter} />
         ))}
-
-        {tab === 'npc' && (
-          <>
-            {npcsRaw.length > 0 && (
-              <div className="chars-sort-bar">
-                <span className="chars-sort-label">Sort:</span>
-                <button className={`chars-sort-btn ${npcSort === 'name'  ? 'active' : ''}`} onClick={() => setNpcSort('name')}>A–Z</button>
-                <button className={`chars-sort-btn ${npcSort === 'karma' ? 'active' : ''}`} onClick={() => setNpcSort('karma')}>Karma</button>
-              </div>
-            )}
-            {npcs.length === 0 && <div className="chars-empty">No NPCs yet. Add one below.</div>}
-            {npcs.map(c => (
-              <CharacterCard key={c.id} char={c} onAdjust={adjustKarma} onRemove={removeCharacter} />
-            ))}
-          </>
-        )}
       </div>
-
-      {tab === 'pc' && (
-        <div className="chars-add">
-          <input className="chars-input" placeholder="PC name" value={newName}
-            onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter('pc')} />
-          <input className="chars-input chars-input-class" placeholder="Class (optional)" value={newClass}
-            onChange={e => setNewClass(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter('pc')} />
-          <input className="chars-input chars-input-class" placeholder="Species (optional)" value={newSpecies}
-            onChange={e => setNewSpecies(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter('pc')} />
-          <button className="chars-add-btn" onClick={() => addCharacter('pc')} disabled={!newName.trim()}>Add PC</button>
-        </div>
-      )}
-
-      {tab === 'npc' && (
-        <div className="chars-add">
-          <input className="chars-input" placeholder="NPC name" value={newName}
-            onChange={e => setNewName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter('npc')} />
-          <input className="chars-input chars-input-class" placeholder="Race / type (optional)" value={newSpecies}
-            onChange={e => setNewSpecies(e.target.value)} onKeyDown={e => e.key === 'Enter' && addCharacter('npc')} />
-          <button className="chars-add-btn" onClick={() => addCharacter('npc')} disabled={!newName.trim()}>Add NPC</button>
-        </div>
-      )}
     </div>
   );
 }

@@ -2,6 +2,14 @@
 
 ---
 
+## v0.8.6 — June 2026
+
+### 🔧 Changes
+
+- Characters: panel now lists Player Characters only — removed the NPC tab and the manual add-character form
+
+---
+
 ## v0.8.5 — June 2026
 
 ### 🔧 Changes
