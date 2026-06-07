@@ -2,7 +2,7 @@
 
 ---
 
-## v0.10.0 — The Roster Update — June 2026
+## v0.9.1 — June 2026
 
 ### ✨ New
 
