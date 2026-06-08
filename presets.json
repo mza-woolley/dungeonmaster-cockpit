@@ -3,9 +3,9 @@
     "id": "1780797454757",
     "name": "! Off - No Music",
     "color": "#695d5d",
-    "playlistId": "",
+    "playlistId": "__none__",
     "playlistUri": "",
-    "playlistName": "",
+    "playlistName": "None (pause music)",
     "lightSequence": {
       "stops": [
         {
@@ -16,5 +16,104 @@
       ]
     },
     "ambience": {}
+  },
+  {
+    "id": "1780896154035",
+    "name": "Tavern",
+    "color": "#d4622a",
+    "playlistId": "4mWavb7yWC4R5xNQH5MR7Y",
+    "playlistUri": "spotify:playlist:4mWavb7yWC4R5xNQH5MR7Y",
+    "playlistName": "DND Tavern",
+    "lightSequence": {
+      "stops": [
+        {
+          "color": "#e8742c",
+          "brightness": 55
+        },
+        {
+          "color": "#c0552c",
+          "brightness": 55
+        },
+        {
+          "color": "#d99a3c",
+          "brightness": 55
+        }
+      ]
+    },
+    "ambience": {
+      "tavern": 0.43,
+      "campfire": 0.51
+    }
+  },
+  {
+    "id": "1780896954996",
+    "name": "Dungeon",
+    "color": "#d4622a",
+    "playlistId": "1xzASdzcWl5zYEfejNpYhs",
+    "playlistUri": "spotify:playlist:1xzASdzcWl5zYEfejNpYhs",
+    "playlistName": "DND Dungeon",
+    "lightSequence": {
+      "stops": [
+        {
+          "color": "#5a5ad1",
+          "brightness": 10
+        },
+        {
+          "color": "#6b3f8a",
+          "brightness": 10
+        },
+        {
+          "color": "#ff0000",
+          "brightness": 10
+        }
+      ]
+    },
+    "ambience": {
+      "wind": 0.17
+    }
+  },
+  {
+    "id": "1780914250238",
+    "name": "Combat",
+    "color": "#d4622a",
+    "playlistId": "4sJ5vuEQ2mrUCjxkn5FXE5",
+    "playlistUri": "spotify:playlist:4sJ5vuEQ2mrUCjxkn5FXE5",
+    "playlistName": "DND Combat",
+    "lightSequence": {
+      "stops": [
+        {
+          "color": "#ff0000",
+          "brightness": 100
+        },
+        {
+          "color": "#d1419c",
+          "brightness": 100
+        }
+      ]
+    },
+    "ambience": {}
+  },
+  {
+    "id": "1780916361034",
+    "name": "Wilderness",
+    "color": "#d4622a",
+    "playlistId": "62OiDBlYSPyXvF6Kzl7UzC",
+    "playlistUri": "spotify:playlist:62OiDBlYSPyXvF6Kzl7UzC",
+    "playlistName": "DND Wilderness",
+    "lightSequence": {
+      "stops": [
+        {
+          "color": "#3f9e52",
+          "brightness": 100
+        },
+        {
+          "color": "#5a5ad1",
+          "brightness": 100
+        }
+      ]
+    },
+    "ambience": {
+      "river": 0.3
+    }
   }
 ]

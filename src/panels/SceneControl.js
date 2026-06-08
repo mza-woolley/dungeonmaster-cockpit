@@ -159,6 +159,7 @@ const PRESET_COLORS = [
 const LIGHT_PALETTE = [
   // Standard
   { id: 'red',        label: 'Red',        hex: '#e0392c' },
+  { id: 'true-red',   label: 'True Red',   hex: '#ff0000' },
   { id: 'orange',     label: 'Orange',     hex: '#e8742c' },
   { id: 'amber',      label: 'Amber',      hex: '#e8a52c' },
   { id: 'gold2',      label: 'Gold',       hex: '#d9c24a' },
@@ -992,7 +993,9 @@ export default function SceneControl() {
       engine.applyMix(preset.ambience);
       setActiveSounds(preset.ambience);
     } else {
-      // Preset has no ambience — leave current mix alone (don't kill it)
+      // Preset defines no ambience — overwrite/kill whatever is currently playing
+      engine.applyMix({});
+      setActiveSounds({});
     }
 
     // Spotify + Lights

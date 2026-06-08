@@ -2,6 +2,16 @@
 
 ---
 
+## v0.9.4 — June 2026
+
+### 🔧 Changes
+
+- Scene: added a true straight red swatch to the lighting palette
+- Scene: firing a preset now overwrites/kills the current ambience mix when the preset has no ambience of its own, instead of leaving the old mix playing
+- Encounters: "Start Encounter" / "End Encounter" now correctly fire the selected scene preset's lights (and ambience/Spotify behaviour) the same way the Scene tab does, fixing a case where the lights wouldn't trigger
+
+---
+
 ## v0.9.3 — June 2026
 
 ### ✨ New

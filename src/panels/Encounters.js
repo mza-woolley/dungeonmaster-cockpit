@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Encounters.css';
-import { ambienceEngine, hexToRgb } from './SceneControl';
+import { ambienceEngine } from './SceneControl';
 
 // ── Helpers ────────────────────────────────────────────────
 const CR_OPTIONS = [
@@ -804,14 +804,17 @@ export default function Encounters() {
     if (!preset) return;
     if (preset.ambience && Object.keys(preset.ambience).length > 0) {
       ambienceEngine.applyMix(preset.ambience);
+    } else {
+      ambienceEngine.applyMix({});
     }
     if (!isElectron) return;
     const actions = [];
-    if (preset.playlistUri)   actions.push(window.electronAPI.spotify.play(preset.playlistUri));
-    if (preset.nanoleafScene) actions.push(window.electronAPI.nanoleaf.setScene(preset.nanoleafScene));
-    if (preset.lightColor) {
-      const rgb = hexToRgb(preset.lightColor);
-      if (rgb) actions.push(window.electronAPI.pixie.setColor(rgb.r, rgb.g, rgb.b));
+    if (preset.playlistId === 'NONE_PLAYLIST_ID' || preset.playlistId === '__none__') actions.push(window.electronAPI.spotify.pause());
+    else if (preset.playlistUri) actions.push(window.electronAPI.spotify.play(preset.playlistUri));
+    if (preset.lightSequence?.stops?.length) {
+      actions.push(window.electronAPI.lights.startLoop(preset.lightSequence));
+    } else {
+      window.electronAPI.lights.stopLoop();
     }
     if (actions.length) {
       const results = await Promise.all(actions);
