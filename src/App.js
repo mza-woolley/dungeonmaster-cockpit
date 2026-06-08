@@ -123,7 +123,7 @@ export default function App() {
     switch (PANELS[idx]?.id) {
       case 'scribble':   return <Scribbleboard />;
       case 'scene':      return <SceneControl />;
-      case 'tv':         return <TVDisplay />;
+      case 'tv':         return null; // rendered persistently below, outside the animated stage
       case 'encounters': return <Encounters />;
       case 'wizard':     return <DNDWizard />;
       case 'characters':    return <Characters />;
@@ -187,6 +187,10 @@ export default function App() {
           className={`panel-slide ${animating ? (direction === 'right' ? 'entering-right' : 'entering-left') : 'settled'}`}
         >
           {renderPanel(activeIdx)}
+        </div>
+        {/* Display tab stays mounted across tab switches so its TV window / map editor persist */}
+        <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'tv' ? 'settled' : 'hidden'}`}>
+          <TVDisplay />
         </div>
       </main>
     </div>

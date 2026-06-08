@@ -8,6 +8,8 @@
 
 - Scene: lighting colour picker replaced with a curated 20-swatch palette (sorted by hue) plus live preview, ensuring colours look consistent across both the Nanoleaf panels and the Pixie strip
 - Scene: presets can now select "None" for music, which pauses playback when the preset fires
+- TV Display: popping out the display now snaps it straight to your connected second monitor and fills the entire screen edge-to-edge
+- TV Display: the panel now stays alive when you switch tabs — your loaded map, fog, pins, and TV window connection all persist instead of resetting
 
 ### 🔧 Changes
 
@@ -15,6 +17,8 @@
 - Scene: ambience crossfade (fade in/out) extended to 4 seconds
 - Scene: "Kill Ambience" now stops all sounds instantly, fixing cases where ambience started from a preset could keep playing after pressing kill
 - Lighting: simplified Pixie BLE pairing to use the confirmed credentials directly, and added automatic reconnect-and-retry if a command fails mid-send
+- Scene: ambience volume sliders are now larger and easier to grab when toggling sounds in a preset
+- TV Display: closing and reopening the TV window now correctly restores the map editor overlay, instead of showing a blank map until "Clear Display" was pressed
 
 ---
 

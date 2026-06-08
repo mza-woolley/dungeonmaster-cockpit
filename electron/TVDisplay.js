@@ -1,4 +1,4 @@
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, screen } = require('electron');
 const path = require('path');
 const fs   = require('fs');
 
@@ -12,9 +12,19 @@ function openTvWindow() {
     return tvWindow;
   }
 
+  // Prefer a connected secondary display — pop straight onto it, full-screen.
+  const displays = screen.getAllDisplays();
+  const primary  = screen.getPrimaryDisplay();
+  const target   = displays.find(d => d.id !== primary.id) || primary;
+
   tvWindow = new BrowserWindow({
     title: 'DM Display',
     backgroundColor: '#000000',
+    x: target.bounds.x,
+    y: target.bounds.y,
+    width: target.bounds.width,
+    height: target.bounds.height,
+    show: false,
     fullscreen: false,
     webPreferences: {
       nodeIntegration: false,
@@ -25,6 +35,15 @@ function openTvWindow() {
 
   tvWindow.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(getTvHtml())}`);
   tvWindow.setMenuBarVisibility(false);
+  tvWindow.once('ready-to-show', () => {
+    tvWindow.setBounds(target.bounds);
+    tvWindow.show();
+    if (process.platform === 'darwin') {
+      tvWindow.setSimpleFullScreen(true);
+    } else {
+      tvWindow.setFullScreen(true);
+    }
+  });
   tvWindow.on('closed', () => { tvWindow = null; });
   return tvWindow;
 }

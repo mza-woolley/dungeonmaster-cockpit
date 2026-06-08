@@ -598,7 +598,13 @@ export default function TVDisplay() {
     // Load full image via IPC (file:// is blocked in renderer)
     const imgRes = await window.electronAPI.tv.readImage(file.path);
     if (!imgRes.success) { setError('Could not load image for DM canvas'); return; }
-    setDmImageDataUrl(imgRes.dataUrl);
+    if (imgRes.dataUrl === dmImageDataUrl && mapImgRef.current) {
+      // Same image already decoded (e.g. reopened after Close TV) — the
+      // load effect won't re-fire on an identical data URL, so flip the flag directly.
+      setMapLoaded(true);
+    } else {
+      setDmImageDataUrl(imgRes.dataUrl);
+    }
 
     if (isElectron) {
       window.electronAPI.tv.syncGrid(gridEnabled, gridSize);
@@ -612,7 +618,7 @@ export default function TVDisplay() {
       if (lastState) handleLoadStateRef.current(lastState);
       else setCurrentStateId(null);
     }
-  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas]);
+  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas, dmImageDataUrl]);
 
   // ── Grid sync ──
   function setGrid(enabled, size) {
