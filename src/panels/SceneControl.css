@@ -314,6 +314,13 @@
   font-size: 11px;
   flex-shrink: 0;
 }
+.tile-light-fire {
+  cursor: pointer;
+}
+.tile-light-fire:hover {
+  opacity: 1;
+  transform: scale(1.25);
+}
 .tile-detail-text {
   overflow: hidden;
   text-overflow: ellipsis;

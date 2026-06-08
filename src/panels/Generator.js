@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import names from '../data/random-tables/people/names.json';
 import npc from '../data/random-tables/people/npc.json';
@@ -89,10 +89,23 @@ export default function Generator() {
     setResultKey(k => k + 1);
   }
 
-  function reroll() {
+  const reroll = useCallback(() => {
     setLines(activeTable.roll());
     setResultKey(k => k + 1);
-  }
+  }, [activeTable]);
+
+  // Spacebar re-rolls the active table
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        reroll();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [reroll]);
 
   return (
     <div className="generator-panel">

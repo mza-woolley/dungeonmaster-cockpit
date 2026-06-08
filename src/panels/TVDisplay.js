@@ -4,6 +4,7 @@ import './TVDisplay.css';
 const FOLDER_KEY = 'dm-cockpit-tv-folder';
 const FILES_KEY  = 'dm-cockpit-tv-files';
 const FAVS_KEY   = 'dm-cockpit-tv-favs';
+const LAST_STATE_PREFIX = 'dm-cockpit-tv-laststate:';
 
 const GRID_SIZES   = ['tiny', 'small', 'medium', 'large'];
 const GRID_PX      = { tiny: 20, small: 40, medium: 60, large: 80 };
@@ -157,6 +158,7 @@ export default function TVDisplay() {
   const [hideAllMonsters, setHideAllMonsters] = useState(false);
   const [placingPin,      setPlacingPin]      = useState(null); // pin waiting to be placed
   const [mapStates,       setMapStates]       = useState([]);
+  const [currentStateId,  setCurrentStateId]  = useState(null);
   const [showSaveModal,   setShowSaveModal]   = useState(false);
   const [mapLoaded,       setMapLoaded]       = useState(false);
   const [dmImageDataUrl,  setDmImageDataUrl]  = useState(null);
@@ -179,11 +181,14 @@ export default function TVDisplay() {
   const draggingPinId  = useRef(null);   // id of pin being dragged
   const hoveredPinId   = useRef(null);   // id of pin under cursor
   const pinsRef        = useRef(pins);   // mirror of pins for use in event handlers
+  const mapStatesRef   = useRef([]);     // mirror of mapStates to avoid stale closures
+  const handleLoadStateRef = useRef(null);
 
   const isElectron = !!window.electronAPI;
 
   // Keep pinsRef current so pointer handlers always read latest pins
   useEffect(() => { pinsRef.current = pins; }, [pins]);
+  useEffect(() => { mapStatesRef.current = mapStates; }, [mapStates]);
 
   // ── Init ──
   useEffect(() => {
@@ -580,7 +585,7 @@ export default function TVDisplay() {
   }
 
   // ── Push image to TV ──
-  const handlePushImage = useCallback(async (file) => {
+  const handlePushImage = useCallback(async (file, autoRestore = false) => {
     if (!tvOpen) {
       await window.electronAPI.tv.open();
       setTvOpen(true);
@@ -598,6 +603,14 @@ export default function TVDisplay() {
     if (isElectron) {
       window.electronAPI.tv.syncGrid(gridEnabled, gridSize);
       window.electronAPI.tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
+    }
+
+    // Auto-restore the last-used state for this map (grid/fog/pins memory)
+    if (autoRestore) {
+      const lastId = localStorage.getItem(`${LAST_STATE_PREFIX}${file.path}`);
+      const lastState = lastId && mapStatesRef.current.find(s => s.id === lastId);
+      if (lastState) handleLoadStateRef.current(lastState);
+      else setCurrentStateId(null);
     }
   }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas]);
 
@@ -647,11 +660,11 @@ export default function TVDisplay() {
   }
 
   // ── Map state presets ──
-  async function handleSaveState(name) {
+  async function handleSaveState(name, overwriteId) {
     setShowSaveModal(false);
     const fogMask = fogRef.current ? fogRef.current.toDataURL('image/png') : null;
     const state = {
-      id: `ms_${Date.now()}`,
+      id: overwriteId || `ms_${Date.now()}`,
       name,
       mapPath: active,
       fogMask,
@@ -664,10 +677,24 @@ export default function TVDisplay() {
       savedAt: new Date().toISOString(),
     };
     const res = await window.electronAPI.mapStates.save(state);
-    if (res.success) setMapStates(prev => [...prev.filter(s => s.id !== state.id), state]);
+    if (res.success) {
+      setMapStates(prev => [...prev.filter(s => s.id !== state.id), state]);
+      setCurrentStateId(state.id);
+      if (active) localStorage.setItem(`${LAST_STATE_PREFIX}${active}`, state.id);
+    }
+  }
+
+  function quickSaveState() {
+    const existing = mapStates.find(s => s.id === currentStateId);
+    if (existing) {
+      handleSaveState(existing.name, existing.id);
+    } else {
+      setShowSaveModal(true);
+    }
   }
 
   async function handleLoadState(state) {
+    setCurrentStateId(state.id);
     // Queue fog mask — applied once the map image finishes loading
     pendingFogMask.current = state.fogMask || null;
 
@@ -708,6 +735,8 @@ export default function TVDisplay() {
       });
     }
   }
+
+  handleLoadStateRef.current = handleLoadState;
 
   async function handleDeleteState(id, e) {
     e.stopPropagation();
@@ -984,6 +1013,9 @@ export default function TVDisplay() {
             <div className="ov-section">
               <div className="ov-section-title">
                 Map States
+                {currentStateId && mapStates.some(s => s.id === currentStateId) && (
+                  <button className="ov-btn small" onClick={quickSaveState} title="Overwrite the loaded state with current settings">⟳ Quick Save</button>
+                )}
                 <button className="ov-btn small" onClick={() => setShowSaveModal(true)}>+ Save</button>
               </div>
               {mapStates.length === 0 && (
@@ -1045,7 +1077,7 @@ export default function TVDisplay() {
                 active={active === file.path}
                 thumb={thumbs[file.path]}
                 faved={favs.includes(file.path)}
-                onPush={handlePushImage}
+                onPush={(file) => handlePushImage(file, true)}
                 onFav={toggleFav}
                 onVisible={enqueueThumbnail}
               />

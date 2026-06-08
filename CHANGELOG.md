@@ -2,6 +2,17 @@
 
 ---
 
+## v0.9.2 — June 2026
+
+### ✨ New
+
+- Generator: press spacebar to instantly re-roll the active table — no need to reach for the button
+- Scene: click the lighting icon on any preset tile to preview just its light sequence, without opening the editor
+- TV Display: "Quick Save" button overwrites your loaded map state in place — no need to retype a name
+- TV Display: grid, fog, and pin settings are now remembered per map and auto-restored when you push it back to the TV
+
+---
+
 ## v0.9.1 — June 2026
 
 ### ✨ New

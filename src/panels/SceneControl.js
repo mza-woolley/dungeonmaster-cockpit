@@ -292,7 +292,7 @@ function AmbienceStrip({ activeSounds, masterVol, onMasterChange, onKill }) {
 
 // ── PresetTile ────────────────────────────────────────────
 
-function PresetTile({ preset, onFire, onEdit, active, firing }) {
+function PresetTile({ preset, onFire, onFireLights, onEdit, active, firing }) {
   const tileHex  = preset.color?.startsWith('#') ? preset.color : (PRESET_COLORS.find(c => c.id === preset.color)?.hex || '#d4622a');
   const ambLabel = preset.ambience && Object.keys(preset.ambience).length > 0
     ? Object.keys(preset.ambience).map(id => ALL_SOUNDS.find(s => s.id === id)?.label ?? id).join(', ')
@@ -318,7 +318,11 @@ function PresetTile({ preset, onFire, onEdit, active, firing }) {
           )}
           {hasLights && (
             <span className="tile-detail-row">
-              <span className="tile-detail-icon">◉</span>
+              <span
+                className="tile-detail-icon tile-light-fire"
+                title="Preview just the lights"
+                onClick={(e) => { e.stopPropagation(); onFireLights(preset); }}
+              >◉</span>
               <span
                 className="tile-light-bar"
                 style={{ background: buildGradient(preset.lightSequence.stops.map(s => s.color)) }}
@@ -914,6 +918,11 @@ export default function SceneControl() {
     setTimeout(pollTrack, 1000);
   }, [engine, isElectron, pollTrack]);
 
+  const fireLightsOnly = useCallback((preset) => {
+    if (!isElectron || !preset.lightSequence?.stops?.length) return;
+    window.electronAPI.lights.startLoop(preset.lightSequence);
+  }, [isElectron]);
+
   const savePreset = (preset) => {
     setPresets(prev => {
       const existing = prev.findIndex(p => p.id === preset.id);
@@ -1049,6 +1058,7 @@ export default function SceneControl() {
                   active={activePreset === p.id}
                   firing={firingPreset === p.id}
                   onFire={firePreset}
+                  onFireLights={fireLightsOnly}
                   onEdit={setEditing}
                 />
               ))}
