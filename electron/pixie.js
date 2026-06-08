@@ -21,31 +21,10 @@ const DEBUG = process.env.PIXIE_DEBUG === '1';
 const log = (...args) => { if (DEBUG) console.log(...args); };
 
 // ── Telink mesh credentials ───────────────────────────────────────────────────
-// SAL Pixie may use non-default credentials — try each until one works
-// 421017430 = 0x191EBE56
-const MESH_NET_LE = Buffer.from([0x56, 0xBE, 0x1E, 0x19]); // little-endian
-const MESH_NET_BE = Buffer.from([0x19, 0x1E, 0xBE, 0x56]); // big-endian
-
-const CREDENTIAL_SETS = [
-  { name: 'Smart Light',  password: '209999' },   // confirmed working
-  { name: 'Smart Light',  password: '123' },
-  { name: 'Smart Light',  password: '209999' },   // netID
-  { name: 'Smart Light',  password: '529' },      // ManufactureID
-  { name: 'Smart Light',  password: 'Skytone' },  // OEM name
-  { name: 'Smart Light',  password: 'skytone' },
-  { name: 'Smart Light',  password: '000000' },
-  { name: 'Smart Light',  password: '888888' },
-  { name: 'Smart Light',  password: '666666' },
-  { name: 'Smart Light',  password: '421017430' },
-  { name: 'Smart Light',  password: MESH_NET_LE },
-  { name: 'Smart Light',  password: MESH_NET_BE },
-  { name: 'out_of_mesh',  password: '123' },
-  { name: 'out_of_mesh',  password: '209999' },
-  { name: 'out_of_mesh',  password: 'Skytone' },
-  { name: 'telink_mesh1', password: '123' },
-];
-let MESH_NAME     = CREDENTIAL_SETS[0].name;
-let MESH_PASSWORD = CREDENTIAL_SETS[0].password;
+// Confirmed working set for this device — no need to brute-force alternatives,
+// which only slowed down (and destabilised) the pairing handshake.
+const MESH_NAME     = 'Smart Light';
+const MESH_PASSWORD = '209999';
 const VENDOR_ID   = 0x6969;  // confirmed from plist scene command bytes
 
 // Known MAC address from Device Information characteristic
@@ -195,36 +174,29 @@ function waitForNotification(char, timeoutMs = 1000) {
 async function pair() {
   const notifChar = _chars[NOTIF_UUID];
 
-  for (const creds of CREDENTIAL_SETS) {
-    MESH_NAME     = creds.name;
-    MESH_PASSWORD = creds.password;
+  const randomBytes = Array.from(crypto.randomBytes(8));
+  const data        = [...randomBytes, 0, 0, 0, 0, 0, 0, 0, 0];
+  const encData     = keyEncrypt(MESH_NAME, MESH_PASSWORD, data);
+  const packet      = [0x0c, ...data.slice(0, 8), ...encData.slice(0, 8)];
 
-    const randomBytes = Array.from(crypto.randomBytes(8));
-    const data        = [...randomBytes, 0, 0, 0, 0, 0, 0, 0, 0];
-    const encData     = keyEncrypt(MESH_NAME, MESH_PASSWORD, data);
-    const packet      = [0x0c, ...data.slice(0, 8), ...encData.slice(0, 8)];
+  log(`[Pixie] Pairing as "${MESH_NAME}"`);
+  await writeChar(PAIR_UUID, packet);
 
-    log(`[Pixie] Trying credentials: "${MESH_NAME}" / "${MESH_PASSWORD}"`);
-    await writeChar(PAIR_UUID, packet);
+  // Pair response arrives via notification, not by reading the pair char
+  const notif = notifChar ? await waitForNotification(notifChar, 1500) : null;
+  const data2 = notif || Array.from(await readChar(PAIR_UUID));
+  log(`[Pixie] Pair response (${data2.length} bytes): ${Buffer.from(data2).toString('hex')}`);
 
-    // Pair response arrives via notification, not by reading the pair char
-    const notif = notifChar ? await waitForNotification(notifChar, 1000) : null;
-    const data2 = notif || Array.from(await readChar(PAIR_UUID));
-    log(`[Pixie] Pair response (${data2.length} bytes): ${Buffer.from(data2).toString('hex')}`);
+  if (data2.length < 9) throw new Error('Pixie pairing rejected — credentials may have changed');
 
-    if (data2.length >= 9) {
-      _sk = generateSk(MESH_NAME, MESH_PASSWORD, randomBytes, data2.slice(1, 9));
-      log(`[Pixie] ✓ Paired with "${MESH_NAME}" / "${MESH_PASSWORD}"`);
-      log('[Pixie] Session key:', Buffer.from(_sk).toString('hex'));
-      return;
-    }
-  }
-  throw new Error('All credential sets rejected — SAL Pixie may use proprietary credentials');
+  _sk = generateSk(MESH_NAME, MESH_PASSWORD, randomBytes, data2.slice(1, 9));
+  log(`[Pixie] ✓ Paired`);
+  log('[Pixie] Session key:', Buffer.from(_sk).toString('hex'));
 }
 
 // ── Packet sending ────────────────────────────────────────────────────────────
 
-async function sendPacket(target, command, data) {
+async function sendPacket(target, command, data, retry = true) {
   const packet = new Array(20).fill(0);
   packet[0] = _packetCount & 0xff;
   packet[1] = (_packetCount >> 8) & 0xff;
@@ -237,7 +209,16 @@ async function sendPacket(target, command, data) {
 
   const enc = encryptPacket(_sk, _macData, packet);
   _packetCount = (_packetCount + 1) % 65536 || 1;
-  await writeChar(CMD_UUID, enc);
+  try {
+    await writeChar(CMD_UUID, enc);
+  } catch (err) {
+    // Connection likely dropped mid-write — reconnect once and retry
+    if (!retry) throw err;
+    log('[Pixie] Send failed, reconnecting:', err.message);
+    _connected = false;
+    await connect();
+    await sendPacket(target, command, data, false);
+  }
 }
 
 // ── Connection ────────────────────────────────────────────────────────────────

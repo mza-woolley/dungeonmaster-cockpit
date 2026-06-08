@@ -1,6 +1,10 @@
 const nanoleaf = require('./nanoleaf');
 const pixie    = require('./pixie');
 
+// Fixed crossfade duration — keeps Nanoleaf (native transitions) and Pixie
+// (software interpolation) in sync; per-stop values caused visible desync.
+const CROSSFADE_MS = 3000;
+
 let _loopTimer   = null;
 let _cancelToken = 0;
 let _colorIndex  = 0;
@@ -40,15 +44,14 @@ function startLoop(stops) {
 function tick(stops, token) {
   if (_cancelToken !== token) return;
 
-  const { color: hex, crossfade, brightness = 100 } = stops[_colorIndex];
+  const { color: hex, brightness = 100 } = stops[_colorIndex];
   const targetRgb = hexToRgb(hex);
-  const duration  = Math.max(crossfade || 0, 0);
 
-  nanoleaf.setColorDirect(hex, duration, brightness).catch(() => {});
-  pixieFade(_currentRgb || targetRgb, targetRgb, duration, brightness, token);
+  nanoleaf.setColorDirect(hex, CROSSFADE_MS, brightness).catch(() => {});
+  pixieFade(_currentRgb || targetRgb, targetRgb, CROSSFADE_MS, brightness, token);
 
   _colorIndex = (_colorIndex + 1) % stops.length;
-  _loopTimer  = setTimeout(() => tick(stops, token), Math.max(duration, 100));
+  _loopTimer  = setTimeout(() => tick(stops, token), CROSSFADE_MS);
 }
 
 async function pixieFade(from, to, durationMs, brightness, token) {

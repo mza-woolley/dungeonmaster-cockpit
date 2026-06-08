@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     isAuthorized: ()    => ipcRenderer.invoke('spotify:isAuthorized'),
     authorize:    ()    => ipcRenderer.invoke('spotify:authorize'),
     getPlaylists: ()    => ipcRenderer.invoke('spotify:getPlaylists'),
-    play:         (uri) => ipcRenderer.invoke('spotify:play', uri),
+    play:         (uri)     => ipcRenderer.invoke('spotify:play', uri),
     resume:       ()    => ipcRenderer.invoke('spotify:resume'),
     pause:        ()    => ipcRenderer.invoke('spotify:pause'),
     skip:         ()    => ipcRenderer.invoke('spotify:skip'),

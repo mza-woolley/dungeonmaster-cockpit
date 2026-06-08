@@ -2,6 +2,22 @@
 
 ---
 
+## Unreleased
+
+### ✨ New
+
+- Scene: lighting colour picker replaced with a curated 20-swatch palette (sorted by hue) plus live preview, ensuring colours look consistent across both the Nanoleaf panels and the Pixie strip
+- Scene: presets can now select "None" for music, which pauses playback when the preset fires
+
+### 🔧 Changes
+
+- Scene: lighting crossfade is now a fixed duration so the Nanoleaf and Pixie stay in sync instead of visibly drifting apart
+- Scene: ambience crossfade (fade in/out) extended to 4 seconds
+- Scene: "Kill Ambience" now stops all sounds instantly, fixing cases where ambience started from a preset could keep playing after pressing kill
+- Lighting: simplified Pixie BLE pairing to use the confirmed credentials directly, and added automatic reconnect-and-retry if a command fails mid-send
+
+---
+
 ## v0.9.2 — June 2026
 
 ### ✨ New

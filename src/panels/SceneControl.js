@@ -1,5 +1,6 @@
 // SceneControl.js — v0.4 (ambience layer added)
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import './SceneControl.css';
 
 // ── Ambience data ─────────────────────────────────────────
@@ -44,7 +45,7 @@ const AMBIENCE_SOUNDS = {
 const ALL_SOUNDS = Object.values(AMBIENCE_SOUNDS).flat();
 const CATEGORY_LABELS = { nature: 'Nature', creatures: 'Creatures', atmosphere: 'Atmosphere' };
 
-const FADE_DURATION = 2500; // ms crossfade
+const FADE_DURATION = 4000; // ms crossfade
 const AMB_OPEN_KEY  = 'dm-cockpit-amb-open';
 const AMB_MIX_KEY   = 'dm-cockpit-amb-mix';
 const AMB_VOL_KEY   = 'dm-cockpit-amb-vol';
@@ -84,20 +85,28 @@ const _engine = (() => {
     nodes[soundId] = { source, gainNode, audio };
   }
 
-  function stop(soundId) {
+  function stop(soundId, immediate = false) {
     const node = nodes[soundId];
     if (!node) return;
     const ctx = getCtx();
     const { gainNode, audio } = node;
     delete nodes[soundId];
     gainNode.gain.cancelScheduledValues(ctx.currentTime);
-    gainNode.gain.setValueAtTime(gainNode.gain.value, ctx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + FADE_DURATION / 1000);
-    setTimeout(() => { audio.pause(); audio.src = ''; }, FADE_DURATION + 100);
+    if (immediate) {
+      gainNode.gain.setValueAtTime(0, ctx.currentTime);
+      audio.pause();
+      audio.src = '';
+    } else {
+      gainNode.gain.setValueAtTime(gainNode.gain.value, ctx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + FADE_DURATION / 1000);
+      setTimeout(() => { audio.pause(); audio.src = ''; }, FADE_DURATION + 100);
+    }
   }
 
+  // Hard-stop everything immediately — no fade, no race with overlapping
+  // play/stop calls (e.g. presets fired in quick succession).
   function stopAll() {
-    Object.keys(nodes).forEach(id => stop(id));
+    Object.keys(nodes).forEach(id => stop(id, true));
   }
 
   function setVolume(soundId, volume) {
@@ -133,6 +142,8 @@ export { _engine as ambienceEngine };
 
 // ── Preset helpers ────────────────────────────────────────
 
+const NONE_PLAYLIST_ID = '__none__';
+
 const PRESET_COLORS = [
   { id: 'ember',  label: 'Ember',  hex: '#d4622a' },
   { id: 'gold',   label: 'Gold',   hex: '#c9a84c' },
@@ -141,6 +152,109 @@ const PRESET_COLORS = [
   { id: 'steel',  label: 'Steel',  hex: '#4a7fa5' },
   { id: 'moss',   label: 'Moss',   hex: '#4a7c59' },
 ];
+
+// Curated swatches — chosen to render consistently on both the Nanoleaf
+// panels and the Pixie RGB strip (cyan/teal/turquoise blends excluded,
+// as those are where cheap RGB strips diverge most from the panels).
+const LIGHT_PALETTE = [
+  // Standard
+  { id: 'red',        label: 'Red',        hex: '#e0392c' },
+  { id: 'orange',     label: 'Orange',     hex: '#e8742c' },
+  { id: 'amber',      label: 'Amber',      hex: '#e8a52c' },
+  { id: 'gold2',      label: 'Gold',       hex: '#d9c24a' },
+  { id: 'green',      label: 'Green',      hex: '#3f9e52' },
+  { id: 'blue',       label: 'Blue',       hex: '#3a7fd9' },
+  { id: 'indigo',     label: 'Indigo',     hex: '#5a5ad1' },
+  { id: 'violet2',    label: 'Violet',     hex: '#8a4fd1' },
+  { id: 'magenta',    label: 'Magenta',    hex: '#d1419c' },
+  { id: 'warm-white', label: 'Warm White', hex: '#f2ddc4' },
+  // Expansion
+  { id: 'crimson',    label: 'Crimson',    hex: '#b8273f' },
+  { id: 'rust',       label: 'Rust',       hex: '#c0552c' },
+  { id: 'honey',      label: 'Honey',      hex: '#d99a3c' },
+  { id: 'olive',      label: 'Olive',      hex: '#8a9c3f' },
+  { id: 'moss2',      label: 'Moss',       hex: '#4a7c59' },
+  { id: 'steel2',     label: 'Steel',      hex: '#4a7fa5' },
+  { id: 'sapphire',   label: 'Sapphire',   hex: '#2c4ea0' },
+  { id: 'plum',       label: 'Plum',       hex: '#6b3f8a' },
+  { id: 'rose',       label: 'Rose',       hex: '#c14f6e' },
+  { id: 'cool-white', label: 'Cool White', hex: '#dfe6f0' },
+];
+
+function hexToHue(hex) {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b), delta = max - min;
+  if (delta === 0) return 0;
+  let h;
+  if (max === r)      h = ((g - b) / delta) % 6;
+  else if (max === g) h = (b - r) / delta + 2;
+  else                h = (r - g) / delta + 4;
+  h = h * 60;
+  return h < 0 ? h + 360 : h;
+}
+
+// Sorted by hue (colour-wheel order) so the 5×4 grid reads as a spectrum
+const PALETTE_SORTED = [...LIGHT_PALETTE].sort((a, b) => hexToHue(a.hex) - hexToHue(b.hex));
+
+function ColorSwatchPicker({ value, onChange }) {
+  const [open, setOpen]   = useState(false);
+  const [pos, setPos]     = useState(null);
+  const btnRef = useRef(null);
+  const popRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDocPointer = (e) => {
+      if (btnRef.current?.contains(e.target) || popRef.current?.contains(e.target)) return;
+      setOpen(false);
+    };
+    document.addEventListener('mousedown', onDocPointer);
+    return () => document.removeEventListener('mousedown', onDocPointer);
+  }, [open]);
+
+  const toggle = () => {
+    if (!open && btnRef.current) {
+      const r = btnRef.current.getBoundingClientRect();
+      const popW = 5 * 24 + 4 * 6 + 20; // columns + gaps + padding
+      let left = r.left + r.width / 2 - popW / 2;
+      left = Math.max(8, Math.min(left, window.innerWidth - popW - 8));
+      setPos({ top: r.bottom + 8, left });
+    }
+    setOpen(o => !o);
+  };
+
+  return (
+    <>
+      <button
+        ref={btnRef}
+        type="button"
+        className="csb-stop-preview csb-stop-preview--btn"
+        style={{ background: value }}
+        title="Choose colour"
+        onClick={toggle}
+      />
+      {open && pos && createPortal(
+        <div className="swatch-picker" ref={popRef} style={{ top: pos.top, left: pos.left }}>
+          {PALETTE_SORTED.map(c => (
+            <button
+              key={c.id}
+              type="button"
+              className={`swatch-btn${value === c.hex ? ' swatch-btn--active' : ''}`}
+              style={{ '--swatch-color': c.hex }}
+              title={c.label}
+              onClick={() => { onChange(c.hex); setOpen(false); }}
+            >
+              <span className="swatch-dot" />
+            </button>
+          ))}
+        </div>,
+        document.body
+      )}
+    </>
+  );
+}
 
 function buildGradient(colors) {
   if (!colors || colors.length === 0) return 'var(--bg-card)';
@@ -348,30 +462,31 @@ function PresetTile({ preset, onFire, onFireLights, onEdit, active, firing }) {
 
 // ── ColourSequenceBuilder ─────────────────────────────────
 
+// Matches the fixed crossfade in electron/colorLoop.js — keeps the in-app
+// preview animation in step with what the lights actually do.
+const CROSSFADE_PREVIEW_MS = 3000;
+
 function ColourSequenceBuilder({ sequence, onChange, onTest, onStopTest, testing }) {
-  const stops = sequence?.stops ?? [{ color: '#d4622a', crossfade: 800, brightness: 100 }];
+  const stops = sequence?.stops ?? [{ color: '#d4622a', brightness: 100 }];
 
   const update = (i, patch) => onChange({ stops: stops.map((s, j) => j === i ? { ...s, ...patch } : s) });
   const remove = (i)        => onChange({ stops: stops.filter((_, j) => j !== i) });
-  const add    = ()         => onChange({ stops: [...stops, { color: '#4a7fa5', crossfade: 800, brightness: 100 }] });
+  const add    = ()         => onChange({ stops: [...stops, { color: '#4a7fa5', brightness: 100 }] });
 
-  // Animated preview — cycles through stops using CSS background transitions
+  // Animated preview — cycles through stops at the fixed crossfade duration
   const [previewIdx, setPreviewIdx] = useState(0);
   const stopsRef = useRef(stops);
   useEffect(() => { stopsRef.current = stops; }, [stops]);
   useEffect(() => {
     if (stops.length <= 1) { setPreviewIdx(0); return; }
-    let idx = 0;
     let cancelled = false;
     function advance() {
       if (cancelled) return;
-      idx = (idx + 1) % stopsRef.current.length;
-      setPreviewIdx(idx);
-      setTimeout(advance, Math.max(stopsRef.current[idx].crossfade || 0, 300));
+      setPreviewIdx(idx => (idx + 1) % stopsRef.current.length);
+      setTimeout(advance, CROSSFADE_PREVIEW_MS);
     }
-    const t = setTimeout(advance, Math.max(stops[0].crossfade || 0, 300));
+    const t = setTimeout(advance, CROSSFADE_PREVIEW_MS);
     return () => { cancelled = true; clearTimeout(t); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stops.length]);
 
   const previewStop = stops[previewIdx] ?? stops[0];
@@ -386,7 +501,7 @@ function ColourSequenceBuilder({ sequence, onChange, onTest, onStopTest, testing
           style={{
             background:  previewStop.color,
             filter:      `brightness(${(previewStop.brightness ?? 100) / 100})`,
-            transition:  `background ${previewStop.crossfade}ms ease, filter ${previewStop.crossfade}ms ease`,
+            transition:  `background ${CROSSFADE_PREVIEW_MS}ms ease, filter ${CROSSFADE_PREVIEW_MS}ms ease`,
           }}
         />
       </div>
@@ -396,24 +511,7 @@ function ColourSequenceBuilder({ sequence, onChange, onTest, onStopTest, testing
             {stops.length > 1 && (
               <button className="csb-stop-remove" onClick={() => remove(i)} title="Remove">×</button>
             )}
-            <label className="csb-stop-label" style={{ '--stop-color': stop.color }}>
-              <input
-                type="color"
-                value={stop.color}
-                className="csb-color-input"
-                onChange={e => update(i, { color: e.target.value })}
-              />
-            </label>
-            <input
-              type="range" min={0} max={15} step={1}
-              value={Math.round((stop.crossfade ?? 800) / 100)}
-              className="csb-stop-slider"
-              title="Crossfade"
-              onChange={e => update(i, { crossfade: parseInt(e.target.value) * 100 })}
-            />
-            <span className="csb-stop-ms">
-              {(stop.crossfade ?? 800) === 0 ? 'instant' : `${stop.crossfade ?? 800}ms`}
-            </span>
+            <ColorSwatchPicker value={stop.color} onChange={hex => update(i, { color: hex })} />
             <input
               type="range" min={0} max={100} step={5}
               value={stop.brightness ?? 100}
@@ -497,14 +595,16 @@ function PresetEditor({ preset, playlists, onSave, onDelete, onClose }) {
   const [ambienceMix,   setAmbienceMix]   = useState(preset?.ambience || {});
   const [useLights,     setUseLights]     = useState(!!(preset?.lightSequence?.stops?.length));
   const [lightSequence, setLightSequence] = useState(
-    preset?.lightSequence ?? { stops: [{ color: '#d4622a', crossfade: 800, brightness: 100 }] }
+    preset?.lightSequence ?? { stops: [{ color: '#d4622a', brightness: 100 }] }
   );
   const [testingLights, setTestingLights] = useState(false);
 
   const isElectron = !!window.electronAPI;
 
   const handlePlaylistChange = (e) => {
-    const pl = playlists.find(p => p.id === e.target.value);
+    const val = e.target.value;
+    if (val === NONE_PLAYLIST_ID) { setPlaylistId(NONE_PLAYLIST_ID); setPlaylistUri(''); setPlaylistName('None (pause music)'); return; }
+    const pl = playlists.find(p => p.id === val);
     if (pl) { setPlaylistId(pl.id); setPlaylistUri(pl.uri); setPlaylistName(pl.name); }
     else    { setPlaylistId(''); setPlaylistUri(''); setPlaylistName(''); }
   };
@@ -562,19 +662,15 @@ function PresetEditor({ preset, playlists, onSave, onDelete, onClose }) {
           </div>
           <div className="editor-field editor-field--inline">
             <label>Tile Colour</label>
-            <input
-              type="color"
-              className="light-color-picker"
-              value={color}
-              onChange={e => setColor(e.target.value)}
-            />
+            <ColorSwatchPicker value={color} onChange={setColor} />
           </div>
 
           <div className="editor-section">
             <label className="editor-section-label">Spotify Playlist</label>
             {playlists.length > 0
               ? <select className="editor-select" value={playlistId} onChange={handlePlaylistChange}>
-                  <option value="">— None —</option>
+                  <option value="">— Don't change —</option>
+                  <option value={NONE_PLAYLIST_ID}>None (pause music)</option>
                   {playlists.map(p => <option key={p.id} value={p.id}>{p.name} ({p.total} tracks)</option>)}
                 </select>
               : <p className="editor-hint">Connect Spotify first to assign a playlist.</p>
@@ -902,7 +998,8 @@ export default function SceneControl() {
     // Spotify + Lights
     if (!isElectron) { setFiringPreset(null); return; }
     const actions = [];
-    if (preset.playlistUri) actions.push(window.electronAPI.spotify.play(preset.playlistUri));
+    if (preset.playlistId === NONE_PLAYLIST_ID) actions.push(window.electronAPI.spotify.pause());
+    else if (preset.playlistUri) actions.push(window.electronAPI.spotify.play(preset.playlistUri));
     if (preset.lightSequence?.stops?.length) {
       actions.push(window.electronAPI.lights.startLoop(preset.lightSequence));
     } else {
