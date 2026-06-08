@@ -2,7 +2,7 @@
 
 ---
 
-## Unreleased
+## v0.9.3 — June 2026
 
 ### ✨ New
 
