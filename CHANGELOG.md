@@ -4,6 +4,15 @@
 
 ## v0.9.5 — June 2026
 
+### 📖 Documentation
+
+- Added new player character, active threats tracker, and world lore entries
+- Added campaign planning frameworks for upcoming sessions
+
+---
+
+## v0.9.5 — June 2026
+
 ### 🔧 Changes
 
 - TV Display: removed the NPC pin selector, which no longer pointed to a valid source
