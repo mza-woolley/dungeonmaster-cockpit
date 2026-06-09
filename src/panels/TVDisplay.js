@@ -165,7 +165,6 @@ export default function TVDisplay() {
 
   // ── Character sources for pin picker ──
   const [pcList,      setPcList]      = useState([]);
-  const [npcList,     setNpcList]     = useState([]);
   const [monsterList, setMonsterList] = useState([]);
 
   // ── Canvas refs ──
@@ -198,15 +197,13 @@ export default function TVDisplay() {
       const chars = (d.characters || []).map(c => ({ ...c, type: 'pc' }));
       setPcList(chars);
     });
-    window.electronAPI.karma.load().then(d => {
-      const npcs = (d.characters || []).filter(c => c.type === 'npc');
-      setNpcList(npcs);
-    });
-    window.electronAPI.monsters.loadSrd().then(r => {
-      if (r.success) {
-        const all = r.data.map(m => ({ ...m, type: 'monster' }));
-        setMonsterList(all);
-      }
+    Promise.all([
+      window.electronAPI.monsters.loadSrd(),
+      window.electronAPI.monsters.load(),
+    ]).then(([srdRes, customRes]) => {
+      const srd    = srdRes.success ? srdRes.data.map(m => ({ ...m, type: 'monster' })) : [];
+      const custom = (customRes.custom || []).map(m => ({ ...m, type: 'monster' }));
+      setMonsterList([...srd, ...custom]);
     });
     window.electronAPI.mapStates.load().then(setMapStates);
   }, [isElectron]);
@@ -981,10 +978,6 @@ export default function TVDisplay() {
               {/* PC picker */}
               <div className="pin-group-label"><PinDot type="pc" /> Player Characters</div>
               <PinPicker label="PCs" items={pcList} onAdd={item => queuePin(item, 'pc')} />
-
-              {/* NPC picker */}
-              <div className="pin-group-label"><PinDot type="npc" /> NPCs</div>
-              <PinPicker label="NPCs" items={npcList} onAdd={item => queuePin(item, 'npc')} />
 
               {/* Monster picker */}
               <div className="pin-group-label"><PinDot type="monster" /> Monsters</div>

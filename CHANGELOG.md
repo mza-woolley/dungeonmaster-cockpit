@@ -2,6 +2,15 @@
 
 ---
 
+## v0.9.5 — June 2026
+
+### 🔧 Changes
+
+- TV Display: removed the NPC pin selector, which no longer pointed to a valid source
+- TV Display: monster pin selector now includes both SRD monsters and custom monsters
+
+---
+
 ## v0.9.4 — June 2026
 
 ### 🔧 Changes
