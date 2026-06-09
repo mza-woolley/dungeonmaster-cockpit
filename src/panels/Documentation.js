@@ -347,6 +347,8 @@ export default function Documentation() {
   const [searching, setSearching]       = useState(false);
   const [moveTarget, setMoveTarget]     = useState(null); // { path, name }
   const [error, setError]               = useState('');
+  const [exporting, setExporting]       = useState(false);
+  const [exportMsg, setExportMsg]       = useState('');
   const textareaRef = useRef();
   const searchTimer = useRef(null);
 
@@ -497,8 +499,24 @@ export default function Documentation() {
           <div className="docs-sidebar-btns">
             <button className="docs-sbar-btn" title="New Document" onClick={() => handleNewFile(null)}>+ Doc</button>
             <button className="docs-sbar-btn" title="New Folder"   onClick={() => handleNewFolder(null)}>+ Folder</button>
+            <button
+              className="docs-sbar-btn"
+              title="Export all docs to CAMPAIGN_MASTER.md"
+              disabled={exporting}
+              onClick={async () => {
+                setExporting(true);
+                setExportMsg('');
+                const res = await api.exportMaster();
+                setExporting(false);
+                setExportMsg(res.success ? 'Exported.' : (res.error || 'Export failed.'));
+                if (res.success) setTimeout(() => setExportMsg(''), 3000);
+              }}
+            >
+              {exporting ? '…' : 'Export'}
+            </button>
           </div>
         </div>
+        {exportMsg && <div className="docs-export-msg">{exportMsg}</div>}
 
         <div className="docs-tree">
           {displayTree.length === 0 && (

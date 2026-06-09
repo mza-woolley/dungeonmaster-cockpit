@@ -70,6 +70,13 @@
   border-color: var(--gold-dim);
 }
 
+.docs-export-msg {
+  font-size: 11px;
+  color: var(--text-secondary);
+  padding: 4px 8px;
+  text-align: center;
+}
+
 /* ── Tree ── */
 
 .docs-tree {

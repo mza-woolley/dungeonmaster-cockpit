@@ -3,8 +3,9 @@ const path   = require('path');
 const fs     = require('fs');
 const crypto = require('crypto');
 
-const DOCS_ROOT  = path.join(__dirname, '..', 'documentation');
-const ASSETS_DIR = path.join(DOCS_ROOT, 'assets');
+const DOCS_ROOT    = path.join(__dirname, '..', 'documentation');
+const ASSETS_DIR   = path.join(DOCS_ROOT, 'assets');
+const PROJECT_ROOT = path.join(__dirname, '..');
 
 function ensureDirs() {
   if (!fs.existsSync(DOCS_ROOT))  fs.mkdirSync(DOCS_ROOT,  { recursive: true });
@@ -169,6 +170,37 @@ function register(ipcMain) {
       const destPath = path.join(ASSETS_DIR, fileName);
       fs.copyFileSync(sourcePath, destPath);
       return { success: true, relativePath: `assets/${fileName}`, fileName };
+    } catch (err) { return { success: false, error: err.message }; }
+  });
+
+  ipcMain.handle('docs:exportMaster', () => {
+    try {
+      const sections = [];
+      function walk(dir, depth) {
+        const entries = fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => {
+          if (a.isDirectory() !== b.isDirectory()) return a.isDirectory() ? -1 : 1;
+          return a.name.localeCompare(b.name);
+        });
+        for (const e of entries) {
+          if (e.name.startsWith('.')) continue;
+          const full = path.join(dir, e.name);
+          if (e.isDirectory()) {
+            if (full === ASSETS_DIR) continue;
+            walk(full, depth + 1);
+          } else if (e.name.endsWith('.md')) {
+            const rel     = path.relative(DOCS_ROOT, full).replace(/\\/g, '/');
+            const heading = '#'.repeat(Math.min(depth + 1, 6));
+            const label   = e.name.replace(/\.md$/, '');
+            const content = fs.readFileSync(full, 'utf8').trim();
+            sections.push(`${heading} ${label}\n_${rel}_\n\n${content}`);
+          }
+        }
+      }
+      walk(DOCS_ROOT, 0);
+      const master = `# Campaign Master — La Croix\n_Auto-generated. Do not edit manually._\n\n---\n\n` + sections.join('\n\n---\n\n');
+      const outPath = path.join(PROJECT_ROOT, 'CAMPAIGN_MASTER.md');
+      fs.writeFileSync(outPath, master, 'utf8');
+      return { success: true, path: outPath };
     } catch (err) { return { success: false, error: err.message }; }
   });
 
