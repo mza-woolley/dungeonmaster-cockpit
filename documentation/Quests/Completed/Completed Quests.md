@@ -132,6 +132,16 @@
 
 ---
 
+### Lumina Lab Tonic
+**Location:** Lumina Lab (Alchemist) | **NPC:** Thessa Faewind
+**Hook:** Increasing number of people drinking a popular new health tonic. Users seem calm and happy but appear to have lost their spark and ambition.
+**Objective:** Infiltrate the Lumina Lab at night to find out what is in the tonic.
+**Conditionals:** Lab guarded by 4 × Guards. Stealth check to get inside. Formula written in code requiring specific skill check to decipher.
+**Reward:** 50GP and the alchemical formula for the tonic.
+**Resolution:** Superseded by the Session 6 Lumina Lab raid — the party fully infiltrated the Lab via the trapdoor, found the Lumina Elixir formula/distribution map, and dismantled the operation entirely.
+
+---
+
 ## Solvetra Middle
 
 ### Spectral Reflections
@@ -158,6 +168,27 @@
 **Objective:** Reveal the necromantic instrument binding soul to song and decide the fate of the tormented spirit.
 **Conditionals:** The instrument is actually the Maneklang.
 **Reward:** KAELEN LORE: He hears about the "Echo Unheard". These guys were apart of the Bardic Cult, Ne'leak Shadowsong created.
+
+---
+
+### Missing Guest
+**Location:** The Final Rest (Inn) | **NPCs:** Innkeeper Taron Velle, Housemaid Myra Dens
+**Hook:** A guest left behind a sealed letter addressed to the Lorewarden, and the staff are concerned.
+**Objective:** Locate the vanished guest's belongings and uncover why his identity was erased from Solvetra's records.
+**Conditionals:** Find vanished guest's belongings, trace sealed letter to Lorewarden, and uncover why all records of the guest were erased.
+**Reward:** MAIN QUEST LORE — PCs read sealed letter addressed to L.E.: *"The Shadowbringers, my lord — I've been had. I've been found. I will die a worthy death. Hail the Order of the Sun!"*
+**Resolution:** The sealed letter is referenced as already found/read (see Lorewarden Emeritus notes) — resolved during Session 5's Solvetra Middle exploration.
+
+---
+
+## Solvetra Intermellum
+
+### The Big One — Threadbare Provisions
+**Location:** Threadbare Provisions (General Store) | **NPC:** Marven Tallowroot
+**Hook:** Will offer usual goods and some heist equipment if PCs ask, on behalf of Silas.
+**Conditionals:** Prices for heist equipment will be ×2 because it's "hot" or "hard to get ahold of".
+**Reward:** N/A / Shop.
+**Resolution:** Visited in Session 7 — party met Marvin Tallowroot and purchased heist gear (Thieves' Tools, Rope, Scroll of Silence, Potions of Healing).
 
 ---
 

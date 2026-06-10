@@ -2,6 +2,16 @@
 
 ---
 
+## v0.9.6 — June 2026
+
+### 🔧 Changes
+
+- App now remembers the last tab and last-open document (and expanded folders) across restarts
+- Documentation: switching tabs no longer loses in-progress edits — the panel stays open in the background
+- Documentation: folders can now be moved into other folders via "Move to…", not just individual documents
+
+---
+
 ## v0.9.5 — June 2026
 
 ## v0.9.5 — June 2026

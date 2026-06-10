@@ -46,18 +46,21 @@ People in the city/out of the city kind-of know that off the back of the mining 
 
 There is criminal activity and 3 main criminal outfits - they are the Gem Families. They have an agenda of skimming some off the top, but to also invest in solid products/opportunties to continue to cement their multi-generational legacy.
 
-- What's the pressure point? What one thing, if it broke, would change everything in this city?
-
 The pressure point in Ars Lapis is definitely if the miner's unionised/striked - the production of Lumina Gems would cease, ensuring local vendors lose their buying power which slowly halts the cyclical economy of Ars Lapis - which is bad news bears for the nation. A better approach to this (TBC). It's not really a fragile economy, but the money is funneled toward 2 competing, power-hungry entities.
 
 ---
 
 ## What Silas Wants Here
 
-- What is Silas actually planning in Ars Lapis? (Retrieval? Assassination? Alliance? Sabotage?)
+Silas has the goal to destabilise the OOTS/DOL via disrupting the flow of the Stock Exchange. He understands that any form/sort of damage will definitely cause a financial rift in the OOTS as a large part of their income and cash flow comes in form of Stock Exchange cash. It's probably not enough to completely railroad the OOTS however. Silas' theory is that the OOTS is lean and can't expend man power across multiple failur points.
+
 - Why does it require the party specifically — what can't the Shadowbringers do alone?
-- What's the risk Silas isn't telling them about?
-- What does success in Ars Lapis mean for the broader war against the DOL?
+
+TBD
+
+There isn't any risk that Silas isn't already open apparant about. The incentive needs to come from the PCs to want to actually distrupt the DOL. They yet don't really know why they should - so need to make PCs understand why what they are doing is actually meaningful.
+
+Success in Ars Lapis will certainly put the OOTS on alert - but not neccessarily against the PCs. Silas will have to express that this has to be done silently and/or with identities hidden - as this sort of financial disruption will definitely put the nation on alert. Generally, success will mean hampering the cash flow of the OOTS which will cripple their standing, and deplete manpower/resource reserves they may have; further making it harder to front as the Big Bad.
 
 ---
 
@@ -96,6 +99,10 @@ Think in terms of: where the party will spend time, where the conflict lives, an
 
 ## Tone Notes
 
-- What's the emotional register of this city — oppressive, chaotic, falsely cheerful, quietly desperate?
-- What does it *smell* like, sound like, feel like underfoot?
-- What's a detail that would make a player say "oh, this place is different"?
+The emotions/vibe of the city is basically just New York with LA actor desperation vibes. Everyone wants to make it, but compassion and the human connection is relatively missing here. There's a candid air to the city - in which people aren't ashamed to ground themselves or others. Egos spark and snuff in Ars Lapis.
+
+For those not interested in the hustle/bustle of the town - there's the opportunity to work a service facing job, with people doing the typical cleaning/tavern/etc services. These jobs can be lucrative due to the amount of wealth that moves around to those who are to be tipped/compensated. The opposite, is also true. Ars Lapis has quite a generous tipping culture as a form of mutual respect for up and comers - usually bankrolled by investors or those who stand to benefit from investors (inventors).
+
+The city smells like nothing - there are some espcecially musty/grungey parts however due to how tightly everyone's schedule is packed no one really cares or pays attention to these areas.
+
+The surprising thing about Ars Lapis is... no one cares about combat, or weapons, or creatures - people just care about profit and turning Lumina Gems into a rolling economy; people here want to show off their magic, potion and invention skills. People are selling things that benefit humankind, and things that are detrimental to humankind (think Tsar Bomb scrolls).

@@ -15,6 +15,20 @@ function prettifyName(filename) {
   return filename.replace(/\.md$/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
+// Removes a node (and therefore its subtree) from a tree — used to stop a folder
+// being moved into itself or one of its own descendants.
+function pruneTree(nodes, excludePath) {
+  return nodes.reduce((acc, node) => {
+    if (node.path === excludePath) return acc;
+    if (node.type === 'folder') {
+      acc.push({ ...node, children: pruneTree(node.children || [], excludePath) });
+    } else {
+      acc.push(node);
+    }
+    return acc;
+  }, []);
+}
+
 function getAllFolderPaths(nodes) {
   const paths = [];
   for (const node of nodes) {
@@ -85,7 +99,7 @@ function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onMove,
         </>
       )}
       <button onClick={onRename}>Rename</button>
-      {!isFolder && <button onClick={onMove}>Move to…</button>}
+      <button onClick={onMove}>Move to…</button>
       <button className="danger" onClick={onDelete}>Delete</button>
     </div>,
     document.body
@@ -150,7 +164,7 @@ function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRe
           onNewFile={() => { setCtx(null); onNewFile(node.path); }}
           onNewFolder={() => { setCtx(null); onNewFolder(node.path); }}
           onRename={startRename}
-          onMove={() => { setCtx(null); onMove(node.path, node.name); }}
+          onMove={() => { setCtx(null); onMove(node.path, node.name, node.type); }}
           onDelete={() => { setCtx(null); onDelete(node.path, node.type, node.name); }}
           onClose={() => setCtx(null)}
         />
@@ -234,8 +248,11 @@ function FolderPickerNode({ node, selectedFolder, onSelect, depth = 0 }) {
   );
 }
 
-function MoveModal({ fileName, tree, onConfirm, onCancel }) {
+function MoveModal({ fileName, fileType, sourcePath, tree, onConfirm, onCancel }) {
   const [selectedFolder, setSelectedFolder] = useState(null);
+
+  // When moving a folder, it (and everything inside it) can't be a valid destination.
+  const pickerTree = fileType === 'folder' ? pruneTree(tree, sourcePath) : tree;
 
   return (
     <div className="docs-overlay" onClick={onCancel}>
@@ -251,7 +268,7 @@ function MoveModal({ fileName, tree, onConfirm, onCancel }) {
             <span className="tree-arrow">·</span>
             <span>/ (Root)</span>
           </div>
-          {tree.filter(n => n.type === 'folder').map(node => (
+          {pickerTree.filter(n => n.type === 'folder').map(node => (
             <FolderPickerNode key={node.path} node={node} selectedFolder={selectedFolder} onSelect={setSelectedFolder} depth={0} />
           ))}
         </div>
@@ -331,6 +348,18 @@ function MdToolbox({ textareaRef, draft, setDraft }) {
   );
 }
 
+const LAST_DOC_KEY      = 'dmcockpit:docs:lastPath';
+const EXPANDED_KEY      = 'dmcockpit:docs:expanded';
+
+function loadExpanded() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(EXPANDED_KEY) || '[]');
+    return new Set(Array.isArray(saved) ? saved : []);
+  } catch {
+    return new Set();
+  }
+}
+
 export default function Documentation() {
   const [tree, setTree]                 = useState([]);
   const [selectedPath, setSelectedPath] = useState(null);
@@ -338,7 +367,7 @@ export default function Documentation() {
   const [editing, setEditing]           = useState(false);
   const [draft, setDraft]               = useState('');
   const [layout, setLayout]             = useState('toggle');
-  const [expanded, setExpanded]         = useState(new Set());
+  const [expanded, setExpanded]         = useState(loadExpanded);
   const [search, setSearch]             = useState('');
   const [saving, setSaving]             = useState(false);
   const [modal, setModal]               = useState(null);
@@ -358,6 +387,13 @@ export default function Documentation() {
   }, []);
 
   useEffect(() => { loadTree(); }, [loadTree]);
+
+  // Reopen whatever document was open last time the app was running
+  useEffect(() => {
+    const lastPath = localStorage.getItem(LAST_DOC_KEY);
+    if (lastPath) openFile(lastPath);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Debounced content search
   useEffect(() => {
@@ -379,6 +415,7 @@ export default function Documentation() {
       setDoc(res.data);
       setEditing(false);
       setDraft('');
+      try { localStorage.setItem(LAST_DOC_KEY, filePath); } catch {}
     }
   };
 
@@ -399,6 +436,7 @@ export default function Documentation() {
     setExpanded(prev => {
       const next = new Set(prev);
       next.has(folderPath) ? next.delete(folderPath) : next.add(folderPath);
+      try { localStorage.setItem(EXPANDED_KEY, JSON.stringify([...next])); } catch {}
       return next;
     });
   };
@@ -406,7 +444,10 @@ export default function Documentation() {
   const handleRename = async (itemPath, newName, type) => {
     const res = await api.rename(itemPath, newName);
     if (!res?.success) { setError(res?.error || 'Rename failed'); return; }
-    if (type === 'file' && itemPath === selectedPath) { setSelectedPath(null); setDoc(null); }
+    if (type === 'file' && itemPath === selectedPath) {
+      setSelectedPath(null); setDoc(null);
+      try { localStorage.removeItem(LAST_DOC_KEY); } catch {}
+    }
     await loadTree();
   };
 
@@ -415,23 +456,35 @@ export default function Documentation() {
   const doDelete = async () => {
     const res = await api.delete(confirmDel.path);
     if (!res?.success) { setError(res?.error || 'Delete failed'); setConfirmDel(null); return; }
-    if (confirmDel.path === selectedPath) { setSelectedPath(null); setDoc(null); setEditing(false); }
+    if (confirmDel.path === selectedPath) {
+      setSelectedPath(null); setDoc(null); setEditing(false);
+      try { localStorage.removeItem(LAST_DOC_KEY); } catch {}
+    }
     setConfirmDel(null);
     await loadTree();
   };
 
-  const handleMove = (itemPath, name) => setMoveTarget({ path: itemPath, name });
+  const handleMove = (itemPath, name, type) => setMoveTarget({ path: itemPath, name, type });
 
   const doMove = async (destFolder) => {
     const dest = destFolder === '__root__' ? null : destFolder;
     const res = await api.move(moveTarget.path, dest);
-    setMoveTarget(null);
     if (res.success) {
-      if (moveTarget.path === selectedPath) { setSelectedPath(res.newPath); await openFile(res.newPath); }
+      if (moveTarget.type === 'file' && moveTarget.path === selectedPath) {
+        setSelectedPath(res.newPath);
+        await openFile(res.newPath);
+      } else if (moveTarget.type === 'folder' && selectedPath?.startsWith(moveTarget.path + '/')) {
+        // The open document lived inside the moved folder — its path is now stale.
+        setSelectedPath(null);
+        setDoc(null);
+        setEditing(false);
+        try { localStorage.removeItem(LAST_DOC_KEY); } catch {}
+      }
       await loadTree();
     } else {
       setError(res.error || 'Move failed.');
     }
+    setMoveTarget(null);
   };
 
   const handleNewFile   = (parentPath) => setModal({ type: 'file', parentPath });
@@ -618,6 +671,8 @@ export default function Documentation() {
       {moveTarget && (
         <MoveModal
           fileName={moveTarget.name}
+          fileType={moveTarget.type}
+          sourcePath={moveTarget.path}
           tree={tree}
           onConfirm={doMove}
           onCancel={() => setMoveTarget(null)}

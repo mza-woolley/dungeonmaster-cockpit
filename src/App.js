@@ -64,8 +64,20 @@ function useSessionClock() {
   return { display, running, toggle, reset };
 }
 
+const LAST_TAB_KEY = 'dmcockpit:lastTab';
+
+function getInitialTabIdx() {
+  try {
+    const saved = localStorage.getItem(LAST_TAB_KEY);
+    const idx = PANELS.findIndex(p => p.id === saved);
+    return idx >= 0 ? idx : 0;
+  } catch {
+    return 0;
+  }
+}
+
 export default function App() {
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [activeIdx, setActiveIdx] = useState(getInitialTabIdx);
   const [prevIdx, setPrevIdx] = useState(null);
   const [direction, setDirection] = useState('right');
   const [animating, setAnimating] = useState(false);
@@ -79,6 +91,7 @@ export default function App() {
     setPrevIdx(activeIdx);
     setAnimating(true);
     setActiveIdx(idx);
+    try { localStorage.setItem(LAST_TAB_KEY, PANELS[idx].id); } catch {}
     setTimeout(() => { setPrevIdx(null); setAnimating(false); }, 320);
   }, [activeIdx, animating]);
 
@@ -127,7 +140,7 @@ export default function App() {
       case 'encounters': return <Encounters />;
       case 'wizard':     return <DNDWizard />;
       case 'characters':    return <Characters />;
-      case 'documentation': return <Documentation />;
+      case 'documentation': return null; // rendered persistently below, so edits survive tab switches
       case 'generator':     return <Generator />;
       case 'charsheet':     return <CharacterSheet />;
       default:              return null;
@@ -191,6 +204,10 @@ export default function App() {
         {/* Display tab stays mounted across tab switches so its TV window / map editor persist */}
         <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'tv' ? 'settled' : 'hidden'}`}>
           <TVDisplay />
+        </div>
+        {/* Docs tab stays mounted across tab switches so in-progress edits aren't lost */}
+        <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'documentation' ? 'settled' : 'hidden'}`}>
+          <Documentation />
         </div>
       </main>
     </div>
