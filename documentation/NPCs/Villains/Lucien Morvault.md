@@ -1,19 +1,28 @@
 # Lucien Morvault
 
-**Type:** Creditor / Antagonist  
+**Type:** Dealmaker / Broker — Antagonist (non-combat)  
 **Status:** Active
 
 ---
 
 ## Overview
 
-A creditor with clear magical capability. Originally sent a letter to Adrion demanding repayment of **5,000 gold pieces**. With Adrion gone, the debt has passed to **the party collectively**. His tone is cold and precise, with no room for negotiation implied.
+A broker who deals in *people*, not just coin — though coin is an acceptable substitute when the terms allow it. His tone is cold and precise. He is "material" (physically present, can be perceived and touched), but operates under contract-magic protections that make violence against him a catastrophically bad idea — see "If the Party Attacks" below.
+
+---
+
+## The Real Agreement
+
+Adrion's village burned. To buy his own escape, Adrion struck a deal with Morvault: in exchange for his life, Adrion agreed to deliver **the next adventuring party he fell in with** — sight unseen. That party is the PCs.
+
+The "5,000gp debt" framing is the buyout clause, not the actual debt. Morvault doesn't care whether he collects gold or collects people — both satisfy the contract. The letter was written to Adrion because Adrion was the signatory; Adrion's disappearance doesn't void the bargain, it just leaves the party to answer for it.
 
 ---
 
 ## Known Capabilities
 
-- Can cast **Mass Polymorph** — threatened to transform the party into insects if the debt goes unpaid.
+- Can cast **Mass Polymorph** — demonstrative, not his preferred outcome
+- Bound by contract-magic that makes him effectively untouchable during a parley (see below)
 
 ---
 
@@ -24,15 +33,24 @@ A creditor with clear magical capability. Originally sent a letter to Adrion dem
 
 ---
 
+## The Three Outcomes
+
+1. **Pay 5,000gp** — buyout honoured, Lucien leaves satisfied, the original bargain is void. Clean resolution, but he may resurface (see Notes).
+2. **Don't pay / can't pay** — the original bargain defaults to its base term: Lucien collects the party itself, not as combat but as a binding claim (capture/servitude arc — a "the deal still gets paid, just not in gold" consequence). This should feel inevitable and contractual, not like a fight to the death.
+3. **Attack him** — worst outcome. He's protected by the same contract-magic that bound Adrion; violence against him during a parley **automatically defaults the bargain in his favour**, regardless of gold on hand. There's no version of this where fighting helps — make this clear through fiction (an aura, a warning, an NPC who's seen this before) before anyone swings.
+
+---
+
 ## Current State
 
-- Adrion is gone — the debt now falls on the party
-- The original "agreement" between Lucien and Adrion is undocumented and unexplored
-- The party has 5 nights from Session 7; the Solvetra Vault heist is the only viable path to the gold
+- Adrion is gone — the obligation now falls on the party as the "goods" originally promised
+- The party has 5 nights from Session 7; the Solvetra Vault heist is the only viable path to 5,000gp
+- The party doesn't yet know they were the actual collateral — only that they "owe" gold. This can surface mid-negotiation as the gut-punch reveal
 
 ---
 
 ## Notes
 
-- His connection to Adrion's backstory — and what the original agreement actually was — remains an open thread worth revisiting
-- May not simply disappear once paid; the nature of the agreement suggests a longer relationship
+- Frame Lucien as someone who'd rather not collect on outcome 2 — he'd prefer gold, it's tidier — but he is entirely indifferent if the party forces his hand
+- May not simply disappear once paid — a broker who deals in people remembers faces, and "the next adventuring party" framing means he could have made *other* arrangements with *other* people too
+- Pairs thematically with Zatharial — two dealmakers operating on contracts the party didn't fully understand when they were made

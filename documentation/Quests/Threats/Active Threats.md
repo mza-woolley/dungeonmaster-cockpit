@@ -3,12 +3,12 @@
 ---
 
 ## Lucien Morvault
-**Target:** The party (debt transferred from Adrion on his disappearance)  
-**Threat:** Mass Polymorph → death if 5,000gp not paid in 5 nights  
+**Target:** The party — they are the actual collateral, not just debtors  
+**Threat:** Non-combat. If unpaid, Lucien collects on the original bargain (the party itself, via a binding claim) — not a fight. Attacking him auto-defaults the bargain in his favour.  
 **Urgency:** Critical — hard deadline, Session 7  
 **Last Known Action:** Letter delivered to Adrion via Silas at Smuggler's Den; Adrion has since disappeared  
-**Next Trigger:** Deadline passes with no payment  
-**Notes:** The nature of the original "agreement" with Adrion is unknown and unexplored. May not simply disappear even if paid.
+**Next Trigger:** Deadline passes with no payment, or the party attacks during the parley  
+**Notes:** Adrion's real "agreement" was sacrificing the next adventuring party (the PCs) to Morvault in exchange for his own escape after his village burned. The 5,000gp is a buyout clause, not the original debt — see [Lucien Morvault](../../NPCs/Villains/Lucien%20Morvault.md). Run this as a negotiation/parley, never a fight.
 
 ---
 
@@ -33,22 +33,22 @@
 ---
 
 ## Zatharial
-**Target:** The party — no active claim, but very much still watching  
-**Threat:** Devil operating on a long timeline. Charming, theatrical, unhurried — Raphael-type. He presents options, not ultimatums.  
-**Urgency:** Low — for now  
-**Last Known Action:** Tore Adrion's contract in front of the party after Adrion's disappearance. A power move dressed as a gesture of goodwill.  
-**Next Trigger:** Zatharial reappears when it suits him — likely when the party is vulnerable or at a crossroads  
-**Notes:** The contract is void but he hasn't gone anywhere. He tore it up to make the party feel indebted to him, not to free them. Believes the party are destined to defeat the Light Vassal. Operates independently of DOL and Shadowbringers. His next move will come with a smile and a proposition.
+**Target:** The party — active claim, currently bound  
+**Threat:** Devil operating on a long timeline. Charming, theatrical, unhurried — Raphael-type. He presents options, not ultimatums. Holds an active contract on the party's souls (signed by Adrion, Session 4).  
+**Urgency:** Low-Medium — contract is live but Zatharial hasn't acted on it yet  
+**Last Known Action:** None yet — Zatharial has not appeared before the party regarding the contract since Session 4  
+**Next Trigger:** Planned for Session 8 — Zatharial appears and tears up the contract publicly, a power move dressed as a gesture of goodwill  
+**Notes:** Runs in parallel with Lucien Morvault's claim — two live claims on the party simultaneously through Session 7. Zatharial believes the party are destined to defeat the Light Vassal. Operates independently of DOL and Shadowbringers. His Session 8 move will come with a smile and a proposition. See [Adrion's Devil Contract](../../Story%20Threads/Villians/Adrion's%20Devil%20Contract.md).
 
 ---
 
 ## The Goblin Settlement
 **Target:** The party (revenge for the Lumina Lab)  
-**Threat:** Unknown size and strength — settlement location unconfirmed  
-**Urgency:** Low-Medium — slow burn, but word of the Lab's destruction will have reached them  
+**Threat:** Unknown size and strength — settlement located along the road to Ars Lapis  
+**Urgency:** Medium — slow burn, but the party's route to Ars Lapis puts them on a collision course  
 **Last Known Action:** All Lumina Lab goblins killed, including Boss Dragg  
-**Next Trigger:** Settlement confirms the party's identity or location; DM discretion on timing  
-**Notes:** Intended as a "hunted" arc — the party becomes the prey. Goblins at the Lab greeted with "Hail the Order, the Order of the Sun" — possible DOL alignment means the settlement may have institutional backing.
+**Next Trigger:** Ambush or scouting encounter on the road to Ars Lapis (post-Session 7) — DM discretion on timing  
+**Notes:** Intended as a "hunted" arc — the party becomes the prey. Goblins at the Lab greeted with "Hail the Order, the Order of the Sun" — possible DOL alignment means the settlement may have institutional backing. The road to Ars Lapis is the natural place for the first sign of this (tracks, a scout, a warning) before a full encounter.
 
 ---
 

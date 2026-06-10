@@ -7,7 +7,7 @@ _The vault heist is the pivot point of the first arc. Everything before it built
 
 Before mapping outcomes, be clear on the layers:
 
-- **Adrion's debt** — 5,000gp to Lucien Morvault in 5 nights. Failure to pay = Mass Polymorph, then death.
+- **Adrion's debt** — 5,000gp to Lucien Morvault in 5 nights. The 5,000gp is a buyout clause — the original bargain was Adrion handing over the next adventuring party (the PCs) to Morvault in exchange for his own escape after his village burned. Failure to pay defaults to that original term: Lucien collects the party itself via a binding claim, not combat. See [Lucien Morvault](../NPCs/Villains/Lucien%20Morvault.md).
 - **The Shadowbringers' war chest** — the vault holds DOL funds. Draining it cripples the Division's finances in Solvetra.
 - **The DOL's symbolic power** — the vault *is* the Division's control over citizens. Robbing it is a public act of defiance whether the party wants it to be or not.
 - **The party's cover** — after the Lumina Lab, the DOL already know these people exist. The vault heist ends that ambiguity entirely.
@@ -66,16 +66,18 @@ Captured, killed, or publicly exposed. The DOL now has the party by name, face, 
 - Is there a moment where the party could meet him before a confrontation — and what would he say to them?
 
 ### Lucien Morvault
-- The debt is framed as "as we agreed upon" — Adrion signed something he didn't read, but this predates Zatharial's contract. What *is* the original agreement?
+- The original agreement: Adrion's village burned, and to escape with his life he agreed to deliver the next adventuring party he fell in with — the PCs — to Morvault. The 5,000gp letter is a buyout clause, not the real debt.
+- Run this as a parley, not a fight — Lucien is protected by contract-magic; attacking him during the meeting auto-defaults the bargain in his favour regardless of payment.
 - Is Lucien connected to the DOL, the Shadowbringers, or neither?
 - If paid — does he stay in play, or disappear? If he stays, what does he want next?
-- If not paid — does Mass Polymorph happen immediately, or is there a scene first? What does Lucien look like in person?
+- If not paid — what does "collecting on the party" actually look like? A binding claim, a debt that follows them, a future call-in? Avoid combat resolution.
+- Does this reveal land mid-heist (raising the stakes of failure) or only at the meeting itself?
 
 ### Zatharial
-- He signed Adrion up to give away the party's souls on Adrion's death. He said he has a vested interest in them defeating the Light Vassal — so he doesn't *want* them dead yet.
-- If the heist goes badly and Adrion is at risk of dying, Zatharial appears. What does he offer? What does he want in return?
-- Does the rest of the party know about the contract? If not — is this the session it comes out?
-- Zatharial said he'd use the contract to "split a wedge down the middle." What's the wedge — which two party members are most at odds, and how does he exploit that?
+- He signed Adrion up to give away the party's souls on Adrion's death — that contract is **still active** through Session 7. The party's souls are currently bound, alongside Morvault's claim — two live claims at once.
+- Zatharial's appearance and tear-up of the contract is **planned for Session 8**, not this session. He has a vested interest in the party defeating the Light Vassal — so he doesn't *want* them dead, but he hasn't shown his hand yet.
+- Does the rest of the party know about the contract? If not — does Session 7 plant any hint that something is still hanging over them, ahead of the Session 8 reveal?
+- Reserve the "split a wedge down the middle" angle for Session 8 — what's the wedge, which two party members are most at odds, and how does Zatharial exploit that once he appears?
 
 ### The Northern Star of the Primordial Fist
 - They sent goons to Solvetra Meadows to kill Fenrik. Those goons are dead.

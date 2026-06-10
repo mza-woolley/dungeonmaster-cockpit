@@ -18,34 +18,6 @@
 
 ---
 
-## Encounter Templates
-
-| Character | Associated Dice | Initiative Roll | Enemy | HP | Initiative Roll |
-| :---- | :---- | :---- | :---- | :---- | :---- |
-| Kaelen | D20 |  |  |  |  |
-| Fenrik | D8 |  |  |  |  |
-| Plumbodian | D6 |  |  |  |  |
-| Wizzleforth | D4 |  |  |  |  |
-| Adrion | D10 |  |  |  |  |
-
-| Character | Associated Dice | Initiative Roll | Enemy | HP | Initiative Roll |
-| :---- | :---- | :---- | :---- | :---- | :---- |
-| Kaelen | D20 |  |  |  |  |
-| Fenrik | D8 |  |  |  |  |
-| Plumbodian | D6 |  |  |  |  |
-| Wizzleforth | D4 |  |  |  |  |
-| Adrion | D10 |  |  |  |  |
-
-| Character | Associated Dice | Initiative Roll | Enemy | HP | Initiative Roll |
-| :---- | :---- | :---- | :---- | :---- | :---- |
-| Kaelen | D20 |  |  |  |  |
-| Fenrik | D8 |  |  |  |  |
-| Plumbodian | D6 |  |  |  |  |
-| Wizzleforth | D4 |  |  |  |  |
-| Adrion | D10 |  |  |  |  |
-
----
-
 ## Session Prep / Direction
 
 *Key beats, NPC dialogue notes, planned direction for the session. How it's supposed to go.*
