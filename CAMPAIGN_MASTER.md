@@ -1138,6 +1138,37 @@ Her locked office (DC 17 lock) holds a golden key on the desk and several odd de
 
 ---
 
+#### Boss Dragg
+_NPCs/Villains/Goblin Arc/Boss Dragg.md_
+
+# Boss Dragg
+
+**Type:** Goblin — Lumina Lab Cave Commander  
+**Status:** Deceased (killed by party, Session 6)
+
+---
+
+## Overview
+
+Goblin boss stationed in the cave beneath the Lumina Lab. Served as the effective doorman and final line of defence before Valerius du Noirveil. Oversaw the lowest level of the Lumina Elixir operation, where large-scale distillation vats were maintained.
+
+## Role
+
+- Controlled access to the cave floor via a checkpoint system
+- Required a signed pass from "The Boss" for entry — the party did not have one
+- Persuasion/Deception DC to bypass him was DC20
+
+## Death
+
+Killed by the party in the cave. Valerius du Noirveil appeared shortly after.
+
+## Notes
+
+- Visitor logbook at his checkpoint listed: *"Our Lord"*, *"Boss Dragg"*, *"H.V."* (presumed: Headguard Valerius)
+- Nature of his direct superiors beyond Valerius is unknown
+
+---
+
 #### Lorewarden Emeritus
 _NPCs/Villains/Order of the Sun/Lorewarden Emeritus.md_
 
@@ -1188,34 +1219,37 @@ The Lorewarden Emeritus is the senior archival and doctrinal authority within th
 
 ---
 
-### Boss Dragg
-_NPCs/Villains/Boss Dragg.md_
+#### Valerius du Noirveil
+_NPCs/Villains/Order of the Sun/Valerius du Noirveil.md_
 
-# Boss Dragg
+# Valerius du Noirveil
 
-**Type:** Goblin — Lumina Lab Cave Commander  
+**Type:** DOL Operative — Headguard, Solvetra West  
 **Status:** Deceased (killed by party, Session 6)
 
 ---
 
 ## Overview
 
-Goblin boss stationed in the cave beneath the Lumina Lab. Served as the effective doorman and final line of defence before Valerius du Noirveil. Oversaw the lowest level of the Lumina Elixir operation, where large-scale distillation vats were maintained.
+Former Headguard of Solvetra West. Commanding presence, speaks with a strong High English voice. Operated on behalf of the Division of Lumination, overseeing the Lumina Lab's goblin workforce and the Lumina Elixir operation.
 
-## Role
+## Known Actions
 
-- Controlled access to the cave floor via a checkpoint system
-- Required a signed pass from "The Boss" for entry — the party did not have one
-- Persuasion/Deception DC to bypass him was DC20
+- Sent hired thugs after the party (admitted this directly when confronting them at the Lightstation)
+- Issued the party a pass through the city, allowing movement but not entry to Solvetra Intermellum
+- Oversaw the Lumina Lab operation — production of the Lumina Elixir via captive Worg abuse
 
 ## Death
 
-Killed by the party in the cave. Valerius du Noirveil appeared shortly after.
+Confronted the party in the cave beneath Lumina Lab following Boss Dragg's defeat. Killed by the party. A letter was found on his body:
 
-## Notes
+> *"Do not fail. I've already organised your replacement. If you fail — I will smother your light."*  
+> *— The Order*
 
-- Visitor logbook at his checkpoint listed: *"Our Lord"*, *"Boss Dragg"*, *"H.V."* (presumed: Headguard Valerius)
-- Nature of his direct superiors beyond Valerius is unknown
+## Aftermath
+
+- Kaelen left Session 6 with Valerius's form — available for use as a disguise
+- His replacement within the DOL structure is unconfirmed and unmet
 
 ---
 
@@ -1260,40 +1294,6 @@ A creditor with clear magical capability. Originally sent a letter to Adrion dem
 
 - His connection to Adrion's backstory — and what the original agreement actually was — remains an open thread worth revisiting
 - May not simply disappear once paid; the nature of the agreement suggests a longer relationship
-
----
-
-### Valerius du Noirveil
-_NPCs/Villains/Valerius du Noirveil.md_
-
-# Valerius du Noirveil
-
-**Type:** DOL Operative — Headguard, Solvetra West  
-**Status:** Deceased (killed by party, Session 6)
-
----
-
-## Overview
-
-Former Headguard of Solvetra West. Commanding presence, speaks with a strong High English voice. Operated on behalf of the Division of Lumination, overseeing the Lumina Lab's goblin workforce and the Lumina Elixir operation.
-
-## Known Actions
-
-- Sent hired thugs after the party (admitted this directly when confronting them at the Lightstation)
-- Issued the party a pass through the city, allowing movement but not entry to Solvetra Intermellum
-- Oversaw the Lumina Lab operation — production of the Lumina Elixir via captive Worg abuse
-
-## Death
-
-Confronted the party in the cave beneath Lumina Lab following Boss Dragg's defeat. Killed by the party. A letter was found on his body:
-
-> *"Do not fail. I've already organised your replacement. If you fail — I will smother your light."*  
-> *— The Order*
-
-## Aftermath
-
-- Kaelen left Session 6 with Valerius's form — available for use as a disguise
-- His replacement within the DOL structure is unconfirmed and unmet
 
 ---
 
@@ -1448,45 +1448,6 @@ He is not warm in the conventional sense but is reliably honest, which in this w
 
 ---
 
-### Session 7 Upgrades
-_Players/Characters/Session 7 Upgrades.md_
-
-# Character Upgrades — Session 7
-
-Applied at the start of Session 7, after the party's night in Smuggler's Den.
-
----
-
-## Kaelen
-
-- **Equipment:** 2 × Shortswords + Scale Mail (collected from Juno Pell, The Gilded Anvil)
-- **Ability — Måneklang's Hum:** Once per short rest, at the start of the first battle — when granting Bardic Inspiration to an ally, the Hum activates. The target closest to the inspired ally must roll a **DC8 Wisdom saving throw** or their head explodes from the resonance.
-- **Racial note:** Elves don't sleep (Trance) — remind Kaelen's player of this.
-
----
-
-## Fenrik
-
-- **Ability — Super Series Seriously Serious Flaming Sirius Fist of Series of Seriousness:** Upgrade to his former fighting technique. Now deals **3d4+4 damage**. Fenrik has focused up and can use multiple fists effectively in a single attack.
-
----
-
-## Plumbodian
-
-- **Quarterstaff:** Now linked to the same cosmic and divine energy of the Orb.
-  - Hit/DC upgraded from **+3 → +8**
-  - Once per battle: reroll any missed attack, failed spell, or missed spell.
-
----
-
-## Wizzleforth
-
-- **WIS:** 17 → 18
-- **INT:** 8 → 10
-- **New Proficiency:** Religion — gained after reading extensively on the Division of Lumination across Sessions 5–6.
-
----
-
 ### PC Family Arcs
 _Players/Party Overview/PC Family Arcs.md_
 
@@ -1562,21 +1523,51 @@ _Players/Party Overview/PC Languages.md_
 
 ---
 
+### Session 7 Upgrades
+_Players/Party Overview/Session 7 Upgrades.md_
+
+# Character Upgrades — Session 7
+
+Applied at the start of Session 7, after the party's night in Smuggler's Den.
+
+---
+
+## Kaelen
+
+- **Equipment:** 2 × Shortswords + Scale Mail (collected from Juno Pell, The Gilded Anvil)
+- **Ability — Måneklang's Hum:** Once per short rest, at the start of the first battle — when granting Bardic Inspiration to an ally, the Hum activates. The target closest to the inspired ally must roll a **DC8 Wisdom saving throw** or their head explodes from the resonance.
+- **Racial note:** Elves don't sleep (Trance) — remind Kaelen's player of this.
+
+---
+
+## Fenrik
+
+- **Ability — Super Series Seriously Serious Flaming Sirius Fist of Series of Seriousness:** Upgrade to his former fighting technique. Now deals **3d4+4 damage**. Fenrik has focused up and can use multiple fists effectively in a single attack.
+
+---
+
+## Plumbodian
+
+- **Quarterstaff:** Now linked to the same cosmic and divine energy of the Orb.
+  - Hit/DC upgraded from **+3 → +8**
+  - Once per battle: reroll any missed attack, failed spell, or missed spell.
+
+---
+
+## Wizzleforth
+
+- **WIS:** 17 → 18
+- **INT:** 8 → 10
+- **New Proficiency:** Religion — gained after reading extensively on the Division of Lumination across Sessions 5–6.
+
+---
+
 ### Active Quests
 _Quests/Active/Active Quests.md_
 
 # Active Quests
 
----
-
-## Solvetra Meadows
-
-### Queen Bee
-**Location:** The Salt & Song Bazaar (Market) | **NPC:** Cedric Ironvale
-**Hook:** Annoying bees disrupting honey sales.
-**Objective:** Kill the bees and the "Queen Bee", causing a drop in honey sales.
-**Conditionals:** PCs will fight and destroy the bees + "Queen Bee". Cedric straight up disappears afterwards — no one has seen him.
-**Reward:** Level up — boss fight.
+_Sorted by current engagement. Untouched hooks have been moved to [Quests/Rumours](../Rumours), organised by location. Resolved threads have been moved to [Completed Quests](../Completed/Completed%20Quests.md)._
 
 ---
 
@@ -1588,42 +1579,7 @@ _Quests/Active/Active Quests.md_
 **Objective:** Investigate the source of the clear water and find the reason for the fading dreams.
 **Conditionals:** Water is tainted by a minor DIL ritual. PCs must perform a ritual to counteract it, or fight 2 × Will o' Wisp that are a magical representation of the 'fading' of dreams.
 **Reward:** Dreamwater (Mind-Reading Potion)
-
----
-
-### Moon-Blessed Herbs
-**Location:** Wayfarer's Cache (General Store) | **NPC:** Ronan Emberlain
-**Hook:** Shopkeeper asks PCs to collect "moon-blessed" herbs from a meadow in Solvetra. The DIL has recently replaced a lunar ritual with a solar one.
-**Objective:** Travel to a forest in Solvetra, find the herb, and return it to the shopkeeper.
-**Conditionals:** The area is protected by a DIL agent. Players may face a Doppelganger that has taken the form of a lost herb gatherer.
-**Reward:** 50/6 GP, a Potion of Healing, and a Moonflower that glows faintly near lunar artifacts.
-
----
-
-### Lumina Lab Tonic
-**Location:** Lumina Lab (Alchemist) | **NPC:** Thessa Faewind
-**Hook:** Increasing number of people drinking a popular new health tonic. Users seem calm and happy but appear to have lost their spark and ambition.
-**Objective:** Infiltrate the Lumina Lab at night to find out what is in the tonic.
-**Conditionals:** Lab guarded by 4 × Guards. Stealth check to get inside. Formula written in code requiring specific skill check to decipher.
-**Reward:** 50GP and the alchemical formula for the tonic.
-
----
-
-### Temple Bells
-**Location:** Chamber of Unspoken Prayer (Temple) | **NPC:** Halden Mirethorn
-**Hook:** Chamber under the main area with 3 bells humming a resonance, and a spot for a 4th but no bell. 4 coffins in between, arranged in an overlapping X and + pattern.
-**Objective:** Resonate with the missing bell note.
-**Conditionals:** If done, coffins shoot open to reveal 3 skeletons each in 3 of the coffins, with nothing in the 4th but angel wing prints in the dust. Plumbodian recognises this for some reason.
-**Reward:** MAIN QUEST LORE DROP — Halden will explain that he thought these coffins were decorative and had no idea they opened. The angel wings are especially strange.
-
----
-
-### Lightstation Contraband Lock
-**Location:** Lightstation Solvetra West | **NPCs:** Fletcher Brok, Tate Wexley
-**Hook:** Off-duty guards grumbling about not being able to get into a "secret stash" of someone else's contraband.
-**Objective:** Open the lock; guards offer to share the beer if PCs can figure it out.
-**Conditionals:** The "lock" is not a traditional one — a small display box with three brass dials, each with a single coloured lens (red, blue, and yellow). Create a specific shade — a warm, golden hue (red and blue, then more red and green).
-**Reward:** 4 × Bottles of Sun-Brew (makes person feel really light; double-jump distance, lasts 4 hours).
+**Status:** Started — Wizzleforth drank from the fountain and Plumbodian's act caused the water to steam away (Session 4). The actual investigation/resolution hasn't happened yet.
 
 ---
 
@@ -1633,6 +1589,7 @@ _Quests/Active/Active Quests.md_
 **Objective:** Find an anti-suppression stone to restore the magical hum.
 **Conditionals:** Players will find this stone by completing the quest for the Glassblower, who will give them the stone. They can choose to give it to Toren or not.
 **Reward:** 50GP × 6 — access to enchanting services. Each +1 (up to +3) takes 1 day.
+**Status:** Set up — party met Toren in Session 4 and heard the DOL is suspected. The anti-suppression stone hasn't been retrieved yet (see Glassblower's Elemental).
 
 ---
 
@@ -1642,23 +1599,37 @@ _Quests/Active/Active Quests.md_
 **Objective:** Solve a puzzle to get the Elemental to talk.
 **Conditionals:** Players will notice the Elemental "pulse". This gives perception for the Focus Lens, Resonating Chamber, and Etching Globe — which needs to be put together to project the "pulse" of heat into imagery.
 **Reward:** Lira gives the PCs an anti-suppression orb.
+**Status:** Not yet started — feeds directly into Arcane Resonator Silence above.
 
 ---
 
-### The Fading Ink
-**Location:** The Fading Ink (Scribe's Alcove) | **NPC:** Olric Hollowmere
-**Hook:** Member of a secret society preserving a book containing the true history of the DIL. The ink is slowly fading.
-**Objective:** Find a way to restore the ink.
-**Conditionals:** Players aren't able to restore the ink, but if they roll well enough they can see (before it disappears) something about balance being vital to the survival of humanity.
-**Reward:** No reward — lore information.
+## Solvetra Middle
+
+### Bathhouse Doppelganger
+**Location:** Shimmering Pools (Bathhouse) | **NPCs:** Attendant Vira Laithe, Patron Selven Dreer
+**Hook:** A bather swears she saw her own reflection step out of the water before vanishing into the steam.
+**Objective:** Dispel the illusory duplicate and learn who or what is replacing patrons with mirror-born doppelgangers.
+**Conditionals:** Identify and banish the mirror duplicate (Doppelganger). PCs discover a note on the Doppelganger's person.
+**Reward:** MAIN QUEST LORE — *"Spread fear and chaos, my loyal subject. - L.E"*
+**Status:** Attempted in Session 5 — a woman screamed in the bathhouse, but Adrion and Plumbodian's investigation "didn't work out." Thread remains open.
+
+---
+
+### Lumination Archive — Living Manuscript
+**Location:** The Lumination Archive | **NPCs:** Lorewarden Emeritus, Archivist Tirra Vanth
+**Hook:** Lorewarden Emeritus requests the PCs' aid in recovering a forbidden volume said to rewrite history as it's read.
+**Objective:** Retrieve the living manuscript and decide whether to return it to the Lorewarden or hide it from his Order's grasp.
+**Conditionals:** Retrieve the forbidden living manuscript, then decide to return it or keep it hidden.
+**Reward:** Lorewarden Emeritus gifts Wizards of the party an amulet with 1 × L2 Spell Slot (The Division's Necklace). MAIN QUEST LORE if they do not return the script.
+**Status:** Active — this is the quest the Lorewarden gave Plumbodian in Session 5, reiterated by note in Session 6. Still outstanding; ties into the Solvetra Vault heist since the Lorewarden holds Vault Key 4.
 
 ---
 
 ## Solvetra Intermellum
 
 ### The Big One — Solvetra Vault Heist
-**Location:** Solvetra Vault (Middle) | **NPCs:** Silas Shadowfoot, Du'geshk Maharjuuj, Corwin Duskwatch  
-**Hook:** Adrion owes Lucien Morvault 5,000gp in 5 nights. The only viable source is the Solvetra Vault — which the Shadowbringers also want to drain of DOL funds.  
+**Location:** Solvetra Vault (Middle) | **NPCs:** Silas Shadowfoot, Du'geshk Maharjuuj, Corwin Duskwatch
+**Hook:** Adrion owes Lucien Morvault 5,000gp in 5 nights. The only viable source is the Solvetra Vault — which the Shadowbringers also want to drain of DOL funds.
 **Objective:** Plan and execute a heist of the Solvetra Vault, securing enough gold to cover the debt and cripple the Division's finances.
 
 **Prep Checklist:**
@@ -1673,39 +1644,8 @@ _Quests/Active/Active Quests.md_
 | Scouting | Dye House — Callen Droth dyes bank notes for the vault. Possible intern/delivery angle. | |
 | Secure the Keys | 4 keys total — see [Solvetra Vault](../../Locations/Solvetra/Solvetra%20Vault.md) for key locations. 3 locks must open simultaneously. | |
 
-**Vault Entry Options:** Chimney (intended/assumed), Sewer/River Grate (harder DCs), Loud (fight), Sneak.  
+**Vault Entry Options:** Chimney (intended/assumed), Sewer/River Grate (harder DCs), Loud (fight), Sneak.
 **Reward:** DOL funds + enough to cover Lucien Morvault's debt.
-
----
-
-### Rune-Etcher
-**Location:** Glyph and Quill | **NPC:** Etcher Malven Quillborne
-**Hook:** Will let PCs know that people mistake him for someone who does magic, but really all he does is mass produce literature.
-**Objective:** No real objective but if PCs ask questions — lore drop.
-**Reward:** Lore information (depends).
-
----
-
-### Sun Envoy
-**Location:** Solvetra Intermellum Lightstation | **NPC:** Sun Envoy Calis
-**Hook:** Will bless PCs and wish them a fantastic day on behalf of the Division.
-**Objective:** N/A — he's just a really good guy and wishes the best for the party.
-**Conditionals:** PCs might get aggressive toward the priest for obvious historical reasons, which might make him run to the guards.
-**Reward:** N/A
-
----
-
-### Graveyard
-**Location:** Bonefield Threshold | **NPC:** Caretaker Dresha Vane
-*(Details TBD)*
-
----
-
-### The Big One — Threadbare Provisions
-**Location:** Threadbare Provisions (General Store) | **NPC:** Marven Tallowroot
-**Hook:** Will offer usual goods and some heist equipment if PCs ask, on behalf of Silas.
-**Conditionals:** Prices for heist equipment will be ×2 because it's "hot" or "hard to get ahold of".
-**Reward:** N/A / Shop.
 
 ---
 
@@ -1715,6 +1655,7 @@ _Quests/Active/Active Quests.md_
 **Objective:** Bank Teller "Traelensch Barthum" working at the bank — PCs are to flip him again, as he did "one last job" and paid off his debt.
 **Conditionals:** Traelensch Barthum might dob the PCs in unless they play it very carefully. He'll try to extort PCs for cash and if they don't have it, he'll extort it on behalf of Rissa.
 **Reward:** "The Big One" information/setup/steps.
+**Status:** Open heist-prep step — Inside Contact line on the checklist above.
 
 ---
 
@@ -1724,6 +1665,7 @@ _Quests/Active/Active Quests.md_
 **Objective:** Callen will ask PCs to deliver the bank notes to the front desk as he's far too busy printing new bank notes after the new takeover.
 **Conditionals:** If PCs overpry, it's possible to tip Callen off, who will refuse to give them an "in" via the innocent delivery.
 **Reward:** "The Big One" information/setup/steps.
+**Status:** Open heist-prep step — Scouting line on the checklist above.
 
 ---
 
@@ -1733,6 +1675,7 @@ _Quests/Active/Active Quests.md_
 **Objective:** Find maps of old buildings within Solvetra. DC10, 12, 15, 18 Investigation for: The Gilded Anvil, The Bathhouse, The Solstice Vault, and The Lumination Archive.
 **Conditionals:** If PCs overpry, Lira may refuse to let them look at the maps.
 **Reward:** "The Big One" information/setup/steps.
+**Status:** Open heist-prep step — Blueprints line on the checklist above.
 
 ---
 
@@ -1742,158 +1685,7 @@ _Quests/Active/Active Quests.md_
 **Objective:** As a cartographer, Edrin can replicate maps. PCs can also help in retrieving a first edition map from a corpse at Bonefield Threshold.
 **Conditionals:** If players go to the graveyard and dig the grave of "Amon Bul-Dip" — they find a first edition map. They'll be ambushed by a Banshee. Give players the ability to roll Insight (DC16) on the Wail ability.
 **Reward:** Due to being fully aware of the Banshee, he'll apologise and give each player 100GP and ask them not to tell Silas' Dad (Silvanus Shadowfoot).
-
----
-
-## Solvetra Middle
-
-### Lightstation Golden Flame
-**Location:** Middle Solvetra Lightstation | **NPCs:** Keeper Irene Valcour, Sun Envoy Brother Calis
-**Hook:** The beacon now burns with golden fire that never dims — and the Order of the Sun forbids anyone from touching it.
-**Objective:** People praying around a golden flame, said to be holy in nature. Investigate.
-**Conditionals:** Wizzleforth, Plumbodian and Adrion can do an Insight Check to find this is the same magic DOL was using when replacing symbols in Solvetra Meadows.
-**Reward:** No reward — lore information.
-
----
-
-### Missing Guest
-**Location:** The Final Rest (Inn) | **NPCs:** Innkeeper Taron Velle, Housemaid Myra Dens
-**Hook:** A guest left behind a sealed letter addressed to the Lorewarden, and the staff are concerned.
-**Objective:** Locate the vanished guest's belongings and uncover why his identity was erased from Solvetra's records.
-**Conditionals:** Find vanished guest's belongings, trace sealed letter to Lorewarden, and uncover why all records of the guest were erased.
-**Reward:** MAIN QUEST LORE — PCs read sealed letter addressed to L.E.: *"The Shadowbringers, my lord — I've been had. I've been found. I will die a worthy death. Hail the Order of the Sun!"*
-
----
-
-### Bathhouse Doppelganger
-**Location:** Shimmering Pools (Bathhouse) | **NPCs:** Attendant Vira Laithe, Patron Selven Dreer
-**Hook:** A bather swears she saw her own reflection step out of the water before vanishing into the steam.
-**Objective:** Dispel the illusory duplicate and learn who or what is replacing patrons with mirror-born doppelgangers.
-**Conditionals:** Identify and banish the mirror duplicate (Doppelganger). PCs discover a note on the Doppelganger's person.
-**Reward:** MAIN QUEST LORE — *"Spread fear and chaos, my loyal subject. - L.E"*
-
----
-
-### Guildhouse — Rewritten Laws
-**Location:** Houses of Spoken Law | **NPCs:** Magistrate Eldrin Croft, Envoy Sister Aliane
-**Hook:** An Order envoy arrives with rewritten laws "restored from the true record," demanding all others be burned.
-**Objective:** Determine whether the new edicts are divine revelation or historical forgery before they reshape the city's rule.
-**Conditionals:** Compare the "new laws" with old records; expose whether they're divine truth or forged doctrine. PCs can notice this is clear DOL rewriting of history.
-**Reward:** No reward — lore information.
-
----
-
-### Memory Trading at the Market
-**Location:** The Whispering Market | **NPCs:** Vendor Mira Tellen, Collector Voss Alund
-**Hook:** Traders have begun selling fragments of memory — moments plucked from dreams, laughter, and loss.
-**Objective:** Identify the source of the traded memories and choose to halt or harness the illicit "thought exchange."
-**Conditionals:** Discover who is extracting and selling memories, trace the source. DOL Priest trying to make citizens "happy".
-**Reward:** MAIN QUEST LORE — *"Make them forget. The Division fixed all. Don't forget your purpose, priest. - L.E"*
-
----
-
-### Solstice Vault — Missing Records
-**Location:** Solstice Vault (Bank) | **NPCs:** Treasurer Bren Arvost, Guard Lienne Farr
-**Hook:** The vault's records of depositors have vanished overnight, except for one new entry: "The Order's Due."
-**Objective:** Uncover the missing funds' destination and expose the secret tithe paid from Solvetra's wealth to the Order.
-**Conditionals:** Investigate missing financial records; follow "The Order's Due" entries.
-**Reward:** MAIN QUEST LORE — The DOL confiscates the money of citizens, then causes the bank to fess up and break even for that missing money.
-
----
-
-### Lumination Archive — Living Manuscript
-**Location:** The Lumination Archive | **NPCs:** Lorewarden Emeritus, Archivist Tirra Vanth
-**Hook:** Lorewarden Emeritus requests the PCs' aid in recovering a forbidden volume said to rewrite history as it's read.
-**Objective:** Retrieve the living manuscript and decide whether to return it to the Lorewarden or hide it from his Order's grasp.
-**Conditionals:** Retrieve the forbidden living manuscript, then decide to return it or keep it hidden.
-**Reward:** Lorewarden Emeritus gifts Wizards of the party an amulet with 1 × L2 Spell Slot (The Division's Necklace). MAIN QUEST LORE if they do not return the script.
-
----
-
-## Solvetra East
-
-### Second Pulse — Healing Ritual
-**Location:** Second Pulse (Healer) | **NPCs:** Healer Saren Holt, Patient Olia Fenn
-**Hook:** Those healed here awaken with radiant eyes and a calm devotion to the Order they've never heard of before.
-**Objective:** Investigate the healer's methods and stop the mind-altering "second heartbeat" ritual.
-**Conditionals:** Observe or undergo the healing ritual, discover the implanted "second heartbeat," and end the mind-altering enchantment.
-
----
-
-### Apprentice Exchange — Erased Master
-**Location:** The Ember Desk | **NPCs:** Apprentice Kerren Vale, Master Scribe Luthien Arct
-**Hook:** A frantic apprentice seeks protection — she claims the Order is erasing her master's name from the city's records.
-**Objective:** Protect the apprentice and recover the erased master's sigil before their legacy is lost.
-
----
-
-### The Folded Road — Moving Maps
-**Location:** The Folded Road (Inn) | **NPCs:** Innkeeper Brail Mothen, Traveler Coris Jent
-**Hook:** Maps within the inn keep folding toward Solvetra's center, as if the town itself is drawing everything inward.
-**Objective:** Decipher the moving maps to reveal a subterranean convergence chamber beneath the city's streets.
-
----
-
-### Canvas of the Forgotten Flame
-**Location:** Canvas of the Forgotten Flame (Ritual Pavilion) | **NPCs:** Ritualist Seris of the Flame, Painter Duen Arlot
-**Hook:** The ceremonial flame paints new symbols across the canvas each night — symbols matching the Order's sigil.
-**Objective:** Translate the shifting symbols before the flame's prophecy manifests in the waking world.
-
----
-
-### Lilypad Refuge — Memory Roots
-**Location:** Lilypad Refuge (Garden) | **NPCs:** Gardener Ilyra Denne, Meditant Pell Vos
-**Hook:** The pond's lilies now bloom in perfect circles, mirroring the sun's crest carved above the Lorewarden's hall.
-**Objective:** Trace the magical resonance to an ancient root system feeding on Solvetra's stored memories.
-
----
-
-### Buzz & Burrow — Ritual Honey
-**Location:** Buzz & Burrow (Honeykeeper's Stall) | **NPCs:** Honeykeeper Bran Mellor, Customer Issa Cale
-**Hook:** The bees hum a sound that matches the city's bell chime — until someone speaks the name "Emeritus," and they go silent.
-**Objective:** Follow the bees' strange pattern to a hidden chamber where the Order stores luminous honey used in rituals.
-
----
-
-### Shrine of Lumination — Missing Priestess
-**Location:** Shrine of Lumination (Temple) | **NPCs:** Priestess Aurel Liss, Acolyte Remir Dal
-**Hook:** The high priestess is missing, but her prayers echo faintly from beneath the altar.
-**Objective:** Descend into the catacombs and uncover the priestess's binding — a ritual sealing her to the Order's relic.
-
----
-
-### Solvetra East Lightstation — Soul Tether
-**Location:** Solvetra East Lightstation | **NPCs:** Keeper Yann Corren, Watcher Telra Wens
-**Hook:** Its light flickers once for every soul lost in the city that day — and last night, it burned all through till dawn.
-**Objective:** Determine the cause of the light's ceaseless burning — discovering the mass soul tether hidden below the beacon.
-
----
-
-### Dusty and Archive — Trapped Scholar
-**Location:** Dusty and Archive (Antique Store) | **NPCs:** Shopkeep Tovien Marr, Collector Edris Fahl
-**Hook:** An antique mirror refuses to show the wearer's reflection while standing in sunlight.
-**Objective:** Restore the mirror's original enchantment to reveal the trapped reflection of a long-dead scholar.
-
----
-
-### Thread and Tally — Order Smuggling
-**Location:** Thread and Tally (General Store) | **NPCs:** Merchant Fenne Talor, Clerk Dorr Ains
-**Hook:** Every new shipment contains items no one ordered — engraved with the mark of the rising sun.
-**Objective:** Track shipments to their origin warehouse and uncover an Order smuggling route.
-
----
-
-### Ash & Echo — Bottled Voices
-**Location:** Ash & Echo (Alchemist) | **NPCs:** Alchemist Verra Cael, Assistant Noen Harp
-**Hook:** Bottled voices cry for release, each naming a different year that no longer appears in the archives.
-**Objective:** Release or contain the bottled memories, deciding whether to restore or erase those missing years.
-
----
-
-### Index of Absence — Forbidden Texts
-**Location:** Index of Absence (Library) | **NPCs:** Librarian Aven Rellis, Quiet Reader Morna Veir
-**Hook:** A section of shelves has been cleared, with a sign reading only: "By decree of the Curator of Memory."
-**Objective:** Search the restricted stacks and recover the forbidden texts before the Lorewarden's purge completes.
+**Status:** Open heist-prep step — pairs with the Blueprints line on the checklist above.
 
 ---
 
@@ -2101,6 +1893,16 @@ _Quests/Completed/Completed Quests.md_
 
 ---
 
+### Lumina Lab Tonic
+**Location:** Lumina Lab (Alchemist) | **NPC:** Thessa Faewind
+**Hook:** Increasing number of people drinking a popular new health tonic. Users seem calm and happy but appear to have lost their spark and ambition.
+**Objective:** Infiltrate the Lumina Lab at night to find out what is in the tonic.
+**Conditionals:** Lab guarded by 4 × Guards. Stealth check to get inside. Formula written in code requiring specific skill check to decipher.
+**Reward:** 50GP and the alchemical formula for the tonic.
+**Resolution:** Superseded by the Session 6 Lumina Lab raid — the party fully infiltrated the Lab via the trapdoor, found the Lumina Elixir formula/distribution map, and dismantled the operation entirely.
+
+---
+
 ## Solvetra Middle
 
 ### Spectral Reflections
@@ -2127,6 +1929,27 @@ _Quests/Completed/Completed Quests.md_
 **Objective:** Reveal the necromantic instrument binding soul to song and decide the fate of the tormented spirit.
 **Conditionals:** The instrument is actually the Maneklang.
 **Reward:** KAELEN LORE: He hears about the "Echo Unheard". These guys were apart of the Bardic Cult, Ne'leak Shadowsong created.
+
+---
+
+### Missing Guest
+**Location:** The Final Rest (Inn) | **NPCs:** Innkeeper Taron Velle, Housemaid Myra Dens
+**Hook:** A guest left behind a sealed letter addressed to the Lorewarden, and the staff are concerned.
+**Objective:** Locate the vanished guest's belongings and uncover why his identity was erased from Solvetra's records.
+**Conditionals:** Find vanished guest's belongings, trace sealed letter to Lorewarden, and uncover why all records of the guest were erased.
+**Reward:** MAIN QUEST LORE — PCs read sealed letter addressed to L.E.: *"The Shadowbringers, my lord — I've been had. I've been found. I will die a worthy death. Hail the Order of the Sun!"*
+**Resolution:** The sealed letter is referenced as already found/read (see Lorewarden Emeritus notes) — resolved during Session 5's Solvetra Middle exploration.
+
+---
+
+## Solvetra Intermellum
+
+### The Big One — Threadbare Provisions
+**Location:** Threadbare Provisions (General Store) | **NPC:** Marven Tallowroot
+**Hook:** Will offer usual goods and some heist equipment if PCs ask, on behalf of Silas.
+**Conditionals:** Prices for heist equipment will be ×2 because it's "hot" or "hard to get ahold of".
+**Reward:** N/A / Shop.
+**Resolution:** Visited in Session 7 — party met Marvin Tallowroot and purchased heist gear (Thieves' Tools, Rope, Scroll of Silence, Potions of Healing).
 
 ---
 
@@ -2177,6 +2000,240 @@ _Quests/Completed/Completed Quests.md_
 
 ---
 
+##### Rumours
+_Quests/Rumours/Solvetra/Solvetra East/Rumours.md_
+
+# Rumours — Solvetra East
+
+_Hooks not yet introduced to the party. The whole district is unvisited so far — drop in as rumours, side conversations, or quest seeds whenever it fits._
+
+---
+
+### Second Pulse — Healing Ritual
+**Location:** Second Pulse (Healer) | **NPCs:** Healer Saren Holt, Patient Olia Fenn
+**Hook:** Those healed here awaken with radiant eyes and a calm devotion to the Order they've never heard of before.
+**Objective:** Investigate the healer's methods and stop the mind-altering "second heartbeat" ritual.
+**Conditionals:** Observe or undergo the healing ritual, discover the implanted "second heartbeat," and end the mind-altering enchantment.
+
+---
+
+### Apprentice Exchange — Erased Master
+**Location:** The Ember Desk | **NPCs:** Apprentice Kerren Vale, Master Scribe Luthien Arct
+**Hook:** A frantic apprentice seeks protection — she claims the Order is erasing her master's name from the city's records.
+**Objective:** Protect the apprentice and recover the erased master's sigil before their legacy is lost.
+
+---
+
+### The Folded Road — Moving Maps
+**Location:** The Folded Road (Inn) | **NPCs:** Innkeeper Brail Mothen, Traveler Coris Jent
+**Hook:** Maps within the inn keep folding toward Solvetra's center, as if the town itself is drawing everything inward.
+**Objective:** Decipher the moving maps to reveal a subterranean convergence chamber beneath the city's streets.
+
+---
+
+### Canvas of the Forgotten Flame
+**Location:** Canvas of the Forgotten Flame (Ritual Pavilion) | **NPCs:** Ritualist Seris of the Flame, Painter Duen Arlot
+**Hook:** The ceremonial flame paints new symbols across the canvas each night — symbols matching the Order's sigil.
+**Objective:** Translate the shifting symbols before the flame's prophecy manifests in the waking world.
+
+---
+
+### Lilypad Refuge — Memory Roots
+**Location:** Lilypad Refuge (Garden) | **NPCs:** Gardener Ilyra Denne, Meditant Pell Vos
+**Hook:** The pond's lilies now bloom in perfect circles, mirroring the sun's crest carved above the Lorewarden's hall.
+**Objective:** Trace the magical resonance to an ancient root system feeding on Solvetra's stored memories.
+
+---
+
+### Buzz & Burrow — Ritual Honey
+**Location:** Buzz & Burrow (Honeykeeper's Stall) | **NPCs:** Honeykeeper Bran Mellor, Customer Issa Cale
+**Hook:** The bees hum a sound that matches the city's bell chime — until someone speaks the name "Emeritus," and they go silent.
+**Objective:** Follow the bees' strange pattern to a hidden chamber where the Order stores luminous honey used in rituals.
+
+---
+
+### Shrine of Lumination — Missing Priestess
+**Location:** Shrine of Lumination (Temple) | **NPCs:** Priestess Aurel Liss, Acolyte Remir Dal
+**Hook:** The high priestess is missing, but her prayers echo faintly from beneath the altar.
+**Objective:** Descend into the catacombs and uncover the priestess's binding — a ritual sealing her to the Order's relic.
+
+---
+
+### Solvetra East Lightstation — Soul Tether
+**Location:** Solvetra East Lightstation | **NPCs:** Keeper Yann Corren, Watcher Telra Wens
+**Hook:** Its light flickers once for every soul lost in the city that day — and last night, it burned all through till dawn.
+**Objective:** Determine the cause of the light's ceaseless burning — discovering the mass soul tether hidden below the beacon.
+
+---
+
+### Dusty and Archive — Trapped Scholar
+**Location:** Dusty and Archive (Antique Store) | **NPCs:** Shopkeep Tovien Marr, Collector Edris Fahl
+**Hook:** An antique mirror refuses to show the wearer's reflection while standing in sunlight.
+**Objective:** Restore the mirror's original enchantment to reveal the trapped reflection of a long-dead scholar.
+
+---
+
+### Thread and Tally — Order Smuggling
+**Location:** Thread and Tally (General Store) | **NPCs:** Merchant Fenne Talor, Clerk Dorr Ains
+**Hook:** Every new shipment contains items no one ordered — engraved with the mark of the rising sun.
+**Objective:** Track shipments to their origin warehouse and uncover an Order smuggling route.
+
+---
+
+### Ash & Echo — Bottled Voices
+**Location:** Ash & Echo (Alchemist) | **NPCs:** Alchemist Verra Cael, Assistant Noen Harp
+**Hook:** Bottled voices cry for release, each naming a different year that no longer appears in the archives.
+**Objective:** Release or contain the bottled memories, deciding whether to restore or erase those missing years.
+
+---
+
+### Index of Absence — Forbidden Texts
+**Location:** Index of Absence (Library) | **NPCs:** Librarian Aven Rellis, Quiet Reader Morna Veir
+**Hook:** A section of shelves has been cleared, with a sign reading only: "By decree of the Curator of Memory."
+**Objective:** Search the restricted stacks and recover the forbidden texts before the Lorewarden's purge completes.
+
+---
+
+##### Rumours
+_Quests/Rumours/Solvetra/Solvetra Intermellum/Rumours.md_
+
+# Rumours — Solvetra Intermellum
+
+_Hooks not yet introduced to the party. Drop in as rumours, side conversations, or quest seeds whenever it fits._
+
+---
+
+### Rune-Etcher
+**Location:** Glyph and Quill | **NPC:** Etcher Malven Quillborne
+**Hook:** Will let PCs know that people mistake him for someone who does magic, but really all he does is mass produce literature.
+**Objective:** No real objective but if PCs ask questions — lore drop.
+**Reward:** Lore information (depends).
+
+---
+
+### Sun Envoy
+**Location:** Solvetra Intermellum Lightstation | **NPC:** Sun Envoy Calis
+**Hook:** Will bless PCs and wish them a fantastic day on behalf of the Division.
+**Objective:** N/A — he's just a really good guy and wishes the best for the party.
+**Conditionals:** PCs might get aggressive toward the priest for obvious historical reasons, which might make him run to the guards.
+**Reward:** N/A
+
+---
+
+### Graveyard
+**Location:** Bonefield Threshold | **NPC:** Caretaker Dresha Vane
+*(Details TBD)*
+
+---
+
+##### Rumours
+_Quests/Rumours/Solvetra/Solvetra Meadows/Rumours.md_
+
+# Rumours — Solvetra Meadows
+
+_Hooks not yet introduced to the party. Drop in as rumours, side conversations, or quest seeds whenever it fits._
+
+---
+
+### Queen Bee
+**Location:** The Salt & Song Bazaar (Market) | **NPC:** Cedric Ironvale
+**Hook:** Annoying bees disrupting honey sales.
+**Objective:** Kill the bees and the "Queen Bee", causing a drop in honey sales.
+**Conditionals:** PCs will fight and destroy the bees + "Queen Bee". Cedric straight up disappears afterwards — no one has seen him.
+**Reward:** Level up — boss fight.
+
+---
+
+##### Rumours
+_Quests/Rumours/Solvetra/Solvetra Middle/Rumours.md_
+
+# Rumours — Solvetra Middle
+
+_Hooks not yet introduced to the party. Drop in as rumours, side conversations, or quest seeds whenever it fits._
+
+---
+
+### Lightstation Golden Flame
+**Location:** Middle Solvetra Lightstation | **NPCs:** Keeper Irene Valcour, Sun Envoy Brother Calis
+**Hook:** The beacon now burns with golden fire that never dims — and the Order of the Sun forbids anyone from touching it.
+**Objective:** People praying around a golden flame, said to be holy in nature. Investigate.
+**Conditionals:** Wizzleforth, Plumbodian and Adrion can do an Insight Check to find this is the same magic DOL was using when replacing symbols in Solvetra Meadows.
+**Reward:** No reward — lore information.
+
+---
+
+### Guildhouse — Rewritten Laws
+**Location:** Houses of Spoken Law | **NPCs:** Magistrate Eldrin Croft, Envoy Sister Aliane
+**Hook:** An Order envoy arrives with rewritten laws "restored from the true record," demanding all others be burned.
+**Objective:** Determine whether the new edicts are divine revelation or historical forgery before they reshape the city's rule.
+**Conditionals:** Compare the "new laws" with old records; expose whether they're divine truth or forged doctrine. PCs can notice this is clear DOL rewriting of history.
+**Reward:** No reward — lore information.
+
+---
+
+### Memory Trading at the Market
+**Location:** The Whispering Market | **NPCs:** Vendor Mira Tellen, Collector Voss Alund
+**Hook:** Traders have begun selling fragments of memory — moments plucked from dreams, laughter, and loss.
+**Objective:** Identify the source of the traded memories and choose to halt or harness the illicit "thought exchange."
+**Conditionals:** Discover who is extracting and selling memories, trace the source. DOL Priest trying to make citizens "happy".
+**Reward:** MAIN QUEST LORE — *"Make them forget. The Division fixed all. Don't forget your purpose, priest. - L.E"*
+
+---
+
+### Solstice Vault — Missing Records
+**Location:** Solstice Vault (Bank) | **NPCs:** Treasurer Bren Arvost, Guard Lienne Farr
+**Hook:** The vault's records of depositors have vanished overnight, except for one new entry: "The Order's Due."
+**Objective:** Uncover the missing funds' destination and expose the secret tithe paid from Solvetra's wealth to the Order.
+**Conditionals:** Investigate missing financial records; follow "The Order's Due" entries.
+**Reward:** MAIN QUEST LORE — The DOL confiscates the money of citizens, then causes the bank to fess up and break even for that missing money.
+
+---
+
+##### Rumours
+_Quests/Rumours/Solvetra/Solvetra West/Rumours.md_
+
+# Rumours — Solvetra West
+
+_Hooks not yet introduced to the party. Drop in as rumours, side conversations, or quest seeds whenever it fits._
+
+---
+
+### Moon-Blessed Herbs
+**Location:** Wayfarer's Cache (General Store) | **NPC:** Ronan Emberlain
+**Hook:** Shopkeeper asks PCs to collect "moon-blessed" herbs from a meadow in Solvetra. The DIL has recently replaced a lunar ritual with a solar one.
+**Objective:** Travel to a forest in Solvetra, find the herb, and return it to the shopkeeper.
+**Conditionals:** The area is protected by a DIL agent. Players may face a Doppelganger that has taken the form of a lost herb gatherer.
+**Reward:** 50/6 GP, a Potion of Healing, and a Moonflower that glows faintly near lunar artifacts.
+
+---
+
+### Temple Bells
+**Location:** Chamber of Unspoken Prayer (Temple) | **NPC:** Halden Mirethorn
+**Hook:** Chamber under the main area with 3 bells humming a resonance, and a spot for a 4th but no bell. 4 coffins in between, arranged in an overlapping X and + pattern.
+**Objective:** Resonate with the missing bell note.
+**Conditionals:** If done, coffins shoot open to reveal 3 skeletons each in 3 of the coffins, with nothing in the 4th but angel wing prints in the dust. Plumbodian recognises this for some reason.
+**Reward:** MAIN QUEST LORE DROP — Halden will explain that he thought these coffins were decorative and had no idea they opened. The angel wings are especially strange.
+
+---
+
+### Lightstation Contraband Lock
+**Location:** Lightstation Solvetra West | **NPCs:** Fletcher Brok, Tate Wexley
+**Hook:** Off-duty guards grumbling about not being able to get into a "secret stash" of someone else's contraband.
+**Objective:** Open the lock; guards offer to share the beer if PCs can figure it out.
+**Conditionals:** The "lock" is not a traditional one — a small display box with three brass dials, each with a single coloured lens (red, blue, and yellow). Create a specific shade — a warm, golden hue (red and blue, then more red and green).
+**Reward:** 4 × Bottles of Sun-Brew (makes person feel really light; double-jump distance, lasts 4 hours).
+
+---
+
+### The Fading Ink
+**Location:** The Fading Ink (Scribe's Alcove) | **NPC:** Olric Hollowmere
+**Hook:** Member of a secret society preserving a book containing the true history of the DIL. The ink is slowly fading.
+**Objective:** Find a way to restore the ink.
+**Conditionals:** Players aren't able to restore the ink, but if they roll well enough they can see (before it disappears) something about balance being vital to the survival of humanity.
+**Reward:** No reward — lore information.
+
+---
+
 ### Random Encounters
 _Rules & Tables/Encounter Tables/Random Encounters.md_
 
@@ -2220,6 +2277,13 @@ _Rules & Tables/Encounter Tables/Random Encounters.md_
 |---|--------|-----------------|----------------|
 | 1 | Gear at Solvetra Meadows | Perception (DC 13) to notice the lunar-shaped gear | An old windmill using lunar iconography. But why would this be? Everything is centered around the sun/light. |
 | 2 | Mural in Solvetra West | Insight (DC 14) at dusk to notice fading sigils beneath civic paint | The figures in the mural don't face the sun. Their hands are raised to something else. The newer layer doesn't quite hide the old one. |
+
+---
+
+### rules-i-made-up
+_Rules & Tables/House Rules/rules-i-made-up.md_
+
+# Rules I made up
 
 ---
 
@@ -3217,44 +3281,99 @@ _Shops & Economy/Shop Inventory/Shop Inventory.md_
 
 ---
 
-## Adrion's Devil Contract
-_Story Threads/Adrion's Devil Contract.md_
+### (Ars Lapis) Lumina Elixir
+_Story Threads/DOL/(Ars Lapis) Lumina Elixir.md_
 
-# Adrion's Devil Contract
+# Lumina Elixir in Ars Lapis
 
-**Status:** Voided — contract torn by Zatharial  
-**Key Figure:** Zatharial (Devil)  
-**Established:** Session 4  
-**Resolved:** Adrion's disappearance
+**Status:** Open — established as a destination, not yet seeded in-world
+**Key Figures:** Lorewarden Emeritus (signed *L.E.*), unnamed Elixir users in Ars Lapis
+**Established:** Session 6 (distribution map, Lumina Lab) / Session 7 (Ars Lapis Framework)
 
 ---
 
 ## Overview
 
-In Solvetra West, Zatharial offered Adrion the ability to teleport to his party in exchange for signing a contract. Adrion signed without reading it. When Adrion disappeared from the party, Zatharial appeared before the remaining members and tore the contract in front of them.
+The distribution map found in the Lumina Lab indicated a planned Elixir rollout across Ars Lapis, signed *L.E.* (Lorewarden Emeritus). Separately, the Ars Lapis Framework notes that "Lumina Elixir arrived quite a while ago, and has been used/abused" there — described as the line between prosperity and complete failure/loss.
 
-## Original Contract Terms
-
-Zatharial could claim **Adrion's soul and the souls of the party** upon Adrion's death.
-
-## The Tearing
-
-Zatharial voided the contract publicly and theatrically — not as an act of mercy, but as a demonstration of power. The party now knows he had leverage over them and chose to release it. That choice was deliberate and self-serving. He wants them to feel the weight of it.
-
-## Current State
-
-- Contract is void; the party's souls are no longer bound
-- Zatharial remains active and interested in the party — see [Zatharial](../NPCs/Villains/Zatharial.md)
-- No new agreement has been made, but his reappearance is a matter of when, not if
-
-## See Also
-
-- [Zatharial](../NPCs/Villains/Zatharial.md)
+These are the same thread: the rollout already happened (or is well underway) by the time the party arrives. Ars Lapis is a city built on creativity, invention, and "showing off" magical/alchemical skill — exactly the population the Elixir's "spark in a bottle" effect would target, and exactly the population most vulnerable to its end-stage.
 
 ---
 
-## Silas' Sister
-_Story Threads/Silas' Sister.md_
+## Why It Works
+
+- Gives the party a visible, walking consequence of the Lumina Lab's product *before* they connect it to anything they did — recognition can come later, harder.
+- Fits the Framework's tone: a city of inventors and investors has the most to lose from a substance that burns out genius. The contrast between "spark of brilliance" and "blank stare" end-stage is a sharp visual against Ars Lapis' hustle-culture energy.
+- Reinforces the DOL/Gem Families' "symbiotic, invisible" relationship — if the Elixir is in circulation here, it likely moves through channels the Gem Families control or tolerate, same as the Stock Exchange.
+
+---
+
+## Open Questions
+
+- Is there a specific NPC — ideally a former "rising star" inventor or trader — now in the Elixir's end-stage, as a gut-punch introduction to its effects?
+- Does Ars Lapis have its own production/distribution point, or is it still supplied from Solvetra-adjacent sources now that the Lab is destroyed?
+- Does anyone in Ars Lapis know where the Elixir comes from / what it's made of (Worg abuse)? Could this be the place that information first leaks?
+- Could the DOL's Ars Lapis face (see [Valerius' Replacement](Valerius'%20Replacement%20—%20The%20Ars%20Lapis%20Connection.md)) be personally tied to the Elixir's local distribution?
+
+---
+
+## See Also
+
+- [Valerius' Replacement — The Ars Lapis Connection](Valerius'%20Replacement%20—%20The%20Ars%20Lapis%20Connection.md)
+- Lumina Elixir (Loot & Magic Items / In Circulation)
+- Ars Lapis — City Framework (In Progress)
+
+---
+
+### (OOTS) Valerius Replacement
+_Story Threads/DOL/(OOTS) Valerius Replacement.md_
+
+# Valerius' Replacement — The Ars Lapis Connection
+
+**Status:** Open — proposed connection, not yet confirmed in session
+**Key Figures:** Valerius du Noirveil (deceased), his unnamed Replacement, the DOL's "face" in Ars Lapis (TBC)
+**Established:** Session 6 (letter on Valerius' body) / Session 7 (Ars Lapis Framework)
+
+---
+
+## Overview
+
+Two open threads may be the same person:
+
+- **Active Threats** notes that Valerius' replacement was "already organised" before he died, will be "a step up from Valerius," and is "likely to arrive in or around Ars Lapis."
+- The **Ars Lapis — City Framework** has an open slot for the DOL's local face — described as someone who "should give tech bro vibes but definitely manipulates the Gem Families."
+
+Proposal: **the replacement *is* the DOL's face in Ars Lapis** — a polished, modern, ambitious administrator who represents a generational upgrade from Valerius (a blunt Headguard) to something closer to a financier/operator, fitting Ars Lapis' Stock Exchange-driven economy.
+
+---
+
+## Why It Works
+
+- Gives the party a direct, personal throughline from Solvetra into Ars Lapis — the consequences of killing Valerius literally walk into the next city ahead of them.
+- "Tech bro who manipulates the Gem Families" fits a DOL operative whose job is to maintain the *symbiotic, invisible* DOL/Gem Family relationship described in the Framework — softer power than Valerius wielded, but more entrenched.
+- Creates an early tension point: does this person know Kaelen can wear Valerius' face? Does the party risk using that disguise here, where the person who organised the replacement might recognise something is off?
+
+---
+
+## Open Questions
+
+- Name, appearance, and personal hook for this character — needs designing fresh, distinct from Valerius (less "Headguard," more "executive").
+- Does this person know the party killed Valerius, or just that he's gone?
+- Does the DOL's Ars Lapis face have authority over the Stock Exchange directly, or does he operate through the Gem Families as intermediaries?
+- First-contact scene: does the party meet him cold, or is there a build-up (rumours, reputation) before he appears?
+
+---
+
+## See Also
+
+- [Lumina Elixir in Ars Lapis](Lumina%20Elixir%20in%20Ars%20Lapis.md)
+- Active Threats — *Valerius' Replacement* (Quests/Active)
+- Ars Lapis — City Framework (In Progress)
+
+---
+
+### Silas' Sister
+_Story Threads/Friends/Silas' Sister.md_
 
 # Silas' Sister — The Missing Shadowfoot
 
@@ -3286,8 +3405,8 @@ During the thieving ambush that cost **Silvanus Shadowfoot** his leg and his wif
 
 ---
 
-## The Greyveil Suppression
-_Story Threads/The Greyveil Suppression.md_
+### The Greyveil Suppression
+_Story Threads/Friends/The Greyveil Suppression.md_
 
 # The Greyveil Suppression — Story Thread
 
@@ -3349,8 +3468,8 @@ If the party exposes it — publishes a record, confronts the Order publicly, or
 
 ---
 
-## Wizzleforth - Lineage Vision
-_Story Threads/Wizzleforth - Lineage Vision.md_
+### Wizzleforth - Lineage Vision
+_Story Threads/PCs/Wizzleforth - Lineage Vision.md_
 
 # Wizzleforth's Lineage Vision
 
@@ -3385,6 +3504,42 @@ The astral projection may represent Wizzleforth beginning to sense the weight of
 - Wizzleforth studied the Division of Lumination's texts extensively in Sessions 5–6, gaining WIS, INT, and Religion proficiency by Session 7 — he is actively piecing things together
 - The time-travel element is unresolved — what he witnessed and whether it changes his understanding of his father is TBD
 - This thread connects directly to the Tre Illium arc and the lunar goal
+
+---
+
+### Adrion's Devil Contract
+_Story Threads/Villians/Adrion's Devil Contract.md_
+
+# Adrion's Devil Contract
+
+**Status:** Voided — contract torn by Zatharial  
+**Key Figure:** Zatharial (Devil)  
+**Established:** Session 4  
+**Resolved:** Adrion's disappearance
+
+---
+
+## Overview
+
+In Solvetra West, Zatharial offered Adrion the ability to teleport to his party in exchange for signing a contract. Adrion signed without reading it. When Adrion disappeared from the party, Zatharial appeared before the remaining members and tore the contract in front of them.
+
+## Original Contract Terms
+
+Zatharial could claim **Adrion's soul and the souls of the party** upon Adrion's death.
+
+## The Tearing
+
+Zatharial voided the contract publicly and theatrically — not as an act of mercy, but as a demonstration of power. The party now knows he had leverage over them and chose to release it. That choice was deliberate and self-serving. He wants them to feel the weight of it.
+
+## Current State
+
+- Contract is void; the party's souls are no longer bound
+- Zatharial remains active and interested in the party — see [Zatharial](../NPCs/Villains/Zatharial.md)
+- No new agreement has been made, but his reappearance is a matter of when, not if
+
+## See Also
+
+- [Zatharial](../NPCs/Villains/Zatharial.md)
 
 ---
 
