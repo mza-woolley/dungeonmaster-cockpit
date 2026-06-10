@@ -27,6 +27,3 @@ nanoleaf-config.json
 srd-library/
 npcs.json
 PIXIE_LIGHT.md
-
-# Documentation lives in Google Drive — symlinked locally, not committed
-documentation/
