@@ -36,5 +36,5 @@ The name Greyveil does not appear in any official Solvetra record. Citizens aliv
 
 ## Notes
 
-- Referenced in the Solvetra East district entry — see [Solvetra](../Locations/Cities%20&%20Towns/Solvetra.md)
+- Referenced in the Solvetra East district entry — see [Solvetra East](../Locations/Cities%20&%20Towns/Solvetra/Solvetra%20East.md)
 - The Suppression predates the party's arrival in Solvetra but its consequences are present in almost every Solvetra East quest

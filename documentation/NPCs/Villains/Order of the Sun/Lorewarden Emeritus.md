@@ -17,7 +17,7 @@ The Lorewarden Emeritus is the senior archival and doctrinal authority within th
 - **Fenrik** delivered a sword to him from the Blacksmith in Session 5 — was asked to follow up on Wizzleforth's involvement
 - Signed the **Lumina Elixir distribution map** as *L.E.* — planned rollout across Ars Lapis
 - Holds **Key 4** to the Solvetra Vault — the only key not readily accessible to the party
-- Was spotted at the Solvetra Vault during Kaelen's stakeout (Session 7)
+- May be spotted at the Solvetra Vault during Kaelen's stakeout — planned for Session 7, not yet played
 
 ---
 

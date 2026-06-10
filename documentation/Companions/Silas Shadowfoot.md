@@ -24,8 +24,13 @@ His father, **Silvanus Shadowfoot**, is a former Dawnbringer who broke his oath 
 
 - Recruited the party after witnessing their capabilities at Solvetra Meadows (via spy reports)
 - Guided the party into the Lumina Lab infiltration (Session 6), fighting alongside them
-- Introduced Du'geshk Maharjuuj and the Solvetra Vault heist operation (Session 7)
 - Received the letter from Lucien Morvault addressed to Adrion; aware the party is in debt
+
+---
+
+## Coming Up (Session 7 — not yet played)
+
+- Will introduce Du'geshk Maharjuuj and kick off the Solvetra Vault heist operation
 
 ---
 

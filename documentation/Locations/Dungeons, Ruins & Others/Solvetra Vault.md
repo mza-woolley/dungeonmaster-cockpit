@@ -54,4 +54,4 @@ Accessible via chimney (intended) or sewer/river grate. Three OOTS guards. A 4-k
 
 ---
 
-*For heist planning detail, see [The Big One — Active Quests](../../Quests/Active/Active%20Quests.md)*
+*For heist planning detail, see [The Big One — Active Quests](../../Quests/Active/Solvetra/Solvetra%20Intermellum/Active%20Quests.md)*

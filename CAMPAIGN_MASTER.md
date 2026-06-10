@@ -119,8 +119,13 @@ His father, **Silvanus Shadowfoot**, is a former Dawnbringer who broke his oath 
 
 - Recruited the party after witnessing their capabilities at Solvetra Meadows (via spy reports)
 - Guided the party into the Lumina Lab infiltration (Session 6), fighting alongside them
-- Introduced Du'geshk Maharjuuj and the Solvetra Vault heist operation (Session 7)
 - Received the letter from Lucien Morvault addressed to Adrion; aware the party is in debt
+
+---
+
+## Coming Up (Session 7 — not yet played)
+
+- Will introduce Du'geshk Maharjuuj and kick off the Solvetra Vault heist operation
 
 ---
 
@@ -209,7 +214,7 @@ The name Greyveil does not appear in any official Solvetra record. Citizens aliv
 
 ## Notes
 
-- Referenced in the Solvetra East district entry — see [Solvetra](../Locations/Cities%20&%20Towns/Solvetra.md)
+- Referenced in the Solvetra East district entry — see [Solvetra East](../Locations/Cities%20&%20Towns/Solvetra/Solvetra%20East.md)
 - The Suppression predates the party's arrival in Solvetra but its consequences are present in almost every Solvetra East quest
 
 ---
@@ -598,39 +603,52 @@ Today, the upper chambers have been polished into a modest tourist attraction �
 
 ---
 
-### Solvetra
-_Locations/Cities & Towns/Solvetra.md_
+#### Solvetra East
+_Locations/Cities & Towns/Solvetra/Solvetra East.md_
 
-# Solvetra — District Buildings
+# Solvetra East (Unique)
 
-## Standard Buildings (All/Most Districts)
-
-| Building | Middle | East | West | Intermellum |
-|----------|--------|------|------|-------------|
-| Guardhouse | ✓ | ✓ | ✓ | ✓ |
-| Inn | ✓ | ✓ | ✓ | |
-| General Store | | ✓ | ✓ | ✓ |
-| Alchemist | | ✓ | ✓ | |
-| Temple | | ✓ | ✓ | |
-
----
-
-## Solvetra West (Unique)
+> **History:** Solvetra East was once a thriving common district — open markets, community-run institutions, a mixed population. The Order of the Sun forcibly gentrified it in an event now known as **The Greyveil Suppression**: OOTS forces, including conscripted Dawnbringers, were ordered to clear the district of its residents under the pretense of civic restructuring. The civilians were unarmed. What replaced them was Order-aligned, sanitised, and controlled. The current district still carries the bones of what it was — the Great Market, the gardens, the library — but hollowed out and reoriented toward the DOL's interests. Most citizens alive today either don't know the history or have had it papered over.
 
 | Building |
 |----------|
-| Academy of Sparks |
-| Artisan's Row / Workshop |
-| Candlewright's Cellar |
-| Enchanter's Nook |
-| Glassblower's Studio |
-| Scribe's Alcove |
-| Tinkerer's Shed |
-| Whispering Well |
+| Antique Dealer's Hall |
+| Apprentice Exchange |
+| Great Library |
+| Healer |
+| Honeykeeper's Stall |
+| Pop-up Ritual Pavilion |
+| Rooftop Garden |
+| Great Market |
+
+See also: [Standard Buildings](Standard%20Buildings.md), [The Greyveil Suppression](../../../History%20&%20Lore/The%20Greyveil%20Suppression.md)
 
 ---
 
-## Solvetra Middle (Unique)
+#### Solvetra Intermellum
+_Locations/Cities & Towns/Solvetra/Solvetra Intermellum.md_
+
+# Solvetra Intermellum (Unique)
+
+| Building |
+|----------|
+| Graveyard / Ossuary |
+| Bonecrafter's Den |
+| Cartographer's Den |
+| Dye House |
+| Funeral Rite Pavilion |
+| Memory Archivist's Vault |
+| Smuggler's Den |
+| Rune-etcher's Table |
+
+See also: [Standard Buildings](Standard%20Buildings.md)
+
+---
+
+#### Solvetra Middle
+_Locations/Cities & Towns/Solvetra/Solvetra Middle.md_
+
+# Solvetra Middle (Unique)
 
 | Building |
 |----------|
@@ -648,37 +666,42 @@ _Locations/Cities & Towns/Solvetra.md_
 | Puppeteer's Theatre |
 | Rain Shrine |
 
----
-
-## Solvetra East (Unique)
-
-> **History:** Solvetra East was once a thriving common district — open markets, community-run institutions, a mixed population. The Order of the Sun forcibly gentrified it in an event now known as **The Greyveil Suppression**: OOTS forces, including conscripted Dawnbringers, were ordered to clear the district of its residents under the pretense of civic restructuring. The civilians were unarmed. What replaced them was Order-aligned, sanitised, and controlled. The current district still carries the bones of what it was — the Great Market, the gardens, the library — but hollowed out and reoriented toward the DOL's interests. Most citizens alive today either don't know the history or have had it papered over.
-
-| Building |
-|----------|
-| Antique Dealer's Hall |
-| Apprentice Exchange |
-| Great Library |
-| Healer |
-| Honeykeeper's Stall |
-| Pop-up Ritual Pavilion |
-| Rooftop Garden |
-| Great Market |
+See also: [Standard Buildings](Standard%20Buildings.md)
 
 ---
 
-## Solvetra Intermellum (Unique)
+#### Solvetra West
+_Locations/Cities & Towns/Solvetra/Solvetra West.md_
+
+# Solvetra West (Unique)
 
 | Building |
 |----------|
-| Graveyard / Ossuary |
-| Bonecrafter's Den |
-| Cartographer's Den |
-| Dye House |
-| Funeral Rite Pavilion |
-| Memory Archivist's Vault |
-| Smuggler's Den |
-| Rune-etcher's Table |
+| Academy of Sparks |
+| Artisan's Row / Workshop |
+| Candlewright's Cellar |
+| Enchanter's Nook |
+| Glassblower's Studio |
+| Scribe's Alcove |
+| Tinkerer's Shed |
+| Whispering Well |
+
+See also: [Standard Buildings](Standard%20Buildings.md)
+
+---
+
+#### Standard Buildings
+_Locations/Cities & Towns/Solvetra/Standard Buildings.md_
+
+# Solvetra — Standard Buildings (All/Most Districts)
+
+| Building | Middle | East | West | Intermellum |
+|----------|--------|------|------|-------------|
+| Guardhouse | ✓ | ✓ | ✓ | ✓ |
+| Inn | ✓ | ✓ | ✓ | |
+| General Store | | ✓ | ✓ | ✓ |
+| Alchemist | | ✓ | ✓ | |
+| Temple | | ✓ | ✓ | |
 
 ---
 
@@ -820,12 +843,12 @@ Accessible via chimney (intended) or sewer/river grate. Three OOTS guards. A 4-k
 
 ---
 
-*For heist planning detail, see [The Big One — Active Quests](../../Quests/Active/Active%20Quests.md)*
+*For heist planning detail, see [The Big One — Active Quests](../../Quests/Active/Solvetra/Solvetra%20Intermellum/Active%20Quests.md)*
 
 ---
 
 ### Lumina Elixir
-_Loot & Magic Items/In Circulation/Lumina Elixir.md_
+_Loot & Magic Items/Story Items/Lumina Elixir.md_
 
 # Lumina Elixir
 
@@ -886,7 +909,7 @@ The Fountain of Dreams (Solvetra West) may have been an early, diluted field tes
 ---
 
 ### Maneklang
-_Loot & Magic Items/In Circulation/Maneklang.md_
+_Loot & Magic Items/Story Items/Maneklang.md_
 
 # Måneklang
 
@@ -899,6 +922,8 @@ _Loot & Magic Items/In Circulation/Maneklang.md_
 ## Overview
 
 A magical instrument wielded by Kaelen. It resonates with a dangerous harmonic hum capable of lethal sonic output. Its name and origin are not yet documented in the world's records.
+
+**Found:** Solvetra Lighthouse, Session 2 — see [Session 2 & 3](../../Sessions/Notes/Session%202%20%26%203%20-%20Solvetra%20Meadows.md).
 
 ---
 
@@ -923,9 +948,9 @@ _NPCs/Allies/Corwin Duskwatch.md_
 
 **Race/Class:** Half goblin/orc Cleric (Shar)
 **Role:** Bank informant for the Shadowbringers, reports to Silas
-**Where Met:** Smuggler's Den, Solvetra Intermellum
+**Where to Meet:** Smuggler's Den, Solvetra Intermellum (planned for Session 7 — not yet met)
 
-Small, fanged, orc-like features. Devoutly religious to Shar, though not really taken seriously about it. Burst into Silas' meeting to report that progress on getting the bank vault codes has stalled — Vanya Windros (the bank manager) has gone missing without a trace, leaving the vault (3 simultaneous, blast-resistant locks) effectively unopenable without finding all the required keys. Silas dismissed him afterward with a "have a beer on me."
+Small, fanged, orc-like features. Devoutly religious to Shar, though not really taken seriously about it. Will burst into Silas' meeting to report that progress on getting the bank vault codes has stalled — Vanya Windros (the bank manager) has gone missing without a trace, leaving the vault (3 simultaneous, blast-resistant locks) effectively unopenable without finding all the required keys. Silas will dismiss him afterward with a "have a beer on me."
 
 ---
 
@@ -936,9 +961,40 @@ _NPCs/Allies/Du'geshk Maharjuuj.md_
 
 **Race/Class:** Half-orc/half-dragonborn Fighter
 **Role:** Heads the Heist Operation for the Shadowbringers in lieu of Silas
-**Where Met:** Smuggler's Den, Solvetra Intermellum
+**Where to Meet:** Smuggler's Den, Solvetra Intermellum (planned for Session 7 — not yet met)
 
-Tall orc female, equipped with a greatsword and heavy metal armour. Voice like a female Orc from Skyrim. Buff, masculine. Silas introduced her to the party as the one running the bank heist planning while he's been busy with Division endeavours. She gave the PCs the Heist Checklist and is generally helpful/no-nonsense — will try to convince the PCs to split up to optimise the heist effort.
+Tall orc female, equipped with a greatsword and heavy metal armour. Voice like a female Orc from Skyrim. Buff, masculine. Silas will introduce her to the party as the one running the bank heist planning while he's been busy with Division endeavours. She'll give the PCs the Heist Checklist and is generally helpful/no-nonsense — will try to convince the PCs to split up to optimise the heist effort.
+
+---
+
+### Sibling Thorne
+_NPCs/Allies/Sibling Thorne.md_
+
+# Sibling Thorne
+
+**Role:** Mysterious adventurer; secretly Fenrik's father and the Vassal of Light
+**Where Met:** The Pale Chalice (Inn), Solvetra Meadows — Session 1; Queen Bee fight — Session 2/3
+
+---
+
+## Overview
+
+First appeared in Session 1 at The Pale Chalice as a mysterious adventurer (*Sibling Thorne — Mysterious Adventurer*, see [Completed Quests](../../Quests/Completed/Solvetra/Solvetra%20Meadows/Completed%20Quests.md)) — a player who rolled high enough on insight/investigation against him gained **Angelic Saviour** upon leaving the tavern.
+
+In truth, Sibling Thorne is ⅓ of **Tre Illium** and the **Angel of Light** — the Vassal of Light, created from pure divine solar energy as La'Choix's final defence against the Shadowsong corruption. He is **Fenrik's father** (with Crecelia Fenrik), though Fenrik doesn't yet know it. See [PC Family Arcs](../../Players/Party%20Overview/PC%20Family%20Arcs.md).
+
+---
+
+## Session 2/3 — Queen Bee Fight
+
+The party called on Sibling Thorne for help during the fight against the Queen Bee Spider (Phase 2 hybrid). He assisted and dropped lore on the party — **specifics not fully recalled**, but it related to the **Order of the Sun**. Worth revisiting/expanding once remembered. See [Session 2 & 3](../../Sessions/Notes/Session%202%20%26%203%20-%20Solvetra%20Meadows.md).
+
+---
+
+## Notes
+
+- His connection to Fenrik is currently unknown to the party — a major reveal thread for later.
+- Recurring "mysterious helper" presence — track future appearances here.
 
 ---
 
@@ -1053,7 +1109,7 @@ _NPCs/Neutral/Marvin Tallowroot.md_
 
 **Race:** Tiefling (Male)
 **Role:** Shopkeep, "Threadbare Provisions" (heist-gear general store, recommended by Silas)
-**Where Met:** Threadbare Provisions, Solvetra Intermellum
+**Where to Meet:** Threadbare Provisions, Solvetra Intermellum (planned for Session 7 — not yet met)
 
 Normal voice, forgiving and open, not much to hide once Silas is namedropped. Has no information on the bank. Sells: Thieves' Tools (×3, 80gp), Rope (×2, 12gp), Scroll of Silence (×1, 650gp), Potions of Healing (×7, 20gp). No discounts — items are already "hot."
 
@@ -1108,6 +1164,40 @@ _NPCs/Neutral/Selene Faerwyn and Tavian Grellan.md_
 **Where Met:** Solvetra Vault, Basement Level (B1)
 
 Don't know anything about the vault location or bank keys. They do know Vanya Windros was the best manager — always stuck her neck out for staff and protected their jobs. Now they just process petty payments/withdrawals from upstairs.
+
+---
+
+### Titus
+_NPCs/Neutral/Titus.md_
+
+# Titus
+
+**Role:** Local figure in Solvetra Meadows, now an active informant for the party
+**Where Met:** Solvetra Meadows (Session 1); Lightstation Solvetra Meadows (Titus — DOL Argument, Session 2/3)
+
+---
+
+## Overview
+
+Introduced in Session 1 as the subject of an injustice against **Catha Morwyn** (innhand at The Pale Chalice). The party tied Titus to a tree and interrogated him about the **Division of Lumination** — he resisted briefly but, humiliated after the party rolled well, gave up a few details about the DOL before being left tied up. See [Session 1](../../Sessions/Notes/Session%201%20-%20Solvetra%20Meadows.md).
+
+---
+
+## Later Involvement
+
+In Session 2/3, Titus appeared at the **Lightstation Solvetra Meadows**, arguing with DOL Guards about his future/career (*Titus — DOL Argument*, see [Completed Quests](../../Quests/Completed/Solvetra/Solvetra%20Meadows/Completed%20Quests.md)). He ragequit the DOL out of shame, apologised to the party, and repaid them for their "clarity" — reward: **Sleuth Informant Titus**. See [Session 2 & 3](../../Sessions/Notes/Session%202%20%26%203%20-%20Solvetra%20Meadows.md).
+
+---
+
+## Status
+
+**Active informant** — Titus now feeds the party information via infiltration of DOL operations. Use as a recurring information source/hook for Solvetra-area threads.
+
+---
+
+## Notes
+
+- What the party actually learned from him about the DOL during Session 1 is not yet documented — fill in if remembered.
 
 ---
 
@@ -1191,7 +1281,7 @@ The Lorewarden Emeritus is the senior archival and doctrinal authority within th
 - **Fenrik** delivered a sword to him from the Blacksmith in Session 5 — was asked to follow up on Wizzleforth's involvement
 - Signed the **Lumina Elixir distribution map** as *L.E.* — planned rollout across Ars Lapis
 - Holds **Key 4** to the Solvetra Vault — the only key not readily accessible to the party
-- Was spotted at the Solvetra Vault during Kaelen's stakeout (Session 7)
+- May be spotted at the Solvetra Vault during Kaelen's stakeout — planned for Session 7, not yet played
 
 ---
 
@@ -1376,6 +1466,76 @@ _NPCs/NPC.md_
 
 ---
 
+### Elaris Sol
+_Players/Characters/Elaris Sol.md_
+
+# Elaris Sol
+
+**Race:** Elf (Aasimar heritage, unknown to her)  
+**Class:** Warlock  
+**Background:** Noble  
+**Languages:** Common, Common Sign Language, Elvish
+
+---
+
+## Background
+
+Elaris Sol is the runaway daughter of a mysterious and fanatically devout noblewoman, seeking freedom and truth in a world she barely understands. She doesn't know what her mother truly does — only that their wealth and faith are bound by something strange and secret. Raised by her halfling caretaker **Tessa Underbough**, Elaris is clever, charming, and achingly emotional — a free-spirited wannabe know-it-all with the heart of an angsty teenager, still trying to figure out who she is and why the crazed religion she fled from still guides and haunts her dreams.
+
+---
+
+## Lineage & Patron (see [PC Family Arcs](../Party%20Overview/PC%20Family%20Arcs.md))
+
+- Elaris's mother is **Virelle**, who was theologically touched by **Sibling Thorne** (the Vassal of Light, ⅓ of Tre Illium) and given light powers meant for her first of kin.
+- Elaris's patron is, unknowingly, **Sibling Thorne** himself — she believes her magic comes from her mother's "divine talent," but it is in fact inherited directly from the Vassal of Light. This makes her sun-blessed with powers beyond normal elven comprehension — effectively an **Aasimar**.
+- Elaris is also **Wizzleforth's daughter** and **Plumbodian's granddaughter** through Virelle and Plumbodian the 4th — though none of the three currently know this.
+- Virelle searched the lands for Wizzleforth (Elaris's father) after his retreat-night encounter at Glimmerdeep Caverns, eventually tracking — and devastating — Plumbodian's fleet (the Armada of Glimmerdeep) before disappearing.
+
+---
+
+## Notes
+
+- The "crazed religion" Elaris fled is tied to her mother's secretive faith and wealth — likely connected to the Division of Lumination or a related Order faction, though this hasn't been confirmed in-game.
+- Her warlock patron's true identity (Sibling Thorne) is a major potential reveal — handle carefully if/when it surfaces.
+
+---
+
+### Fenrik
+_Players/Characters/Fenrik.md_
+
+# Fenrik
+
+**Race:** Human (carries divine heritage)  
+**Class:** Barbarian  
+**Background:** Scribe  
+**Languages:** Common, Draconic, Dwarvish
+
+---
+
+## Background
+
+Fenrik is the son of a demi-god — though he may not fully understand the extent of it. Raised away from his birth parents, he carries divine heritage that surfaces in his strength and resilience. He's untrusting and isolated, secretly wanting connection but slow to let people in. He carries himself with an oddly posh, put-together air that sits at odds with his brutal fighting style.
+
+He considers might and strength to be paramount — the means by which he protects the people he loves.
+
+---
+
+## Lineage (see [PC Family Arcs](../Party%20Overview/PC%20Family%20Arcs.md))
+
+- Fenrik's father is **Sibling Thorne**, ⅓ of Tre Illium and the Angel of Light — created from pure divine solar energy as the Vassal of Light, La'Choix's would-be final defence against the Shadowsong corruption.
+- Sibling Thorne fathered Fenrik with a human woman, **Crecelia Fenrik**, who — unable to raise a demi-god child — left him with the **Northern Star of the Primordial Fist**. When Fenrik later tried to leave the order, they retaliated against his wife and children.
+- Fenrik previously had a relationship with **Sylphie** (daughter of Myxtiferious and Kaela Shadowsong). The Northern Star of the Primordial Fist — funded and bankrolled by the Division of Lumination to topple the Royal Dragon Regency — broke them apart.
+
+---
+
+## Personal Threads
+
+- **"Frank"** — an old rival: a tattered, older man Fenrik met during his escape from the Primordial Fist, who once bested him in a contest of strength and power. Fenrik has sworn to one day even the score. Resurfaced as a dream in Session 2/3 — an unbeatable rival, ripe for a future confrontation/rematch arc. See [Session 2 & 3](../../Sessions/Notes/Session%202%20%26%203%20-%20Solvetra%20Meadows.md).
+- Bonds tying back to his lost family with Sylphie remain a sore point — and a possible reunion/confrontation thread given Sylphie's longevity.
+- Personality leans towards a fight-first instinct, a fondness for drink, and a habit of hoarding gold — picked up, fittingly, from his time with a half-dragon family.
+
+---
+
 ### Frah'nk Frapper
 _Players/Characters/Frah'nk Frapper.md_
 
@@ -1383,6 +1543,10 @@ _Players/Characters/Frah'nk Frapper.md_
 
 **Age:** 33  
 **Height:** 6'3"  
+**Race:** Orc  
+**Class:** Paladin  
+**Background:** Soldier  
+**Languages:** Common, Orc  
 **Origin:** Wealthy hedge knight family — Order of Light  
 **Affiliation:** Shadowbringers  
 **Introduction:** Friend of Du'geshk Maharjuuj; sent to find the party by Silvanus Shadowfoot
@@ -1445,6 +1609,118 @@ He is not warm in the conventional sense but is reliably honest, which in this w
 - Silvanus' letter was the direct prompt for him finding the party — he is also quietly there to assess whether they're worth Silas' trust
 - His runic magic should feel visually distinct from anything the party has seen — blasphemous-looking by DOL standards, instinctive rather than academic
 - The Greyveil Suppression is documented in the Solvetra East location file and Silvanus Shadowfoot's NPC sheet
+
+---
+
+### Kaelen Shadowsong
+_Players/Characters/Kaelen Shadowsong.md_
+
+# Kaelen Shadowsong
+
+**Race:** Elf  
+**Class:** Bard  
+**Background:** Acolyte  
+**Languages:** Common, Draconic, Elvish
+
+---
+
+## Background
+
+A lone wolf who lost his family at a young age, Kaelen travels in pursuit of wealth, precious items, and — above all — new tales worth turning into music. He's manipulative and greedy by nature, with a habit of "acquiring" anything valuable that isn't nailed down, but beneath the self-interest is someone chasing the kind of story that might finally feel like it's his own.
+
+---
+
+## Lineage Notes
+
+- The **Shadowsong** name carries significant weight in La'Choix's history — Tre Illium (the former ruling triumvirate, of which Kaela Shadowsong was ⅓) was overthrown in a coup by "the Shadowsong," which allowed the Division of Lumination to rise as the only organised opposition (see [PC Family Arcs](../Party%20Overview/PC%20Family%20Arcs.md)).
+- Whether Kaelen's surname connects him directly to Kaela Shadowsong's bloodline — and by extension to Sylphie, Myxtiferious, and the Royal Dragon Regency — hasn't been established in-game, but it's a thread worth keeping in mind given how often "Shadowsong" surfaces in the campaign's central lineage arcs.
+
+---
+
+## Notes
+
+- Lost his family young — the circumstances are unconfirmed and could be a useful hook tying him into the wider Shadowsong/Tre Illium history.
+- His "anything precious, I'll try to steal it" streak is a reliable source of party friction and roleplay hooks.
+
+---
+
+### Plumbodian the 5th
+_Players/Characters/Plumbodian the 5th.md_
+
+# Plumbodian the 5th
+
+**Race:** Human  
+**Class:** Wizard  
+**Background:** Sailor  
+**Languages:** Common, Goblin, Halfling
+
+---
+
+## Background
+
+Plumbodian the 5th comes from a long line of pirates who sailed in pursuit of a fabled treasure they never found, suffering a near-total loss in a single catastrophic night involving rum, two warships, and considerably more chaos than anyone planned for. True to family tradition, Plumbodian carries on the legacy of hard drinking, harder luck, and an unshakeable belief that the answers are out there somewhere.
+
+He's quick to anger in conflict, has a deep-seated hatred of sand, and is endlessly preoccupied with a strange orb passed down through his family — a "pirate wizard" heirloom whose origins he's never quite understood.
+
+---
+
+## The Orb & The Armada (see [PC Family Arcs](../Party%20Overview/PC%20Family%20Arcs.md))
+
+What Plumbodian remembers about his family and the Orb isn't quite the truth:
+
+- The Orb actually passed down from his mother, **Kaela Shadowsong** (⅓ of Tre Illium) — it's attuned to the gate of **Luxfracta** and is the key piece needed to activate the passthrough to the **Realm of Shadowsong**.
+- The "family lost at sea" story isn't real. **Virelle** — searching for Wizzleforth (Plumbodian's son) using her family's genetic magic weave — tracked Plumbodian's fleet, **The Armada of Glimmerdeep**, and destroyed it in a burst of light. She then implanted false memories into Plumbodian, convincing him his family went down with those ships and that's how he came to have the Orb.
+- Virelle's motive was simply to disappear without being tracked — Plumbodian was collateral, not a target.
+- **Wizzleforth** is Plumbodian's son (born of a one-night encounter at Glimmerdeep Caverns), and **Elaris Sol** is in turn Plumbodian's granddaughter through Wizzleforth and Virelle. None of the three currently know this.
+
+The Orb is enormously significant: if the Shadowsong obtain it, they destroy it and unleash ultimate power; if the Division/Order obtain it, they seal Lux Infracta and entrench Order rule permanently. Either outcome is a loss — Tre Illium's original goal was a lunar (balanced) outcome.
+
+---
+
+## Notes
+
+- Plumbodian's drinking and "lost family" trauma are built on a lie — a major potential gut-punch reveal if/when the truth about Virelle and the Armada surfaces.
+- His connection to Wizzleforth and Elaris is currently unknown to all three characters and could be one of the campaign's biggest emotional payoffs.
+
+---
+
+### Wizzleforth Crankroot
+_Players/Characters/Wizzleforth Crankroot.md_
+
+# Wizzleforth Crankroot
+
+**Race:** Gnome  
+**Class:** Cleric  
+**Background:** Scribe  
+**Languages:** Common, Elvish, Gnomish
+
+---
+
+## Background
+
+Born beneath the mossy overhangs of the Glimmerdeep Caverns, Wizzleforth Crankroot was raised among scholars and scribes who revered knowledge as sacred. While other gnomes tinkered with gears and gadgets, Wizzleforth was drawn to dusty tomes, forgotten ruins, and the divine whispers of **Oghma**, god of inspiration and lore.
+
+Ordained as a cleric in his youth, Wizzleforth combines divine magic with relentless curiosity, venturing into ancient crypts and sunken temples to recover relics lost to time. His faith is rooted not in sermons but in discovery — each artifact a prayer, each inscription a hymn.
+
+Wizzleforth isn't formally affiliated with any faction. Thanks to his prolonged gnomish lifespan, he's chosen to journey and discover alone, wary of losing dear companions to the passage of time.
+
+---
+
+## Lineage (see [PC Family Arcs](../Party%20Overview/PC%20Family%20Arcs.md))
+
+- Wizzleforth is **Plumbodian's son** — Plumbodian the 4th's reincarnation as the 5th was triggered by Wizzleforth's birth (the immense stress of childbirth, which the mother did not survive). Plumbodian enrolled the infant Wizzleforth in Cleric training under the Division of Lumination, ostensibly for protection against a second Shadowsong attack. Wizzleforth is therefore "relatively normal" — this was protection, not indoctrination.
+- Years ago, during a Cleric retreat at Glimmerdeep Caverns, Wizzleforth met a woman named **Virelle** and shared a single night with her. He never saw her again and doesn't know what became of her — or that it resulted in a daughter, **Elaris Sol**.
+- This makes Wizzleforth **Elaris's father** and **Plumbodian's son** — neither of which any of the three currently know.
+
+## Lineage Vision (see [Wizzleforth's Lineage Vision](../../Story%20Threads/PCs/Wizzleforth%20-%20Lineage%20Vision.md))
+
+During Session 5, while studying the Division of Lumination's texts at the Lumination Archive, Wizzleforth experienced a form of astral projection tied to his self-lineage, alongside a journey back in time — the full content of which is not yet documented in-session.
+
+---
+
+## Notes
+
+- Wizzleforth's quiet, solitary nature contrasts sharply with the scale of the lineage he's unknowingly part of (son of Plumbodian, father of Elaris) — a slow-burn reveal worth pacing carefully.
 
 ---
 
@@ -1516,7 +1792,9 @@ _Players/Party Overview/PC Languages.md_
 
 | Character | Species | Known Languages |
 |-----------|---------|-----------------|
+| Elaris Sol | Elf | Common, Common Sign Language, Elvish |
 | Fenrik | Human | Common, Draconic, Dwarvish |
+| Frah'nk Frapper | Orc | Common, Orc |
 | Kaelen Shadowsong | Elf | Common, Draconic, Elvish |
 | Plumbodian the 5th | Human | Common, Goblin, Halfling |
 | Wizzleforth Crankroot | Gnome | Common, Elvish, Gnomish |
@@ -1562,70 +1840,14 @@ Applied at the start of Session 7, after the party's night in Smuggler's Den.
 
 ---
 
-### Active Quests
-_Quests/Active/Active Quests.md_
+##### Active Quests
+_Quests/Active/Solvetra/Solvetra Intermellum/Active Quests.md_
 
-# Active Quests
+# Active Quests — Solvetra Intermellum
 
-_Sorted by current engagement. Untouched hooks have been moved to [Quests/Rumours](../Rumours), organised by location. Resolved threads have been moved to [Completed Quests](../Completed/Completed%20Quests.md)._
-
----
-
-## Solvetra West
-
-### Fountain of Dreams
-**Location:** Fountain of Dreams | **NPC:** Elsinor Veilwyn
-**Hook:** Citizens claim the water is starting to taste "too clear" and their dreams are getting more wild and vivid (good AND bad).
-**Objective:** Investigate the source of the clear water and find the reason for the fading dreams.
-**Conditionals:** Water is tainted by a minor DIL ritual. PCs must perform a ritual to counteract it, or fight 2 × Will o' Wisp that are a magical representation of the 'fading' of dreams.
-**Reward:** Dreamwater (Mind-Reading Potion)
-**Status:** Started — Wizzleforth drank from the fountain and Plumbodian's act caused the water to steam away (Session 4). The actual investigation/resolution hasn't happened yet.
+_Untouched hooks for this district live in [Rumours](../../../Rumours/Solvetra/Solvetra%20Intermellum/Rumours.md). Resolved quests move to [Completed Quests](../../../Completed/Solvetra/Solvetra%20Intermellum/Completed%20Quests.md)._
 
 ---
-
-### Arcane Resonator Silence
-**Location:** The Arcane Resonator (Enchanter's Nook) | **NPC:** Toren Ashglen
-**Hook:** Sudden silence in the magical hum of the Arcane Resonator. Toren says the magical silence is a bad omen. He's part of a magical guild (Guild of the Nine) trying to figure out how to stop the DIL from suppressing magic.
-**Objective:** Find an anti-suppression stone to restore the magical hum.
-**Conditionals:** Players will find this stone by completing the quest for the Glassblower, who will give them the stone. They can choose to give it to Toren or not.
-**Reward:** 50GP × 6 — access to enchanting services. Each +1 (up to +3) takes 1 day.
-**Status:** Set up — party met Toren in Session 4 and heard the DOL is suspected. The anti-suppression stone hasn't been retrieved yet (see Glassblower's Elemental).
-
----
-
-### Glassblower's Elemental
-**Location:** The Sun's Reflection (Glassblower's Studio) | **NPC:** Lira Vanneth
-**Hook:** A whimsical Fey creature who is a master glassblower and in love with a Fire Elemental that lives in the Studio. She asks the PCs to help her get the Elemental to confess its love.
-**Objective:** Solve a puzzle to get the Elemental to talk.
-**Conditionals:** Players will notice the Elemental "pulse". This gives perception for the Focus Lens, Resonating Chamber, and Etching Globe — which needs to be put together to project the "pulse" of heat into imagery.
-**Reward:** Lira gives the PCs an anti-suppression orb.
-**Status:** Not yet started — feeds directly into Arcane Resonator Silence above.
-
----
-
-## Solvetra Middle
-
-### Bathhouse Doppelganger
-**Location:** Shimmering Pools (Bathhouse) | **NPCs:** Attendant Vira Laithe, Patron Selven Dreer
-**Hook:** A bather swears she saw her own reflection step out of the water before vanishing into the steam.
-**Objective:** Dispel the illusory duplicate and learn who or what is replacing patrons with mirror-born doppelgangers.
-**Conditionals:** Identify and banish the mirror duplicate (Doppelganger). PCs discover a note on the Doppelganger's person.
-**Reward:** MAIN QUEST LORE — *"Spread fear and chaos, my loyal subject. - L.E"*
-**Status:** Attempted in Session 5 — a woman screamed in the bathhouse, but Adrion and Plumbodian's investigation "didn't work out." Thread remains open.
-
----
-
-### Lumination Archive — Living Manuscript
-**Location:** The Lumination Archive | **NPCs:** Lorewarden Emeritus, Archivist Tirra Vanth
-**Hook:** Lorewarden Emeritus requests the PCs' aid in recovering a forbidden volume said to rewrite history as it's read.
-**Objective:** Retrieve the living manuscript and decide whether to return it to the Lorewarden or hide it from his Order's grasp.
-**Conditionals:** Retrieve the forbidden living manuscript, then decide to return it or keep it hidden.
-**Reward:** Lorewarden Emeritus gifts Wizards of the party an amulet with 1 × L2 Spell Slot (The Division's Necklace). MAIN QUEST LORE if they do not return the script.
-**Status:** Active — this is the quest the Lorewarden gave Plumbodian in Session 5, reiterated by note in Session 6. Still outstanding; ties into the Solvetra Vault heist since the Lorewarden holds Vault Key 4.
-
----
-
-## Solvetra Intermellum
 
 ### The Big One — Solvetra Vault Heist
 **Location:** Solvetra Vault (Middle) | **NPCs:** Silas Shadowfoot, Du'geshk Maharjuuj, Corwin Duskwatch
@@ -1637,12 +1859,12 @@ _Sorted by current engagement. Untouched hooks have been moved to [Quests/Rumour
 | Step | Detail | Status |
 |------|--------|--------|
 | Blueprints | Acquire via Archivist Lira Vance — maps of Gilded Anvil, Bathhouse, Solstice Vault, Lumination Archive at increasing DCs. 20/40/100gp. Copy via Edrin Pella. Having the Vault map grants advantage on area checks. | |
-| Stakeout | Kaelen completed. Guard rotation: 2-in, 2-out every hour; guards closest to action refreshed first. | Done |
+| Stakeout | Kaelen to observe guard rotation: 2-in, 2-out every hour; guards closest to action refreshed first. | |
 | Inside Contact | Rissa "Whisper" Varn holds info on Traelensch Barthum (leftmost teller). 150gp, or 25gp now / 75gp later on DC25+. | |
 | Security System | Panic button under every desk — arcane, never been pressed. Sends alert to unseen guards. Requires up-close Arcana check to fully understand. | |
 | Equipment | Threadbare Provisions (namedrop Silas): Thieves Tools ×3 (80gp), Rope ×2 (12gp), Scroll of Silence ×1 (650gp), Potions of Healing ×7 (20gp). No discounts. | |
 | Scouting | Dye House — Callen Droth dyes bank notes for the vault. Possible intern/delivery angle. | |
-| Secure the Keys | 4 keys total — see [Solvetra Vault](../../Locations/Solvetra/Solvetra%20Vault.md) for key locations. 3 locks must open simultaneously. | |
+| Secure the Keys | 4 keys total — see [Solvetra Vault](../../../../Locations/Dungeons%2C%20Ruins%20%26%20Others/Solvetra%20Vault.md) for key locations. 3 locks must open simultaneously. | |
 
 **Vault Entry Options:** Chimney (intended/assumed), Sewer/River Grate (harder DCs), Loud (fight), Sneak.
 **Reward:** DOL funds + enough to cover Lucien Morvault's debt.
@@ -1689,81 +1911,141 @@ _Sorted by current engagement. Untouched hooks have been moved to [Quests/Rumour
 
 ---
 
-### Active Threats
-_Quests/Active/Active Threats.md_
-
-# Active Threats
-
----
-
-## Lucien Morvault
-**Target:** The party (debt transferred from Adrion on his disappearance)  
-**Threat:** Mass Polymorph → death if 5,000gp not paid in 5 nights  
-**Urgency:** Critical — hard deadline, Session 7  
-**Last Known Action:** Letter delivered to Adrion via Silas at Smuggler's Den; Adrion has since disappeared  
-**Next Trigger:** Deadline passes with no payment  
-**Notes:** The nature of the original "agreement" with Adrion is unknown and unexplored. May not simply disappear even if paid.
+### The Big One — Threadbare Provisions
+**Location:** Threadbare Provisions (General Store) | **NPC:** Marvin Tallowroot
+**Hook:** Will offer usual goods and some heist equipment if PCs ask, on behalf of Silas.
+**Conditionals:** Prices for heist equipment will be ×2 because it's "hot" or "hard to get ahold of".
+**Reward:** N/A / Shop.
+**Status:** Open heist-prep step — Equipment line on the checklist above. Not yet visited — planned for Session 7.
 
 ---
 
-## Valerius' Replacement
-**Target:** The party  
-**Threat:** Unknown — but Valerius was Headguard and this person was already organised before he died  
-**Urgency:** High — timeline unknown, but the Lumina Lab has been destroyed and the vault heist is imminent  
-**Last Known Action:** Referenced in letter on Valerius' body: *"I've already organised your replacement."*  
-**Next Trigger:** DOL learns the vault has been robbed, or identifies the party by name  
-**Notes:** Identity unknown. Will almost certainly be a step up from Valerius. Likely arrives in or around Ars Lapis.
+##### Active Quests
+_Quests/Active/Solvetra/Solvetra Middle/Active Quests.md_
+
+# Active Quests — Solvetra Middle
+
+_Untouched hooks for this district live in [Rumours](../../../Rumours/Solvetra/Solvetra%20Middle/Rumours.md). Resolved quests move to [Completed Quests](../../../Completed/Solvetra/Solvetra%20Middle/Completed%20Quests.md)._
 
 ---
 
-## The Northern Star of the Primordial Fist
-**Target:** Fenrik (kill order — dead, not alive)  
-**Threat:** Organised, DOL-funded faction with reach across multiple cities  
-**Urgency:** Medium — quiet since Solvetra Meadows, but not gone  
-**Last Known Action:** Goons sent to Solvetra Meadows; all killed by the party. Goon killed himself before revealing anything.  
-**Next Trigger:** NSPF learns the party is travelling to Ars Lapis, or Aurevon Beitomy Erstua escalates personally  
-**Notes:** DOL-funded to topple the Dragon Regency. They broke up Fenrik and Sylphie and went after his wife and children. Aurevon Beitomy Erstua is the name behind the hit order.
+### Bathhouse Doppelganger
+**Location:** Shimmering Pools (Bathhouse) | **NPCs:** Attendant Vira Laithe, Patron Selven Dreer
+**Hook:** A bather swears she saw her own reflection step out of the water before vanishing into the steam.
+**Objective:** Dispel the illusory duplicate and learn who or what is replacing patrons with mirror-born doppelgangers.
+**Conditionals:** Identify and banish the mirror duplicate (Doppelganger). PCs discover a note on the Doppelganger's person.
+**Reward:** MAIN QUEST LORE — *"Spread fear and chaos, my loyal subject. - L.E"*
+**Status:** Attempted in Session 5 — a woman screamed in the bathhouse, but Adrion and Plumbodian's investigation "didn't work out." Thread remains open.
 
 ---
 
-## Zatharial
-**Target:** The party — no active claim, but very much still watching  
-**Threat:** Devil operating on a long timeline. Charming, theatrical, unhurried — Raphael-type. He presents options, not ultimatums.  
-**Urgency:** Low — for now  
-**Last Known Action:** Tore Adrion's contract in front of the party after Adrion's disappearance. A power move dressed as a gesture of goodwill.  
-**Next Trigger:** Zatharial reappears when it suits him — likely when the party is vulnerable or at a crossroads  
-**Notes:** The contract is void but he hasn't gone anywhere. He tore it up to make the party feel indebted to him, not to free them. Believes the party are destined to defeat the Light Vassal. Operates independently of DOL and Shadowbringers. His next move will come with a smile and a proposition.
+### Lumination Archive — Living Manuscript
+**Location:** The Lumination Archive | **NPCs:** Lorewarden Emeritus, Archivist Tirra Vanth
+**Hook:** Lorewarden Emeritus requests the PCs' aid in recovering a forbidden volume said to rewrite history as it's read.
+**Objective:** Retrieve the living manuscript and decide whether to return it to the Lorewarden or hide it from his Order's grasp.
+**Conditionals:** Retrieve the forbidden living manuscript, then decide to return it or keep it hidden.
+**Reward:** Lorewarden Emeritus gifts Wizards of the party an amulet with 1 × L2 Spell Slot (The Division's Necklace). MAIN QUEST LORE if they do not return the script.
+**Status:** Active — this is the quest the Lorewarden gave Plumbodian in Session 5, reiterated by note in Session 6. Still outstanding; ties into the Solvetra Vault heist since the Lorewarden holds Vault Key 4.
 
 ---
 
-## The Goblin Settlement
-**Target:** The party (revenge for the Lumina Lab)  
-**Threat:** Unknown size and strength — settlement location unconfirmed  
-**Urgency:** Low-Medium — slow burn, but word of the Lab's destruction will have reached them  
-**Last Known Action:** All Lumina Lab goblins killed, including Boss Dragg  
-**Next Trigger:** Settlement confirms the party's identity or location; DM discretion on timing  
-**Notes:** Intended as a "hunted" arc — the party becomes the prey. Goblins at the Lab greeted with "Hail the Order, the Order of the Sun" — possible DOL alignment means the settlement may have institutional backing.
+##### Active Quests
+_Quests/Active/Solvetra/Solvetra West/Active Quests.md_
+
+# Active Quests — Solvetra West
+
+_Untouched hooks for this district live in [Rumours](../../../Rumours/Solvetra/Solvetra%20West/Rumours.md). Resolved quests move to [Completed Quests](../../../Completed/Solvetra/Solvetra%20West/Completed%20Quests.md)._
 
 ---
 
-## The Lorewarden Emeritus
-**Target:** Not actively hunting — but a collision is coming  
-**Threat:** Senior DOL authority. Holds Key 4 to the vault. Has an outstanding quest given to Plumbodian whose content is undocumented.  
-**Urgency:** Low-Medium — becomes critical the moment the heist begins  
-**Last Known Action:** Spotted at the Solvetra Vault during Kaelen's stakeout (Session 7). Gave Plumbodian an undocumented mission in Session 5.  
-**Next Trigger:** The vault is robbed and Key 4 becomes necessary — or Plumbodian's quest puts him at odds with the party  
-**Notes:** Signed the Lumina Elixir distribution map as *L.E.* Received a letter from a dying DOL spy: *"The Shadowbringers, my lord — I've been had."* His awareness of the party's involvement in the Lab is unconfirmed.
+### Fountain of Dreams
+**Location:** Fountain of Dreams | **NPC:** Elsinor Veilwyn
+**Hook:** Citizens claim the water is starting to taste "too clear" and their dreams are getting more wild and vivid (good AND bad).
+**Objective:** Investigate the source of the clear water and find the reason for the fading dreams.
+**Conditionals:** Water is tainted by a minor DIL ritual. PCs must perform a ritual to counteract it, or fight 2 × Will o' Wisp that are a magical representation of the 'fading' of dreams.
+**Reward:** Dreamwater (Mind-Reading Potion)
+**Status:** Started — Wizzleforth drank from the fountain and Plumbodian's act caused the water to steam away (Session 4). The actual investigation/resolution hasn't happened yet.
 
 ---
 
-### Completed Quests
-_Quests/Completed/Completed Quests.md_
-
-# Completed Quests
+### Arcane Resonator Silence
+**Location:** The Arcane Resonator (Enchanter's Nook) | **NPC:** Toren Ashglen
+**Hook:** Sudden silence in the magical hum of the Arcane Resonator. Toren says the magical silence is a bad omen. He's part of a magical guild (Guild of the Nine) trying to figure out how to stop the DIL from suppressing magic.
+**Objective:** Find an anti-suppression stone to restore the magical hum.
+**Conditionals:** Players will find this stone by completing the quest for the Glassblower, who will give them the stone. They can choose to give it to Toren or not.
+**Reward:** 50GP × 6 — access to enchanting services. Each +1 (up to +3) takes 1 day.
+**Status:** Set up — party met Toren in Session 4 and heard the DOL is suspected. The anti-suppression stone hasn't been retrieved yet (see Glassblower's Elemental).
 
 ---
 
-## Solvetra Meadows
+### Glassblower's Elemental
+**Location:** The Sun's Reflection (Glassblower's Studio) | **NPC:** Lira Vanneth
+**Hook:** A whimsical Fey creature who is a master glassblower and in love with a Fire Elemental that lives in the Studio. She asks the PCs to help her get the Elemental to confess its love.
+**Objective:** Solve a puzzle to get the Elemental to talk.
+**Conditionals:** Players will notice the Elemental "pulse". This gives perception for the Focus Lens, Resonating Chamber, and Etching Globe — which needs to be put together to project the "pulse" of heat into imagery.
+**Reward:** Lira gives the PCs an anti-suppression orb.
+**Status:** Not yet started — feeds directly into Arcane Resonator Silence above.
+
+---
+
+#### Completed Quests
+_Quests/Completed/Road/Completed Quests.md_
+
+# Completed Quests — Road
+
+---
+
+### Merchant Wagon
+**Location:** On the Road | **NPC:** Dorian Shademeir
+**Hook:** Traveling merchant caravan broken down. Reward for helping fix wagon wheel, or more for fending off nearby goblins.
+**Objective:** Kill goblins when detected. Help clean the wagon wheel.
+**Conditionals:** Goblins have option for a free turn — PP check of 9+ (they have +6 Stealth).
+**Reward:** 10GP per player and discount at Dorian's market stall in Solvetra East.
+
+---
+
+### Locked Chest
+**Location:** On the Road | **NPC:** Chest
+**Hook:** Small, intricately carved wooden box on the road. Locked, no visible keyhole or latch. Mossy with overgrowth.
+**Objective:** Find a way to open the lock. Lock DC16. Strength to break DC14. Magic DC10-12.
+**Conditionals:** It's just a chest, nothing to worry about.
+**Reward:** A small horn that, when blown, sounds like a faint echoing whisper of a lost word.
+
+---
+
+### Fazzlemoth the Hermit
+**Location:** On the Road | **NPC:** Fazzlemoth
+**Hook:** A lone elderly hermit sitting on a rock, seemingly talking to themselves.
+**Objective:** Listen to him talk.
+**Conditionals:** Fazzlemoth has nothing of value. Just warns players about this trying time. Is 500 years old — misses when people used to praise the moon.
+**Reward:** Lore drop.
+
+---
+
+### Jaself's Teleportation
+**Location:** On the Road | **NPC:** Jaself Timberthorn
+**Hook:** A flash of light and puff of smoke — young flustered wizard botched a teleportation spell.
+**Objective:** Encourage Jaself to keep trying to perfect his teleportation spell.
+**Conditionals:** It eventually works, but a minute or two later Jaself comes crashing down and splats in front of the party.
+**Reward:** N/A
+
+---
+
+### Lost Child
+**Location:** On the Road | **NPC:** Lost Child
+**Hook:** A child crying at the side of the road, claiming they are lost and can't find their parents.
+**Objective:** Point the child to safety.
+**Conditionals:** PCs will point kid down the road. They later find him massacred within the bushes further up the road.
+**Reward:** N/A
+
+---
+
+##### Completed Quests
+_Quests/Completed/Solvetra/Solvetra Meadows/Completed Quests.md_
+
+# Completed Quests — Solvetra Meadows
+
+---
 
 ### Haunted Lanterns
 **Location:** The Pale Chalice (Inn) | **NPC:** Aelric Venn (innkeep)
@@ -1780,6 +2062,7 @@ _Quests/Completed/Completed Quests.md_
 **Objective:** Humiliate Titus via chosen method (intimidation, theft, etc.).
 **Conditionals:** If players already disrupted Titus, quest auto-completes.
 **Reward:** 25GP / 5
+**Resolution:** Session 1 — the party tied Titus to a tree and interrogated him about the DOL. He resisted briefly but, humiliated by the party's good rolls, gave up a few details. See [Titus](../../../../NPCs/Neutral/Titus.md) and [Session 1](../../../../Sessions/Notes/Session%201%20-%20Solvetra%20Meadows.md).
 
 ---
 
@@ -1825,6 +2108,7 @@ _Quests/Completed/Completed Quests.md_
 **Objective:** Find the gear — taken by Priests of the Division × 3.
 **Conditionals:** Players will very easily find the priests observing the gear out the back of the windmill. Up to players what they want to do.
 **Reward:** UTSR 1
+**Resolution:** Session 2/3 — the party killed all three Priests of the Division while they were replacing the windmill's lunar symbols, hid the bodies, and fixed the gear. Garrik rewarded them with a mass supply of food. See [Session 2 & 3](../../../../Sessions/Notes/Session%202%20%26%203%20-%20Solvetra%20Meadows.md).
 
 ---
 
@@ -1864,46 +2148,32 @@ _Quests/Completed/Completed Quests.md_
 
 ---
 
+### Queen Bee
+**Location:** The Salt & Song Bazaar (Market) | **NPC:** Cedric Ironvale
+**Hook:** Annoying bees disrupting honey sales.
+**Objective:** Kill the bees and the "Queen Bee", causing a drop in honey sales.
+**Conditionals:** PCs will fight and destroy the bees + "Queen Bee". Cedric straight up disappears afterwards — no one has seen him.
+**Reward:** Level up — boss fight.
+**Resolution:** Session 2/3 — the party killed the bees and the Queen Bee, which revealed a Phase 2: **Queen Bee Spider hybrid**. They called on **Sibling Thorne** for help during this fight, and he dropped lore on them (specifics TBD — see [Session 2 & 3](../../../../Sessions/Notes/Session%202%20%26%203%20-%20Solvetra%20Meadows.md)). Cedric disappeared without paying — see [Active Threats](../../../Active/Active%20Threats.md). A book, *"A History of Bees in Solvetra Meadows,"* found around the same time, suggests the district will now start to ecologically decline — see [Active Threats](../../../Active/Active%20Threats.md).
+
+---
+
 ### Titus — DOL Argument
 **Location:** Lightstation Solvetra Meadows | **NPC:** Titus
 **Hook:** Debating future/career with DOL.
 **Objective:** Witness an argument between Titus and the Guards at the DOL.
 **Conditionals:** PCs can join or watch. Titus will call it quits and apologise, repay PCs for their "clarity" by becoming a sleuth informant via infiltration.
 **Reward:** Sleuth Informant Titus.
+**Resolution:** Session 2/3 — Titus ragequit the DOL out of shame and is now an active informant for the party. See [Titus](../../../../NPCs/Neutral/Titus.md).
 
 ---
 
-## Solvetra West
+##### Completed Quests
+_Quests/Completed/Solvetra/Solvetra Middle/Completed Quests.md_
 
-### Letter Delivery
-**Location:** The Traveler's Respite (Inn) | **NPC:** Tamsin Moonquill
-**Hook:** A quiet traveler asks PCs to deliver a letter to her sister in Middle Solvetra.
-**Objective:** Deliver the letter.
-**Conditionals:** The DIL is watching the traveler. If caught, face 2 × Thugs. The letter is a fake, designed to lure PCs into a trap.
-**Reward:** 50/6 GP and a Small Map of Middle Solvetra (contains subtle lunar markings).
+# Completed Quests — Solvetra Middle
 
 ---
-
-### Artisan Quarter — Time Thief
-**Location:** Maker's Quarter | **NPC:** Liora Windros
-**Hook:** Grand solar-themed clock's gears mysteriously "unwinding" every night.
-**Objective:** Find a way to stop the "time thief" from stealing the gears.
-**Conditionals:** The "time thief" is a lonely Pixie who wants to play with the gears. Not hostile — can be reasoned with.
-**Reward:** 10GP × 6 and a one-use clock acting as a pipe-bomb (countdown then explode; 4d20+30 dmg or half on DEX Save DC12; AOE 5m, force damage).
-
----
-
-### Lumina Lab Tonic
-**Location:** Lumina Lab (Alchemist) | **NPC:** Thessa Faewind
-**Hook:** Increasing number of people drinking a popular new health tonic. Users seem calm and happy but appear to have lost their spark and ambition.
-**Objective:** Infiltrate the Lumina Lab at night to find out what is in the tonic.
-**Conditionals:** Lab guarded by 4 × Guards. Stealth check to get inside. Formula written in code requiring specific skill check to decipher.
-**Reward:** 50GP and the alchemical formula for the tonic.
-**Resolution:** Superseded by the Session 6 Lumina Lab raid — the party fully infiltrated the Lab via the trapdoor, found the Lumina Elixir formula/distribution map, and dismantled the operation entirely.
-
----
-
-## Solvetra Middle
 
 ### Spectral Reflections
 **Location:** Moonglass Mill | **NPCs:** Miller Gavric Lorne, Farmhand Ettie Rowen
@@ -1942,61 +2212,38 @@ _Quests/Completed/Completed Quests.md_
 
 ---
 
-## Solvetra Intermellum
+##### Completed Quests
+_Quests/Completed/Solvetra/Solvetra West/Completed Quests.md_
 
-### The Big One — Threadbare Provisions
-**Location:** Threadbare Provisions (General Store) | **NPC:** Marven Tallowroot
-**Hook:** Will offer usual goods and some heist equipment if PCs ask, on behalf of Silas.
-**Conditionals:** Prices for heist equipment will be ×2 because it's "hot" or "hard to get ahold of".
-**Reward:** N/A / Shop.
-**Resolution:** Visited in Session 7 — party met Marvin Tallowroot and purchased heist gear (Thieves' Tools, Rope, Scroll of Silence, Potions of Healing).
+# Completed Quests — Solvetra West
 
 ---
 
-## Road
-
-### Merchant Wagon
-**Location:** On the Road | **NPC:** Dorian Shademeir
-**Hook:** Traveling merchant caravan broken down. Reward for helping fix wagon wheel, or more for fending off nearby goblins.
-**Objective:** Kill goblins when detected. Help clean the wagon wheel.
-**Conditionals:** Goblins have option for a free turn — PP check of 9+ (they have +6 Stealth).
-**Reward:** 10GP per player and discount at Dorian's market stall in Solvetra East.
+### Letter Delivery
+**Location:** The Traveler's Respite (Inn) | **NPC:** Tamsin Moonquill
+**Hook:** A quiet traveler asks PCs to deliver a letter to her sister in Middle Solvetra.
+**Objective:** Deliver the letter.
+**Conditionals:** The DIL is watching the traveler. If caught, face 2 × Thugs. The letter is a fake, designed to lure PCs into a trap.
+**Reward:** 50/6 GP and a Small Map of Middle Solvetra (contains subtle lunar markings).
 
 ---
 
-### Locked Chest
-**Location:** On the Road | **NPC:** Chest
-**Hook:** Small, intricately carved wooden box on the road. Locked, no visible keyhole or latch. Mossy with overgrowth.
-**Objective:** Find a way to open the lock. Lock DC16. Strength to break DC14. Magic DC10-12.
-**Conditionals:** It's just a chest, nothing to worry about.
-**Reward:** A small horn that, when blown, sounds like a faint echoing whisper of a lost word.
+### Artisan Quarter — Time Thief
+**Location:** Maker's Quarter | **NPC:** Liora Windros
+**Hook:** Grand solar-themed clock's gears mysteriously "unwinding" every night.
+**Objective:** Find a way to stop the "time thief" from stealing the gears.
+**Conditionals:** The "time thief" is a lonely Pixie who wants to play with the gears. Not hostile — can be reasoned with.
+**Reward:** 10GP × 6 and a one-use clock acting as a pipe-bomb (countdown then explode; 4d20+30 dmg or half on DEX Save DC12; AOE 5m, force damage).
 
 ---
 
-### Fazzlemoth the Hermit
-**Location:** On the Road | **NPC:** Fazzlemoth
-**Hook:** A lone elderly hermit sitting on a rock, seemingly talking to themselves.
-**Objective:** Listen to him talk.
-**Conditionals:** Fazzlemoth has nothing of value. Just warns players about this trying time. Is 500 years old — misses when people used to praise the moon.
-**Reward:** Lore drop.
-
----
-
-### Jaself's Teleportation
-**Location:** On the Road | **NPC:** Jaself Timberthorn
-**Hook:** A flash of light and puff of smoke — young flustered wizard botched a teleportation spell.
-**Objective:** Encourage Jaself to keep trying to perfect his teleportation spell.
-**Conditionals:** It eventually works, but a minute or two later Jaself comes crashing down and splats in front of the party.
-**Reward:** N/A
-
----
-
-### Lost Child
-**Location:** On the Road | **NPC:** Lost Child
-**Hook:** A child crying at the side of the road, claiming they are lost and can't find their parents.
-**Objective:** Point the child to safety.
-**Conditionals:** PCs will point kid down the road. They later find him massacred within the bushes further up the road.
-**Reward:** N/A
+### Lumina Lab Tonic
+**Location:** Lumina Lab (Alchemist) | **NPC:** Thessa Faewind
+**Hook:** Increasing number of people drinking a popular new health tonic. Users seem calm and happy but appear to have lost their spark and ambition.
+**Objective:** Infiltrate the Lumina Lab at night to find out what is in the tonic.
+**Conditionals:** Lab guarded by 4 × Guards. Stealth check to get inside. Formula written in code requiring specific skill check to decipher.
+**Reward:** 50GP and the alchemical formula for the tonic.
+**Resolution:** Superseded by the Session 6 Lumina Lab raid — the party fully infiltrated the Lab via the trapdoor, found the Lumina Elixir formula/distribution map, and dismantled the operation entirely.
 
 ---
 
@@ -2135,12 +2382,7 @@ _Hooks not yet introduced to the party. Drop in as rumours, side conversations, 
 
 ---
 
-### Queen Bee
-**Location:** The Salt & Song Bazaar (Market) | **NPC:** Cedric Ironvale
-**Hook:** Annoying bees disrupting honey sales.
-**Objective:** Kill the bees and the "Queen Bee", causing a drop in honey sales.
-**Conditionals:** PCs will fight and destroy the bees + "Queen Bee". Cedric straight up disappears afterwards — no one has seen him.
-**Reward:** Level up — boss fight.
+_No outstanding rumours — Queen Bee resolved in Session 2/3, see [Completed Quests](../../../Completed/Solvetra/Solvetra%20Meadows/Completed%20Quests.md)._
 
 ---
 
@@ -2234,6 +2476,103 @@ _Hooks not yet introduced to the party. Drop in as rumours, side conversations, 
 
 ---
 
+### Active Threats
+_Quests/Threats/Active Threats.md_
+
+# Active Threats
+
+---
+
+## Lucien Morvault
+**Target:** The party (debt transferred from Adrion on his disappearance)  
+**Threat:** Mass Polymorph → death if 5,000gp not paid in 5 nights  
+**Urgency:** Critical — hard deadline, Session 7  
+**Last Known Action:** Letter delivered to Adrion via Silas at Smuggler's Den; Adrion has since disappeared  
+**Next Trigger:** Deadline passes with no payment  
+**Notes:** The nature of the original "agreement" with Adrion is unknown and unexplored. May not simply disappear even if paid.
+
+---
+
+## Valerius' Replacement
+**Target:** The party  
+**Threat:** Unknown — but Valerius was Headguard and this person was already organised before he died  
+**Urgency:** High — timeline unknown, but the Lumina Lab has been destroyed and the vault heist is imminent  
+**Last Known Action:** Referenced in letter on Valerius' body: *"I've already organised your replacement."*  
+**Next Trigger:** DOL learns the vault has been robbed, or identifies the party by name  
+**Notes:** Identity unknown. Will almost certainly be a step up from Valerius. Likely arrives in or around Ars Lapis.
+
+---
+
+## The Northern Star of the Primordial Fist
+**Target:** Fenrik (kill order — dead, not alive)  
+**Threat:** Organised, DOL-funded faction with reach across multiple cities  
+**Urgency:** Medium — quiet since Solvetra Meadows, but not gone  
+**Last Known Action:** Goons sent to Solvetra Meadows; all killed by the party. Goon killed himself before revealing anything.  
+**Next Trigger:** NSPF learns the party is travelling to Ars Lapis, or Aurevon Beitomy Erstua escalates personally  
+**Notes:** DOL-funded to topple the Dragon Regency. They broke up Fenrik and Sylphie and went after his wife and children. Aurevon Beitomy Erstua is the name behind the hit order. A note recovered from the Session 2/3 ambush at The Lanterngreen was signed only **"ABE"** — Fenrik has no personal connection to anyone in the NSPF by this name. Matthew suspects "Aurevon Beitomy Erstua" may be an anagram for something — unconfirmed.
+
+---
+
+## Zatharial
+**Target:** The party — no active claim, but very much still watching  
+**Threat:** Devil operating on a long timeline. Charming, theatrical, unhurried — Raphael-type. He presents options, not ultimatums.  
+**Urgency:** Low — for now  
+**Last Known Action:** Tore Adrion's contract in front of the party after Adrion's disappearance. A power move dressed as a gesture of goodwill.  
+**Next Trigger:** Zatharial reappears when it suits him — likely when the party is vulnerable or at a crossroads  
+**Notes:** The contract is void but he hasn't gone anywhere. He tore it up to make the party feel indebted to him, not to free them. Believes the party are destined to defeat the Light Vassal. Operates independently of DOL and Shadowbringers. His next move will come with a smile and a proposition.
+
+---
+
+## The Goblin Settlement
+**Target:** The party (revenge for the Lumina Lab)  
+**Threat:** Unknown size and strength — settlement location unconfirmed  
+**Urgency:** Low-Medium — slow burn, but word of the Lab's destruction will have reached them  
+**Last Known Action:** All Lumina Lab goblins killed, including Boss Dragg  
+**Next Trigger:** Settlement confirms the party's identity or location; DM discretion on timing  
+**Notes:** Intended as a "hunted" arc — the party becomes the prey. Goblins at the Lab greeted with "Hail the Order, the Order of the Sun" — possible DOL alignment means the settlement may have institutional backing.
+
+---
+
+## Solvetra Meadows — Ecological Decline
+**Target:** Solvetra Meadows (the district itself)  
+**Threat:** Slow ecological collapse — the Queen Bee was apparently load-bearing for the local ecosystem  
+**Urgency:** Low — slow burn, effects not yet visible  
+**Last Known Action:** The party killed the Queen Bee (Phase 2: Queen Bee Spider hybrid) in Session 2/3, with help from Sibling Thorne. A book, *"A History of Bees in Solvetra Meadows,"* was found around the same time, foreshadowing this consequence.  
+**Next Trigger:** DM discretion — first visible signs of die-off in the Meadows (crops, livestock, etc.)  
+**Notes:** Intended as a slow-burn consequence thread. Ties together with the missing Wagyu cow and Cedric Ironvale's disappearance, both also centred on Solvetra Meadows.
+
+---
+
+## Cedric Ironvale — Unpaid Queen Bee Contract
+**Target:** The party (owed payment)  
+**Threat:** None directly — open grievance/loose end  
+**Urgency:** Low  
+**Last Known Action:** Cedric Ironvale (Salt & Song Bazaar) hired the party to deal with the bees/Queen Bee, then disappeared without paying once the job was done.  
+**Next Trigger:** Cedric resurfaces, or the party goes looking for him  
+**Notes:** Whereabouts unknown. Could tie into the broader Solvetra Meadows decline thread.
+
+---
+
+## The Wagyu Cow
+**Target:** Honeyfold farm (Holland & Lira Graye) — party has a loose interest  
+**Threat:** None — mystery/exploration hook  
+**Urgency:** Low — not yet introduced to the party  
+**Last Known Action:** A prize Wagyu cow (10,000gp) went missing from Honeyfold; the party have poked around but not found it.  
+**Next Trigger:** DM discretion — Matthew's intended reveal is that a massive bird took it  
+**Notes:** Planned thread, not yet seeded in-game. See [Session 2 & 3](../../Sessions/Notes/Session%202%20%26%203%20-%20Solvetra%20Meadows.md).
+
+---
+
+## The Lorewarden Emeritus
+**Target:** Not actively hunting — but a collision is coming  
+**Threat:** Senior DOL authority. Holds Key 4 to the vault. Has an outstanding quest given to Plumbodian whose content is undocumented.  
+**Urgency:** Low-Medium — becomes critical the moment the heist begins  
+**Last Known Action:** Gave Plumbodian an undocumented mission in Session 5. Kaelen's stakeout of the Solvetra Vault (where the Lorewarden may be spotted) is planned for Session 7 — not yet played.  
+**Next Trigger:** The vault is robbed and Key 4 becomes necessary — or Plumbodian's quest puts him at odds with the party  
+**Notes:** Signed the Lumina Elixir distribution map as *L.E.* Received a letter from a dying DOL spy: *"The Shadowbringers, my lord — I've been had."* His awareness of the party's involvement in the Lab is unconfirmed.
+
+---
+
 ### Random Encounters
 _Rules & Tables/Encounter Tables/Random Encounters.md_
 
@@ -2284,6 +2623,107 @@ _Rules & Tables/Encounter Tables/Random Encounters.md_
 _Rules & Tables/House Rules/rules-i-made-up.md_
 
 # Rules I made up
+
+---
+
+### Session 1 - Solvetra Meadows
+_Sessions/Notes/Session 1 - Solvetra Meadows.md_
+
+# Session 1 — Solvetra Meadows
+
+---
+
+## Introduction
+
+*Reconstructed retroactively from Matthew's notes — light on exact framing, captures the key beats.*
+
+The campaign opens in **Solvetra Meadows**, an outskirt district of quiet resignation just beyond the lanternlight of Solvetra proper. The world is mid-transition: the **Division of Lumination (DOL)** is actively replacing old lunar iconography and institutions with its own — a visible, ongoing process the party witnesses firsthand in the Meadows.
+
+The party (effectively a band of drunkards at this point) are out and about in the Meadows when they cross paths with **Titus**.
+
+---
+
+## NPC / Location Directory
+
+| Location Type | Location Name | NPC(s) |
+| :---- | :---- | :---- |
+| Outskirts | Solvetra Meadows | Titus |
+| Inn | The Pale Chalice | Catha Morwyn (innhand), Aelric Venn (innkeep) |
+| Lightstation | Lightstation Solvetra Meadows | Titus, DOL Guards |
+
+---
+
+## Session Notes
+
+*What actually happened.*
+
+- The party witnesses the **DOL replacing lunar-aligned symbols/institutions** around Solvetra Meadows — an early visual cue for the DOL vs. lunar-balance throughline.
+- The party scuffles with **Titus**, ties him to a tree, and interrogates him about the DOL.
+- Titus puts up token resistance but, humiliated (the party rolled well), **spills a few details about the DOL** before being left tied up.
+- This resolves the **Humiliate Titus** hook (Catha Morwyn's grievance at The Pale Chalice) — see [Completed Quests](../../Quests/Completed/Solvetra/Solvetra%20Meadows/Completed%20Quests.md).
+
+---
+
+## Threads / To Do
+
+- Titus reappears later at the **Lightstation Solvetra Meadows**, arguing with DOL Guards about his future/career — see *Titus — DOL Argument* in [Completed Quests](../../Quests/Completed/Solvetra/Solvetra%20Meadows/Completed%20Quests.md). Likely Session 2 or 3 — confirm when summarising those sessions.
+- Confirm whether the **Blacksmith** (Steal Steel from the DOL), **Alchemist** (Intro to Lunar Ruins), and **Innkeep** (Haunted Lanterns) quest hooks were picked up in Session 1 or in Sessions 2–3.
+- Establish exactly what the party learns from Titus about the DOL — currently undocumented (carry into Session 2 summary if remembered).
+
+---
+
+### Session 2 & 3 - Solvetra Meadows
+_Sessions/Notes/Session 2 & 3 - Solvetra Meadows.md_
+
+# Session 2 & 3 — Solvetra Meadows
+
+---
+
+## Introduction
+
+*Summarised from Matthew's notes — covers both sessions together as a continuation of Solvetra Meadows.*
+
+The party continues working through Solvetra Meadows, picking up several of the hooks seeded in Session 1 and adding a few new ones of their own.
+
+---
+
+## NPC / Location Directory
+
+| Location Type | Location Name | NPC(s) |
+| :---- | :---- | :---- |
+| Lighthouse | Solvetra Lighthouse | — |
+| Outskirts | The Lanterngreen (Community Board) | Northern Star of the Primordial Fist (goons) |
+| Market | The Salt & Song Bazaar | Cedric Ironvale |
+| Farmhouse | Honeyfold | Holland Graye, Lira Graye |
+| Windmill | Whistlewind Rise | Garrik Windtaker, Priests of the Division ×3 (deceased) |
+| Lightstation | Lightstation Solvetra Meadows | Titus, DOL Guards |
+| Battlefield | Queen Bee's Hive | Queen Bee → Queen Bee Spider (Phase 2), Sibling Thorne |
+
+---
+
+## Session Notes
+
+*What actually happened.*
+
+- **Kaelen found the Måneklang** at the Solvetra Lighthouse — see [Måneklang](../../Loot%20&%20Magic%20Items/Story%20Items/Maneklang.md) for the item itself.
+- **Fenrik dreamed of "Frank"** — a tattered old man who once bested him in a contest of strength, his unbeatable rival. See [Fenrik's Personal Threads](../../Players/Characters/Fenrik.md) for the standing thread.
+- **Northern Star ambush** at The Lanterngreen — the party fought off NSPF goons (per Session 1 setup). A note was recovered, signed only **"ABE"** — presumably Aurevon Beitomy Erstua, the name behind the kill order on Fenrik. Fenrik has no personal connection to anyone in the NSPF by this name. Matthew suspects "Aurevon Beitomy Erstua" may be an anagram for something — unconfirmed, worth revisiting.
+- **The Queen Bee job** — the party took on Cedric Ironvale's request (Salt & Song Bazaar) to deal with the bees disrupting honey sales. They fought and killed the Queen Bee — but it had a **Phase 2: Queen Bee Spider hybrid**. The party called on **Sibling Thorne** for help during this fight, and he dropped lore on them (specifics TBD — flag for follow-up). Cedric, true to the rumour, **dipped without paying** — this is now an active grievance/thread.
+- A book titled **"A History of Bees in Solvetra Meadows"** was found during this — now that the Queen Bee is dead, **Solvetra Meadows is expected to start dying off** ecologically. New active threat.
+- **The Wagyu cow** (Honeyfold farm, Holland & Lira Graye) is still missing — the party are still loosely looking for it. Matthew's intended thread: a massive bird took it. Flagged for future exploration.
+- **The Windmill (Whistlewind Rise)** — the party found and killed the three Priests of the Division stationed there (who were replacing the windmill's lunar symbols), hid the bodies, and fixed the windmill's gear. Garrik Windtaker rewarded them with a mass supply of food.
+- **Titus** — having more or less ragequit the DOL out of shame (per his Lightstation argument), Titus is now an **active informant** for the party.
+
+---
+
+## Threads / To Do
+
+- **"Frank"** — Fenrik's old rival from his escape from the Primordial Fist. Now surfaced via dream. Build toward an eventual confrontation/rematch.
+- **ABE / "Aurevon Beitomy Erstua"** — possible anagram, unconfirmed. Worth a closer look when there's downtime.
+- **Sibling Thorne's lore drop** during the Queen Bee Spider fight — content not yet documented. Fill in if/when remembered.
+- **Cedric Ironvale** — skipped out on payment for the Queen Bee job. Open grievance; Cedric's whereabouts unknown.
+- **Solvetra Meadows ecological decline** — now that the Queen Bee is dead, expect the district to start showing signs of die-off. See [Active Threats](../../Quests/Active/Active%20Threats.md).
+- **The Wagyu Cow** — still missing. Matthew's planned reveal: taken by a massive bird. Not yet introduced to the party.
 
 ---
 
@@ -2904,8 +3344,8 @@ Detect Object:
 
 ---
 
-## Session Template
-_Sessions/Session Template.md_
+### Session 8 - Prep
+_Sessions/Prep/Session 8 - Prep.md_
 
 # Session [#] — [Title]
 
@@ -2984,8 +3424,88 @@ _Sessions/Session Template.md_
 
 ---
 
-### Shop Inventory
-_Shops & Economy/Shop Inventory/Shop Inventory.md_
+### Session Template
+_Sessions/Prep/Session Template.md_
+
+# Session [#] — [Title]
+
+---
+
+## Introduction
+
+*A narrative recap of last session's events and a hook into this one. Written in second-person present tense — describe what the players remember and where they left off, ending on a cliffhanger or inciting moment.*
+
+---
+
+## NPC / Location Directory
+
+| Location Type | Location Name | NPC(s) |
+| :---- | :---- | :---- |
+|  |  |  |
+|  |  |  |
+|  |  |  |
+
+---
+
+## Encounter Templates
+
+| Character | Associated Dice | Initiative Roll | Enemy | HP | Initiative Roll |
+| :---- | :---- | :---- | :---- | :---- | :---- |
+| Kaelen | D20 |  |  |  |  |
+| Fenrik | D8 |  |  |  |  |
+| Plumbodian | D6 |  |  |  |  |
+| Wizzleforth | D4 |  |  |  |  |
+| Adrion | D10 |  |  |  |  |
+
+| Character | Associated Dice | Initiative Roll | Enemy | HP | Initiative Roll |
+| :---- | :---- | :---- | :---- | :---- | :---- |
+| Kaelen | D20 |  |  |  |  |
+| Fenrik | D8 |  |  |  |  |
+| Plumbodian | D6 |  |  |  |  |
+| Wizzleforth | D4 |  |  |  |  |
+| Adrion | D10 |  |  |  |  |
+
+| Character | Associated Dice | Initiative Roll | Enemy | HP | Initiative Roll |
+| :---- | :---- | :---- | :---- | :---- | :---- |
+| Kaelen | D20 |  |  |  |  |
+| Fenrik | D8 |  |  |  |  |
+| Plumbodian | D6 |  |  |  |  |
+| Wizzleforth | D4 |  |  |  |  |
+| Adrion | D10 |  |  |  |  |
+
+---
+
+## Session Prep / Direction
+
+*Key beats, NPC dialogue notes, planned direction for the session. How it's supposed to go.*
+
+-
+-
+-
+
+---
+
+## Session Notes
+
+*What actually happened. Filled in during/after the session.*
+
+-
+-
+-
+
+---
+
+## Threads / To Do
+
+*Unresolved hooks, cliffhangers, and things to carry forward.*
+
+-
+-
+
+---
+
+## Shop Inventory
+_Shops & Economy/Shop Inventory.md_
 
 # Shop Inventory — Full Catalog
 

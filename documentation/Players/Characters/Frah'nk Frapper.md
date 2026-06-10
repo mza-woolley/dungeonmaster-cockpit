@@ -2,6 +2,10 @@
 
 **Age:** 33  
 **Height:** 6'3"  
+**Race:** Orc  
+**Class:** Paladin  
+**Background:** Soldier  
+**Languages:** Common, Orc  
 **Origin:** Wealthy hedge knight family — Order of Light  
 **Affiliation:** Shadowbringers  
 **Introduction:** Friend of Du'geshk Maharjuuj; sent to find the party by Silvanus Shadowfoot

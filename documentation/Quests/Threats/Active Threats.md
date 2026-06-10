@@ -28,7 +28,7 @@
 **Urgency:** Medium — quiet since Solvetra Meadows, but not gone  
 **Last Known Action:** Goons sent to Solvetra Meadows; all killed by the party. Goon killed himself before revealing anything.  
 **Next Trigger:** NSPF learns the party is travelling to Ars Lapis, or Aurevon Beitomy Erstua escalates personally  
-**Notes:** DOL-funded to topple the Dragon Regency. They broke up Fenrik and Sylphie and went after his wife and children. Aurevon Beitomy Erstua is the name behind the hit order.
+**Notes:** DOL-funded to topple the Dragon Regency. They broke up Fenrik and Sylphie and went after his wife and children. Aurevon Beitomy Erstua is the name behind the hit order. A note recovered from the Session 2/3 ambush at The Lanterngreen was signed only **"ABE"** — Fenrik has no personal connection to anyone in the NSPF by this name. Matthew suspects "Aurevon Beitomy Erstua" may be an anagram for something — unconfirmed.
 
 ---
 
@@ -52,10 +52,40 @@
 
 ---
 
+## Solvetra Meadows — Ecological Decline
+**Target:** Solvetra Meadows (the district itself)  
+**Threat:** Slow ecological collapse — the Queen Bee was apparently load-bearing for the local ecosystem  
+**Urgency:** Low — slow burn, effects not yet visible  
+**Last Known Action:** The party killed the Queen Bee (Phase 2: Queen Bee Spider hybrid) in Session 2/3, with help from Sibling Thorne. A book, *"A History of Bees in Solvetra Meadows,"* was found around the same time, foreshadowing this consequence.  
+**Next Trigger:** DM discretion — first visible signs of die-off in the Meadows (crops, livestock, etc.)  
+**Notes:** Intended as a slow-burn consequence thread. Ties together with the missing Wagyu cow and Cedric Ironvale's disappearance, both also centred on Solvetra Meadows.
+
+---
+
+## Cedric Ironvale — Unpaid Queen Bee Contract
+**Target:** The party (owed payment)  
+**Threat:** None directly — open grievance/loose end  
+**Urgency:** Low  
+**Last Known Action:** Cedric Ironvale (Salt & Song Bazaar) hired the party to deal with the bees/Queen Bee, then disappeared without paying once the job was done.  
+**Next Trigger:** Cedric resurfaces, or the party goes looking for him  
+**Notes:** Whereabouts unknown. Could tie into the broader Solvetra Meadows decline thread.
+
+---
+
+## The Wagyu Cow
+**Target:** Honeyfold farm (Holland & Lira Graye) — party has a loose interest  
+**Threat:** None — mystery/exploration hook  
+**Urgency:** Low — not yet introduced to the party  
+**Last Known Action:** A prize Wagyu cow (10,000gp) went missing from Honeyfold; the party have poked around but not found it.  
+**Next Trigger:** DM discretion — Matthew's intended reveal is that a massive bird took it  
+**Notes:** Planned thread, not yet seeded in-game. See [Session 2 & 3](../../Sessions/Notes/Session%202%20%26%203%20-%20Solvetra%20Meadows.md).
+
+---
+
 ## The Lorewarden Emeritus
 **Target:** Not actively hunting — but a collision is coming  
 **Threat:** Senior DOL authority. Holds Key 4 to the vault. Has an outstanding quest given to Plumbodian whose content is undocumented.  
 **Urgency:** Low-Medium — becomes critical the moment the heist begins  
-**Last Known Action:** Spotted at the Solvetra Vault during Kaelen's stakeout (Session 7). Gave Plumbodian an undocumented mission in Session 5.  
+**Last Known Action:** Gave Plumbodian an undocumented mission in Session 5. Kaelen's stakeout of the Solvetra Vault (where the Lorewarden may be spotted) is planned for Session 7 — not yet played.  
 **Next Trigger:** The vault is robbed and Key 4 becomes necessary — or Plumbodian's quest puts him at odds with the party  
 **Notes:** Signed the Lumina Elixir distribution map as *L.E.* Received a letter from a dying DOL spy: *"The Shadowbringers, my lord — I've been had."* His awareness of the party's involvement in the Lab is unconfirmed.
