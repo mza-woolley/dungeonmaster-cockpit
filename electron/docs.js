@@ -116,6 +116,29 @@ function register(ipcMain) {
     } catch (err) { return { success: false, error: err.message }; }
   });
 
+  ipcMain.handle('docs:duplicate', (_, targetPath) => {
+    try {
+      assertInsideDocs(targetPath);
+      const stat = fs.statSync(targetPath);
+      const dir  = path.dirname(targetPath);
+      const ext  = stat.isDirectory() ? '' : path.extname(targetPath);
+      const base = path.basename(targetPath, ext);
+
+      let newName = `${base} (1)${ext}`;
+      let counter = 1;
+      while (fs.existsSync(path.join(dir, newName))) {
+        counter++;
+        newName = `${base} (${counter})${ext}`;
+      }
+      const newPath = path.join(dir, newName);
+
+      if (stat.isDirectory()) fs.cpSync(targetPath, newPath, { recursive: true });
+      else fs.copyFileSync(targetPath, newPath);
+
+      return { success: true, newPath };
+    } catch (err) { return { success: false, error: err.message }; }
+  });
+
   ipcMain.handle('docs:delete', (_, targetPath) => {
     try {
       assertInsideDocs(targetPath);

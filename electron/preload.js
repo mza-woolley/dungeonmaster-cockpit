@@ -124,6 +124,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     rename:      (oldPath, newName)          => ipcRenderer.invoke('docs:rename', { oldPath, newName }),
     move:        (itemPath, destFolder)     => ipcRenderer.invoke('docs:move', { itemPath, destFolder }),
     delete:      (targetPath)               => ipcRenderer.invoke('docs:delete', targetPath),
+    duplicate:   (targetPath)               => ipcRenderer.invoke('docs:duplicate', targetPath),
     pickImage:   ()                          => ipcRenderer.invoke('docs:pickImage'),
     importImage: (sourcePath)               => ipcRenderer.invoke('docs:importImage', { sourcePath }),
     readImage:    (relativePath)            => ipcRenderer.invoke('docs:readImage', relativePath),

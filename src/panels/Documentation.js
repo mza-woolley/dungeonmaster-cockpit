@@ -76,7 +76,7 @@ const DocImage = React.memo(function DocImage({ src, alt }) {
 });
 
 // Portal-based context menu — bypasses panel CSS transform stacking context
-function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onMove, onDelete, onClose }) {
+function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onMove, onDuplicate, onDelete, onClose }) {
   const ref = useRef();
 
   useEffect(() => {
@@ -85,7 +85,7 @@ function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onMove,
     return () => window.removeEventListener('mousedown', handler);
   }, [onClose]);
 
-  const menuW = 160, menuH = isFolder ? 148 : 108;
+  const menuW = 160, menuH = isFolder ? 184 : 144;
   const left = x + menuW > window.innerWidth  ? x - menuW : x;
   const top  = y + menuH > window.innerHeight ? y - menuH : y;
 
@@ -100,13 +100,14 @@ function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onMove,
       )}
       <button onClick={onRename}>Rename</button>
       <button onClick={onMove}>Move to…</button>
+      <button onClick={onDuplicate}>Duplicate</button>
       <button className="danger" onClick={onDelete}>Delete</button>
     </div>,
     document.body
   );
 }
 
-function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRename, onMove, onDelete, onNewFile, onNewFolder, depth }) {
+function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRename, onMove, onDuplicate, onDelete, onNewFile, onNewFolder, depth }) {
   const [ctx, setCtx]           = useState(null);
   const [renaming, setRenaming] = useState(false);
   const [renameVal, setRenameVal] = useState('');
@@ -165,6 +166,7 @@ function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRe
           onNewFolder={() => { setCtx(null); onNewFolder(node.path); }}
           onRename={startRename}
           onMove={() => { setCtx(null); onMove(node.path, node.name, node.type); }}
+          onDuplicate={() => { setCtx(null); onDuplicate(node.path, node.type); }}
           onDelete={() => { setCtx(null); onDelete(node.path, node.type, node.name); }}
           onClose={() => setCtx(null)}
         />
@@ -180,6 +182,7 @@ function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRe
           onToggleExpand={onToggleExpand}
           onRename={onRename}
           onMove={onMove}
+          onDuplicate={onDuplicate}
           onDelete={onDelete}
           onNewFile={onNewFile}
           onNewFolder={onNewFolder}
@@ -451,6 +454,12 @@ export default function Documentation() {
     await loadTree();
   };
 
+  const handleDuplicate = async (itemPath) => {
+    const res = await api.duplicate(itemPath);
+    if (!res?.success) { setError(res?.error || 'Duplicate failed'); return; }
+    await loadTree();
+  };
+
   const handleDelete = (itemPath, type, name) => setConfirmDel({ path: itemPath, type, name });
 
   const doDelete = async () => {
@@ -587,6 +596,7 @@ export default function Documentation() {
               onToggleExpand={toggleExpand}
               onRename={handleRename}
               onMove={handleMove}
+              onDuplicate={handleDuplicate}
               onDelete={handleDelete}
               onNewFile={handleNewFile}
               onNewFolder={handleNewFolder}

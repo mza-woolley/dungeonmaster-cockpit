@@ -2,6 +2,14 @@
 
 ---
 
+## v0.9.7 — June 2026
+
+### 🔧 Changes
+
+- Documentation: files and folders can now be duplicated via the right-click menu
+
+---
+
 ## v0.9.6 — June 2026
 
 ### 🔧 Changes
