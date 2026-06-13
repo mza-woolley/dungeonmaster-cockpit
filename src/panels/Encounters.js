@@ -869,7 +869,7 @@ const ENCOUNTER_ACTIVE_KEY = 'dm-cockpit:encounter-active';
 
 // ── Main Encounters Panel ──────────────────────────────────
 export default function Encounters() {
-  const [tab, setTab]               = useState('monsters');
+  const [tab, setTab]               = useState('initiative');
   const [search, setSearch]         = useState('');
   const [filterCr, setFilterCr]     = useState('');
   const [filterType, setFilterType] = useState('');
@@ -1092,11 +1092,11 @@ export default function Encounters() {
         <button className={`enc-tab ${tab === 'npcs'       ? 'active' : ''}`} onClick={() => setTab('npcs')}>
           🎭 NPCs
         </button>
-        <button className={`enc-tab ${tab === 'monsters'   ? 'active' : ''}`} onClick={() => setTab('monsters')}>
-          🐉 Monsters
-        </button>
         <button className={`enc-tab ${tab === 'initiative' ? 'active' : ''}`} onClick={() => setTab('initiative')}>
           ⚔️ Initiative
+        </button>
+        <button className={`enc-tab ${tab === 'monsters'   ? 'active' : ''}`} onClick={() => setTab('monsters')}>
+          🐉 Monsters
         </button>
       </div>
 

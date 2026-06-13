@@ -8,7 +8,7 @@ _The vault heist is the pivot point of the first arc. Everything before it built
 Before mapping outcomes, be clear on the layers:
 
 - **Adrion's debt** — 5,000gp to Lucien Morvault in 5 nights. The 5,000gp is a buyout clause — the original bargain was Adrion handing over the next adventuring party (the PCs) to Morvault in exchange for his own escape after his village burned. Failure to pay defaults to that original term: Lucien collects the party itself via a binding claim, not combat. See [Lucien Morvault](../NPCs/Villains/Lucien%20Morvault.md).
-- **The Shadowbringers' war chest** — the vault holds DOL funds. Draining it cripples the Division's finances in Solvetra.
+- **Draining the DOL's funds** — the vault holds DOL funds. The Shadowbringers don't care where the gold ends up afterward — what matters is that it's out of DOL hands. Draining it cripples the Division's finances in Solvetra.
 - **The DOL's symbolic power** — the vault *is* the Division's control over citizens. Robbing it is a public act of defiance whether the party wants it to be or not.
 - **The party's cover** — after the Lumina Lab, the DOL already know these people exist. The vault heist ends that ambiguity entirely.
 
@@ -17,13 +17,28 @@ Before mapping outcomes, be clear on the layers:
 ## The Four Outcomes
 
 ### A — Full Success
-The party gets the gold, pays Lucien, the Shadowbringers get their cut, nobody dies, nobody is identified.
+The party gets the gold, pays Lucien, the vault is drained from DOL control, nobody dies, nobody is identified by name (though the DOL knows it was a heist — they just don't know who did it).
 
 - Does the DOL know it was robbed immediately, or is there a window of confusion?
+
+The DOL may know about the bank heist, but what determines what/if the DOL knows who has done it. At the very least, the DOL should know that there was a thread or two that ties the operation to those in Solvetra Intermellum. I think the vibe here is there the DOL has become complacent in years on their authorative measure and therefore would let crime talks, even from the crime-capital Solvera Intermellum, fall through the cracks. It's dependant on whether the player's too aren't raising suspicion within Solvetra when they are talking to NPCs to acquire items/goods from the Heist.
+
 - How does the DOL explain the missing funds to the citizens whose money it was?
+
+The DOL will spin this positively - they will be able to replace the funds 1:1 due to their underworld operations, so this is just their legalfront. As they replace this money, they will use this as a PR activity in order to get the trust of it's citizens - especially if there are people/citizens who witness the crime happening. Citizens would react with gratefulness, shifting the responsibility of the issue with the bank from the DOL to unidentified thieves. The DOL knows it was a heist - they just don't know who's responsible.
+
 - Does the Lorewarden Emeritus respond personally — and what does that look like?
-- Does Silas get what he needed from this, or does the Shadowbringer war chest change his plans in a way the party didn't expect?
+
+TBD
+
+- Does Silas get what he needed from this, or does what's found in the vault change his plans in a way the party didn't expect?
+
+Will have to go through what the contents of the vault are and get this organised. I do believe there should be a couple of threads in here that get answered but are somewhat a red herring - as in, it shouldn't be a coincedence that there's information pertaining to active/current issues in there.
+TBD
+
 - What does Lucien Morvault do when he's paid — does he just leave, or does getting his money reveal something about *why* he wanted it and what the "agreement" with Adrion actually was?
+
+Lucian Morvault should definitely let PC's off the hook because it wasn't really their debt to begin with - but he should also be a form of contact that the player's have and can utilise for high-paying contracted jobs. Once paid, he can confirm the truth of the "agreement" - that Adrion's village burned, and to buy his own escape Adrion signed the next adventuring party he fell in with (the PCs) over to Morvault as the real bargain, with the 5,000gp framed as a buyout clause. Now that it's settled, Morvault has no further claim on the party.
 
 ---
 
@@ -31,9 +46,20 @@ The party gets the gold, pays Lucien, the Shadowbringers get their cut, nobody d
 They get some gold — enough for Lucien, not enough to cripple the DOL, or vice versa. Or they get in and out but leave a trail.
 
 - If they can only do one — pay Lucien or fund the Shadowbringers — which do they choose, and what does the unchosen consequence look like?
+
+If/once the PCs steal the money - they are 100% are doing whatever they feel is necessary with the money. If they pay Lucien, if they don't, etc. They will not have to pay or fund the Shadowbringer however as the point of the heist isn't for the Shadowbringers to revenue raise; it's for the Shadowbringers to bring a financial crippling to the DOL, so that they may thin resources and tear down their walls, slowly.
+
 - If they leave a trail (a witness, a dead guard, Traelensch rats them out), how quickly does the DOL identify the party by name?
+
+The DOL shouldn't really be able to finger the PCs as the problem. The thing being that, the DOL only really knows about the Shadowbringers as there more "active" rebellious group in Solvetra, but they've always been kind of passive (DOL interpretation). In reality, the Shadowbringers have fingers in many pies and are actually quite active on the anti-establishment of the DOL. In this, the DOL would only think the Shadowbringers can be behind this, and not the newly arrived PCs - and even then, they would know about it as they underestimate the Shadowbringers.
+
 - If Vanya Windros' key isn't recovered, what happens to that 4th lock? Does the vault stay partially sealed?
+
+TBD - need to review plan and adjust.
+
 - Does a partial win feel like a win to the Shadowbringers, or does Silas' trust in the party take a hit?
+
+As long as money is taken from the vault/information taken from the vault that leads to financial crippling - that would be a win for the Shadowbringers. Their goal is to fundamnentally choke-out resourcing of the DOL to flush out whale spenders, responses/reactions, etc - and the DOL can only take so much. For the the Shadowbringers, this is an excerice is how strong the DOL front really is. The DOL should be imcompetent to this fact and actively replace lost resourcing (PCs/Silas don't know this).
 
 ---
 

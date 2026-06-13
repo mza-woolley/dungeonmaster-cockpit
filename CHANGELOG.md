@@ -2,6 +2,16 @@
 
 ---
 
+## v0.10.1 — June 2026
+
+### 🔧 Changes
+
+- Encounters: "Initiative" is now the default tab and sits in the middle of the tab order
+- Table Display: revamped visuals — atmospheric vignette background, gold corner flourishes, pulsing glow on the active seat, a center round/turn emblem, redesigned HP bars, and condition icons
+- Table Display: can now show a live map background (pins, fog, grid) behind the seat HUD, synced independently from the main Display tab
+
+---
+
 ## v0.10.0 — The Huge Underrated Display Update — June 2026
 
 ### ✨ New

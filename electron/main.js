@@ -198,12 +198,18 @@ ipcMain.handle('tv:close', () => {
   catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('tv:pushImage', (_, imagePath) => {
-  try { tv.pushImage(imagePath); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
+  try {
+    tv.pushImage(imagePath);
+    table.syncMapImage(imagePath);
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('tv:clear', () => {
-  try { tv.clearTvDisplay(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
+  try {
+    tv.clearTvDisplay();
+    table.clearMap();
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('tv:isOpen', () => {
   const w = tv.getTvWindow();
@@ -221,23 +227,36 @@ ipcMain.handle('tv:readImage', (_, imagePath) => {
   } catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('tv:syncFog', (_, fogDataUrl) => {
-  try { tv.syncFog(fogDataUrl); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
+  try {
+    tv.syncFog(fogDataUrl);
+    table.syncMapFog(fogDataUrl);
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.on('tv:brushStroke', (_, { nx, ny, radius }) => {
   try { tv.syncBrushStroke(nx, ny, radius); } catch (_e) {}
+  try { table.syncMapBrushStroke(nx, ny, radius); } catch (_e) {}
 });
 ipcMain.handle('tv:syncPins', (_, { pins, hideAllNpcs, hideAllMonsters, pinSize }) => {
-  try { tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
+  try {
+    tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
+    table.syncMapPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('tv:syncGrid', (_, { enabled, size }) => {
-  try { tv.syncGrid(enabled, size); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
+  try {
+    tv.syncGrid(enabled, size);
+    table.syncMapGrid(enabled, size);
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('tv:syncOverlay', (_, state) => {
-  try { tv.syncOverlay(state); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
+  try {
+    tv.syncOverlay(state);
+    table.syncMapOverlay(state);
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('table:open', () => {
   try { table.openTableWindow(); return { success: true }; }
