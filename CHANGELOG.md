@@ -2,6 +2,20 @@
 
 ---
 
+## v0.10.3 — June 2026
+
+### ✨ New
+
+- Encounters: encounter presets can now optionally link a saved map state — loading the preset also loads its linked map (fog, pins, grid) onto the Display
+- Map/TV Display: new "✕ Clear" button resets fog, pins, and grid to a clean default without touching saved map states
+
+### 🔧 Changes
+
+- Map/TV Display: selecting a map now always loads a clean default state instead of auto-restoring the last-used fog/pins/grid for that map
+- Encounters: cleaned up the "Save Preset" UI — name field is now styled to match the theme, and saving now drops into its own row instead of crowding the preset bar
+
+---
+
 ## v0.10.2 — June 2026
 
 ### 🔧 Changes

@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, forwardRef, useImperativeHandle } from 'react';
 import './TVDisplay.css';
 
 const FOLDER_KEY = 'dm-cockpit-tv-folder';
 const FILES_KEY  = 'dm-cockpit-tv-files';
 const FAVS_KEY   = 'dm-cockpit-tv-favs';
-const LAST_STATE_PREFIX = 'dm-cockpit-tv-laststate:';
 
 const GRID_SIZES   = ['tiny', 'small', 'medium', 'large'];
 const GRID_PX      = { tiny: 20, small: 40, medium: 60, large: 80 };
@@ -134,7 +133,7 @@ function SaveStateModal({ onSave, onClose }) {
 }
 
 // ── Main component ────────────────────────────────────────
-export default function TVDisplay({ linkTable = false, hideOpenButton = false, onOpenChange = null } = {}) {
+const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenButton = false, onOpenChange = null } = {}, ref) {
   // ── Folder / file state ──
   const [folder, setFolder] = useState(() => localStorage.getItem(FOLDER_KEY) || '');
   const [files,  setFiles]  = useState(() => { try { return JSON.parse(localStorage.getItem(FILES_KEY) || '[]'); } catch { return []; } });
@@ -613,12 +612,18 @@ export default function TVDisplay({ linkTable = false, hideOpenButton = false, o
       window.electronAPI.tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
     }
 
-    // Auto-restore the last-used state for this map (grid/fog/pins memory)
+    // Reset to a clean default state — fully fogged, no pins/grid — rather
+    // than auto-restoring the last-used state. Load a saved scene manually if needed.
     if (autoRestore) {
-      const lastId = localStorage.getItem(`${LAST_STATE_PREFIX}${file.path}`);
-      const lastState = lastId && mapStatesRef.current.find(s => s.id === lastId);
-      if (lastState) handleLoadStateRef.current(lastState);
-      else setCurrentStateId(null);
+      setCurrentStateId(null);
+      setPins([]);
+      setGridEnabled(false);
+      setHideAllNpcs(false);
+      setHideAllMonsters(false);
+      if (isElectron) {
+        window.electronAPI.tv.syncGrid(false, gridSize);
+        window.electronAPI.tv.syncPins([], false, false, pinSize);
+      }
     }
   }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas, dmImageDataUrl, linkTable, onOpenChange]);
 
@@ -688,7 +693,6 @@ export default function TVDisplay({ linkTable = false, hideOpenButton = false, o
     if (res.success) {
       setMapStates(prev => [...prev.filter(s => s.id !== state.id), state]);
       setCurrentStateId(state.id);
-      if (active) localStorage.setItem(`${LAST_STATE_PREFIX}${active}`, state.id);
     }
   }
 
@@ -745,6 +749,28 @@ export default function TVDisplay({ linkTable = false, hideOpenButton = false, o
   }
 
   handleLoadStateRef.current = handleLoadState;
+
+  // Allow parent panels (e.g. Encounters) to trigger a map state load directly
+  useImperativeHandle(ref, () => ({
+    loadMapState: (id) => {
+      const state = mapStatesRef.current.find(s => s.id === id);
+      if (state) handleLoadState(state);
+    },
+  }));
+
+  // Reset overlay (fog/pins/grid) to a clean default, without touching saved states
+  function handleClearState() {
+    setCurrentStateId(null);
+    setPins([]);
+    setGridEnabled(false);
+    setHideAllNpcs(false);
+    setHideAllMonsters(false);
+    handleResetFog();
+    if (isElectron) {
+      window.electronAPI.tv.syncGrid(false, gridSize);
+      window.electronAPI.tv.syncPins([], false, false, pinSize);
+    }
+  }
 
   async function handleDeleteState(id, e) {
     e.stopPropagation();
@@ -1035,6 +1061,7 @@ export default function TVDisplay({ linkTable = false, hideOpenButton = false, o
                   <button className="ov-btn small" onClick={quickSaveState} title="Overwrite the loaded state with current settings">⟳ Quick Save</button>
                 )}
                 <button className="ov-btn small" onClick={() => setShowSaveModal(true)}>+ Save</button>
+                <button className="ov-btn small" onClick={handleClearState} title="Reset fog, pins and grid to a clean default">✕ Clear</button>
               </div>
               {mapStates.length === 0 && (
                 <div className="ov-empty">No saved states yet.</div>
@@ -1109,4 +1136,6 @@ export default function TVDisplay({ linkTable = false, hideOpenButton = false, o
       )}
     </div>
   );
-}
+});
+
+export default TVDisplay;

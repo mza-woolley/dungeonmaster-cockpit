@@ -567,6 +567,22 @@
 .init-encounter-preset-row .encounter-preset-select {
   flex: 1;
 }
+.init-save-preset-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px;
+  padding: 8px;
+  background: #0a0906;
+  border: 1px solid #2e2416;
+  border-radius: 4px;
+}
+.init-save-preset-row .preset-name-input {
+  flex: 1.4;
+}
+.init-save-preset-row .encounter-preset-select {
+  flex: 1;
+}
 .init-pc-btn {
   background: #1a1510;
   border: 1px solid #3a2e1a;
@@ -788,7 +804,20 @@
   outline: none;
 }
 .initiative-add input:focus { border-color: #c9a84c; }
-.initiative-name-input { flex: 1; min-width: 0; }
+.initiative-name-input {
+  flex: 1;
+  min-width: 0;
+  background: #17120c;
+  border: 1px solid #3a2e1a;
+  color: #e8d5a3;
+  padding: 7px 10px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  border-radius: 3px;
+  outline: none;
+}
+.initiative-name-input:focus { border-color: #c9a84c; }
+.initiative-name-input::placeholder { color: #5a4a28; }
 .initiative-num-input  { width: 52px; flex-shrink: 0; }
 .initiative-add .sb-btn { padding: 3px 9px; font-size: 0.72rem; }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Encounters.css';
 import { ambienceEngine } from './SceneControl';
 import TVDisplay from './TVDisplay';
@@ -403,6 +403,9 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
   });
   const [libraryPresetId, setLibraryPresetId] = useState('');
   const [savingPresetName, setSavingPresetName] = useState(null);
+  const [savingMapStateId, setSavingMapStateId] = useState('');
+  const [mapStates, setMapStates] = useState([]);
+  const tvRef = useRef(null);
   const [seatAssignments, setSeatAssignments] = useState(() => {
     try { return JSON.parse(localStorage.getItem(TABLE_SEATS_KEY)) || {}; } catch { return {}; }
   });
@@ -415,14 +418,20 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
     localStorage.setItem(ENCOUNTER_PRESETS_KEY, JSON.stringify(next));
   };
 
-  const startSavePreset = () => { if (combatants.length > 0) setSavingPresetName(''); };
+  const startSavePreset = () => { if (combatants.length > 0) { setSavingPresetName(''); setSavingMapStateId(''); } };
 
   const confirmSavePreset = () => {
     const name = (savingPresetName || '').trim();
     if (!name) return;
-    const preset = { id: uid(), name, combatants: combatants.map(({ id, ...rest }) => rest) };
+    const preset = {
+      id: uid(),
+      name,
+      combatants: combatants.map(({ id, ...rest }) => rest),
+      mapStateId: savingMapStateId || null,
+    };
     persistEncPresets([...encPresets, preset]);
     setSavingPresetName(null);
+    setSavingMapStateId('');
     setLibraryPresetId(preset.id);
   };
 
@@ -430,6 +439,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
     const preset = encPresets.find(p => p.id === id);
     if (!preset) return;
     setCombatants(prev => [...prev, ...preset.combatants.map(c => ({ ...c, id: uid() }))]);
+    if (preset.mapStateId) tvRef.current?.loadMapState(preset.mapStateId);
   };
 
   const deleteEncounterPreset = (id) => {
@@ -527,6 +537,12 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
     window.electronAPI.tv.isOpen().then(setDisplaysOpen);
   }, [isElectron]);
 
+  // ── Saved map states (for linking to encounter presets) ──
+  useEffect(() => {
+    if (!isElectron) return;
+    window.electronAPI.mapStates.load().then(setMapStates);
+  }, [isElectron]);
+
   useEffect(() => {
     if (!isElectron || !displaysOpen) return;
     const seats = {};
@@ -582,7 +598,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
 
       {/* ── Map / Overlay pane (same Display tab editor) ── */}
       <div className="initiative-map-pane">
-        <TVDisplay linkTable onOpenChange={setDisplaysOpen} />
+        <TVDisplay ref={tvRef} linkTable onOpenChange={setDisplaysOpen} />
       </div>
 
       <div className="initiative-tracker-pane">
@@ -598,29 +614,43 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
             title="Load a saved encounter preset into the tracker"
           >
             <option value="">— Load encounter preset —</option>
-            {encPresets.map(p => <option key={p.id} value={p.id}>{p.name} ({p.combatants.length})</option>)}
+            {encPresets.map(p => (
+              <option key={p.id} value={p.id}>
+                {p.name} ({p.combatants.length}){p.mapStateId ? ' 🗺️' : ''}
+              </option>
+            ))}
           </select>
           {libraryPresetId && (
             <button className="sb-btn danger small" title="Delete this preset" onClick={() => deleteEncounterPreset(libraryPresetId)}>✕</button>
           )}
-          {savingPresetName === null ? (
+          {savingPresetName === null && (
             <button className="sb-btn" onClick={startSavePreset} disabled={combatants.length === 0} title="Save current combatants as a preset">💾 Save Preset</button>
-          ) : (
-            <>
-              <input
-                type="text"
-                autoFocus
-                className="initiative-name-input"
-                placeholder="Preset name…"
-                value={savingPresetName}
-                onChange={e => setSavingPresetName(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') confirmSavePreset(); if (e.key === 'Escape') setSavingPresetName(null); }}
-              />
-              <button className="sb-btn primary small" onClick={confirmSavePreset}>Save</button>
-              <button className="sb-btn small" onClick={() => setSavingPresetName(null)}>Cancel</button>
-            </>
           )}
         </div>
+        {savingPresetName !== null && (
+          <div className="init-row init-save-preset-row">
+            <input
+              type="text"
+              autoFocus
+              className="initiative-name-input preset-name-input"
+              placeholder="Preset name…"
+              value={savingPresetName}
+              onChange={e => setSavingPresetName(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') confirmSavePreset(); if (e.key === 'Escape') setSavingPresetName(null); }}
+            />
+            <select
+              className="encounter-preset-select"
+              value={savingMapStateId}
+              onChange={e => setSavingMapStateId(e.target.value)}
+              title="Optionally link a saved map state to load with this preset"
+            >
+              <option value="">— No map state —</option>
+              {mapStates.map(s => <option key={s.id} value={s.id}>🗺️ {s.name}</option>)}
+            </select>
+            <button className="sb-btn primary small" onClick={confirmSavePreset}>Save</button>
+            <button className="sb-btn small" onClick={() => setSavingPresetName(null)}>Cancel</button>
+          </div>
+        )}
       </section>
 
       {/* ══ SECTION: Build Encounter ══ */}
