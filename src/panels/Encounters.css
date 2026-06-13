@@ -527,6 +527,37 @@
   flex-wrap: wrap;
   gap: 5px;
 }
+.table-seats-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.table-seats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 6px;
+  margin-top: 6px;
+  padding: 8px;
+  background: #1a1510;
+  border: 1px solid #3a2e1a;
+  border-radius: 4px;
+}
+.table-seat-select {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.7rem;
+  color: #b9ad97;
+}
+.table-seat-select select {
+  font-family: 'Georgia', serif;
+  background: #0c0a08;
+  color: #e8e0d0;
+  border: 1px solid #3a2e1a;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 0.78rem;
+}
 .init-encounter-preset-row {
   display: flex;
   align-items: center;

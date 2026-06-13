@@ -2,6 +2,16 @@
 
 ---
 
+## v0.10.0 — The Huge Underrated Display Update — June 2026
+
+### ✨ New
+
+- Encounters: new **Table Display** pop-out — a second-monitor HUD that gives each of the 6 player seats their own live panel (name, HP bar, AC, initiative, conditions, and a "Your Turn" highlight), each oriented to read correctly from that seat around the table
+- Encounters: "Table Seats" panel in the Initiative tab lets you assign each PC to a seat (Top Left/Right, Far Left/Right, DM Left/Right), saved automatically for future sessions
+- Encounters: "Open/Close Table Display" toggle pops the HUD onto a secondary monitor, syncing live as combat state changes (HP, initiative, turn order, conditions)
+
+---
+
 ## v0.9.7 — June 2026
 
 ### 🔧 Changes

@@ -372,6 +372,17 @@ const CONDITIONS = [
   { key: 'concentrating', label: 'Concentrating', icon: '🎯' },
 ];
 
+const TABLE_SEATS_KEY = 'dm-cockpit:table-seats';
+const TABLE_SEAT_IDS = ['top-1', 'top-2', 'left-1', 'left-2', 'right-1', 'right-2'];
+const TABLE_SEAT_LABELS = {
+  'top-1':   'Top Right',
+  'top-2':   'Top Left',
+  'left-1':  'Far Right',
+  'left-2':  'Far Left',
+  'right-1': 'DM Right',
+  'right-2': 'DM Left',
+};
+
 function roll(mod = 0) {
   return Math.floor(Math.random() * 20) + 1 + mod;
 }
@@ -391,6 +402,11 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
   });
   const [libraryPresetId, setLibraryPresetId] = useState('');
   const [savingPresetName, setSavingPresetName] = useState(null);
+  const [seatAssignments, setSeatAssignments] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(TABLE_SEATS_KEY)) || {}; } catch { return {}; }
+  });
+  const [tableOpen, setTableOpen] = useState(false);
+  const [seatsExpanded, setSeatsExpanded] = useState(false);
   const isElectron = !!window.electronAPI;
 
   const persistEncPresets = (next) => {
@@ -494,6 +510,68 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
   };
   const rollAll = () => { setCombatants(prev => prev.map(c => c.isPC ? c : { ...c, initiative: roll(c.initMod || 0) })); setTurn(0); };
 
+  const assignSeat = (seatId, pcName) => {
+    setSeatAssignments(prev => {
+      const next = { ...prev };
+      if (pcName) next[seatId] = pcName;
+      else delete next[seatId];
+      localStorage.setItem(TABLE_SEATS_KEY, JSON.stringify(next));
+      return next;
+    });
+  };
+
+  // ── Table Display (per-seat HUD) ──
+  useEffect(() => {
+    if (!isElectron) return;
+    window.electronAPI.table.isOpen().then(setTableOpen);
+  }, [isElectron]);
+
+  const toggleTableDisplay = async () => {
+    if (!isElectron) return;
+    if (tableOpen) {
+      await window.electronAPI.table.close();
+      setTableOpen(false);
+    } else {
+      await window.electronAPI.table.open();
+      setTableOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    if (!isElectron || !tableOpen) return;
+    const seats = {};
+    TABLE_SEAT_IDS.forEach(seatId => {
+      const pcName = seatAssignments[seatId];
+      if (!pcName) return;
+      const pc = pcQuick.find(p => p.name === pcName);
+      const idx = sorted.findIndex(c => c.name === pcName);
+      if (idx === -1) {
+        // Not in the tracker yet — show the seat's PC by default, no combat info.
+        seats[seatId] = {
+          name: pcName,
+          class: pc?.class,
+          species: pc?.species,
+          inCombat: false,
+        };
+        return;
+      }
+      const c = sorted[idx];
+      seats[seatId] = {
+        name: c.name,
+        class: pc?.class,
+        species: pc?.species,
+        ac: c.monsterData?.ac,
+        hp: c.hp,
+        maxHp: c.maxHp,
+        initiative: c.initiative,
+        conditions: (c.conditions || []).map(key => CONDITIONS.find(cd => cd.key === key)?.label || key),
+        active: idx === turn,
+        inCombat: true,
+      };
+    });
+    window.electronAPI.table.sync({ seats, round, turn });
+  }, [combatants, turn, round, seatAssignments, tableOpen, isElectron]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const toggleCondition = (id, cond) => setCombatants(prev => prev.map(c => {
     if (c.id !== id) return c;
     const has = (c.conditions || []).includes(cond);
@@ -566,6 +644,38 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
           ))}
           <button className="init-pc-btn add-all" onClick={addAllPCs}>+ All PCs</button>
         </div>
+
+        {/* Table seat assignments */}
+        <div className="init-row table-seats-row">
+          <button className="sb-btn small" onClick={() => setSeatsExpanded(e => !e)}>
+            🪑 Table Seats {seatsExpanded ? '▲' : '▼'}
+          </button>
+          {isElectron && (
+            <button
+              className={`sb-btn small ${tableOpen ? 'primary' : ''}`}
+              onClick={toggleTableDisplay}
+              title="Pop out the per-seat HP/initiative display"
+            >
+              {tableOpen ? '📺 Close Table Display' : '📺 Open Table Display'}
+            </button>
+          )}
+        </div>
+        {seatsExpanded && (
+          <div className="init-row table-seats-grid">
+            {TABLE_SEAT_IDS.map(seatId => (
+              <label key={seatId} className="table-seat-select">
+                <span className="table-seat-label">{TABLE_SEAT_LABELS[seatId]}</span>
+                <select
+                  value={seatAssignments[seatId] || ''}
+                  onChange={e => assignSeat(seatId, e.target.value)}
+                >
+                  <option value="">— none —</option>
+                  {pcQuick.map(pc => <option key={pc.name} value={pc.name}>{pc.name}</option>)}
+                </select>
+              </label>
+            ))}
+          </div>
+        )}
 
         {/* Monster search */}
         <div className="init-row init-mon-search-wrap">

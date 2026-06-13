@@ -65,6 +65,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
     syncOverlay: (state)                               => ipcRenderer.invoke('tv:syncOverlay', state),
   },
 
+  // Table Display (per-seat HUD)
+  table: {
+    open:    ()      => ipcRenderer.invoke('table:open'),
+    close:   ()      => ipcRenderer.invoke('table:close'),
+    isOpen:  ()      => ipcRenderer.invoke('table:isOpen'),
+    sync:    (state) => ipcRenderer.invoke('table:sync', state),
+  },
+
   // Map States (presets)
   mapStates: {
     load:   ()        => ipcRenderer.invoke('mapStates:load'),

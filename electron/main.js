@@ -14,6 +14,7 @@ const nanoleaf = require('./nanoleaf');
 const pixie     = require('./pixie');
 const colorLoop = require('./colorLoop');
 const tv        = require('./tvDisplay');
+const table     = require('./tableDisplay');
 const statblock = require('./statblock');
 const wizard   = require('./wizard');
 const docs     = require('./docs');
@@ -238,6 +239,23 @@ ipcMain.handle('tv:syncOverlay', (_, state) => {
   try { tv.syncOverlay(state); return { success: true }; }
   catch (err) { return { success: false, error: err.message }; }
 });
+ipcMain.handle('table:open', () => {
+  try { table.openTableWindow(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('table:close', () => {
+  try { table.closeTableWindow(); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('table:isOpen', () => {
+  const w = table.getTableWindow();
+  return !!(w && !w.isDestroyed());
+});
+ipcMain.handle('table:sync', (_, state) => {
+  try { table.syncState(state); return { success: true }; }
+  catch (err) { return { success: false, error: err.message }; }
+});
+
 ipcMain.handle('tv:pickFolder', async () => {
   const result = await dialog.showOpenDialog(mainWindow, {
     title: 'Select Map Image Folder',
