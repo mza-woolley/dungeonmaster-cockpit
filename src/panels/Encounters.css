@@ -658,6 +658,33 @@
   overflow: hidden;
 }
 
+/* ── Initiative + Map split layout ───────────────── */
+.initiative.initiative-split {
+  flex-direction: row;
+  gap: 14px;
+  overflow: hidden;
+}
+
+.initiative-map-pane {
+  flex: 1.6;
+  min-width: 0;
+  border: 1px solid #3a2416;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.initiative-tracker-pane {
+  flex: 1;
+  min-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.initiative-tracker-pane::-webkit-scrollbar { width: 4px; }
+.initiative-tracker-pane::-webkit-scrollbar-thumb { background: #3a2e1a; border-radius: 2px; }
+
 .initiative-header {
   display: flex;
   align-items: center;

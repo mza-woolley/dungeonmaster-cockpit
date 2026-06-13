@@ -2,6 +2,17 @@
 
 ---
 
+## v0.10.2 — June 2026
+
+### 🔧 Changes
+
+- Map/TV Display: fixed the map background not rendering behind the seat HUD
+- Map/TV Display: map image now fits to screen instead of cropping/zooming to fill
+- Map/TV Display + Table Display: seat HUD panels now have a subtle dark background for contrast against the map
+- Encounters: opening the Display from the Initiative tab no longer opens a duplicate Table Display window on 2-monitor setups
+
+---
+
 ## v0.10.1 — June 2026
 
 ### 🔧 Changes

@@ -22,6 +22,23 @@ const docs     = require('./docs');
 const isDev = process.env.NODE_ENV === 'development';
 let mainWindow;
 
+// Last-known map/overlay state from the Display tab, replayed onto the
+// Table Display whenever it (re)opens so its map background isn't blank.
+let currentMapState = {
+  imagePath: null,
+  fogMask: null,
+  gridEnabled: false,
+  gridSize: 'medium',
+  pins: [],
+  pinSize: 18,
+  hideAllNpcs: false,
+  hideAllMonsters: false,
+};
+
+// Last-known per-seat PC HUD state, replayed onto the Table/Map Display
+// whenever either window (re)opens so the seat panels aren't blank.
+let currentSeatState = null;
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200, height: 820, minWidth: 800, minHeight: 600,
@@ -190,8 +207,12 @@ ipcMain.handle('dndbeyond:getCharacter', async (e, characterId) => {
 });
 
 ipcMain.handle('tv:open', () => {
-  try { tv.openTvWindow(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
+  try {
+    tv.openTvWindow();
+    tv.replayMapState(currentMapState);
+    tv.replaySeatState(currentSeatState);
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('tv:close', () => {
   try { tv.closeTvWindow(); return { success: true }; }
@@ -201,6 +222,9 @@ ipcMain.handle('tv:pushImage', (_, imagePath) => {
   try {
     tv.pushImage(imagePath);
     table.syncMapImage(imagePath);
+    currentMapState.imagePath = imagePath;
+    currentMapState.fogMask   = null;
+    currentMapState.pins      = [];
     return { success: true };
   } catch (err) { return { success: false, error: err.message }; }
 });
@@ -208,6 +232,9 @@ ipcMain.handle('tv:clear', () => {
   try {
     tv.clearTvDisplay();
     table.clearMap();
+    currentMapState.imagePath = null;
+    currentMapState.fogMask   = null;
+    currentMapState.pins      = [];
     return { success: true };
   } catch (err) { return { success: false, error: err.message }; }
 });
@@ -230,6 +257,7 @@ ipcMain.handle('tv:syncFog', (_, fogDataUrl) => {
   try {
     tv.syncFog(fogDataUrl);
     table.syncMapFog(fogDataUrl);
+    currentMapState.fogMask = fogDataUrl;
     return { success: true };
   } catch (err) { return { success: false, error: err.message }; }
 });
@@ -241,6 +269,10 @@ ipcMain.handle('tv:syncPins', (_, { pins, hideAllNpcs, hideAllMonsters, pinSize 
   try {
     tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
     table.syncMapPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
+    currentMapState.pins            = pins;
+    currentMapState.hideAllNpcs     = hideAllNpcs;
+    currentMapState.hideAllMonsters = hideAllMonsters;
+    currentMapState.pinSize         = pinSize;
     return { success: true };
   } catch (err) { return { success: false, error: err.message }; }
 });
@@ -248,6 +280,8 @@ ipcMain.handle('tv:syncGrid', (_, { enabled, size }) => {
   try {
     tv.syncGrid(enabled, size);
     table.syncMapGrid(enabled, size);
+    currentMapState.gridEnabled = enabled;
+    currentMapState.gridSize    = size;
     return { success: true };
   } catch (err) { return { success: false, error: err.message }; }
 });
@@ -255,12 +289,19 @@ ipcMain.handle('tv:syncOverlay', (_, state) => {
   try {
     tv.syncOverlay(state);
     table.syncMapOverlay(state);
+    currentMapState = { ...currentMapState, ...state };
     return { success: true };
   } catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('table:open', () => {
-  try { table.openTableWindow(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
+  try {
+    const win = table.openTableWindow();
+    if (win) {
+      table.replayMapState(currentMapState);
+      table.replaySeatState(currentSeatState);
+    }
+    return { success: true, opened: !!win };
+  } catch (err) { return { success: false, error: err.message }; }
 });
 ipcMain.handle('table:close', () => {
   try { table.closeTableWindow(); return { success: true }; }
@@ -271,8 +312,18 @@ ipcMain.handle('table:isOpen', () => {
   return !!(w && !w.isDestroyed());
 });
 ipcMain.handle('table:sync', (_, state) => {
-  try { table.syncState(state); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
+  try {
+    table.syncState(state);
+    currentSeatState = state;
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+ipcMain.handle('tv:syncState', (_, state) => {
+  try {
+    tv.syncState(state);
+    currentSeatState = state;
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
 });
 
 ipcMain.handle('tv:pickFolder', async () => {

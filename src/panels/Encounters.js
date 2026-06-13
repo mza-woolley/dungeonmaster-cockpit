@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Encounters.css';
 import { ambienceEngine } from './SceneControl';
+import TVDisplay from './TVDisplay';
 
 // ── Helpers ────────────────────────────────────────────────
 const CR_OPTIONS = [
@@ -405,7 +406,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
   const [seatAssignments, setSeatAssignments] = useState(() => {
     try { return JSON.parse(localStorage.getItem(TABLE_SEATS_KEY)) || {}; } catch { return {}; }
   });
-  const [tableOpen, setTableOpen] = useState(false);
+  const [displaysOpen, setDisplaysOpen] = useState(false);
   const [seatsExpanded, setSeatsExpanded] = useState(false);
   const isElectron = !!window.electronAPI;
 
@@ -520,25 +521,14 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
     });
   };
 
-  // ── Table Display (per-seat HUD) ──
+  // ── Table + Map Display (per-seat HUD) ──
   useEffect(() => {
     if (!isElectron) return;
-    window.electronAPI.table.isOpen().then(setTableOpen);
+    window.electronAPI.tv.isOpen().then(setDisplaysOpen);
   }, [isElectron]);
 
-  const toggleTableDisplay = async () => {
-    if (!isElectron) return;
-    if (tableOpen) {
-      await window.electronAPI.table.close();
-      setTableOpen(false);
-    } else {
-      await window.electronAPI.table.open();
-      setTableOpen(true);
-    }
-  };
-
   useEffect(() => {
-    if (!isElectron || !tableOpen) return;
+    if (!isElectron || !displaysOpen) return;
     const seats = {};
     TABLE_SEAT_IDS.forEach(seatId => {
       const pcName = seatAssignments[seatId];
@@ -570,7 +560,8 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
       };
     });
     window.electronAPI.table.sync({ seats, round, turn });
-  }, [combatants, turn, round, seatAssignments, tableOpen, isElectron]); // eslint-disable-line react-hooks/exhaustive-deps
+    window.electronAPI.tv.syncState({ seats, round, turn });
+  }, [combatants, turn, round, seatAssignments, displaysOpen, isElectron]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleCondition = (id, cond) => setCombatants(prev => prev.map(c => {
     if (c.id !== id) return c;
@@ -587,7 +578,14 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
     : [];
 
   return (
-    <div className="initiative">
+    <div className="initiative initiative-split">
+
+      {/* ── Map / Overlay pane (same Display tab editor) ── */}
+      <div className="initiative-map-pane">
+        <TVDisplay linkTable onOpenChange={setDisplaysOpen} />
+      </div>
+
+      <div className="initiative-tracker-pane">
 
       {/* ══ SECTION: Presets ══ */}
       <section className="init-section">
@@ -650,15 +648,6 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
           <button className="sb-btn small" onClick={() => setSeatsExpanded(e => !e)}>
             🪑 Table Seats {seatsExpanded ? '▲' : '▼'}
           </button>
-          {isElectron && (
-            <button
-              className={`sb-btn small ${tableOpen ? 'primary' : ''}`}
-              onClick={toggleTableDisplay}
-              title="Pop out the per-seat HP/initiative display"
-            >
-              {tableOpen ? '📺 Close Table Display' : '📺 Open Table Display'}
-            </button>
-          )}
         </div>
         {seatsExpanded && (
           <div className="init-row table-seats-grid">
@@ -841,6 +830,8 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
             </div>
           </div>
         ))}
+      </div>
+
       </div>
     </div>
   );

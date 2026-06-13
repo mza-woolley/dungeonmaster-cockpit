@@ -134,7 +134,7 @@ function SaveStateModal({ onSave, onClose }) {
 }
 
 // ── Main component ────────────────────────────────────────
-export default function TVDisplay() {
+export default function TVDisplay({ linkTable = false, hideOpenButton = false, onOpenChange = null } = {}) {
   // ── Folder / file state ──
   const [folder, setFolder] = useState(() => localStorage.getItem(FOLDER_KEY) || '');
   const [files,  setFiles]  = useState(() => { try { return JSON.parse(localStorage.getItem(FILES_KEY) || '[]'); } catch { return []; } });
@@ -192,7 +192,10 @@ export default function TVDisplay() {
   // ── Init ──
   useEffect(() => {
     if (!isElectron) return;
-    window.electronAPI.tv.isOpen().then(setTvOpen);
+    window.electronAPI.tv.isOpen().then(open => {
+      setTvOpen(open);
+      if (onOpenChange) onOpenChange(open);
+    });
     window.electronAPI.characters.loadSeed().then(d => {
       const chars = (d.characters || []).map(c => ({ ...c, type: 'pc' }));
       setPcList(chars);
@@ -206,7 +209,7 @@ export default function TVDisplay() {
       setMonsterList([...srd, ...custom]);
     });
     window.electronAPI.mapStates.load().then(setMapStates);
-  }, [isElectron]);
+  }, [isElectron]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ── Thumbnail queue ──
   const thumbQueue   = useRef([]);
@@ -585,7 +588,9 @@ export default function TVDisplay() {
   const handlePushImage = useCallback(async (file, autoRestore = false) => {
     if (!tvOpen) {
       await window.electronAPI.tv.open();
+      if (linkTable) await window.electronAPI.table.open();
       setTvOpen(true);
+      if (onOpenChange) onOpenChange(true);
     }
     const res = await window.electronAPI.tv.pushImage(file.path);
     if (!res.success) { setError(res.error); return; }
@@ -615,7 +620,7 @@ export default function TVDisplay() {
       if (lastState) handleLoadStateRef.current(lastState);
       else setCurrentStateId(null);
     }
-  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas, dmImageDataUrl]);
+  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas, dmImageDataUrl, linkTable, onOpenChange]);
 
   // ── Grid sync ──
   function setGrid(enabled, size) {
@@ -785,12 +790,20 @@ export default function TVDisplay() {
 
   const handleOpenTV = async () => {
     const res = await window.electronAPI.tv.open();
-    if (res.success) setTvOpen(true); else setError(res.error);
+    if (res.success) {
+      if (linkTable) await window.electronAPI.table.open();
+      setTvOpen(true);
+      if (onOpenChange) onOpenChange(true);
+    } else {
+      setError(res.error);
+    }
   };
 
   const handleCloseTV = async () => {
     await window.electronAPI.tv.close();
+    if (linkTable) await window.electronAPI.table.close();
     setTvOpen(false); setActive(null);
+    if (onOpenChange) onOpenChange(false);
   };
 
   const handleClear = async () => {
@@ -837,19 +850,25 @@ export default function TVDisplay() {
         </div>
         <div className="tv-topbar-right">
           {active && <button className="tv-btn secondary" onClick={handleClear}>Clear Display</button>}
-          <button
-            className={`tv-btn ${tvOpen ? 'danger' : 'primary'}`}
-            onClick={tvOpen ? handleCloseTV : handleOpenTV}
-          >
-            {tvOpen ? '✕ Close TV' : '⎋ Open TV Window'}
-          </button>
+          {!hideOpenButton && (
+            <button
+              className={`tv-btn ${tvOpen ? 'danger' : 'primary'}`}
+              onClick={tvOpen ? handleCloseTV : handleOpenTV}
+            >
+              {tvOpen ? (linkTable ? '✕ Close Display' : '✕ Close TV') : (linkTable ? '⎋ Open Display' : '⎋ Open TV Window')}
+            </button>
+          )}
         </div>
       </div>
 
       {/* ── Status Bar ── */}
       <div className="tv-status-bar">
         <span className={`tv-status-dot ${tvOpen ? 'on' : 'off'}`} />
-        <span className="tv-status-label">{tvOpen ? 'TV window open' : 'TV window closed'}</span>
+        <span className="tv-status-label">
+          {linkTable
+            ? (tvOpen ? 'Display open' : 'Display closed')
+            : (tvOpen ? 'TV window open' : 'TV window closed')}
+        </span>
         {active && (
           <>
             <span className="tv-status-sep">·</span>
