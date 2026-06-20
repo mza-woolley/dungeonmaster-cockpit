@@ -2,6 +2,14 @@
 
 ---
 
+## v0.11 — The Miro Update — June 2026
+
+### ✨ New
+
+- Miro tab: embedded Miro board, persists across tab switches, board URL saved to localStorage
+
+---
+
 ## v0.10.4 — June 2026
 
 ### ✨ New

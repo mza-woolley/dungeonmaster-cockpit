@@ -10,6 +10,7 @@ import Characters from './panels/Characters';
 import Documentation from './panels/Documentation';
 import Generator from './panels/Generator';
 import CharacterSheet from './panels/CharacterSheet';
+import Miro from './panels/Miro';
 
 const PANELS = [
   { id: 'characters',    label: 'Characters',   icon: '🧑', shortcut: '1' },
@@ -17,10 +18,11 @@ const PANELS = [
   { id: 'documentation', label: 'Docs',         icon: '📚', shortcut: '3' },
   { id: 'encounters',    label: 'Encounters',   icon: '⚔️',  shortcut: '4' },
   { id: 'generator',     label: 'Generator',    icon: '⚄',  shortcut: '5' },
-  { id: 'scene',         label: 'Scene',        icon: '🎭', shortcut: '6' },
-  { id: 'scribble',      label: 'Scribble',     icon: '✍️',  shortcut: '7' },
-  { id: 'charsheet',     label: 'Sheets',       icon: '📜', shortcut: '8' },
-  { id: 'wizard',        label: 'Wizard',       icon: '🧙', shortcut: '9' },
+  { id: 'miro',          label: 'Miro',         icon: '🗂️', shortcut: '6' },
+  { id: 'scene',         label: 'Scene',        icon: '🎭', shortcut: '7' },
+  { id: 'scribble',      label: 'Scribble',     icon: '✍️',  shortcut: '8' },
+  { id: 'charsheet',     label: 'Sheets',       icon: '📜', shortcut: '9' },
+  { id: 'wizard',        label: 'Wizard',       icon: '🧙', shortcut: '0' },
 ];
 
 function useSessionClock() {
@@ -184,6 +186,7 @@ export default function App() {
       case 'characters':    return <Characters />;
       case 'documentation': return null; // rendered persistently below, so edits survive tab switches
       case 'generator':     return <Generator />;
+      case 'miro':          return null; // rendered persistently below
       case 'charsheet':     return <CharacterSheet />;
       default:              return null;
     }
@@ -254,6 +257,10 @@ export default function App() {
         {/* Encounters tab stays mounted so initiative/state persists across tab switches */}
         <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'encounters' ? 'settled' : 'hidden'}`}>
           <Encounters />
+        </div>
+        {/* Miro tab stays mounted so the embedded board doesn't reload on tab switches */}
+        <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'miro' ? 'settled' : 'hidden'}`}>
+          <Miro />
         </div>
       </main>
     </div>

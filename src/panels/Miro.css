@@ -1,0 +1,74 @@
+.miro-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background: #0a0906;
+}
+
+.miro-frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+}
+
+.miro-setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 100%;
+  color: #ccc;
+  font-family: inherit;
+}
+
+.miro-url-input {
+  width: 480px;
+  max-width: 90%;
+  padding: 10px 14px;
+  background: #1a1714;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #eee;
+  font-size: 14px;
+  outline: none;
+}
+
+.miro-url-input:focus {
+  border-color: #888;
+}
+
+.miro-save-btn {
+  padding: 8px 24px;
+  background: #3a3530;
+  border: 1px solid #666;
+  border-radius: 6px;
+  color: #eee;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.miro-save-btn:hover {
+  background: #4a4540;
+}
+
+.miro-change-btn {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  padding: 6px 14px;
+  background: rgba(20, 18, 14, 0.85);
+  border: 1px solid #555;
+  border-radius: 5px;
+  color: #aaa;
+  font-size: 12px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.miro-change-btn:hover {
+  color: #eee;
+  border-color: #888;
+}
