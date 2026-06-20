@@ -155,6 +155,7 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
   const [pinSize,         setPinSize]         = useState(16);
   const [hideAllNpcs,     setHideAllNpcs]     = useState(false);
   const [hideAllMonsters, setHideAllMonsters] = useState(false);
+  const [seatsVisible,    setSeatsVisible]    = useState(false);
   const [placingPin,      setPlacingPin]      = useState(null); // pin waiting to be placed
   const [mapStates,       setMapStates]       = useState([]);
   const [currentStateId,  setCurrentStateId]  = useState(null);
@@ -610,6 +611,7 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
     if (isElectron) {
       window.electronAPI.tv.syncGrid(gridEnabled, gridSize);
       window.electronAPI.tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
+      window.electronAPI.tv.setSeatsVisible(seatsVisible);
     }
 
     // Reset to a clean default state — fully fogged, no pins/grid — rather
@@ -620,12 +622,14 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
       setGridEnabled(false);
       setHideAllNpcs(false);
       setHideAllMonsters(false);
+      setSeatsVisible(false);
       if (isElectron) {
         window.electronAPI.tv.syncGrid(false, gridSize);
         window.electronAPI.tv.syncPins([], false, false, pinSize);
+        window.electronAPI.tv.setSeatsVisible(false);
       }
     }
-  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, isElectron, drawDmCanvas, dmImageDataUrl, linkTable, onOpenChange]);
+  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, seatsVisible, isElectron, drawDmCanvas, dmImageDataUrl, linkTable, onOpenChange]);
 
   // ── Grid sync ──
   function setGrid(enabled, size) {
@@ -1017,6 +1021,16 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
                   onClick={() => setHideGroup('monster', !hideAllMonsters)}
                 >
                   {hideAllMonsters ? 'Show Monsters' : 'Hide Monsters'}
+                </button>
+                <button
+                  className={`ov-toggle small ${!seatsVisible ? 'active' : ''}`}
+                  onClick={() => {
+                    const next = !seatsVisible;
+                    setSeatsVisible(next);
+                    if (isElectron) window.electronAPI.tv.setSeatsVisible(next);
+                  }}
+                >
+                  {seatsVisible ? 'Hide PC Overlay' : 'Show PC Overlay'}
                 </button>
               </div>
 

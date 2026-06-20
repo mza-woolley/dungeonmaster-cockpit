@@ -2,6 +2,14 @@
 
 ---
 
+## v0.11a — June 2026
+
+### ✨ New
+
+- TV Display: PC overlay (seat HUD) now hidden by default, with a Show/Hide PC Overlay toggle in the map sidebar
+
+---
+
 ## v0.11 — The Miro Update — June 2026
 
 ### ✨ New

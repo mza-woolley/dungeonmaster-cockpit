@@ -326,6 +326,13 @@ ipcMain.handle('tv:syncState', (_, state) => {
   } catch (err) { return { success: false, error: err.message }; }
 });
 
+ipcMain.handle('tv:setSeatsVisible', (_, visible) => {
+  try {
+    tv.setSeatsVisible(visible);
+    return { success: true };
+  } catch (err) { return { success: false, error: err.message }; }
+});
+
 ipcMain.handle('tv:pickFolder', async () => {
   const result = await dialog.showOpenDialog(mainWindow, {
     title: 'Select Map Image Folder',

@@ -522,6 +522,10 @@ function getDisplayHtml(title) {
       if (el) renderSeat(el, seats[id]);
     });
   };
+
+  window.setSeatsVisible = function(visible) {
+    document.getElementById('grid').style.visibility = visible ? 'visible' : 'hidden';
+  };
 })();
 </script>
 </body>

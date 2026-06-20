@@ -104,6 +104,10 @@ function syncState(state) {
   exec(`applyState(${JSON.stringify(state)})`);
 }
 
+function setSeatsVisible(visible) {
+  exec(`setSeatsVisible(${!!visible})`);
+}
+
 function replayMapState(state) {
   if (!tvWindow || tvWindow.isDestroyed() || !state) return;
   const apply = () => {
@@ -135,5 +139,5 @@ function getTvHtml() {
 
 module.exports = {
   openTvWindow, closeTvWindow, pushImage, clearTvDisplay, syncFog, syncBrushStroke, syncPins, syncGrid, syncOverlay,
-  syncState, replayMapState, replaySeatState, getTvWindow,
+  syncState, replayMapState, replaySeatState, getTvWindow, setSeatsVisible,
 };

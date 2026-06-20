@@ -62,8 +62,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     brushStroke: (nx, ny, radius)                      => ipcRenderer.send('tv:brushStroke', { nx, ny, radius }),
     syncPins:    (pins, hideAllNpcs, hideAllMonsters, pinSize)  => ipcRenderer.invoke('tv:syncPins', { pins, hideAllNpcs, hideAllMonsters, pinSize }),
     syncGrid:    (enabled, size)                       => ipcRenderer.invoke('tv:syncGrid', { enabled, size }),
-    syncOverlay: (state)                               => ipcRenderer.invoke('tv:syncOverlay', state),
-    syncState:   (state)                               => ipcRenderer.invoke('tv:syncState', state),
+    syncOverlay:     (state)                               => ipcRenderer.invoke('tv:syncOverlay', state),
+    syncState:       (state)                               => ipcRenderer.invoke('tv:syncState', state),
+    setSeatsVisible: (visible)                             => ipcRenderer.invoke('tv:setSeatsVisible', visible),
   },
 
   // Table Display (per-seat HUD)
