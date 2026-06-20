@@ -2,6 +2,16 @@
 
 ---
 
+## v0.10.4 — June 2026
+
+### ✨ New
+
+- Two-finger trackpad swipe to navigate between tabs
+- Encounters tab stays mounted across tab switches — initiative and state persist when switching away and back
+- TV Display pop-out now correctly fullscreens on the secondary monitor on macOS
+
+---
+
 ## v0.10.3 — June 2026
 
 ### ✨ New

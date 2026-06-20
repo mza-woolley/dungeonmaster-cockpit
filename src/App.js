@@ -132,12 +132,54 @@ export default function App() {
     touchStartX.current = null;
   };
 
+  // Two-finger trackpad swipe — stable handler (registered once), navigateBy accessed via ref
+  const navigateByRef = useRef(navigateBy);
+  useEffect(() => { navigateByRef.current = navigateBy; }, [navigateBy]);
+  // States: idle → active (fired) → draining (waiting for tail to die) → idle
+  const gestureState = useRef('idle'); // 'idle' | 'active' | 'draining'
+  const peakDeltaX   = useRef(0);
+  const idleTimer    = useRef(null);
+  useEffect(() => {
+    const handler = (e) => {
+      const ax = Math.abs(e.deltaX);
+      if (ax <= Math.abs(e.deltaY)) return;
+
+      if (gestureState.current === 'active') {
+        if (ax > peakDeltaX.current) peakDeltaX.current = Math.min(ax, 80);
+        if (ax < peakDeltaX.current * 0.80) {
+          gestureState.current = 'draining';
+          peakDeltaX.current = 0;
+        }
+        return;
+      }
+
+      if (gestureState.current === 'draining') {
+        // wait until momentum drops below this before accepting next swipe
+        if (ax < 30) gestureState.current = 'idle';
+        return;
+      }
+
+      // idle — wait for a real deliberate swipe
+      if (ax < 60) return;
+      gestureState.current = 'active';
+      peakDeltaX.current = ax;
+
+      // safety fallback in case stream never decays
+      clearTimeout(idleTimer.current);
+      idleTimer.current = setTimeout(() => { gestureState.current = 'idle'; peakDeltaX.current = 0; }, 600);
+
+      navigateByRef.current(e.deltaX > 0 ? 1 : -1);
+    };
+    window.addEventListener('wheel', handler, { passive: true });
+    return () => { window.removeEventListener('wheel', handler); clearTimeout(idleTimer.current); gestureState.current = 'idle'; };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const renderPanel = (idx) => {
     switch (PANELS[idx]?.id) {
       case 'scribble':   return <Scribbleboard />;
       case 'scene':      return <SceneControl />;
       case 'tv':         return null; // rendered persistently below, outside the animated stage
-      case 'encounters': return <Encounters />;
+      case 'encounters': return null; // rendered persistently below, so state survives tab switches
       case 'wizard':     return <DNDWizard />;
       case 'characters':    return <Characters />;
       case 'documentation': return null; // rendered persistently below, so edits survive tab switches
@@ -208,6 +250,10 @@ export default function App() {
         {/* Docs tab stays mounted across tab switches so in-progress edits aren't lost */}
         <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'documentation' ? 'settled' : 'hidden'}`}>
           <Documentation />
+        </div>
+        {/* Encounters tab stays mounted so initiative/state persists across tab switches */}
+        <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'encounters' ? 'settled' : 'hidden'}`}>
+          <Encounters />
         </div>
       </main>
     </div>

@@ -25,8 +25,8 @@ function openTvWindow() {
     y: target.bounds.y,
     width: target.bounds.width,
     height: target.bounds.height,
+    frame: false,
     show: false,
-    fullscreen: false,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -40,6 +40,7 @@ function openTvWindow() {
     tvWindow.show();
     if (process.platform === 'darwin') {
       tvWindow.setSimpleFullScreen(true);
+      tvWindow.setBounds(target.bounds);
     } else {
       tvWindow.setFullScreen(true);
     }
