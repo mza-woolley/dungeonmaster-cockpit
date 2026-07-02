@@ -37,13 +37,9 @@ function openTvWindow() {
   tvWindow.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(getTvHtml())}`);
   tvWindow.setMenuBarVisibility(false);
   tvWindow.once('ready-to-show', () => {
+    tvWindow.setBounds(target.bounds);
     tvWindow.show();
-    if (process.platform === 'darwin') {
-      tvWindow.setSimpleFullScreen(true);
-      tvWindow.setBounds(target.bounds);
-    } else {
-      tvWindow.setFullScreen(true);
-    }
+    tvWindow.setFullScreen(true);
   });
   tvWindow.on('closed', () => { tvWindow = null; });
   return tvWindow;

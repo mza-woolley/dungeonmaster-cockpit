@@ -1312,7 +1312,7 @@ export default function Encounters() {
       )}
 
       {/* ── INITIATIVE TAB ── */}
-      {tab === 'initiative' && (
+      <div style={{ display: tab === 'initiative' ? 'contents' : 'none' }}>
         <InitiativeTracker
           srdMonsters={[...customMonsters, ...allSrd]}
           npcs={npcs}
@@ -1328,7 +1328,7 @@ export default function Encounters() {
           encounterFiring={encounterFiring}
           encounterError={encounterError}
         />
-      )}
+      </div>
     </div>
   );
 }

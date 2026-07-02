@@ -880,6 +880,18 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
         </div>
         <div className="tv-topbar-right">
           {active && <button className="tv-btn secondary" onClick={handleClear}>Clear Display</button>}
+          {tvOpen && (
+            <button
+              className="tv-btn secondary"
+              onClick={() => {
+                const next = !seatsVisible;
+                setSeatsVisible(next);
+                if (isElectron) window.electronAPI.tv.setSeatsVisible(next);
+              }}
+            >
+              {seatsVisible ? 'Hide PC Overlay' : 'Show PC Overlay'}
+            </button>
+          )}
           {!hideOpenButton && (
             <button
               className={`tv-btn ${tvOpen ? 'danger' : 'primary'}`}
@@ -1021,16 +1033,6 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
                   onClick={() => setHideGroup('monster', !hideAllMonsters)}
                 >
                   {hideAllMonsters ? 'Show Monsters' : 'Hide Monsters'}
-                </button>
-                <button
-                  className={`ov-toggle small ${!seatsVisible ? 'active' : ''}`}
-                  onClick={() => {
-                    const next = !seatsVisible;
-                    setSeatsVisible(next);
-                    if (isElectron) window.electronAPI.tv.setSeatsVisible(next);
-                  }}
-                >
-                  {seatsVisible ? 'Hide PC Overlay' : 'Show PC Overlay'}
                 </button>
               </div>
 

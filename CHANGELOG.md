@@ -2,6 +2,16 @@
 
 ---
 
+## v0.11b — June 2026
+
+### 🔧 Changes
+
+- TV Display: simplified fullscreen handling — pop-out window now fullscreens consistently on all platforms
+- TV Display: Show/Hide PC Overlay toggle moved from the map sidebar to the main top bar
+- Encounters: Initiative tab now stays mounted when switching away and back, preserving tracker state
+
+---
+
 ## v0.11a — June 2026
 
 ### ✨ New
