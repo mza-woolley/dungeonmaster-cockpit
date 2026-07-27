@@ -11,18 +11,27 @@ import Documentation from './panels/Documentation';
 import Generator from './panels/Generator';
 import CharacterSheet from './panels/CharacterSheet';
 import Miro from './panels/Miro';
+import Icon from './components/Icons';
 
 const PANELS = [
-  { id: 'characters',    label: 'Characters',   icon: '🧑', shortcut: '1' },
-  { id: 'tv',            label: 'Display',      icon: '🗺️',  shortcut: '2' },
-  { id: 'documentation', label: 'Docs',         icon: '📚', shortcut: '3' },
-  { id: 'encounters',    label: 'Encounters',   icon: '⚔️',  shortcut: '4' },
-  { id: 'generator',     label: 'Generator',    icon: '⚄',  shortcut: '5' },
-  { id: 'miro',          label: 'Miro',         icon: '🗂️', shortcut: '6' },
-  { id: 'scene',         label: 'Scene',        icon: '🎭', shortcut: '7' },
-  { id: 'scribble',      label: 'Scribble',     icon: '✍️',  shortcut: '8' },
-  { id: 'charsheet',     label: 'Sheets',       icon: '📜', shortcut: '9' },
-  { id: 'wizard',        label: 'Wizard',       icon: '🧙', shortcut: '0' },
+  { id: 'characters',    label: 'Characters',    icon: 'person',  shortcut: '1' },
+  { id: 'encounters',    label: 'Encounters',    icon: 'swords',  shortcut: '2' },
+  { id: 'tv',            label: 'Display',       icon: 'map',     shortcut: '3' },
+  { id: 'scene',         label: 'Scene',         icon: 'sliders', shortcut: '4' },
+  { id: 'generator',     label: 'Generator',     icon: 'd20',     shortcut: '5' },
+  { id: 'wizard',        label: 'Wizard',        icon: 'hat',     shortcut: '6' },
+  { id: 'scribble',      label: 'Scribble',      icon: 'quill',   shortcut: '7' },
+  { id: 'documentation', label: 'Documentation', icon: 'book',    shortcut: '8' },
+  { id: 'charsheet',     label: 'Sheets',        icon: 'sheet',   shortcut: '9' },
+  { id: 'miro',          label: 'Miro',          icon: 'board',   shortcut: '0' },
+];
+
+// The rail groups encode how the panels are actually used at the table:
+// live session tools, content creation, and lookup material.
+const NAV_GROUPS = [
+  { label: 'Session',   ids: ['characters', 'encounters', 'tv', 'scene'] },
+  { label: 'Create',    ids: ['generator', 'wizard', 'scribble'] },
+  { label: 'Reference', ids: ['documentation', 'charsheet', 'miro'] },
 ];
 
 function useSessionClock() {
@@ -105,7 +114,7 @@ export default function App() {
   // Keyboard shortcuts
   useEffect(() => {
     const handler = (e) => {
-      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
+      if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT' || e.target.isContentEditable) return;
       if (e.key === 'ArrowRight') navigateBy(1);
       if (e.key === 'ArrowLeft')  navigateBy(-1);
       PANELS.forEach((p, i) => {
@@ -196,38 +205,42 @@ export default function App() {
     <div className="app" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       {/* Header */}
       <header className="app-header">
-        <div className="header-sigil">⚔</div>
+        <div className="header-sigil"><Icon name="d20" size={20} /></div>
         <h1 className="header-title">DM Cockpit</h1>
         <div className="header-spacer" />
         <div className="session-clock">
           <button className="session-clock-toggle" onClick={toggleClock} title={clockRunning ? 'Pause timer' : 'Resume timer'}>
-            {clockRunning ? '⏸' : '▶'}
+            <Icon name={clockRunning ? 'pause' : 'play'} size={14} />
           </button>
           <span className={`session-clock-display${clockRunning ? '' : ' paused'}`}>{clockDisplay}</span>
-          <button className="session-clock-reset" onClick={resetClock} title="Reset session timer">↺</button>
+          <button className="session-clock-reset" onClick={resetClock} title="Reset session timer">
+            <Icon name="reset" size={14} />
+          </button>
         </div>
       </header>
 
-      {/* Nav */}
+      {/* Nav rail */}
       <nav className="panel-nav">
-        {PANELS.map((p, i) => (
-          <button
-            key={p.id}
-            className={`nav-btn ${i === activeIdx ? 'active' : ''}`}
-            onClick={() => navigateTo(i)}
-          >
-            <span className="nav-icon">{p.icon}</span>
-            <span className="nav-label">{p.label}</span>
-          </button>
+        {NAV_GROUPS.map(group => (
+          <div key={group.label} className="nav-group">
+            <div className="nav-group-label">{group.label}</div>
+            {group.ids.map(id => {
+              const i = PANELS.findIndex(p => p.id === id);
+              const p = PANELS[i];
+              return (
+                <button
+                  key={p.id}
+                  className={`nav-btn ${i === activeIdx ? 'active' : ''}`}
+                  onClick={() => navigateTo(i)}
+                >
+                  <span className="nav-icon"><Icon name={p.icon} /></span>
+                  <span className="nav-label">{p.label}</span>
+                  <span className="nav-shortcut">{p.shortcut}</span>
+                </button>
+              );
+            })}
+          </div>
         ))}
-        <div
-          className="nav-indicator"
-          style={{
-            width: `${100 / PANELS.length}%`,
-            left: `${(activeIdx / PANELS.length) * 100}%`,
-            transform: 'none',
-          }}
-        />
       </nav>
 
       {/* Panel stage */}

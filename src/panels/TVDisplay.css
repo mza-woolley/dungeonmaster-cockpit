@@ -35,7 +35,7 @@
   padding: 7px 14px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: var(--text-secondary);
   font-family: var(--font-display);
   font-size: 10px;
@@ -72,7 +72,7 @@
   border-radius: 50%;
   flex-shrink: 0;
 }
-.tv-status-dot.on  { background: #4a7c59; box-shadow: 0 0 6px #4a7c59; }
+.tv-status-dot.on  { background: var(--hp-full); box-shadow: 0 0 6px var(--hp-full); }
 .tv-status-dot.off { background: var(--text-dim); }
 .tv-status-label {
   font-family: var(--font-display);
@@ -124,7 +124,7 @@
   padding: 10px 24px;
   background: var(--gold-glow);
   border: 1px solid var(--gold-dim);
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: var(--gold);
   font-family: var(--font-display);
   font-size: 12px;
@@ -148,7 +148,7 @@
   flex: 1;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: 6px 12px;
   color: var(--text-primary);
   font-family: var(--font-body);
@@ -162,7 +162,7 @@
   padding: 6px 12px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: var(--text-dim);
   font-family: var(--font-display);
   font-size: 10px;
@@ -200,7 +200,7 @@
   padding: 40px;
 }
 .tv-tile {
-  border-radius: 6px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--bg-card);
   overflow: hidden;
@@ -239,7 +239,7 @@
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  border-radius: 3px;
+  border-radius: var(--radius);
   font-weight: 600;
 }
 .tv-tile-footer {
@@ -289,7 +289,7 @@
   justify-content: center;
   font-size: 1.5rem;
   opacity: 0.4;
-  background: #1a1612;
+  background: var(--bg-card);
 }
 
 /* ── Compact grid when overlay is open ── */
@@ -314,7 +314,7 @@
 .overlay-canvas-wrap {
   flex: 1;
   position: relative;
-  background: #0a0906;
+  background: var(--bg-deep);
   overflow: hidden;
 }
 
@@ -331,7 +331,7 @@
   transform: translateX(-50%);
   background: rgba(10,9,6,0.85);
   border: 1px solid var(--gold-dim);
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: 6px 14px;
   display: flex;
   align-items: center;
@@ -346,7 +346,7 @@
   pointer-events: all;
   background: none;
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: var(--radius);
   color: var(--text-dim);
   font-size: 11px;
   padding: 2px 8px;
@@ -423,7 +423,7 @@
   padding: 5px 10px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: var(--text-dim);
   font-family: var(--font-display);
   font-size: 9px;
@@ -444,7 +444,7 @@
   width: 26px; height: 26px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: var(--radius);
   color: var(--text-dim);
   font-family: var(--font-display);
   font-size: 9px;
@@ -459,7 +459,7 @@
   padding: 5px 10px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: var(--text-dim);
   font-family: var(--font-display);
   font-size: 9px;
@@ -510,7 +510,7 @@
   flex: 1;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: 5px 9px;
   color: var(--text-primary);
   font-family: var(--font-body);
@@ -528,7 +528,7 @@
   background: var(--bg-panel);
   border: 1px solid var(--border);
   border-top: none;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 var(--radius) var(--radius);
   max-height: 160px;
   overflow-y: auto;
   z-index: 100;
@@ -570,7 +570,7 @@
   padding: 4px 6px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   font-family: var(--font-body);
   font-size: 11px;
   color: var(--text-secondary);
@@ -603,7 +603,7 @@
   padding: 6px 8px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   cursor: pointer;
   transition: border-color 0.15s;
   margin-bottom: 4px;
@@ -642,7 +642,7 @@
 .modal-box {
   background: var(--bg-panel);
   border: 1px solid var(--gold-dim);
-  border-radius: 6px;
+  border-radius: var(--radius);
   padding: 24px;
   width: 320px;
   display: flex;
@@ -660,7 +660,7 @@
 .modal-input {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   padding: 8px 12px;
   color: var(--text-primary);
   font-family: var(--font-body);
@@ -673,4 +673,30 @@
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+}
+
+/* ═══ Instrument plates ═══ */
+.ov-section {
+  position: relative;
+  margin: 12px 10px 2px;
+  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-panel));
+  padding: 15px 12px 11px;
+}
+.ov-section-title {
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  z-index: 1;
+  background: var(--bg-card);
+  padding: 0 7px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: none;
+  font-variant-caps: small-caps;
+  color: var(--gold);
 }

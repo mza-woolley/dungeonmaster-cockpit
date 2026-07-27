@@ -6,8 +6,9 @@ app.commandLine.appendSwitch('enable-gpu-rasterization');
 app.commandLine.appendSwitch('enable-zero-copy');
 app.commandLine.appendSwitch('ignore-gpu-blocklist');
 app.commandLine.appendSwitch('enable-accelerated-2d-canvas');
-const path = require('path');
-const fs   = require('fs');
+const path   = require('path');
+const fs     = require('fs');
+const crypto = require('crypto');
 
 const spotify  = require('./spotify');
 const nanoleaf = require('./nanoleaf');
@@ -21,6 +22,29 @@ const docs     = require('./docs');
 
 const isDev = process.env.NODE_ENV === 'development';
 let mainWindow;
+
+// Wraps an IPC handler in the standard { success, error } envelope.
+// The handler returns extra payload fields as an object (or nothing);
+// thrown errors become { success: false, error }. A handler may also
+// return { success: false, ... } itself to signal a soft failure.
+function handle(channel, fn) {
+  ipcMain.handle(channel, async (_event, ...args) => {
+    try {
+      const extra = await fn(...args);
+      return { success: true, ...(extra && typeof extra === 'object' ? extra : {}) };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  });
+}
+
+// Writes JSON via a temp file + rename so a crash mid-write can't leave
+// a half-written (corrupt) data file behind.
+function writeJsonAtomic(filePath, data) {
+  const tmp = `${filePath}.tmp`;
+  fs.writeFileSync(tmp, JSON.stringify(data, null, 2));
+  fs.renameSync(tmp, filePath);
+}
 
 // Last-known map/overlay state from the Display tab, replayed onto the
 // Table Display whenever it (re)opens so its map background isn't blank.
@@ -59,281 +83,167 @@ function createWindow() {
 
 // ── Spotify IPC ───────────────────────────────────────────
 ipcMain.handle('spotify:isAuthorized', () => spotify.isAuthorized());
-ipcMain.handle('spotify:authorize', async () => {
-  try { await spotify.authorize(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('spotify:getPlaylists', async () => {
-  try { return { success: true, data: await spotify.getPlaylists() }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('spotify:play', async (_, uri) => {
-  try { await spotify.playPlaylist(uri); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('spotify:resume', async () => {
-  try { await spotify.resumePlayback(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('spotify:pause', async () => {
-  try { await spotify.pausePlayback(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('spotify:skip', async () => {
-  try { await spotify.skipTrack(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('spotify:previous', async () => {
-  try { await spotify.previousTrack(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('spotify:currentTrack', async () => {
-  try { return { success: true, data: await spotify.getCurrentTrack() }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
+handle('spotify:authorize',    async () => { await spotify.authorize(); });
+handle('spotify:getPlaylists', async () => ({ data: await spotify.getPlaylists() }));
+handle('spotify:play',         async (uri) => { await spotify.playPlaylist(uri); });
+handle('spotify:resume',       async () => { await spotify.resumePlayback(); });
+handle('spotify:pause',        async () => { await spotify.pausePlayback(); });
+handle('spotify:skip',         async () => { await spotify.skipTrack(); });
+handle('spotify:previous',     async () => { await spotify.previousTrack(); });
+handle('spotify:currentTrack', async () => ({ data: await spotify.getCurrentTrack() }));
 
 // ── Nanoleaf IPC ──────────────────────────────────────────
 ipcMain.handle('nanoleaf:isConfigured', () => nanoleaf.isConfigured());
 ipcMain.handle('nanoleaf:getConfig',    () => nanoleaf.loadConfig());
 ipcMain.handle('nanoleaf:getDevices',   () => nanoleaf.getDevices());
 
-ipcMain.handle('nanoleaf:setup', async (_, { ip, port, label }) => {
-  try {
-    const device = await nanoleaf.generateToken(ip, port, label);
-    return { success: true, device };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('nanoleaf:setup', async ({ ip, port, label }) =>
+  ({ device: await nanoleaf.generateToken(ip, port, label) }));
+handle('nanoleaf:removeDevice', (deviceId) => { nanoleaf.removeDevice(deviceId); });
+handle('nanoleaf:updateLabel',  ({ deviceId, label }) => { nanoleaf.updateDeviceLabel(deviceId, label); });
+handle('nanoleaf:verifyDevice', async (deviceId) => ({ data: await nanoleaf.verifyDevice(deviceId) }));
+handle('nanoleaf:getScenes',    async () => ({ data: await nanoleaf.getScenes() }));
+handle('nanoleaf:setScene', async (scene) => {
+  const result = await nanoleaf.setScene(scene);
+  return { partialErrors: result?.partialErrors || [] };
 });
-
-ipcMain.handle('nanoleaf:removeDevice', (_, deviceId) => {
-  try { nanoleaf.removeDevice(deviceId); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-
-ipcMain.handle('nanoleaf:updateLabel', (_, { deviceId, label }) => {
-  try { nanoleaf.updateDeviceLabel(deviceId, label); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-
-ipcMain.handle('nanoleaf:verifyDevice', async (_, deviceId) => {
-  try { return { success: true, data: await nanoleaf.verifyDevice(deviceId) }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-
-ipcMain.handle('nanoleaf:getScenes', async () => {
-  try { return { success: true, data: await nanoleaf.getScenes() }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('nanoleaf:setScene', async (_, scene) => {
-  try {
-    const result = await nanoleaf.setScene(scene);
-    return { success: true, partialErrors: result?.partialErrors || [] };
-  } catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('nanoleaf:setBrightness', async (_, val) => {
-  try { await nanoleaf.setBrightness(val); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('nanoleaf:setPower', async (_, on) => {
-  try { await nanoleaf.setPower(on); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('nanoleaf:getState', async () => {
-  try { return { success: true, data: await nanoleaf.getState() }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
+handle('nanoleaf:setBrightness', async (val) => { await nanoleaf.setBrightness(val); });
+handle('nanoleaf:setPower',      async (on) => { await nanoleaf.setPower(on); });
+handle('nanoleaf:getState',      async () => ({ data: await nanoleaf.getState() }));
 
 // ── Pixie Table Light IPC ─────────────────────────────────
-ipcMain.handle('pixie:setColor', async (_, { r, g, b }) => {
-  try { await pixie.setColor(r, g, b); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('pixie:turnOn', async () => {
-  try { await pixie.turnOn(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('pixie:turnOff', async () => {
-  try { await pixie.turnOff(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
+handle('pixie:setColor', async ({ r, g, b }) => { await pixie.setColor(r, g, b); });
+handle('pixie:turnOn',   async () => { await pixie.turnOn(); });
+handle('pixie:turnOff',  async () => { await pixie.turnOff(); });
 
 // ── Colour Loop IPC ──────────────────────────────────────
-ipcMain.handle('lights:startLoop', (_, { stops }) => {
-  try { colorLoop.startLoop(stops); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('lights:stopLoop', () => {
-  try { colorLoop.stopLoop(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
+handle('lights:startLoop', ({ stops }) => { colorLoop.startLoop(stops); });
+handle('lights:stopLoop',  () => { colorLoop.stopLoop(); });
 
 // ── Stat Block Window IPC ─────────────────────────────────
-ipcMain.handle('statblock:open', (_, monster) => {
-  try { statblock.openStatBlock(monster); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
+handle('statblock:open', (monster) => { statblock.openStatBlock(monster); });
 
-// ── TV Display IPC ────────────────────────────────────────
 // ── D&D Beyond character fetch (public characters only) ──
-ipcMain.handle('dndbeyond:getCharacter', async (e, characterId) => {
+handle('dndbeyond:getCharacter', async (characterId) => {
   const id = String(characterId).replace(/\D/g, '');
   if (!id) return { success: false, error: 'Invalid character ID' };
+  let res, text;
   try {
-    const res = await fetch(`https://character-service.dndbeyond.com/character/v5/character/${id}`, {
+    res = await fetch(`https://character-service.dndbeyond.com/character/v5/character/${id}`, {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
       },
     });
-    const text = await res.text();
-    if (!res.ok) {
-      console.error('[dndbeyond:getCharacter] HTTP', res.status, text.slice(0, 500));
-      return { success: false, error: `D&D Beyond returned HTTP ${res.status}: ${text.slice(0, 200)}` };
-    }
-    let json;
-    try { json = JSON.parse(text); }
-    catch (parseErr) {
-      console.error('[dndbeyond:getCharacter] non-JSON response', text.slice(0, 500));
-      return { success: false, error: `Unexpected response (not JSON): ${text.slice(0, 200)}` };
-    }
-    if (!json || !json.data) {
-      console.error('[dndbeyond:getCharacter] no data field', JSON.stringify(json).slice(0, 500));
-      return { success: false, error: `No character data in response: ${JSON.stringify(json).slice(0, 200)}` };
-    }
-    return { success: true, data: json.data };
+    text = await res.text();
   } catch (err) {
     console.error('[dndbeyond:getCharacter] exception', err);
     return { success: false, error: `${err.name}: ${err.message}` };
   }
+  if (!res.ok) {
+    console.error('[dndbeyond:getCharacter] HTTP', res.status, text.slice(0, 500));
+    return { success: false, error: `D&D Beyond returned HTTP ${res.status}: ${text.slice(0, 200)}` };
+  }
+  let json;
+  try { json = JSON.parse(text); }
+  catch (parseErr) {
+    console.error('[dndbeyond:getCharacter] non-JSON response', text.slice(0, 500));
+    return { success: false, error: `Unexpected response (not JSON): ${text.slice(0, 200)}` };
+  }
+  if (!json || !json.data) {
+    console.error('[dndbeyond:getCharacter] no data field', JSON.stringify(json).slice(0, 500));
+    return { success: false, error: `No character data in response: ${JSON.stringify(json).slice(0, 200)}` };
+  }
+  return { data: json.data };
 });
 
-ipcMain.handle('tv:open', () => {
-  try {
-    tv.openTvWindow();
-    tv.replayMapState(currentMapState);
-    tv.replaySeatState(currentSeatState);
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+// ── TV Display IPC ────────────────────────────────────────
+handle('tv:open', () => {
+  tv.openTvWindow();
+  tv.replayMapState(currentMapState);
+  tv.replaySeatState(currentSeatState);
 });
-ipcMain.handle('tv:close', () => {
-  try { tv.closeTvWindow(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
+handle('tv:close', () => { tv.closeTvWindow(); });
+handle('tv:pushImage', (imagePath) => {
+  tv.pushImage(imagePath);
+  table.syncMapImage(imagePath);
+  currentMapState.imagePath = imagePath;
+  currentMapState.fogMask   = null;
+  currentMapState.pins      = [];
 });
-ipcMain.handle('tv:pushImage', (_, imagePath) => {
-  try {
-    tv.pushImage(imagePath);
-    table.syncMapImage(imagePath);
-    currentMapState.imagePath = imagePath;
-    currentMapState.fogMask   = null;
-    currentMapState.pins      = [];
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
-});
-ipcMain.handle('tv:clear', () => {
-  try {
-    tv.clearTvDisplay();
-    table.clearMap();
-    currentMapState.imagePath = null;
-    currentMapState.fogMask   = null;
-    currentMapState.pins      = [];
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('tv:clear', () => {
+  tv.clearTvDisplay();
+  table.clearMap();
+  currentMapState.imagePath = null;
+  currentMapState.fogMask   = null;
+  currentMapState.pins      = [];
 });
 ipcMain.handle('tv:isOpen', () => {
   const w = tv.getTvWindow();
   return !!(w && !w.isDestroyed());
 });
-ipcMain.handle('tv:readImage', (_, imagePath) => {
-  try {
-    const ext  = path.extname(imagePath).toLowerCase().replace('.', '');
-    const mime = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg'
-               : ext === 'png' ? 'image/png'
-               : ext === 'webp' ? 'image/webp'
-               : 'image/jpeg';
-    const b64 = fs.readFileSync(imagePath).toString('base64');
-    return { success: true, dataUrl: `data:${mime};base64,${b64}` };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('tv:readImage', (imagePath) => {
+  const ext  = path.extname(imagePath).toLowerCase().replace('.', '');
+  const mime = ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg'
+             : ext === 'png' ? 'image/png'
+             : ext === 'webp' ? 'image/webp'
+             : 'image/jpeg';
+  const b64 = fs.readFileSync(imagePath).toString('base64');
+  return { dataUrl: `data:${mime};base64,${b64}` };
 });
-ipcMain.handle('tv:syncFog', (_, fogDataUrl) => {
-  try {
-    tv.syncFog(fogDataUrl);
-    table.syncMapFog(fogDataUrl);
-    currentMapState.fogMask = fogDataUrl;
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('tv:syncFog', (fogDataUrl) => {
+  tv.syncFog(fogDataUrl);
+  table.syncMapFog(fogDataUrl);
+  currentMapState.fogMask = fogDataUrl;
 });
 ipcMain.on('tv:brushStroke', (_, { nx, ny, radius }) => {
   try { tv.syncBrushStroke(nx, ny, radius); } catch (_e) {}
   try { table.syncMapBrushStroke(nx, ny, radius); } catch (_e) {}
 });
-ipcMain.handle('tv:syncPins', (_, { pins, hideAllNpcs, hideAllMonsters, pinSize }) => {
-  try {
-    tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
-    table.syncMapPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
-    currentMapState.pins            = pins;
-    currentMapState.hideAllNpcs     = hideAllNpcs;
-    currentMapState.hideAllMonsters = hideAllMonsters;
-    currentMapState.pinSize         = pinSize;
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('tv:syncPins', ({ pins, hideAllNpcs, hideAllMonsters, pinSize }) => {
+  tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
+  table.syncMapPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
+  currentMapState.pins            = pins;
+  currentMapState.hideAllNpcs     = hideAllNpcs;
+  currentMapState.hideAllMonsters = hideAllMonsters;
+  currentMapState.pinSize         = pinSize;
 });
-ipcMain.handle('tv:syncGrid', (_, { enabled, size }) => {
-  try {
-    tv.syncGrid(enabled, size);
-    table.syncMapGrid(enabled, size);
-    currentMapState.gridEnabled = enabled;
-    currentMapState.gridSize    = size;
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('tv:syncGrid', ({ enabled, size }) => {
+  tv.syncGrid(enabled, size);
+  table.syncMapGrid(enabled, size);
+  currentMapState.gridEnabled = enabled;
+  currentMapState.gridSize    = size;
 });
-ipcMain.handle('tv:syncOverlay', (_, state) => {
-  try {
-    tv.syncOverlay(state);
-    table.syncMapOverlay(state);
-    currentMapState = { ...currentMapState, ...state };
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('tv:syncOverlay', (state) => {
+  tv.syncOverlay(state);
+  table.syncMapOverlay(state);
+  currentMapState = { ...currentMapState, ...state };
 });
-ipcMain.handle('table:open', () => {
-  try {
-    const win = table.openTableWindow();
-    if (win) {
-      table.replayMapState(currentMapState);
-      table.replaySeatState(currentSeatState);
-    }
-    return { success: true, opened: !!win };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('table:open', () => {
+  const win = table.openTableWindow();
+  if (win) {
+    table.replayMapState(currentMapState);
+    table.replaySeatState(currentSeatState);
+  }
+  return { opened: !!win };
 });
-ipcMain.handle('table:close', () => {
-  try { table.closeTableWindow(); return { success: true }; }
-  catch (err) { return { success: false, error: err.message }; }
-});
+handle('table:close', () => { table.closeTableWindow(); });
 ipcMain.handle('table:isOpen', () => {
   const w = table.getTableWindow();
   return !!(w && !w.isDestroyed());
 });
-ipcMain.handle('table:sync', (_, state) => {
-  try {
-    table.syncState(state);
-    currentSeatState = state;
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('table:sync', (state) => {
+  table.syncState(state);
+  currentSeatState = state;
 });
-ipcMain.handle('tv:syncState', (_, state) => {
-  try {
-    tv.syncState(state);
-    currentSeatState = state;
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('tv:syncState', (state) => {
+  tv.syncState(state);
+  currentSeatState = state;
 });
 
-ipcMain.handle('tv:setSeatsVisible', (_, visible) => {
-  try {
-    tv.setSeatsVisible(visible);
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
-});
+handle('tv:setSeatsVisible', (visible) => { tv.setSeatsVisible(visible); });
 
-ipcMain.handle('tv:pickFolder', async () => {
+handle('tv:pickFolder', async () => {
   const result = await dialog.showOpenDialog(mainWindow, {
     title: 'Select Map Image Folder',
     properties: ['openDirectory'],
@@ -344,36 +254,32 @@ ipcMain.handle('tv:pickFolder', async () => {
   const files  = fs.readdirSync(folder)
     .filter(f => exts.includes(path.extname(f).toLowerCase()))
     .map(f => ({ name: path.basename(f, path.extname(f)), path: path.join(folder, f) }));
-  return { success: true, folder, files };
+  return { folder, files };
 });
-const crypto   = require('crypto');
-const { app: _app } = require('electron');
 
-ipcMain.handle('tv:thumbnail', async (_, imagePath) => {
-  try {
-    const cacheDir = path.join(_app.getPath('userData'), 'thumb-cache');
-    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+handle('tv:thumbnail', async (imagePath) => {
+  const cacheDir = path.join(app.getPath('userData'), 'thumb-cache');
+  if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
 
-    const cacheKey  = crypto.createHash('md5').update(imagePath).digest('hex');
-    const cachePath = path.join(cacheDir, `${cacheKey}.png`);
+  const cacheKey  = crypto.createHash('md5').update(imagePath).digest('hex');
+  const cachePath = path.join(cacheDir, `${cacheKey}.png`);
 
-    if (fs.existsSync(cachePath)) {
-      const dataUrl = 'data:image/png;base64,' + fs.readFileSync(cachePath).toString('base64');
-      return { success: true, dataUrl };
-    }
+  if (fs.existsSync(cachePath)) {
+    const dataUrl = 'data:image/png;base64,' + fs.readFileSync(cachePath).toString('base64');
+    return { dataUrl };
+  }
 
-    const img = nativeImage.createFromPath(imagePath);
-    if (img.isEmpty()) return { success: false, error: 'Could not load image' };
-    const size  = img.getSize();
-    const maxDim = 80;
-    const scale = Math.min(maxDim / size.width, maxDim / size.height, 1);
-    const thumb = img.resize({ width: Math.round(size.width * scale), height: Math.round(size.height * scale), quality: 'fast' });
+  const img = nativeImage.createFromPath(imagePath);
+  if (img.isEmpty()) return { success: false, error: 'Could not load image' };
+  const size  = img.getSize();
+  const maxDim = 80;
+  const scale = Math.min(maxDim / size.width, maxDim / size.height, 1);
+  const thumb = img.resize({ width: Math.round(size.width * scale), height: Math.round(size.height * scale), quality: 'fast' });
 
-    const pngBuffer = thumb.toPNG();
-    fs.writeFileSync(cachePath, pngBuffer);
+  const pngBuffer = thumb.toPNG();
+  fs.writeFileSync(cachePath, pngBuffer);
 
-    return { success: true, dataUrl: 'data:image/png;base64,' + pngBuffer.toString('base64') };
-  } catch (err) { return { success: false, error: err.message }; }
+  return { dataUrl: 'data:image/png;base64,' + pngBuffer.toString('base64') };
 });
 
 // ── Monsters / Encounters IPC ─────────────────────────────
@@ -387,31 +293,23 @@ function loadMonstersFile() {
   return { custom: [], srd_overrides: {} };
 }
 
-ipcMain.handle('monsters:loadSrd', () => {
-  try {
-    if (fs.existsSync(SRD_MONSTERS_PATH))
-      return { success: true, data: JSON.parse(fs.readFileSync(SRD_MONSTERS_PATH, 'utf8')) };
+handle('monsters:loadSrd', () => {
+  if (!fs.existsSync(SRD_MONSTERS_PATH))
     return { success: false, error: 'srd-library/monsters.json not found' };
-  } catch (err) { return { success: false, error: err.message }; }
+  return { data: JSON.parse(fs.readFileSync(SRD_MONSTERS_PATH, 'utf8')) };
 });
 ipcMain.handle('monsters:load', () => loadMonstersFile());
-ipcMain.handle('monsters:saveCustom', (_, monster) => {
-  try {
-    const data = loadMonstersFile();
-    const idx  = data.custom.findIndex(m => m.id === monster.id);
-    if (idx >= 0) data.custom[idx] = monster;
-    else data.custom.push(monster);
-    fs.writeFileSync(MONSTERS_PATH, JSON.stringify(data, null, 2));
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('monsters:saveCustom', (monster) => {
+  const data = loadMonstersFile();
+  const idx  = data.custom.findIndex(m => m.id === monster.id);
+  if (idx >= 0) data.custom[idx] = monster;
+  else data.custom.push(monster);
+  writeJsonAtomic(MONSTERS_PATH, data);
 });
-ipcMain.handle('monsters:deleteCustom', (_, id) => {
-  try {
-    const data  = loadMonstersFile();
-    data.custom = data.custom.filter(m => m.id !== id);
-    fs.writeFileSync(MONSTERS_PATH, JSON.stringify(data, null, 2));
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('monsters:deleteCustom', (id) => {
+  const data  = loadMonstersFile();
+  data.custom = data.custom.filter(m => m.id !== id);
+  writeJsonAtomic(MONSTERS_PATH, data);
 });
 
 // ── NPCs IPC ──────────────────────────────────────────────
@@ -425,23 +323,17 @@ function loadNpcsFile() {
 }
 
 ipcMain.handle('npcs:load', () => loadNpcsFile());
-ipcMain.handle('npcs:saveCustom', (_, npc) => {
-  try {
-    const data = loadNpcsFile();
-    const idx  = data.custom.findIndex(n => n.id === npc.id);
-    if (idx >= 0) data.custom[idx] = npc;
-    else data.custom.push(npc);
-    fs.writeFileSync(NPCS_PATH, JSON.stringify(data, null, 2));
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('npcs:saveCustom', (npc) => {
+  const data = loadNpcsFile();
+  const idx  = data.custom.findIndex(n => n.id === npc.id);
+  if (idx >= 0) data.custom[idx] = npc;
+  else data.custom.push(npc);
+  writeJsonAtomic(NPCS_PATH, data);
 });
-ipcMain.handle('npcs:deleteCustom', (_, id) => {
-  try {
-    const data  = loadNpcsFile();
-    data.custom = data.custom.filter(n => n.id !== id);
-    fs.writeFileSync(NPCS_PATH, JSON.stringify(data, null, 2));
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('npcs:deleteCustom', (id) => {
+  const data  = loadNpcsFile();
+  data.custom = data.custom.filter(n => n.id !== id);
+  writeJsonAtomic(NPCS_PATH, data);
 });
 
 // ── Characters seed IPC ───────────────────────────────────
@@ -465,21 +357,15 @@ function loadMapStates() {
 }
 
 ipcMain.handle('mapStates:load', () => loadMapStates());
-ipcMain.handle('mapStates:save', (_, state) => {
-  try {
-    const states = loadMapStates();
-    const idx    = states.findIndex(s => s.id === state.id);
-    if (idx >= 0) states[idx] = state; else states.push(state);
-    fs.writeFileSync(MAP_STATES_PATH, JSON.stringify(states, null, 2));
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('mapStates:save', (state) => {
+  const states = loadMapStates();
+  const idx    = states.findIndex(s => s.id === state.id);
+  if (idx >= 0) states[idx] = state; else states.push(state);
+  writeJsonAtomic(MAP_STATES_PATH, states);
 });
-ipcMain.handle('mapStates:delete', (_, id) => {
-  try {
-    const states = loadMapStates().filter(s => s.id !== id);
-    fs.writeFileSync(MAP_STATES_PATH, JSON.stringify(states, null, 2));
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
+handle('mapStates:delete', (id) => {
+  const states = loadMapStates().filter(s => s.id !== id);
+  writeJsonAtomic(MAP_STATES_PATH, states);
 });
 
 // ── Presets IPC ───────────────────────────────────────────
@@ -493,12 +379,7 @@ function loadPresetsFile() {
 }
 
 ipcMain.handle('presets:load', () => loadPresetsFile());
-ipcMain.handle('presets:save', (_, presets) => {
-  try {
-    fs.writeFileSync(PRESETS_PATH, JSON.stringify(presets, null, 2));
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
-});
+handle('presets:save', (presets) => { writeJsonAtomic(PRESETS_PATH, presets); });
 
 // ── Karma IPC ─────────────────────────────────────────────
 const KARMA_PATH = path.join(__dirname, '..', 'karma.json');
@@ -511,12 +392,7 @@ function loadKarmaFile() {
 }
 
 ipcMain.handle('karma:load', () => loadKarmaFile());
-ipcMain.handle('karma:save', (_, data) => {
-  try {
-    fs.writeFileSync(KARMA_PATH, JSON.stringify(data, null, 2));
-    return { success: true };
-  } catch (err) { return { success: false, error: err.message }; }
-});
+handle('karma:save', (data) => { writeJsonAtomic(KARMA_PATH, data); });
 
 // ── App Lifecycle ─────────────────────────────────────────
 app.whenReady().then(() => {

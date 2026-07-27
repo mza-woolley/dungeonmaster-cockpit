@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef, forwardRef, useImperativeHandle } from 'react';
 import './TVDisplay.css';
+import Icon from '../components/Icons';
 
 const FOLDER_KEY = 'dm-cockpit-tv-folder';
 const FILES_KEY  = 'dm-cockpit-tv-files';
@@ -34,7 +35,7 @@ function LazyTile({ file, active, thumb, faved, onPush, onFav, onVisible }) {
       <div className="tv-tile-thumb">
         {thumb && thumb !== 'loading'
           ? <img src={thumb} alt={file.name} />
-          : <div className="tv-tile-placeholder">⏳</div>}
+          : <div className="tv-tile-placeholder">…</div>}
         {active && <div className="tv-tile-active-badge">On TV</div>}
       </div>
       <div className="tv-tile-footer">
@@ -393,6 +394,9 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
       setMapLoaded(true);
     };
     img.src = dmImageDataUrl;
+    // drawDmCanvas deliberately omitted: this effect must only re-run when the
+    // map image itself changes; overlay redraws are handled by the effect below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dmImageDataUrl]);
 
   // Re-draw whenever overlay state changes
@@ -630,7 +634,7 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
         window.electronAPI.tv.setSeatsVisible(false);
       }
     }
-  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, seatsVisible, isElectron, drawDmCanvas, dmImageDataUrl, linkTable, onOpenChange]);
+  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, seatsVisible, isElectron, dmImageDataUrl, linkTable, onOpenChange]);
 
   // ── Grid sync ──
   function setGrid(enabled, size) {
@@ -871,7 +875,7 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
       <div className="tv-topbar">
         <div className="tv-topbar-left">
           <button className="tv-btn" onClick={handlePickFolder} disabled={loading}>
-            {loading ? 'Scanning…' : folder ? '⟳ Change Folder' : '📁 Select Map Folder'}
+            {loading ? 'Scanning…' : folder ? '⟳ Change Folder' : 'Select Map Folder'}
           </button>
           {folder && (
             <span className="tv-folder-path" title={folder}>
@@ -1057,7 +1061,7 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
                         title={pin.hidden ? 'Show on TV' : 'Hide from TV'}
                         onClick={() => togglePinHidden(pin.id)}
                       >
-                        {pin.hidden ? '👁' : '🙈'}
+                        <Icon name={pin.hidden ? 'eye' : 'eyeOff'} size={13} />
                       </button>
                       <button
                         className="pin-action danger"
@@ -1105,7 +1109,7 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
       {/* ── Map Grid ── */}
       {files.length === 0 ? (
         <div className="tv-empty">
-          <div className="empty-icon">🗺️</div>
+          <div className="empty-icon"><Icon name="map" size={44} /></div>
           <p>No maps loaded yet.</p>
           <p className="empty-hint">Select a folder containing your map images — JPG, PNG, WebP supported.</p>
           <button className="auth-btn" onClick={handlePickFolder}>Select Folder</button>

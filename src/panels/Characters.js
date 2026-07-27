@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './Characters.css';
 
-function uid() {
-  return `char_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
-}
-
 const karmaLabel = (k) => {
   if (k > 20)  return 'Virtuous';
   if (k > 10)  return 'Good';

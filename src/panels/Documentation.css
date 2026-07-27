@@ -34,7 +34,7 @@
   width: 100%;
   background: var(--bg-deep);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 13px;
@@ -55,7 +55,7 @@
   flex: 1;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: var(--text-secondary);
   font-family: var(--font-body);
   font-size: 11px;
@@ -102,7 +102,7 @@
   gap: 6px;
   padding: 5px 10px;
   cursor: pointer;
-  border-radius: 3px;
+  border-radius: var(--radius);
   margin: 0 4px;
   font-size: 13px;
   color: var(--text-secondary);
@@ -144,7 +144,7 @@
   flex: 1;
   background: var(--bg-deep);
   border: 1px solid var(--gold-dim);
-  border-radius: 3px;
+  border-radius: var(--radius);
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 13px;
@@ -160,7 +160,7 @@
   z-index: 9999;
   background: var(--bg-card);
   border: 1px solid var(--border-bright);
-  border-radius: 5px;
+  border-radius: var(--radius);
   box-shadow: 0 6px 20px rgba(0,0,0,0.5);
   min-width: 140px;
   padding: 4px 0;
@@ -179,7 +179,7 @@
   transition: background 0.1s;
 }
 .ctx-menu button:hover { background: var(--bg-hover); }
-.ctx-menu button.danger { color: #e05a3a; }
+.ctx-menu button.danger { color: var(--ember); }
 .ctx-menu button.danger:hover { background: rgba(212,98,42,0.15); }
 .ctx-divider {
   height: 1px;
@@ -270,7 +270,7 @@
 .docs-btn {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: var(--text-secondary);
   font-family: var(--font-body);
   font-size: 12px;
@@ -288,7 +288,7 @@
 }
 .docs-btn.primary:hover:not(:disabled) { background: var(--gold); border-color: var(--gold); }
 .docs-btn.secondary { color: var(--text-secondary); }
-.docs-btn.danger { color: #e05a3a; border-color: rgba(212,98,42,0.3); }
+.docs-btn.danger { color: var(--ember); border-color: var(--ember-dim); }
 .docs-btn.danger:hover:not(:disabled) { background: rgba(212,98,42,0.15); }
 .docs-btn:disabled { opacity: 0.4; cursor: default; }
 .docs-btn.layout-toggle { color: var(--text-dim); font-size: 11px; }
@@ -308,7 +308,7 @@
 .md-tool-btn {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 3px;
+  border-radius: var(--radius);
   color: var(--text-secondary);
   font-family: 'Courier New', monospace;
   font-size: 11px;
@@ -403,7 +403,7 @@
   padding: 6px 16px;
   color: var(--text-secondary);
   background: var(--bg-card);
-  border-radius: 0 4px 4px 0;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .docs-preview code {
@@ -412,13 +412,13 @@
   background: var(--bg-card);
   color: var(--ember);
   padding: 1px 5px;
-  border-radius: 3px;
+  border-radius: var(--radius);
 }
 
 .docs-preview pre {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: var(--radius);
   padding: 14px 16px;
   overflow-x: auto;
   margin: 1em 0;
@@ -462,7 +462,7 @@
 
 .doc-img {
   max-width: 100%;
-  border-radius: 5px;
+  border-radius: var(--radius);
   margin: 8px 0;
   display: block;
 }
@@ -484,7 +484,7 @@
 .docs-modal {
   background: var(--bg-card);
   border: 1px solid var(--border-bright);
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 24px 28px;
   min-width: 320px;
   max-width: 420px;
@@ -508,7 +508,7 @@
 .docs-modal-input {
   background: var(--bg-deep);
   border: 1px solid var(--border-bright);
-  border-radius: 4px;
+  border-radius: var(--radius);
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 14px;
@@ -526,7 +526,7 @@
 
 .move-folder-list {
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   max-height: 220px;
   overflow-y: auto;
   margin-bottom: 16px;
@@ -541,9 +541,26 @@
   cursor: pointer;
   font-size: 0.85rem;
   color: var(--text-dim);
-  border-radius: 3px;
+  border-radius: var(--radius);
   user-select: none;
 }
 
 .move-folder-item:hover { background: var(--bg-hover); color: var(--text); }
 .move-folder-item.selected { background: rgba(180,150,80,0.15); color: var(--gold-dim); }
+
+/* ═══ Instrument chrome ═══ */
+.docs-sidebar {
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-panel));
+  border-right: 1px solid var(--border);
+}
+.docs-toolbar {
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+}
+.docs-doc-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+}

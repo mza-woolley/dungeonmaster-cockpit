@@ -1,26 +1,72 @@
+/* ── Self-hosted typefaces (offline-safe at the table) ──
+   Vollkorn: warm, blunt-serifed reading face — softer and more legible
+   at UI sizes than the Lora/Cormorant pairing it replaced. */
+@font-face {
+  font-family: 'Vollkorn SC'; font-weight: 600; font-style: normal; font-display: swap;
+  src: url('./fonts/vollkornsc600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Vollkorn'; font-weight: 400; font-style: normal; font-display: swap;
+  src: url('./fonts/vollkorn400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Vollkorn'; font-weight: 500; font-style: normal; font-display: swap;
+  src: url('./fonts/vollkorn500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Vollkorn'; font-weight: 600; font-style: normal; font-display: swap;
+  src: url('./fonts/vollkorn600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Vollkorn'; font-weight: 400; font-style: italic; font-display: swap;
+  src: url('./fonts/vollkorn400i.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono'; font-weight: 400; font-style: normal; font-display: swap;
+  src: url('./fonts/plexmono400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono'; font-weight: 500; font-style: normal; font-display: swap;
+  src: url('./fonts/plexmono500.woff2') format('woff2');
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* ── "The Instrument" — blackened steel, aged brass, dial lume ──
+   Var names kept from the old theme so panel styles inherit the retheme. */
 :root {
-  --bg-deep:       #060504;
-  --bg-panel:      #0c0a08;
-  --bg-card:       #141210;
-  --bg-hover:      #1e1b16;
-  --border:        #282319;
-  --border-bright: #4a3f2f;
-  --gold:          #d4b05a;
-  --gold-dim:      #7a6030;
-  --gold-glow:     rgba(212,176,90,0.15);
-  --ember:         #d4622a;
-  --ember-dim:     rgba(212,98,42,0.2);
-  --text-primary:  #f2e8d4;
-  --text-secondary:#a0917c;
-  --text-dim:      #52463a;
-  --font-display:  'Cinzel', serif;
-  --font-body:     'Lora', serif;
+  --bg-deep:       #0b0a08;
+  --bg-panel:      #100d08;
+  --bg-card:       #17130b;
+  --bg-hover:      #211b10;
+  --border:        #312917;
+  --border-bright: #4d3f26;
+  --gold:          #b99a5b;            /* aged brass — structure, headings */
+  --gold-bright:   #e6c883;            /* bright brass — active/live only */
+  --gold-dim:      #7a6437;
+  --gold-glow:     rgba(185,154,91,0.15);
+  --verdigris:     #5d8a7a;            /* oxidized copper — cool counterpoint */
+  --verdigris-dim: rgba(93,138,122,0.18);
+  --ember:         #c65a28;
+  --ember-dim:     rgba(198,90,40,0.2);
+  --hp-full:       #8fae6f;            /* dial-lume gauge states */
+  --hp-mid:        #c9973f;
+  --hp-low:        #c65a28;
+  --ember-deep:    #7a2f1c;            /* danger structure: borders, filled bars */
+  --ember-shadow:  #26120a;            /* danger backgrounds */
+  --lume-deep:     #4f6b3a;            /* healing structure */
+  --lume-shadow:   #171f11;            /* healing backgrounds */
+  --text-primary:  #e9ddc4;
+  --text-secondary:#9a8a71;
+  --text-dim:      #57493a;
+  --font-display:  'Vollkorn SC', Georgia, serif;
+  --font-body:     'Vollkorn', Georgia, serif;
+  --font-mono:     'IBM Plex Mono', Consolas, monospace;
+  --radius:        2px;
   --panel-w:       100vw;
   --panel-h:       100vh;
 }
@@ -29,11 +75,80 @@ html, body, #root {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: var(--bg-deep);
+  background-color: var(--bg-deep);
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Faint grain so the ground reads as material, not a flat hex value */
+body {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+}
+
+/* ── Plate frame — the signature. Apply .plate to any card; give it a
+   .plate-title child for the nameplate cut into the top border. ── */
+.plate {
+  position: relative;
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-panel));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.plate::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(185, 154, 91, 0.20);
+  border-radius: 1px;
+  pointer-events: none;
+}
+.plate-title {
+  position: absolute;
+  top: -9px;
+  left: 16px;
+  z-index: 1;
+  background: var(--bg-card);
+  padding: 0 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-variant-caps: small-caps;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+/* Numerals read as instrument data wherever they appear */
+.mono-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Control hygiene: no control ever falls back to the OS font ── */
+button, input, select, textarea {
+  font-family: inherit;
+  color: inherit;
+}
+input[type="number"] {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Keyboard focus is always visible, always brass */
+:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: rgba(185, 154, 91, 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -48,4 +163,11 @@ html, body, #root {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--gold-dim);
+}
+
+/* Empty-state and decorative SVG icons sit quiet and dim */
+.empty-icon, .detail-empty-icon, .wizard-empty-icon, .wizard-setup-icon,
+.docs-welcome-icon, .wizard-input-icon {
+  color: var(--text-dim);
+  line-height: 0;
 }

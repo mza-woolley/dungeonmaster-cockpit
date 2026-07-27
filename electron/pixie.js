@@ -308,53 +308,6 @@ async function setColor(r, g, b, brightness = 100) {
 
 // ── Test runner ───────────────────────────────────────────────────────────────
 
-async function probeCommands() {
-  await connect();
-  await delay(500);
-
-  const target = 0x001B; // device mesh address = 27
-  _macData = [0x1B, 0x61, 0x44, 0x4D, 0x21, 0x00];
-
-  // ON
-  await writeChar(CMD_UUID, buildPacket(0xffff, 0xed, [0x01]));
-  await delay(800);
-
-  // Color: op=1, op_type=3 → 0xC1, data=[R,G,B,brightness], dst=device addr
-  log('--- Red ---');
-  await writeChar(CMD_UUID, buildPacket(target, 0xC1, [0xff, 0x00, 0x00, 0xff]));
-  await delay(1500);
-
-  log('--- Green ---');
-  await writeChar(CMD_UUID, buildPacket(target, 0xC1, [0x00, 0xff, 0x00, 0xff]));
-  await delay(1500);
-
-  log('--- Blue ---');
-  await writeChar(CMD_UUID, buildPacket(target, 0xC1, [0x00, 0x00, 0xff, 0xff]));
-  await delay(1500);
-
-  log('--- White 50% bright ---');
-  await writeChar(CMD_UUID, buildPacket(target, 0xC1, [0xff, 0xff, 0xff, 0x80]));
-  await delay(1500);
-
-  log('--- OFF ---');
-  await writeChar(CMD_UUID, buildPacket(0xffff, 0xed, [0x00]));
-}
-
-function buildPacket(target, command, data, vendorId = VENDOR_ID) {
-  const packet = new Array(20).fill(0);
-  packet[0] = _packetCount & 0xff;
-  packet[1] = (_packetCount >> 8) & 0xff;
-  packet[5] = target & 0xff;
-  packet[6] = (target >> 8) & 0xff;
-  packet[7] = command;
-  packet[8] = vendorId & 0xff;
-  packet[9] = (vendorId >> 8) & 0xff;
-  for (let i = 0; i < data.length; i++) packet[10 + i] = data[i];
-  const enc = encryptPacket(_sk, _macData, packet);
-  _packetCount = (_packetCount + 1) % 65536 || 1;
-  return enc;
-}
-
 async function runTest() {
   setTimeout(() => { console.error('[Pixie] Global timeout — exiting'); process.exit(1); }, 30000);
   try {

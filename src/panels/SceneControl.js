@@ -1,44 +1,45 @@
 // SceneControl.js — v0.4 (ambience layer added)
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import './SceneControl.css';
+import Icon from '../components/Icons';
 
 // ── Ambience data ─────────────────────────────────────────
 
 const AMBIENCE_SOUNDS = {
   nature: [
-    { id: 'birds',         label: 'Birds',         icon: '🐦', file: 'birds.mp3' },
-    { id: 'bubbles',       label: 'Bubbles',       icon: '🫧', file: 'bubbles.mp3' },
-    { id: 'campfire',      label: 'Campfire',      icon: '🔥', file: 'campfire.mp3' },
-    { id: 'droplets',      label: 'Droplets',      icon: '💧', file: 'droplets.mp3' },
-    { id: 'heavy-rain',    label: 'Heavy Rain',    icon: '🌧', file: 'heavy-rain.mp3' },
-    { id: 'howling-wind',  label: 'Howling Wind',  icon: '💨', file: 'howling-wind.mp3' },
-    { id: 'jungle',        label: 'Jungle',        icon: '🌿', file: 'jungle.mp3' },
-    { id: 'light-rain',    label: 'Light Rain',    icon: '🌧', file: 'light-rain.mp3' },
-    { id: 'rain-on-leaves',label: 'Rain on Leaves',icon: '🍃', file: 'rain-on-leaves.mp3' },
-    { id: 'river',         label: 'River',         icon: '〰', file: 'river.mp3' },
-    { id: 'thunder',       label: 'Thunder',       icon: '⛈', file: 'thunder.mp3' },
-    { id: 'underwater',    label: 'Underwater',    icon: '🌊', file: 'underwater.mp3' },
-    { id: 'waterfall',     label: 'Waterfall',     icon: '💧', file: 'waterfall.mp3' },
-    { id: 'waves',         label: 'Waves',         icon: '🌊', file: 'waves.mp3' },
-    { id: 'wind',          label: 'Wind',          icon: '💨', file: 'wind.mp3' },
-    { id: 'wind-in-trees', label: 'Wind in Trees', icon: '🌲', file: 'wind-in-trees.mp3' },
+    { id: 'birds',         label: 'Birds',         file: 'birds.mp3' },
+    { id: 'bubbles',       label: 'Bubbles',       file: 'bubbles.mp3' },
+    { id: 'campfire',      label: 'Campfire',      file: 'campfire.mp3' },
+    { id: 'droplets',      label: 'Droplets',      file: 'droplets.mp3' },
+    { id: 'heavy-rain',    label: 'Heavy Rain',    file: 'heavy-rain.mp3' },
+    { id: 'howling-wind',  label: 'Howling Wind',  file: 'howling-wind.mp3' },
+    { id: 'jungle',        label: 'Jungle',        file: 'jungle.mp3' },
+    { id: 'light-rain',    label: 'Light Rain',    file: 'light-rain.mp3' },
+    { id: 'rain-on-leaves',label: 'Rain on Leaves',file: 'rain-on-leaves.mp3' },
+    { id: 'river',         label: 'River',         file: 'river.mp3' },
+    { id: 'thunder',       label: 'Thunder',       file: 'thunder.mp3' },
+    { id: 'underwater',    label: 'Underwater',    file: 'underwater.mp3' },
+    { id: 'waterfall',     label: 'Waterfall',     file: 'waterfall.mp3' },
+    { id: 'waves',         label: 'Waves',         file: 'waves.mp3' },
+    { id: 'wind',          label: 'Wind',          file: 'wind.mp3' },
+    { id: 'wind-in-trees', label: 'Wind in Trees', file: 'wind-in-trees.mp3' },
   ],
   creatures: [
-    { id: 'beehive',      label: 'Beehive',      icon: '🐝', file: 'beehive.mp3' },
-    { id: 'chickens',     label: 'Chickens',     icon: '🐔', file: 'chickens.mp3' },
-    { id: 'cows',         label: 'Cows',         icon: '🐄', file: 'cows.mp3' },
-    { id: 'crickets',     label: 'Crickets',     icon: '🦗', file: 'crickets.mp3' },
-    { id: 'crows',        label: 'Crows',        icon: '🐦', file: 'crows.mp3' },
-    { id: 'horse-gallop', label: 'Horse Gallop', icon: '🐴', file: 'horse-gallop.mp3' },
-    { id: 'seagulls',     label: 'Seagulls',     icon: '🐦', file: 'seagulls.mp3' },
-    { id: 'wolf',         label: 'Wolf',         icon: '🐺', file: 'wolf.mp3' },
+    { id: 'beehive',      label: 'Beehive',      file: 'beehive.mp3' },
+    { id: 'chickens',     label: 'Chickens',     file: 'chickens.mp3' },
+    { id: 'cows',         label: 'Cows',         file: 'cows.mp3' },
+    { id: 'crickets',     label: 'Crickets',     file: 'crickets.mp3' },
+    { id: 'crows',        label: 'Crows',        file: 'crows.mp3' },
+    { id: 'horse-gallop', label: 'Horse Gallop', file: 'horse-gallop.mp3' },
+    { id: 'seagulls',     label: 'Seagulls',     file: 'seagulls.mp3' },
+    { id: 'wolf',         label: 'Wolf',         file: 'wolf.mp3' },
   ],
   atmosphere: [
-    { id: 'crowd',        label: 'Crowd',        icon: '👥', file: 'crowd.mp3' },
-    { id: 'paper',        label: 'Paper',        icon: '📄', file: 'paper.mp3' },
-    { id: 'singing-bowl', label: 'Singing Bowl', icon: '🔔', file: 'singing-bowl.mp3' },
-    { id: 'tavern',       label: 'Tavern',       icon: '🍺', file: 'tavern.mp3' },
+    { id: 'crowd',        label: 'Crowd',        file: 'crowd.mp3' },
+    { id: 'paper',        label: 'Paper',        file: 'paper.mp3' },
+    { id: 'singing-bowl', label: 'Singing Bowl', file: 'singing-bowl.mp3' },
+    { id: 'tavern',       label: 'Tavern',       file: 'tavern.mp3' },
   ],
 };
 
@@ -277,11 +278,11 @@ function NowPlaying({ track, isPlaying, onResume, onPause, onPrevious, onSkip })
         <span className="np-artist">{track.artist}</span>
       </div>
       <div className="np-controls">
-        <button className="np-btn" onClick={onPrevious} title="Previous">⏮</button>
+        <button className="np-btn" onClick={onPrevious} title="Previous"><Icon name="prev" /></button>
         <button className="np-btn np-playpause" onClick={isPlaying ? onPause : onResume} title={isPlaying ? 'Pause' : 'Resume'}>
-          {isPlaying ? '⏸' : '▶'}
+          <Icon name={isPlaying ? 'pause' : 'play'} />
         </button>
-        <button className="np-btn" onClick={onSkip} title="Skip">⏭</button>
+        <button className="np-btn" onClick={onSkip} title="Skip"><Icon name="next" /></button>
       </div>
     </div>
   );
@@ -340,8 +341,7 @@ function AmbiencePanel({ activeSounds, onToggle, onVolumeChange, onMasterChange,
                   title={sound.label}
                   onClick={() => onToggle(sound.id, vol)}
                 >
-                  <span className="sound-tile-icon">{sound.icon}</span>
-                  <span className="sound-tile-label">{sound.label}</span>
+                                    <span className="sound-tile-label">{sound.label}</span>
                   {active && (
                     <div className="sound-vol-wrap" onClick={e => e.stopPropagation()}>
                       <input
@@ -468,7 +468,7 @@ function PresetTile({ preset, onFire, onFireLights, onEdit, active, firing }) {
 const CROSSFADE_PREVIEW_MS = 3000;
 
 function ColourSequenceBuilder({ sequence, onChange, onTest, onStopTest, testing }) {
-  const stops = sequence?.stops ?? [{ color: '#d4622a', brightness: 100 }];
+  const stops = useMemo(() => sequence?.stops ?? [{ color: '#d4622a', brightness: 100 }], [sequence]);
 
   const update = (i, patch) => onChange({ stops: stops.map((s, j) => j === i ? { ...s, ...patch } : s) });
   const remove = (i)        => onChange({ stops: stops.filter((_, j) => j !== i) });
@@ -563,8 +563,7 @@ function AmbienceMixer({ mix, onChange }) {
                     onChange(next);
                   }}
                 >
-                  <span className="sound-tile-icon">{sound.icon}</span>
-                  <span className="sound-tile-label">{sound.label}</span>
+                                    <span className="sound-tile-label">{sound.label}</span>
                   {active && (
                     <div className="sound-vol-wrap" onClick={e => e.stopPropagation()}>
                       <input
@@ -1144,7 +1143,7 @@ export default function SceneControl() {
           </div>
           {presets.length === 0 ? (
             <div className="scene-empty">
-              <div className="empty-icon">🎭</div>
+              <div className="empty-icon"><Icon name="sliders" size={44} /></div>
               <p>No presets yet.</p>
               <p className="empty-hint">Create a preset to fire Spotify, Nanoleaf, and ambience together with one tap.</p>
               <button className="auth-btn" onClick={() => setEditing('new')}>Create your first preset</button>

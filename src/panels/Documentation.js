@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import './Documentation.css';
+import Icon from '../components/Icons';
 
 const api = window.electronAPI?.docs;
 
@@ -297,7 +298,7 @@ const MD_TOOLS = [
   { label: '1.',  title: 'Numbered list',prefix: '1. ',            sample: 'list item'    },
   { label: '<>',  title: 'Inline code',  wrap: ['`', '`'],         sample: 'code'         },
   { label: '```', title: 'Code block',   wrap: ['```\n', '\n```'], sample: 'code block'   },
-  { label: '🔗',  title: 'Link',         wrap: ['[', '](url)'],    sample: 'link text'    },
+  { label: '⚭',  title: 'Link',         wrap: ['[', '](url)'],    sample: 'link text'    },
   { label: '▦',   title: 'Table',        insert: '\n| Column 1 | Column 2 | Column 3 |\n| --- | --- | --- |\n| Cell | Cell | Cell |\n' },
 ];
 
@@ -610,7 +611,7 @@ export default function Documentation() {
       <div className="docs-main">
         {!doc ? (
           <div className="docs-welcome">
-            <div className="docs-welcome-icon">📚</div>
+            <div className="docs-welcome-icon"><Icon name="book" size={44} /></div>
             <h2>Documentation</h2>
             <p>Select a document or create a new one.</p>
           </div>
@@ -624,7 +625,7 @@ export default function Documentation() {
               <div className="docs-toolbar-actions">
                 {editing ? (
                   <>
-                    <button className="docs-btn" onClick={handleInsertImage}>🖼 Image</button>
+                    <button className="docs-btn" onClick={handleInsertImage}>Image</button>
                     <button
                       className="docs-btn layout-toggle"
                       onClick={() => setLayout(l => l === 'toggle' ? 'split' : 'toggle')}

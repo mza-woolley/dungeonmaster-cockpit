@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './DNDWizard.css';
+import Icon from '../components/Icons';
 
 // ── Message helpers ───────────────────────────────────────
 
@@ -53,7 +54,7 @@ function VerifyBadge({ verified, matchType }) {
   if (matchType === 'keyword') {
     return (
       <span className="wizard-badge wizard-badge--keyword" title="Answer sourced from SRD rules sections">
-        📖 SRD Rules
+        SRD Rules
       </span>
     );
   }
@@ -102,7 +103,7 @@ function FormattedAnswer({ text }) {
       {lines.map((line, i) => {
         if (!line.trim()) return <div key={i} className="wizard-spacer" />;
 
-        const bulletMatch = line.match(/^(\s*)[•\-\*]\s+(.*)/);
+        const bulletMatch = line.match(/^(\s*)[•\-*]\s+(.*)/);
         if (bulletMatch) {
           return (
             <div key={i} className="wizard-bullet">
@@ -164,7 +165,7 @@ function SetupNotice({ reason, srdReady }) {
   const needsKey = reason && reason.includes('anthro.json');
   return (
     <div className="wizard-setup-notice">
-      <div className="wizard-setup-icon">📜</div>
+      <div className="wizard-setup-icon"><Icon name="sheet" size={40} /></div>
       {needsKey ? (
         <>
           <p className="wizard-setup-title">API Key Required</p>
@@ -298,7 +299,7 @@ export default function DNDWizard() {
         <div className="wizard-legend">
           <span className="wizard-badge wizard-badge--named">⚔ SRD Match</span>
           <span className="wizard-legend-sep">exact entity</span>
-          <span className="wizard-badge wizard-badge--keyword">📖 SRD Rules</span>
+          <span className="wizard-badge wizard-badge--keyword">SRD Rules</span>
           <span className="wizard-legend-sep">rules section</span>
           <span className="wizard-badge wizard-badge--both">✦ SRD + Rules</span>
           <span className="wizard-legend-sep">both</span>
@@ -315,7 +316,7 @@ export default function DNDWizard() {
 
         {messages.length === 0 && !notReady && (
           <div className="wizard-empty">
-            <div className="wizard-empty-icon">🧙</div>
+            <div className="wizard-empty-icon"><Icon name="hat" size={44} /></div>
             <p>Ask me anything about D&D 5e rules.</p>
             <p className="wizard-empty-hint">Spells · Conditions · Combat · Monsters · Classes · Items</p>
             <div className="wizard-examples">
@@ -338,7 +339,7 @@ export default function DNDWizard() {
 
       {/* Input */}
       <div className="wizard-input-wrap">
-        <div className="wizard-input-icon">🧙</div>
+        <div className="wizard-input-icon"><Icon name="hat" size={20} /></div>
         <textarea
           ref={inputRef}
           className="wizard-input"

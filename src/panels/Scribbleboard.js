@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './Scribbleboard.css';
+import Icon from '../components/Icons';
 
 const STORAGE_KEY = 'dm-cockpit-scribble';
 
@@ -131,7 +132,7 @@ export default function Scribbleboard() {
       <div className="scribble-log" ref={logRef}>
         {entries.length === 0 && (
           <div className="empty-state">
-            <div className="empty-icon">✍️</div>
+            <div className="empty-icon"><Icon name="quill" size={44} /></div>
             <p>Your session notes will appear here.</p>
             <p className="empty-hint">Press <kbd>Enter</kbd> to commit an entry. <kbd>Shift+Enter</kbd> for a new line.</p>
           </div>
@@ -147,7 +148,7 @@ export default function Scribbleboard() {
 
       {/* Input area */}
       <div className="scribble-input-wrap">
-        <div className="input-prefix">✍</div>
+        <div className="input-prefix"><Icon name="quill" size={16} /></div>
         <textarea
           ref={textareaRef}
           className="scribble-input"

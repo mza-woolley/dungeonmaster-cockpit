@@ -12,10 +12,10 @@ function getDisplayHtml(title) {
   html, body {
     width:100%; height:100%;
     overflow:hidden;
-    font-family: 'Cinzel', 'Trajan Pro', Georgia, 'Times New Roman', serif;
-    color:#e8e0d0;
+    font-family: 'Vollkorn', Georgia, 'Times New Roman', serif;
+    color:#e9ddc4;
     background:
-      radial-gradient(ellipse at center, #1d160d 0%, #0c0a08 65%, #040302 100%);
+      radial-gradient(ellipse at center, #17130b 0%, #100d08 65%, #040302 100%);
   }
   #stage {
     position: relative;
@@ -44,7 +44,7 @@ function getDisplayHtml(title) {
     grid-area: var(--area);
     transform: rotate(var(--rotate));
     background: rgba(10,8,5,0.55);
-    border: 1px solid #3a3024;
+    border: 1px solid #312917;
     border-radius: 10px;
     display:flex; flex-direction:column;
     justify-content:flex-start;
@@ -79,7 +79,7 @@ function getDisplayHtml(title) {
     border-bottom-right-radius: 6px;
   }
   .seat.active {
-    border-color: #e0c068;
+    border-color: #e6c883;
     animation: seat-pulse 2.4s ease-in-out infinite;
   }
   @keyframes seat-pulse {
@@ -106,7 +106,7 @@ function getDisplayHtml(title) {
   }
   .seat.empty {
     align-items: center;
-    color: #4a4338;
+    color: #4d3f26;
     font-style: italic;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -121,8 +121,8 @@ function getDisplayHtml(title) {
   .seat-turn-banner {
     display: none;
     align-self: flex-start;
-    background: #c9a84c;
-    color: #1a140a;
+    background: #b99a5b;
+    color: #100d08;
     font-weight: bold;
     font-size: 8px;
     letter-spacing: 0.15em;
@@ -139,7 +139,7 @@ function getDisplayHtml(title) {
   }
   .seat-sub {
     font-size: 10px;
-    color: #b9ad97;
+    color: #9a8a71;
     margin-top: 1px;
     letter-spacing: 0.05em;
   }
@@ -151,7 +151,7 @@ function getDisplayHtml(title) {
     margin-top: 3px;
     width: 100%;
     font-size: 11px;
-    color: #d8cdb8;
+    color: #c9bda3;
   }
   .seat-init-row {
     display: flex;
@@ -163,7 +163,7 @@ function getDisplayHtml(title) {
     align-items: baseline;
     gap: 4px;
     text-align: center;
-    border: 1px solid #3a3024;
+    border: 1px solid #312917;
     border-radius: 6px;
     padding: 1px 6px;
     background: rgba(0,0,0,0.22);
@@ -172,13 +172,13 @@ function getDisplayHtml(title) {
     font-size: 13px;
     font-weight: bold;
     line-height: 1;
-    color: #c9a84c;
+    color: #b99a5b;
   }
   .seat-init-label {
     font-size: 8px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #b9ad97;
+    color: #9a8a71;
   }
   .seat-hp-wrap {
     width: 100%;
@@ -200,7 +200,7 @@ function getDisplayHtml(title) {
   .seat-hp-label {
     font-size: 9px;
     margin-top: 1px;
-    color: #b9ad97;
+    color: #9a8a71;
   }
   .seat-conditions {
     margin-top: 3px;
@@ -214,8 +214,8 @@ function getDisplayHtml(title) {
     letter-spacing: 0.06em;
     padding: 0px 4px;
     border-radius: 8px;
-    border: 1px solid #6b3a3a;
-    color: #e0a0a0;
+    border: 1px solid #7a2f1c;
+    color: #d08d70;
     background: rgba(107,58,58,0.2);
   }
 
@@ -311,7 +311,7 @@ function getDisplayHtml(title) {
     mapCtx.restore();
   }
 
-  const PIN_COLORS = { pc: '#4a8fd4', npc: '#c9a84c', monster: '#c94a4a' };
+  const PIN_COLORS = { pc: '#5d8a7a', npc: '#b99a5b', monster: '#c65a28' };
 
   function drawMapPins(dx, dy, dw, dh) {
     if (!pins.length) return;
@@ -326,7 +326,7 @@ function getDisplayHtml(title) {
       const px = dx + pin.x * dw;
       const py = dy + pin.y * dh;
       const r  = pinSize;
-      const color = PIN_COLORS[pin.type] || '#888';
+      const color = PIN_COLORS[pin.type] || '#9a8a71';
 
       mapCtx.shadowColor = 'rgba(0,0,0,0.7)';
       mapCtx.shadowBlur  = 8;
@@ -466,11 +466,11 @@ function getDisplayHtml(title) {
   }
 
   function hpColor(hp, maxHp) {
-    if (!maxHp) return '#4caf50';
+    if (!maxHp) return '#8fae6f';
     const ratio = hp / maxHp;
-    if (ratio > 0.5) return '#4caf50';
-    if (ratio > 0.25) return '#ff9800';
-    return '#f44336';
+    if (ratio > 0.5) return '#8fae6f';
+    if (ratio > 0.25) return '#c9973f';
+    return '#c65a28';
   }
 
   function renderSeat(el, seat) {

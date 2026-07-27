@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Encounters.css';
 import { ambienceEngine } from './SceneControl';
 import TVDisplay from './TVDisplay';
+import Icon from '../components/Icons';
 
 // ── Helpers ────────────────────────────────────────────────
 const CR_OPTIONS = [
@@ -25,7 +26,7 @@ function uid() {
   return `custom_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 }
 
-function blankMonster() {
+function blankStatBlock(overrides = {}) {
   return {
     id: uid(), name: '', source: 'custom',
     cr: '1', size: 'Medium', type: 'Humanoid', alignment: 'True Neutral',
@@ -36,22 +37,12 @@ function blankMonster() {
     condition_immunities: '', senses: 'passive Perception 10', languages: '—',
     special_abilities: [], actions: [], legendary_actions: [],
     description: '',
+    ...overrides,
   };
 }
 
-function blankNpc() {
-  return {
-    id: uid(), name: '', source: 'custom',
-    cr: '—', size: 'Medium', type: 'Humanoid', alignment: 'True Neutral',
-    ac: 10, ac_desc: '', hp: 10, hp_dice: '2d8+1', speed: '30 ft.',
-    str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10,
-    saving_throws: '', skills: '', damage_immunities: '',
-    damage_resistances: '', damage_vulnerabilities: '',
-    condition_immunities: '', senses: 'passive Perception 10', languages: '—',
-    special_abilities: [], actions: [], legendary_actions: [],
-    description: '',
-  };
-}
+const blankMonster = () => blankStatBlock();
+const blankNpc     = () => blankStatBlock({ cr: '—', ac: 10 });
 
 function srdToCustom(srd) {
   return {
@@ -127,8 +118,8 @@ function StatBlock({ monster, onClone, onEdit, onDelete, isCustom }) {
           )}
           {isCustom && (
             <>
-              <button className="sb-btn" onClick={() => onEdit(monster)}>✏️ Edit</button>
-              <button className="sb-btn danger" onClick={() => onDelete(monster)}>🗑 Delete</button>
+              <button className="sb-btn" onClick={() => onEdit(monster)}>Edit</button>
+              <button className="sb-btn danger" onClick={() => onDelete(monster)}>Delete</button>
             </>
           )}
         </div>
@@ -235,7 +226,7 @@ function MonsterEditor({ initial, onSave, onCancel }) {
         <h3>{initial.name ? `Editing: ${initial.name}` : 'New Custom Monster'}</h3>
         <div className="editor-header-btns">
           <button className="sb-btn" onClick={onCancel}>Cancel</button>
-          <button className="sb-btn primary" onClick={() => onSave(m)}>💾 Save</button>
+          <button className="sb-btn primary" onClick={() => onSave(m)}>Save</button>
         </div>
       </div>
 
@@ -616,7 +607,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
             <option value="">— Load encounter preset —</option>
             {encPresets.map(p => (
               <option key={p.id} value={p.id}>
-                {p.name} ({p.combatants.length}){p.mapStateId ? ' 🗺️' : ''}
+                {p.name} ({p.combatants.length}){p.mapStateId ? ' ·map' : ''}
               </option>
             ))}
           </select>
@@ -624,7 +615,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
             <button className="sb-btn danger small" title="Delete this preset" onClick={() => deleteEncounterPreset(libraryPresetId)}>✕</button>
           )}
           {savingPresetName === null && (
-            <button className="sb-btn" onClick={startSavePreset} disabled={combatants.length === 0} title="Save current combatants as a preset">💾 Save Preset</button>
+            <button className="sb-btn" onClick={startSavePreset} disabled={combatants.length === 0} title="Save current combatants as a preset">Save Preset</button>
           )}
         </div>
         {savingPresetName !== null && (
@@ -645,7 +636,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
               title="Optionally link a saved map state to load with this preset"
             >
               <option value="">— No map state —</option>
-              {mapStates.map(s => <option key={s.id} value={s.id}>🗺️ {s.name}</option>)}
+              {mapStates.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
             </select>
             <button className="sb-btn primary small" onClick={confirmSavePreset}>Save</button>
             <button className="sb-btn small" onClick={() => setSavingPresetName(null)}>Cancel</button>
@@ -676,7 +667,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
         {/* Table seat assignments */}
         <div className="init-row table-seats-row">
           <button className="sb-btn small" onClick={() => setSeatsExpanded(e => !e)}>
-            🪑 Table Seats {seatsExpanded ? '▲' : '▼'}
+            Table Seats {seatsExpanded ? '▲' : '▼'}
           </button>
         </div>
         {seatsExpanded && (
@@ -711,7 +702,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
                 const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
                 return (
                   <button key={`npc-${n.id}`} className="init-mon-result" onClick={() => addMonster(n)}>
-                    <span className="imr-name">🎭 {n.name}</span>
+                    <span className="imr-name">{n.name}</span>
                     <span className="imr-meta">NPC · HP {n.hp} · Init {modStr}</span>
                   </button>
                 );
@@ -740,7 +731,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
         <div className="init-row initiative-header">
           <div className="round-badge">Round {round}</div>
           <div className="initiative-controls">
-            <button className="sb-btn" onClick={rollAll} title="Re-roll all initiatives">🎲 Roll All</button>
+            <button className="sb-btn" onClick={rollAll} title="Re-roll all initiatives">Roll All</button>
             <button className="sb-btn primary" onClick={nextTurn} disabled={sorted.length === 0}>Next Turn ▶</button>
             <button className="sb-btn danger" onClick={reset}>✕ Reset</button>
           </div>
@@ -823,7 +814,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
               <div className="hp-bar-wrap">
                 <div className="hp-bar" style={{
                   width: `${c.maxHp > 0 ? Math.round((c.hp / c.maxHp) * 100) : 0}%`,
-                  background: c.hp / c.maxHp > 0.5 ? '#4caf50' : c.hp / c.maxHp > 0.25 ? '#ff9800' : '#f44336'
+                  background: c.hp / c.maxHp > 0.5 ? 'var(--hp-full)' : c.hp / c.maxHp > 0.25 ? 'var(--hp-mid)' : 'var(--hp-low)'
                 }} />
                 <div className="hp-bar-label">
                   <input type="number" value={c.hp} onChange={e => setHpDirect(c.id, e.target.value)} />
@@ -845,7 +836,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
                 if (!cond) return null;
                 return (
                   <button key={key} className="condition-chip active" onClick={() => toggleCondition(c.id, key)} title={`Remove ${cond.label}`}>
-                    <span className="condition-icon">{cond.icon}</span>{cond.label}
+                    {cond.label}
                   </button>
                 );
               })}
@@ -853,7 +844,7 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
                 <select className="condition-add-select" value="" onChange={e => { if (e.target.value) toggleCondition(c.id, e.target.value); }}>
                   <option value="">+ Condition…</option>
                   {CONDITIONS.filter(cond => !(c.conditions || []).includes(cond.key)).map(cond => (
-                    <option key={cond.key} value={cond.key}>{cond.icon} {cond.label}</option>
+                    <option key={cond.key} value={cond.key}>{cond.label}</option>
                   ))}
                 </select>
               </div>
@@ -1111,13 +1102,13 @@ export default function Encounters() {
       {/* Tab switcher */}
       <div className="enc-tabs">
         <button className={`enc-tab ${tab === 'npcs'       ? 'active' : ''}`} onClick={() => setTab('npcs')}>
-          🎭 NPCs
+          NPCs
         </button>
         <button className={`enc-tab ${tab === 'initiative' ? 'active' : ''}`} onClick={() => setTab('initiative')}>
-          ⚔️ Initiative
+          Initiative
         </button>
         <button className={`enc-tab ${tab === 'monsters'   ? 'active' : ''}`} onClick={() => setTab('monsters')}>
-          🐉 Monsters
+          Monsters
         </button>
       </div>
 
@@ -1188,7 +1179,7 @@ export default function Encounters() {
             )}
             {!editingNpc && !selectedNpc && (
               <div className="detail-empty">
-                <div className="detail-empty-icon">🎭</div>
+                <div className="detail-empty-icon"><Icon name="person" size={44} /></div>
                 <p>Select an NPC to view its stat block.</p>
                 <p className="detail-empty-hint">Or create one with <strong>+ New NPC</strong>.</p>
               </div>
@@ -1302,7 +1293,7 @@ export default function Encounters() {
             )}
             {!editing && !selectedMonster && (
               <div className="detail-empty">
-                <div className="detail-empty-icon">🐉</div>
+                <div className="detail-empty-icon"><Icon name="d20" size={44} /></div>
                 <p>Select a monster to view its stat block.</p>
                 <p className="detail-empty-hint">Or create a custom monster with <strong>+ New Custom</strong>.</p>
               </div>

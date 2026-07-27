@@ -11,8 +11,8 @@ function getSbHtml() {
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: #f8f0dc;
-    color: #1a0e00;
+    background: #e9ddc4;
+    color: #211b10;
     font-family: Georgia, serif;
     font-size: 13.5px;
     padding: 16px 18px 20px;
@@ -20,19 +20,19 @@ function getSbHtml() {
   }
   .name {
     font-size: 1.35rem;
-    color: #5c1a1a;
+    color: #7a2f1c;
     font-weight: bold;
     margin-bottom: 2px;
   }
   .meta {
     font-style: italic;
-    color: #5c1a1a;
+    color: #7a2f1c;
     font-size: 0.88rem;
     margin-bottom: 10px;
   }
   .divider {
     border: none;
-    border-top: 2px solid #9c2c2c;
+    border-top: 2px solid #7a2f1c;
     margin: 9px 0;
   }
   .row {
@@ -42,38 +42,38 @@ function getSbHtml() {
   }
   .label {
     font-weight: bold;
-    color: #5c1a1a;
+    color: #7a2f1c;
     margin-right: 5px;
   }
   .stats {
     display: flex;
     text-align: center;
-    border-top: 1px solid #c8a84c;
-    border-bottom: 1px solid #c8a84c;
+    border-top: 1px solid #b99a5b;
+    border-bottom: 1px solid #b99a5b;
     padding: 7px 0;
     margin: 9px 0;
   }
   .stat { flex: 1; }
-  .stat-label { font-size: 0.68rem; font-weight: bold; color: #5c1a1a; text-transform: uppercase; }
+  .stat-label { font-size: 0.68rem; font-weight: bold; color: #7a2f1c; text-transform: uppercase; }
   .stat-val   { font-size: 0.95rem; font-weight: bold; }
-  .stat-mod   { font-size: 0.78rem; color: #5c1a1a; }
+  .stat-mod   { font-size: 0.78rem; color: #7a2f1c; }
   .section-title {
     font-variant: small-caps;
     font-size: 1.05rem;
-    color: #5c1a1a;
-    border-bottom: 1px solid #9c2c2c;
+    color: #7a2f1c;
+    border-bottom: 1px solid #7a2f1c;
     margin-bottom: 6px;
     padding-bottom: 2px;
   }
   .ability { font-size: 0.85rem; margin: 5px 0; line-height: 1.5; }
   .ability-name { font-weight: bold; font-style: italic; }
-  .description { font-size: 0.83rem; font-style: italic; color: #5a3a1a; line-height: 1.6; }
+  .description { font-size: 0.83rem; font-style: italic; color: #4d3f26; line-height: 1.6; }
   ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-thumb { background: #c8a84c; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb { background: #b99a5b; border-radius: 3px; }
 </style>
 </head>
 <body>
-<div id="root"><p style="color:#9a8060;font-style:italic;padding:20px">Loading…</p></div>
+<div id="root"><p style="color:#9a8a71;font-style:italic;padding:20px">Loading…</p></div>
 <script>
 function statMod(score) {
   const m = Math.floor((score - 10) / 2);
@@ -185,7 +185,7 @@ function openStatBlock(monsterData) {
     minHeight: 300,
     title: monsterData.name,
     alwaysOnTop: false,
-    backgroundColor: '#f8f0dc',
+    backgroundColor: '#e9ddc4',
     webPreferences: { nodeIntegration: false, contextIsolation: true },
   });
   sbWindow.setMenuBarVisibility(false);
