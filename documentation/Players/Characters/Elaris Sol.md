@@ -17,8 +17,7 @@ Elaris Sol is the runaway daughter of a mysterious and fanatically devout noblew
 
 - Elaris's mother is **Virelle**, who was theologically touched by **Sibling Thorne** (the Vassal of Light, ⅓ of Tre Illium) and given light powers meant for her first of kin.
 - Elaris's patron is, unknowingly, **Sibling Thorne** himself — she believes her magic comes from her mother's "divine talent," but it is in fact inherited directly from the Vassal of Light. This makes her sun-blessed with powers beyond normal elven comprehension — effectively an **Aasimar**.
-- Elaris is also **Wizzleforth's daughter** and **Plumbodian's granddaughter** through Virelle and Plumbodian the 4th — though none of the three currently know this.
-- Virelle searched the lands for Wizzleforth (Elaris's father) after his retreat-night encounter at Glimmerdeep Caverns, eventually tracking — and devastating — Plumbodian's fleet (the Armada of Glimmerdeep) before disappearing.
+- Elaris's father is unnamed and of no further significance — her lineage runs entirely through Virelle and, through her, Sibling Thorne.
 
 ---
 

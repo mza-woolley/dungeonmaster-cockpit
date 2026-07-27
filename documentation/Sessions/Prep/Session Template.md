@@ -10,11 +10,11 @@
 
 ## NPC / Location Directory
 
-| Location Type | Location Name | NPC(s) |
-| :---- | :---- | :---- |
-|  |  |  |
-|  |  |  |
-|  |  |  |
+| NPC | Location |
+| :---- | :---- |
+|  |  |
+|  |  |
+|  |  |
 
 ---
 

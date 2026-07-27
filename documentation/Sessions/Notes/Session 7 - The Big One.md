@@ -85,9 +85,20 @@ PCs are now free to set out and begin investigating the heist. For the leads the
 
 *What actually happened. Filled in during/after the session.*
 
--
--
--
+- Party woke at Smuggler's Den (Fenrik broke a bed). Talked to Silas and Du'geshk about the vault job; Du'geshk introduced Frah'nk to the crew.
+- Kaelen picked up Hoogle (the Second) from the "Dog's Den," then left him in the upstairs doggy pen at the Smuggler's Den.
+- Kaelen and Frah'nk had a character chat.
+- Wizzleforth explained the Lumina Lab event to Frah'nk, but withheld the Greyveil Suppression connection. Valerius' death confirmed to the group.
+- Middle Solvetra clock timebomb thread dropped/confirmed defused — Wizzleforth is holding it.
+- Newspaper (Tailendra) tells Fenrik a new Headguard arrives in 2 days — not yet chosen/announced.
+- Frah'nk left a note/task list with Grakh outlining what needs doing for the vault heist.
+- Party scouted the bank and weighed their options rather than committing to a single approach.
+- All PCs entered the bank. Frah'nk filled out forms; Wizzleforth planted himself on a couch near Elaris, who was waiting there — this was Elaris' character introduction to the party. Fenrik stayed outside. Plumbodian read a Guard Advisory Pamphlet covering protocols for entering/leaving the area, then applied for a job and landed an internship. After meeting the party, Elaris asked to join.
+- With valid Working Bank Rights + ID (delivered in person by Gruunsh'ck Diamondholder), Plumbodian learned about the Duress Alarm, gained B1 access, and can pick up/collect bank notes.
+- Plumbodian's B1 infiltration (Investigation 13 / Nature 13): saw Vanya's office and the keys on her desk, saw staff working assigned tasks, and got a dropped line about "extra work" (DM/player knowledge: bank note dye packs — Plumbodian doesn't know this yet).
+- Party bought out Threadbare Provisions' entire stock (Equipment lead resolved).
+- Session ended with Plumbodian still embedded at the Vault and the party flagging a next job at Wayfarer's Cache (pay amended to 150gp/pp).
+- **Net result:** this was the heist's setup/infiltration phase — no break-in attempt yet, no DOL confrontation. See updated [Active Quests](../../../Quests/Active/Solvetra/Solvetra%20Intermellum/Active%20Quests.md) and [Active Threats](../../../Quests/Threats/Active%20Threats.md) for details carried forward into Session 8.
 
 ---
 

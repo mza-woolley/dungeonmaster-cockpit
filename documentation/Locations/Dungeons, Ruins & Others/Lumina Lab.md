@@ -36,3 +36,9 @@ Refer to map for layout detail.
 - Goblins had no known camp affiliation beyond the Lab itself
 - The facility's existence was flagged to the party by Silas Shadowfoot
 - Silas confirmed the party were the "special guests" referenced in the logbook
+
+---
+
+## Aftermath
+
+The Lab's *personnel* were wiped out (Dragg, Valerius, all goblins), but the production infrastructure — vats, distilleries, the Worg-extraction setup — remains intact. From the DOL's perspective this is a personnel loss, not a structural one, and they're quietly restaffing rather than abandoning the site. Elixir production resumes after a short operational gap — **Ars Lapis's supply is not disrupted by Session 6's events**. See [Active Threats — Valerius' Replacement](../../Quests/Threats/Active%20Threats.md) and [Lumina Elixir in Ars Lapis](../../Story%20Threads/DOL/(Ars%20Lapis)%20Lumina%20Elixir.md).

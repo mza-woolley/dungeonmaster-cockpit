@@ -24,7 +24,7 @@ Greyveil was a mixed, community-run district. Open markets, shared institutions,
 ## Known Participants
 
 - **Silvanus Shadowfoot** — conscripted Dawnbringer. Followed orders. Has never forgiven himself. The Suppression was the first fracture in his faith; the later ambush on his family completed it. See [Silvanus Shadowfoot](../NPCs/Allies/Silvanus%20Shadowfoot.md).
-- **Frah'nk Frapper** — conscripted alongside Silvanus. The two met during the Suppression. It was the defining event that drove Frank away from the Order entirely. See [Frah'nk Frapper](../Players/Characters/Frah'nk%20Frapper.md).
+- **Frah'nk Frapper** — conscripted alongside Silvanus. The two met during the Suppression. It was the defining event that drove Frah'nk away from the Order entirely. See [Frah'nk Frapper](../Players/Characters/Frah'nk%20Frapper.md).
 
 ---
 

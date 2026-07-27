@@ -4,45 +4,42 @@ The interconnected lineages and backstories behind the party's characters — th
 
 ---
 
-## The Plumbodian–Wizzleforth–Elaris Line
+## The Plumbodian Line & The Orb
 
-- **Plumbodian** is Wizzleforth's father, who is in turn Elaris's father.
-- **Wizzleforth**, many years ago during a Cleric retreat at Glimmerdeep Caverns, met a woman named **Virelle** and shared a night with her. He did not see her again and does not know what happened.
+- **Kaela Shadowsong** (⅓ of Tre Illium) retreated to the sea and had a child with **Plumbodian the 1st**. Wanting a normal life for her son, she passed on nothing of the Shadowsong name or legacy — but the Orb she carried with her became an unexplained family heirloom, passed down the Plumbodian line ever since.
 - **Plumbodian the 3rd** was alive when Tre Illium was overthrown by the Shadowsong. The power vacuum allowed the Division of Lumination to rise as the only organised opposition.
-- **Plumbodian the 4th's** reincarnation came about when he had a child — the mother dying in childbirth, the immense stress triggering a rebirth. He enrolled this child (Wizzleforth) in Cleric classes and had him study under the Division of Lumination for protection against a possible second Shadowsong attack. Wizzleforth is therefore relatively normal — this was protection, not indoctrination.
+- **Plumbodian the 4th** carried the real Orb — until Virelle took it from him (see below), an event that triggered his reincarnation as **Plumbodian the 5th**.
 
-**Virelle's fate:**
-Virelle had Wizzleforth's child — Elaris — and searched the lands for the father. Using her attunement to magic, she tracked Plumbodian the 4th via the genetic magic weave of her family. Learning of his carelessness and his drunken ambition to sail, Virelle burst into light, fractured the ocean, and sank all surrounding ships — including **The Armada of Glimmerdeep**. Using the last of her magic, she implanted false memories into Plumbodian (now the 5th) — convincing him he once had a family that went down with the ships, and that he received the Orb through that family. Her motive: to not be tracked, and to leave peacefully after destroying his fleet.
+**Virelle and the Orb:**
+Virelle needed the real Orb for reasons connected to **Luxfracta** — exactly why is still TBD, way down the line. To get it, she took the Orb from Plumbodian the 4th and sank **The Armada of Glimmerdeep**. The shock of that loss triggered his reincarnation. In its place, Virelle left a powerful but false orb, along with implanted memories convincing him his family went down with the ships. Virelle currently holds the real Orb.
 
-**The Orb:**
-The Orb passed to Plumbodian from his mother — **Kaela Shadowsong**, ⅓ of Tre Illium. The Orb is attuned to the gate of Luxfracta, and is the piece required to activate the passthrough to the Realm of Shadowsong. It conduits the magic of the Shadowrealm through solar energy, creating a divine moon presence and establishing perfect harmony.
+**The Orb (real):**
+The Orb traces back to **Kaela Shadowsong**, ⅓ of Tre Illium. It's attuned to the gate of **Luxfracta** and is the piece required to activate the passthrough to the **Realm of Shadowsong**. It conduits the magic of the Shadowrealm through solar energy, creating a divine moon presence and establishing perfect harmony.
 
 > *If the Shadowsong obtain the Orb — they destroy it and unleash ultimate power. If the Division/Order obtain it — they seal Lux Infracta and usher in permanent rule through Light. It's a lose-lose if either side gains full control. Tre Illium's goal was a lunar outcome.*
 
 ---
 
-## Fenrik's Line — Sibling Thorne & the Primordial Fist
+## Fenrik & Sylphie
 
-- **Sibling Thorne**, ⅓ of Tre Illium, is the Angel of Light — created out of pure divine solar energy (the Vassal of Light, final boss) to stop the Shadowsong from corrupting La'Choix.
-- After his efforts, he had a child with a human woman — **Crecelia Fenrik**. Crecelia had no idea how to raise a demi-god son and left the child with the **Northern Star of the Primordial Fist**, believing they'd raise him well. This did not work out — when Fenrik wanted to leave the order, they came after his wife and children.
-- **Fenrik** is therefore the son of a demi-god and carries divine heritage he may not fully understand.
-- **Sylphie** (daughter of Myxtiferious and Kaela Shadowsong) had a relationship with Fenrik. The Northern Star of the Primordial Fist broke them up — funded and bankrolled by the Division to topple the Royal Dragon Regency, the power and throne once held by Myxtiferious.
-
----
-
-## Elaris's Line — The Vassal of Light
-
-- **Virelle** was touched theologically by Sibling Thorne and given light powers. These were meant for her first of kin, but some leaked through to Virelle directly.
-- **Elaris**'s patron is Sibling Thorne — she just doesn't know it, or who he is. Imbued with the same mystic and pure light power used to save La'Choix, she believes her magic is inherited from her divinely talented mother. In actuality, it comes straight from the Vassal of Light. Elaris is sun-blessed with powers beyond human/elf comprehension — an Aasimar.
+- **Crecelia Fenrik** — a single mother, father unknown — left her son **Fenrik** with the **Northern Star of the Primordial Fist** under external pressures she had no way around.
+- **Fenrik** carries no divine heritage — his father was simply never known, and it isn't a mystery that needs an answer.
+- **Sylphie** (daughter of **Myxtiferious**, ⅓ of Tre Illium, with an unnamed partner) had a relationship with Fenrik. The Northern Star of the Primordial Fist — funded and bankrolled by the Division to topple the Royal Dragon Regency, the power and throne once held by Myxtiferious — broke them apart, and went after Fenrik's wife and children when he tried to leave the order.
 
 ---
 
-## Sylphie's Line — Myxtiferious & Kaela Shadowsong
+## Elaris & The Vassal of Light
 
-- **Myxtiferious**, the Red Dragon Lord and ⅓ of Tre Illium, had a relationship with Kaela Shadowsong. Their child is **Sylphie**.
-- Myxtiferious was awarded *Lux Invicta* to rule until the end of his bloodline, vowing never to return to his draconic form — this allowed him to settle and start a family.
-- **Kaela Shadowsong** knew that a Shadowsong in the public eye — even one who'd turned her back on her lineage — wouldn't be safe. She settled to live out at sea, where there was no discrimination. This is where she met Plumbodian the 1st.
-- Sylphie has been alive a very long time, and eventually settled with Fenrik. The NSPF broke them apart.
+- **Virelle** was touched theologically by **Sibling Thorne** (⅓ of Tre Illium, the Vassal of Light) and given light powers. These were meant for her first of kin, but some leaked through to Virelle directly.
+- **Elaris** is Virelle's daughter, with an unnamed father — no further significance to him.
+- Elaris's patron is, unknowingly, **Sibling Thorne** himself — she believes her magic comes from her mother's "divine talent," but it is in fact inherited directly from the Vassal of Light. This makes her sun-blessed with powers beyond normal elven comprehension — effectively an **Aasimar**.
+
+---
+
+## Kaelen & The Shadowsong Name
+
+- **Kaelen** carries the Shadowsong name — a distant, loose descendant of Kaela Shadowsong's wider family (a separate branch from the line that quietly continued through Plumbodian).
+- See [Wizzleforth's Lineage Vision](../../Story%20Threads/PCs/Wizzleforth%20-%20Lineage%20Vision.md) — a vision experienced by Wizzleforth that turns out not to be about him at all, but about Kaelen's place in this lineage.
 
 ---
 

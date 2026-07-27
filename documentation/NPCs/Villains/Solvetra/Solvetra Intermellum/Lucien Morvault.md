@@ -46,6 +46,8 @@ The "5,000gp debt" framing is the buyout clause, not the actual debt. Morvault d
 - Adrion is gone — the obligation now falls on the party as the "goods" originally promised
 - The party has 5 nights from Session 7; the Solvetra Vault heist is the only viable path to 5,000gp
 - The party doesn't yet know they were the actual collateral — only that they "owe" gold. This can surface mid-negotiation as the gut-punch reveal
+- **Session 8:** Going through Solvetra Vault bond paperwork, Plumbodian and the party confirmed multiple 25,000gp bonds addressed directly to Lucien — well beyond the 5,000gp buyout figure from his letter to Adrion. Separately, Frah'nk told Rissa "Whisper" Varn at the Smuggler's Den that Lucien is who he owes money to; she confirmed he's in serious trouble. Worth deciding whether the 25,000gp bonds are unrelated DOL business Lucien is owed, or evidence his reach/leverage over the party is bigger than the original letter implied.
+- **Session 9:** The Lorewarden Emeritus referenced Lucien directly in a letter to Plumbodian — *"I heard old Morvault wants your money... perhaps we can sort something out."* First sign the Lorewarden and Lucien's threads are connected. See [Lorewarden Emeritus](../Solvetra%20Middle/Lorewarden%20Emeritus.md).
 
 ---
 

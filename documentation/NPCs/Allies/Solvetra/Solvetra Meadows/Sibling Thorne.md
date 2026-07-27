@@ -1,6 +1,6 @@
 # Sibling Thorne
 
-**Role:** Mysterious adventurer; secretly Fenrik's father and the Vassal of Light
+**Role:** Mysterious adventurer; secretly the Vassal of Light
 **Where Met:** The Pale Chalice (Inn), Solvetra Meadows — Session 1; Queen Bee fight — Session 2/3
 
 ---
@@ -9,7 +9,7 @@
 
 First appeared in Session 1 at The Pale Chalice as a mysterious adventurer (*Sibling Thorne — Mysterious Adventurer*, see [Completed Quests](../../Quests/Completed/Solvetra/Solvetra%20Meadows/Completed%20Quests.md)) — a player who rolled high enough on insight/investigation against him gained **Angelic Saviour** upon leaving the tavern.
 
-In truth, Sibling Thorne is ⅓ of **Tre Illium** and the **Angel of Light** — the Vassal of Light, created from pure divine solar energy as La'Choix's final defence against the Shadowsong corruption. He is **Fenrik's father** (with Crecelia Fenrik), though Fenrik doesn't yet know it. See [PC Family Arcs](../../Players/Party%20Overview/PC%20Family%20Arcs.md).
+In truth, Sibling Thorne is ⅓ of **Tre Illium** and the **Angel of Light** — the Vassal of Light, created from pure divine solar energy as La'Choix's final defence against the Shadowsong corruption. He theologically touched **Virelle**, imbuing her with light powers that now pass through her to **Elaris**. See [PC Family Arcs](../../Players/Party%20Overview/PC%20Family%20Arcs.md).
 
 ---
 
@@ -21,5 +21,5 @@ The party called on Sibling Thorne for help during the fight against the Queen B
 
 ## Notes
 
-- His connection to Fenrik is currently unknown to the party — a major reveal thread for later.
+- His true identity is currently unknown to the party.
 - Recurring "mysterious helper" presence — track future appearances here.

@@ -26,7 +26,7 @@ The Intermellum is where things the Order couldn't fully destroy ended up hidden
 He was there. He can describe it. If the party finds a fragment of evidence and brings it to him, or if they're standing in Solvetra East and he's with them, this is a moment. He doesn't need to be dramatic about it — matter-of-fact is worse.
 
 **Silvanus Shadowfoot**
-Also there. Carries more guilt about it than Frank does, or at least wears it differently. If the party confronts him with evidence, or if Frank and Silvanus are in the same room when it comes up, there's something to play there.
+Also there. Carries more guilt about it than Frah'nk does, or at least wears it differently. If the party confronts him with evidence, or if Frah'nk and Silvanus are in the same room when it comes up, there's something to play there.
 
 ---
 
@@ -36,7 +36,7 @@ Also there. Carries more guilt about it than Frank does, or at least wears it di
 |-----------|--------|--------|
 | The name "Greyveil" in a recovered text | Index of Absence | Confirms the district had a prior identity |
 | A census or population record | Memory Archivist's Vault | Makes the erasure personal — real names, real people |
-| An eyewitness account of the Suppression | Either archive | Corroborates what Frank/Silvanus lived through |
+| An eyewitness account of the Suppression | Either archive | Corroborates what Frah'nk/Silvanus lived through |
 | The Order's internal justification document | Lumination Archive | Shows the DOL knew exactly what they were doing and documented it as policy |
 | A surviving former resident of Greyveil | Solvetra East NPC | Someone still living there who remembers — and has stayed quiet until now |
 
@@ -44,7 +44,7 @@ Also there. Carries more guilt about it than Frank does, or at least wears it di
 
 ## What It Means
 
-The Greyveil Suppression isn't just backstory for Frank and Silvanus. It's proof of something the party has only seen the edges of so far — that the DOL doesn't just suppress and control, it *erases*. Solvetra East is the most complete example of what they're capable of, and it's been sitting in plain sight the whole time.
+The Greyveil Suppression isn't just backstory for Frah'nk and Silvanus. It's proof of something the party has only seen the edges of so far — that the DOL doesn't just suppress and control, it *erases*. Solvetra East is the most complete example of what they're capable of, and it's been sitting in plain sight the whole time.
 
 If the party exposes it — publishes a record, confronts the Order publicly, or gets the story to the right people — it could shift how Solvetra's citizens see the Division. Not just as oppressive, but as the force that destroyed their own city's history and replaced it with a lie.
 
@@ -52,6 +52,6 @@ If the party exposes it — publishes a record, confronts the Order publicly, or
 
 ## Notes
 
-- Frank's involvement means this thread has a personal dimension from the moment he joins — the party is walking around in the aftermath of something their new companion helped cause, however unwillingly
+- Frah'nk's involvement means this thread has a personal dimension from the moment he joins — the party is walking around in the aftermath of something their new companion helped cause, however unwillingly
 - The Lorewarden Emeritus, as the DOL's senior archival authority, almost certainly knows about Greyveil and may have been involved in the record erasure
 - See [The Greyveil Suppression](../History%20&%20Lore/The%20Greyveil%20Suppression.md) for the historical record

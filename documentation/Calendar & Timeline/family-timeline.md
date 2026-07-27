@@ -5,9 +5,9 @@
 ### Era I — The Age of Tre Illium *(Ancient)*
 
 - **Kaela Shadowsong**, **Myxtiferious**, and **Sibling Thorne** form Tre Illium — a coalition seeking a lunar balance across Le'Choix.
-- Myxtiferious is awarded *Lux Invicta* to rule, vowing never to return to his draconic form; he settles and starts a family.
-- Kaela Shadowsong — knowing a Shadowsong in the public eye isn't safe — retreats to the sea, where she meets **Plumbodian the 1st**. The Orb enters the Plumbodian bloodline here.
-- Kaela and Myxtiferious have a child together: **Sylphie**.
+- Myxtiferious is awarded *Lux Invicta* to rule, vowing never to return to his draconic form; he settles and has a child — **Sylphie** — with an unnamed partner.
+- Kaela Shadowsong — knowing a Shadowsong in the public eye isn't safe — retreats to the sea, where she meets **Plumbodian the 1st** and has a child with him. Wanting a normal life for her son, she passes on nothing of the Shadowsong name or legacy — but the Orb she carries with her quietly becomes an unexplained family heirloom, passed down the Plumbodian line without anyone understanding what it actually is.
+- Elsewhere, other branches of the wider Shadowsong family continue to carry the name openly — a distant, loose line of relatives that, many generations later, leads to **Kaelen**.
 - Sibling Thorne theologically touches **Virelle**, imbuing her with light powers — meant for her first of kin, though some leak through to Virelle directly.
 
 ---
@@ -17,14 +17,12 @@
 - Tre Illium is overthrown by the Shadowsong. The power vacuum allows the **Division of Lumination** to rise as the only organised opposition.
 - **Plumbodian the 3rd** is alive during this overthrow.
 - Sibling Thorne acts as the Angel of Light — the **Vassal of Light** — to stop the Shadowsong from corrupting La'Choix. He succeeds, but at great personal cost.
-- After his efforts, Sibling Thorne has a child with a human woman: **Crecelia Fenrik**.
 
 ---
 
 ### Era III — Generations of Consequence *(Historical)*
 
-- **Crecelia Fenrik** struggles to raise a demi-god son and leaves **Fenrik** with the Northern Star of the Primordial Fist, believing they'll raise him well.
-- **Plumbodian the 4th** undergoes reincarnation through childbirth — the mother dies in labour, the immense stress triggers his rebirth as Plumbodian the 5th. He enrolls the child (**Wizzleforth**) in Cleric classes under the Division of Lumination, as protection — not indoctrination.
+- **Crecelia Fenrik** — a single mother, the father unknown — leaves her son **Fenrik** with the Northern Star of the Primordial Fist, under external pressures she felt she had no way around.
 - **Sylphie** — long-lived and ancient — eventually settles with **Fenrik**.
 - The **Northern Star of the Primordial Fist** (secretly funded by the Division to topple the Royal Dragon Regency once held by Myxtiferious) breaks up Sylphie and Fenrik. When Fenrik tries to leave the order, they go after his wife and children.
 
@@ -32,10 +30,10 @@
 
 ### Era IV — The Recent Past *(Within Living Memory)*
 
-- **Wizzleforth** attends a Cleric retreat at Glimmerdeep Caverns and shares one night with a woman named **Virelle**. He never sees her again.
-- Virelle discovers she is pregnant. Using her magical attunement, she tracks the father through the genetic magic weave — tracing back to Plumbodian the 4th.
-- Learning of Plumbodian's carelessness, Virelle acts: she **sinks the Armada of Glimmerdeep**, implants **false memories** into Plumbodian (convincing him he had a family lost with the ships), and disappears — leaving peacefully, untraceable.
-- **Elaris** is born. She is sun-blessed — an Aasimar — her powers drawn directly from Sibling Thorne through Virelle's imbued light. She grows up believing her magic comes from her gifted mother. She does not know her father is Wizzleforth.
+- **Virelle**, grown into her inherited light, has a daughter — **Elaris** — with an unnamed man.
+- Virelle takes the real **Orb** from **Plumbodian the 4th** and sinks the **Armada of Glimmerdeep** — the trauma of the loss triggers his reincarnation as **Plumbodian the 5th**. In its place she leaves a powerful but false orb, along with implanted memories of a family lost with the ships.
+- **Elaris** is born sun-blessed — an Aasimar — her powers drawn directly from Sibling Thorne through Virelle's imbued light. She grows up believing her magic comes from her gifted mother.
+- Separately, **Wizzleforth** — an old Division of Lumination cleric with no ties to any of the above — crossed paths with Virelle once, long ago. He wouldn't know her by name, but he'd recognise her "type" on sight.
 
 ---
 
@@ -43,8 +41,9 @@
 
 | Character | What They Know | What They Don't Know |
 |-----------|---------------|----------------------|
-| **Plumbodian** | Carries the Orb; believes his family went down with the ships | The memories are false; Virelle planted them; the Orb traces to Kaela Shadowsong |
-| **Wizzleforth** | Met Virelle once; his father enrolled him in the Division for protection | He has a daughter (Elaris); his lineage runs through the founding of Le'Choix |
-| **Elaris** | Her mother was divinely talented; her magic feels inherited | Her patron is Sibling Thorne; her father is Wizzleforth; she is Plumbodian's granddaughter |
-| **Fenrik** | Was raised by the NSPF; they destroyed his relationship with Sylphie | His mother Crecelia was the daughter of Sibling Thorne — he carries demi-god heritage |
-| **Sylphie** | Knows her parents are Myxtiferious and Kaela Shadowsong; lived long enough to see Tre Illium fall | The full implications of what reuniting the Orb and the bloodlines could mean |
+| **Plumbodian** | Carries a powerful family heirloom orb; believes his family went down with the ships | The orb is a fake — Virelle took the real Orb (which traces back to Kaela Shadowsong) and replaced it; his "lost family" memories are false |
+| **Wizzleforth** | Recently experienced a strange vision he believes is tied to his own lineage | The vision isn't about him — see [Wizzleforth's Lineage Vision](../Story%20Threads/PCs/Wizzleforth%20-%20Lineage%20Vision.md) |
+| **Elaris** | Her mother was divinely talented; her magic feels inherited | Her patron is Sibling Thorne, not her mother |
+| **Fenrik** | Was raised by the NSPF; they destroyed his relationship with Sylphie | His father was never known — not a mystery requiring an answer |
+| **Sylphie** | Daughter of Myxtiferious; lived long enough to see Tre Illium fall; lost Fenrik to the NSPF | See [Sylphie](../In%20Progress/Sylphie.md) — exploration TBD |
+| **Kaelen** | Carries the Shadowsong name | His branch is a distant, loose relative of Kaela Shadowsong — see [Wizzleforth's Lineage Vision](../Story%20Threads/PCs/Wizzleforth%20-%20Lineage%20Vision.md)

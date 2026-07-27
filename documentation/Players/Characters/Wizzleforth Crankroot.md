@@ -17,18 +17,16 @@ Wizzleforth isn't formally affiliated with any faction. Thanks to his prolonged 
 
 ---
 
-## Lineage (see [PC Family Arcs](../Party%20Overview/PC%20Family%20Arcs.md))
+## Lineage
 
-- Wizzleforth is **Plumbodian's son** — Plumbodian the 4th's reincarnation as the 5th was triggered by Wizzleforth's birth (the immense stress of childbirth, which the mother did not survive). Plumbodian enrolled the infant Wizzleforth in Cleric training under the Division of Lumination, ostensibly for protection against a second Shadowsong attack. Wizzleforth is therefore "relatively normal" — this was protection, not indoctrination.
-- Years ago, during a Cleric retreat at Glimmerdeep Caverns, Wizzleforth met a woman named **Virelle** and shared a single night with her. He never saw her again and doesn't know what became of her — or that it resulted in a daughter, **Elaris Sol**.
-- This makes Wizzleforth **Elaris's father** and **Plumbodian's son** — neither of which any of the three currently know.
+Wizzleforth has no connection to the Plumbodian/Elaris/Kaela threads running through the rest of the party — he's an old Division of Lumination cleric, isolated from all of it. Years ago, his path crossed once with a woman matching **Virelle**'s description — he wouldn't know her by name, but he'd recognise her "type" on sight. It's a minor personal footnote, nothing more.
 
 ## Lineage Vision (see [Wizzleforth's Lineage Vision](../../Story%20Threads/PCs/Wizzleforth%20-%20Lineage%20Vision.md))
 
-During Session 5, while studying the Division of Lumination's texts at the Lumination Archive, Wizzleforth experienced a form of astral projection tied to his self-lineage, alongside a journey back in time — the full content of which is not yet documented in-session.
+During Session 5, while studying the Division of Lumination's texts at the Lumination Archive, Wizzleforth experienced a form of astral projection, alongside a journey back in time — at the time framed as being about his own self-lineage. It wasn't.
 
 ---
 
 ## Notes
 
-- Wizzleforth's quiet, solitary nature contrasts sharply with the scale of the lineage he's unknowingly part of (son of Plumbodian, father of Elaris) — a slow-burn reveal worth pacing carefully.
+- Wizzleforth's quiet, solitary nature makes him an unwitting vessel for someone else's vision — see the twist in [Wizzleforth's Lineage Vision](../../Story%20Threads/PCs/Wizzleforth%20-%20Lineage%20Vision.md).

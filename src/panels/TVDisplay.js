@@ -7,6 +7,7 @@ const FAVS_KEY   = 'dm-cockpit-tv-favs';
 
 const GRID_SIZES   = ['tiny', 'small', 'medium', 'large'];
 const GRID_PX      = { tiny: 20, small: 40, medium: 60, large: 80 };
+const GRID_REFERENCE_WIDTH = 1920; // GRID_PX values are calibrated at this rendered image width
 const PIN_COLORS   = { pc: '#4a8fd4', npc: '#c9a84c', monster: '#c94a4a' };
 const FOG_OPACITY  = 0.65; // DM-side semi-transparency
 
@@ -261,7 +262,7 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
 
     // Grid
     if (gridEnabled) {
-      const step = GRID_PX[gridSize] || 60;
+      const step = (GRID_PX[gridSize] || 60) * (dw / GRID_REFERENCE_WIDTH);
       ctx.save();
       ctx.strokeStyle = 'rgba(255,255,255,0.15)';
       ctx.lineWidth   = 0.8;

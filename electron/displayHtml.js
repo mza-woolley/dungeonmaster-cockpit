@@ -252,6 +252,7 @@ function getDisplayHtml(title) {
   let pendingFogMask = null;
 
   const GRID_PX = { tiny: 20, small: 40, medium: 60, large: 80 };
+  const GRID_REFERENCE_WIDTH = 1920; // GRID_PX values are calibrated at this rendered image width
 
   function resizeMapCanvas() {
     mapCanvas.width  = window.innerWidth;
@@ -295,7 +296,7 @@ function getDisplayHtml(title) {
   }
 
   function drawMapGrid(dx, dy, dw, dh) {
-    const step = GRID_PX[gridSize] || 60;
+    const step = (GRID_PX[gridSize] || 60) * (dw / GRID_REFERENCE_WIDTH);
     mapCtx.save();
     mapCtx.strokeStyle = 'rgba(255,255,255,0.18)';
     mapCtx.lineWidth   = 0.8;

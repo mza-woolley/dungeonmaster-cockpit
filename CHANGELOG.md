@@ -2,6 +2,15 @@
 
 ---
 
+## v0.11c — July 2026
+
+### 🔧 Changes
+
+- Documentation: major Solvetra campaign reorganization — quests/rumours restructured by faction, new NPC and job-board entries added, new session notes and map assets
+- TV Display: minor updates to display HTML and panel logic
+
+---
+
 ## v0.11b — June 2026
 
 ### 🔧 Changes

@@ -25,8 +25,9 @@ These are the same thread: the rollout already happened (or is well underway) by
 ## Open Questions
 
 - Is there a specific NPC — ideally a former "rising star" inventor or trader — now in the Elixir's end-stage, as a gut-punch introduction to its effects?
-- Does Ars Lapis have its own production/distribution point, or is it still supplied from Solvetra-adjacent sources now that the Lab is destroyed?
 - Does anyone in Ars Lapis know where the Elixir comes from / what it's made of (Worg abuse)? Could this be the place that information first leaks?
+
+**Resolved:** The Lumina Lab was *cleared*, not destroyed — its production infrastructure survived Session 6, and the DOL is quietly restaffing it (see [Lumina Lab — Aftermath](../../Locations/Dungeons%2C%20Ruins%20%26%20Others/Lumina%20Lab.md)). Ars Lapis's supply continues uninterrupted; Session 8/9+ is unaffected by the Lumina Lab events.
 - Could the DOL's Ars Lapis face (see [Valerius' Replacement](Valerius'%20Replacement%20—%20The%20Ars%20Lapis%20Connection.md)) be personally tied to the Elixir's local distribution?
 
 ---

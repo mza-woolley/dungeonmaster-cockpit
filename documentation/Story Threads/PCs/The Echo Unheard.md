@@ -22,7 +22,7 @@ This doesn't need to be resolved in Session 7 — a single sensory beat (Kaelen'
 
 - The Echo Unheard predates Ne'leak Shadowsong's cult — possibly Tre Illium era, possibly older
 - It's tied to *place*, not just to Måneklang or the cult — something is buried/sealed beneath Solvetra
-- A future thread: is this connected to the Shadowrealm gate / Lux Infracta the Orb is attuned to? The vault sits on a river over old stone — worth considering whether this is geographically or thematically linked to the lunar/Shadowsong threads running through the Plumbodian/Wizzleforth/Elaris arc
+- A future thread: is this connected to the Shadowrealm gate / Lux Infracta the Orb is attuned to? The vault sits on a river over old stone — worth considering whether this is geographically or thematically linked to the lunar/Shadowsong threads running through the Plumbodian/Kaelen lineage arcs
 
 ---
 

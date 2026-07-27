@@ -24,8 +24,6 @@ The Division actively suppresses lunar ideology, rewrites historical memory, con
 - **Lorewarden Emeritus** — Archive figure connected to the DOL. Has ties to the Lumina Lab and the vault.
 - **Valerius du Noirveil (deceased)** — Former Headguard of Solvetra West. Admitted to sending hired thugs. Defeated by the party in the Lumina Lab cave.
 
-**Notoriety tracking:** → See [DOL Notoriety Tiers](./DOL%20Notoriety%20Tiers.md)
-
 ---
 
 ## The Shadowsong (Shadowsingers)
@@ -61,5 +59,3 @@ Their leader: **Aurevon Beitomy Erstua**. Their goons will kill themselves befor
 ## The Order of the Sun (OOTS)
 
 The Division's elite enforcement arm. Guards bear a sun sigil on their armour. They are specially trained to detain rather than kill, follow strict protocols, and react to any deviation from their process. Stationed within the Solvetra Vault's lower floors.
-
-Tier escalation for party: see [DOL Notoriety Tiers](./DOL%20Notoriety%20Tiers.md)

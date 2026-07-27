@@ -19,16 +19,16 @@ He's quick to anger in conflict, has a deep-seated hatred of sand, and is endles
 
 What Plumbodian remembers about his family and the Orb isn't quite the truth:
 
-- The Orb actually passed down from his mother, **Kaela Shadowsong** (⅓ of Tre Illium) — it's attuned to the gate of **Luxfracta** and is the key piece needed to activate the passthrough to the **Realm of Shadowsong**.
-- The "family lost at sea" story isn't real. **Virelle** — searching for Wizzleforth (Plumbodian's son) using her family's genetic magic weave — tracked Plumbodian's fleet, **The Armada of Glimmerdeep**, and destroyed it in a burst of light. She then implanted false memories into Plumbodian, convincing him his family went down with those ships and that's how he came to have the Orb.
-- Virelle's motive was simply to disappear without being tracked — Plumbodian was collateral, not a target.
-- **Wizzleforth** is Plumbodian's son (born of a one-night encounter at Glimmerdeep Caverns), and **Elaris Sol** is in turn Plumbodian's granddaughter through Wizzleforth and Virelle. None of the three currently know this.
+- The orb he carries today is a **fake** — powerful in its own right, but not the real thing. The real Orb traces back through his family to **Kaela Shadowsong** (⅓ of Tre Illium) — it's attuned to the gate of **Luxfracta** and is the key piece needed to activate the passthrough to the **Realm of Shadowsong**.
+- The "family lost at sea" story isn't real. **Virelle** took the real Orb from Plumbodian the 4th and destroyed **The Armada of Glimmerdeep** in a burst of light to cover the theft. The shock of that loss triggered his reincarnation as the 5th. Virelle then implanted false memories into him, convincing him his family went down with those ships and that's how the orb he carries came into his hands.
+- Virelle's motive was the Orb itself — she needed it for reasons connected to Luxfracta (TBD, way down the line). Plumbodian was collateral, not a target.
 
-The Orb is enormously significant: if the Shadowsong obtain it, they destroy it and unleash ultimate power; if the Division/Order obtain it, they seal Lux Infracta and entrench Order rule permanently. Either outcome is a loss — Tre Illium's original goal was a lunar (balanced) outcome.
+The real Orb is enormously significant: if the Shadowsong obtain it, they destroy it and unleash ultimate power; if the Division/Order obtain it, they seal Lux Infracta and entrench Order rule permanently. Either outcome is a loss — Tre Illium's original goal was a lunar (balanced) outcome.
 
 ---
 
 ## Notes
 
-- Plumbodian's drinking and "lost family" trauma are built on a lie — a major potential gut-punch reveal if/when the truth about Virelle and the Armada surfaces.
-- His connection to Wizzleforth and Elaris is currently unknown to all three characters and could be one of the campaign's biggest emotional payoffs.
+- Plumbodian's drinking and "lost family" trauma are built on a lie — a major potential gut-punch reveal if/when the truth about Virelle and the Armada surfaces, including the discovery that the orb he's carried his whole life isn't the real one.
+- Session 7: secured a Solvetra Vault internship and now holds valid Working Bank Rights + ID (delivered by Gruunsh'ck Diamondholder), giving him access to B1. Learned about the Duress Alarm and can pick up/collect bank notes. Investigation 13/Nature 13 in B1 revealed Vanya's office, keys on her desk, and a dropped line about "extra work" — Plumbodian doesn't know yet that this refers to dye packs (DM/player knowledge only).
+- Session 8: worked through a stack of intern paperwork (Sleight of Hand) — each paper is a citizen's bond/tender being signed off from a real balance down to $0. Gruunsh'ck reviewed the completed stack, questioned Plumbodian's "X" signature, and accepted it after Plumbodian talked his way through it (Deception 16). Sent to the Dye House in Solvetra Intermellum to see Callen Droth, and told in passing that Solvetra Vault currently isn't letting citizens withdraw their money. At the Dye House, Callen had him carry the bank notes back to the Vault (skimming a cut of the cash for himself first) — on the way back Plumbodian crossed paths with the PC party and they went through the bonds together, confirming multiple 25,000gp bonds addressed to **Lucien Morvault**. Back at the Vault, Gruunsh'ck confirmed no one is addressing Vanya's continued disappearance — the bonds just keep getting processed with no questions asked. Plumbodian finished his paperwork for the day.
