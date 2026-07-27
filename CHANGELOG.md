@@ -2,17 +2,11 @@
 
 ---
 
-## v0.12 — July 2026 — "The Instrument Update"
-
-### ✨ New
-
-- Full visual redesign: new brass-and-ink theme with self-hosted typefaces (works offline), redrawn line icons throughout, and a grouped sidebar navigation rail
-- Monospaced dial numerals for all combat and session numbers; new health-gauge colour system
+## v0.11d — July 2026
 
 ### 🔧 Changes
 
-- All panels restyled to the new theme, including the TV/Table display windows and stat-block pop-out
-- Emoji icons replaced app-wide with theme-consistent line icons
+- Visual refresh: new theme, self-hosted fonts, line icons app-wide, sidebar navigation
 - Data files now saved atomically to protect against corruption
 - General code cleanup: removed dead code and legacy panels, consolidated styling
 
