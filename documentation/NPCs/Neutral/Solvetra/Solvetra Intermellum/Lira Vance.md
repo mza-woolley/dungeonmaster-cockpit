@@ -9,4 +9,4 @@ Has a shelf of maps behind her, revealed via Insight Check (DC 1-10: The Gilded 
 
 ## Session 9
 
-Willing to help the party with what they need, but doesn't want to be complicit in robbing a bank outright. Needs convincing — gold, or Persuasion DC21+.
+Willing to help the party with what they need, but doesn't want to be complicit in robbing a bank outright. Needs convincing - gold, or Persuasion DC21+.

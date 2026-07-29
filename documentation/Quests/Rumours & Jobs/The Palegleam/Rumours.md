@@ -1,4 +1,4 @@
-# Rumours — The Palegleam
+# Rumours - The Palegleam
 
 _Hooks not yet introduced to the party. Drop in as rumours, side conversations, or quest seeds whenever it fits._
 

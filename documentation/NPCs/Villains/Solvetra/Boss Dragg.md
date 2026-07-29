@@ -1,6 +1,6 @@
 # Boss Dragg
 
-**Type:** Goblin — Lumina Lab Cave Commander  
+**Type:** Goblin - Lumina Lab Cave Commander  
 **Status:** Deceased (killed by party, Session 6)
 
 ---
@@ -12,7 +12,7 @@ Goblin boss stationed in the cave beneath the Lumina Lab. Served as the effectiv
 ## Role
 
 - Controlled access to the cave floor via a checkpoint system
-- Required a signed pass from "The Boss" for entry — the party did not have one
+- Required a signed pass from "The Boss" for entry - the party did not have one
 - Persuasion/Deception DC to bypass him was DC20
 
 ## Death

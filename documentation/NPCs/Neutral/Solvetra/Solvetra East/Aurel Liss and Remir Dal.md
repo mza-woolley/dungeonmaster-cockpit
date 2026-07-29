@@ -9,4 +9,4 @@ Aurel is composed and devout, a true believer in the DOL's teachings rather than
 
 ## Quest Hook (unused)
 
-Not yet engaged. A DOL shrine standing in a district built on **The Greyveil Suppression** — Aurel's sincerity could make for an uncomfortable contrast if the party knows the district's history and she doesn't.
+Not yet engaged. A DOL shrine standing in a district built on **The Greyveil Suppression** - Aurel's sincerity could make for an uncomfortable contrast if the party knows the district's history and she doesn't.

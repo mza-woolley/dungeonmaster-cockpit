@@ -1,10 +1,10 @@
-# Session [#] — [Title]
+# Session [#] - [Title]
 
 ---
 
 ## Introduction
 
-*A narrative recap of last session's events and a hook into this one. Written in second-person present tense — describe what the players remember and where they left off, ending on a cliffhanger or inciting moment.*
+*A narrative recap of last session's events and a hook into this one. Written in second-person present tense - describe what the players remember and where they left off, ending on a cliffhanger or inciting moment.*
 
 ---
 

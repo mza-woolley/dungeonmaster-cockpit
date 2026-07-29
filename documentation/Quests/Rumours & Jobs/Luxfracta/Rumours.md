@@ -1,4 +1,4 @@
-# Rumours — Luxfracta
+# Rumours - Luxfracta
 
 _Hooks not yet introduced to the party. Drop in as rumours, side conversations, or quest seeds whenever it fits._
 

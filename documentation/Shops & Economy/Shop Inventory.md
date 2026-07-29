@@ -1,4 +1,4 @@
-# Shop Inventory — Full Catalog
+# Shop Inventory - Full Catalog
 
 ## Consumables & Potions
 
@@ -288,4 +288,4 @@
 | Ring of Twin Casting | Duplicate a 1st-level spell onto two targets, 1/day. | 2,000 |
 | Amulet of Spell Deflection | Once/day, reaction to halve damage from a spell. | 1,760 |
 | Arcstone Core | Concentrating doesn't require concentration checks under 10 dmg. | 1,760 |
-| Tome of the Eclipse | *(details — see vendor)* | — |
+| Tome of the Eclipse | *(details - see vendor)* | - |

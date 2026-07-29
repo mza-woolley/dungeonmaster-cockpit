@@ -3,7 +3,7 @@
 **Role:** Keeper (Irene) and Sun Envoy (Brother Calis), Middle Solvetra Lightstation
 **Where Met:** Middle Solvetra Lightstation, Solvetra Middle
 
-Irene is brisk and procedural, the administrative backbone of the Lightstation. Brother Calis is the DOL's softer public face — warm voice, scripted reassurances, the kind of "envoy" sent out specifically to make the Order look approachable.
+Irene is brisk and procedural, the administrative backbone of the Lightstation. Brother Calis is the DOL's softer public face - warm voice, scripted reassurances, the kind of "envoy" sent out specifically to make the Order look approachable.
 
 ---
 

@@ -3,7 +3,7 @@
 **Role:** Innkeeper (Brail) and Traveler (Coris), The Folded Road
 **Where Met:** The Folded Road, Solvetra East
 
-Brail keeps a no-frills inn for people passing through rather than staying — practical, unsentimental. Coris is one of those passers-through, restless and eager to talk about wherever they've just come from.
+Brail keeps a no-frills inn for people passing through rather than staying - practical, unsentimental. Coris is one of those passers-through, restless and eager to talk about wherever they've just come from.
 
 ---
 

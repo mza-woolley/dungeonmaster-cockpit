@@ -9,4 +9,4 @@ Tovien is cluttered and absent-minded, surrounded by stock he's only half-catalo
 
 ## Quest Hook (unused)
 
-Not yet engaged. An antique shop in a district that was forcibly cleared (**The Greyveil Suppression**) raises an obvious question — where does the stock come from? Could surface uncomfortable provenance if examined.
+Not yet engaged. An antique shop in a district that was forcibly cleared (**The Greyveil Suppression**) raises an obvious question - where does the stock come from? Could surface uncomfortable provenance if examined.

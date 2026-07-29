@@ -3,7 +3,7 @@
 **Role:** Keeper (Yann) and Watcher (Telra), Solvetra East Lightstation
 **Where Met:** Solvetra East Lightstation, Solvetra East
 
-Yann is rigid and procedural, runs the East Lightstation with textbook discipline. Telra is the watcher on duty — sharp-eyed, suspicious of strangers in a district that doesn't get many visitors.
+Yann is rigid and procedural, runs the East Lightstation with textbook discipline. Telra is the watcher on duty - sharp-eyed, suspicious of strangers in a district that doesn't get many visitors.
 
 ---
 

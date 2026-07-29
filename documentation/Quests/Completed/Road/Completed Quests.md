@@ -1,4 +1,4 @@
-# Completed Quests — Road
+# Completed Quests - Road
 
 ---
 
@@ -6,7 +6,7 @@
 **Location:** On the Road | **NPC:** Dorian Shademeir
 **Hook:** Traveling merchant caravan broken down. Reward for helping fix wagon wheel, or more for fending off nearby goblins.
 **Objective:** Kill goblins when detected. Help clean the wagon wheel.
-**Conditionals:** Goblins have option for a free turn — PP check of 9+ (they have +6 Stealth).
+**Conditionals:** Goblins have option for a free turn - PP check of 9+ (they have +6 Stealth).
 **Reward:** 10GP per player and discount at Dorian's market stall in Solvetra East.
 
 ---
@@ -24,14 +24,14 @@
 **Location:** On the Road | **NPC:** Fazzlemoth
 **Hook:** A lone elderly hermit sitting on a rock, seemingly talking to themselves.
 **Objective:** Listen to him talk.
-**Conditionals:** Fazzlemoth has nothing of value. Just warns players about this trying time. Is 500 years old — misses when people used to praise the moon.
+**Conditionals:** Fazzlemoth has nothing of value. Just warns players about this trying time. Is 500 years old - misses when people used to praise the moon.
 **Reward:** Lore drop.
 
 ---
 
 ### Jaself's Teleportation
 **Location:** On the Road | **NPC:** Jaself Timberthorn
-**Hook:** A flash of light and puff of smoke — young flustered wizard botched a teleportation spell.
+**Hook:** A flash of light and puff of smoke - young flustered wizard botched a teleportation spell.
 **Objective:** Encourage Jaself to keep trying to perfect his teleportation spell.
 **Conditionals:** It eventually works, but a minute or two later Jaself comes crashing down and splats in front of the party.
 **Reward:** N/A

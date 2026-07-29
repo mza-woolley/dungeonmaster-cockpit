@@ -9,4 +9,4 @@ Bran is warm and chatty, runs the honey stall with obvious affection for his bee
 
 ## Quest Hook (unused)
 
-Not yet engaged. Echoes **Cedric Ironvale's** honey business in Solvetra Meadows — with the Meadows' bee population dying off post-Queen Bee, Bran may notice supply problems or be approached about it.
+Not yet engaged. Echoes **Cedric Ironvale's** honey business in Solvetra Meadows - with the Meadows' bee population dying off post-Queen Bee, Bran may notice supply problems or be approached about it.

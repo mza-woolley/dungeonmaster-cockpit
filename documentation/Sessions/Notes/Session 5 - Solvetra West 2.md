@@ -2,11 +2,11 @@ Session 5 \- Solvetra West ep.5
 
 ***INTRODUCTION:***
 
-Last time, Wizzleforth drank from the Fountain while Plumbodian *pissed into it*, causing the water to steam away. Adrion signed a devil's contract with *Zatharial* without reading it — a deal that may haunt the whole party.
+Last time, Wizzleforth drank from the Fountain while Plumbodian *pissed into it*, causing the water to steam away. Adrion signed a devil's contract with *Zatharial* without reading it - a deal that may haunt the whole party.
 
 A shopkeeper turned up dead, Kaelen was jailed for questioning, and Adrion joined him after trying to assault someone with a rock. The group met an enchanter who blamed the *Division of Light* for strange magical disappearances, but when they tried to leave town, they found Solvetra West on lockdown.
 
-Their search for answers led them to the *Lightstation*, where a bald, mustached man — **Headguard Valerius du Noirveil** — calmly stepped forward and said,
+Their search for answers led them to the *Lightstation*, where a bald, mustached man - **Headguard Valerius du Noirveil** - calmly stepped forward and said,
  "You've caused quite the stir. Let's discuss how you intend to fix it."
 
 *And that's where we begin…*

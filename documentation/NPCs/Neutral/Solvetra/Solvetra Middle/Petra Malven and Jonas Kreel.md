@@ -9,4 +9,4 @@ Petra is chatty and theatrical, narrates the city's history with a showman's fla
 
 ## Quest Hook (unused)
 
-Not yet engaged. Jonas's maps could be useful if the party needs layout info on Solvetra Middle/East — pairs thematically with Lira Vance's old building blueprints (Solvetra Intermellum).
+Not yet engaged. Jonas's maps could be useful if the party needs layout info on Solvetra Middle/East - pairs thematically with Lira Vance's old building blueprints (Solvetra Intermellum).

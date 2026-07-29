@@ -1,16 +1,16 @@
-# [Name] — Actor Sheet
+# [Name] - Actor Sheet
 
 **Role:** 
 
 ---
 
 ### What do they want?
-*Not their role — their hunger. One sentence.*
+*Not their role - their hunger. One sentence.*
 
 
 
 ### What are they doing about it right now?
-*Active, present tense. Not history, not plans — current actions.*
+*Active, present tense. Not history, not plans - current actions.*
 
 
 

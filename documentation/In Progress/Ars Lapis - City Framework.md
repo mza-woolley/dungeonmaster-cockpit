@@ -1,8 +1,8 @@
-# Ars Lapis — City Framework
+# Ars Lapis - City Framework
 
 ---
 
-## Identity — What kind of city is this?
+## Identity - What kind of city is this?
 
 The city of Ars Lapis is one of mining and fine physically good ownership and trading. Where the grit of trade is happening, is likely where Ars Lapis is. Ars Lapis is primarly known for their gem trade. These gems are attuned to light magic and are able to both provide and suck the light out of space, acting as a form of power source for the nation.
 
@@ -30,7 +30,7 @@ There are of course guards as there would be normally/usually. There are is of c
 
 Lumina Elixir arrived quite a while ago, and has been used/abused (see Lumina Elixir, Magic Items). This phenomena drives the line between prosperity and complete failure/loss.
 
-- Who is the DOL's face in Ars Lapis — a Headguard like Valerius, a priest, a political appointee?
+- Who is the DOL's face in Ars Lapis - a Headguard like Valerius, a priest, a political appointee?
 
 TBC - should give tech bro vibes but definitely manipulates the Gem Families.
 
@@ -54,7 +54,7 @@ The pressure point in Ars Lapis is definitely if the miner's unionised/striked -
 
 Silas has the goal to destabilise the OOTS/DOL via disrupting the flow of the Stock Exchange. He understands that any form/sort of damage will definitely cause a financial rift in the OOTS as a large part of their income and cash flow comes in form of Stock Exchange cash. It's probably not enough to completely railroad the OOTS however. Silas' theory is that the OOTS is lean and can't expend man power across multiple failur points.
 
-- Why does it require the party specifically — what can't the Shadowbringers do alone?
+- Why does it require the party specifically - what can't the Shadowbringers do alone?
 
 TBD
 

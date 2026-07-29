@@ -1,14 +1,14 @@
 # Silas Shadowfoot
 
 **Race:** Halfling (Male)  
-**Role:** Shadowbringer Deliverers — Leader / Party Ally  
+**Role:** Shadowbringer Deliverers - Leader / Party Ally  
 **Status:** Active companion
 
 ---
 
 ## Description
 
-Short, brown-haired halfling. Wears grey/black scout clothing, travelling light. Bow on his back, quiver at his hip. Commanding but measured — gives the party direction without overstepping.
+Short, brown-haired halfling. Wears grey/black scout clothing, travelling light. Bow on his back, quiver at his hip. Commanding but measured - gives the party direction without overstepping.
 
 ---
 
@@ -16,7 +16,7 @@ Short, brown-haired halfling. Wears grey/black scout clothing, travelling light.
 
 Leader of the **Shadowbringer Deliverers**, the elite operational arm of the Shadowbringers. Introduced the party to the rebellion's cause and has been their primary contact since Session 5.
 
-His father, **Silvanus Shadowfoot**, is a former Dawnbringer who broke his oath and now walks the Path of the Shadowbringer. The family were devastated by a thieving ambush that took Silvanus' leg, his wife, and his daughter (Silas' sister) — who was never found. See [Silas' Sister](../Story%20Threads/Silas'%20Sister.md).
+His father, **Silvanus Shadowfoot**, is a former Dawnbringer who broke his oath and now walks the Path of the Shadowbringer. The family were devastated by a thieving ambush that took Silvanus' leg, his wife, and his daughter (Silas' sister) - who was never found. See [Silas' Sister](../Story%20Threads/Silas'%20Sister.md).
 
 ---
 
@@ -28,7 +28,7 @@ His father, **Silvanus Shadowfoot**, is a former Dawnbringer who broke his oath 
 
 ---
 
-## Coming Up (Session 7 — not yet played)
+## Coming Up (Session 7 - not yet played)
 
 - Will introduce Du'geshk Maharjuuj and kick off the Solvetra Vault heist operation
 
@@ -47,5 +47,5 @@ His father, **Silvanus Shadowfoot**, is a former Dawnbringer who broke his oath 
 
 ## Notes
 
-- Planning something for the party in Ars Lapis — details withheld
+- Planning something for the party in Ars Lapis - details withheld
 - Can be found upstairs at Smuggler's Den whenever the party needs him

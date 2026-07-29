@@ -1,4 +1,4 @@
-# Rumours — Ars Lapis
+# Rumours - Ars Lapis
 
 _Hooks not yet introduced to the party. Drop in as rumours, side conversations, or quest seeds whenever it fits._
 

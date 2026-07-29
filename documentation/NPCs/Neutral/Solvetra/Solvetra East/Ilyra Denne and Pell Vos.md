@@ -9,4 +9,4 @@ Ilyra is calm and nurturing, tends the refuge's ponds and greenery with quiet de
 
 ## Quest Hook (unused)
 
-Not yet engaged. A peaceful pocket of Solvetra East — could serve as a safehouse or quiet meeting spot if the party needs one in the district.
+Not yet engaged. A peaceful pocket of Solvetra East - could serve as a safehouse or quiet meeting spot if the party needs one in the district.

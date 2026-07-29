@@ -1,7 +1,7 @@
 # Chamber of Unspoken Prayer (Temple)
 **District:** Solvetra West
 
-## Halden Mirethorn — Civilian (Worshipper)
+## Halden Mirethorn - Civilian (Worshipper)
 A temple-goer in the Chamber of Unspoken Prayer. No further detail recorded yet.
 
 ---
@@ -17,4 +17,4 @@ A temple-goer in the Chamber of Unspoken Prayer. No further detail recorded yet.
 
 ## Session 8
 
-Fenrik went to the Chamber of Unspoken Prayer alone (everyone else turned in for the night) and found Halden mid-crisis — physically holding the door shut against skeletons trying to break through, rather than calmly hiring the party in advance. Fight not yet resolved; set up as a hook for next session.
+Fenrik went to the Chamber of Unspoken Prayer alone (everyone else turned in for the night) and found Halden mid-crisis - physically holding the door shut against skeletons trying to break through, rather than calmly hiring the party in advance. Fight not yet resolved; set up as a hook for next session.

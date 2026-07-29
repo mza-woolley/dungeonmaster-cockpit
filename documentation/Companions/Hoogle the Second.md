@@ -14,7 +14,7 @@ A Worg adopted by Kaelen during the Lumina Lab infiltration (Session 6). Found c
 
 ## Hoogle the First
 
-The original Hoogle — killed by the Goblin Warriors stationed at the Lumina Lab prior to the party's arrival. Kaelen learned of this during the infiltration. The adoption of Hoogle the Second was a direct response.
+The original Hoogle - killed by the Goblin Warriors stationed at the Lumina Lab prior to the party's arrival. Kaelen learned of this during the infiltration. The adoption of Hoogle the Second was a direct response.
 
 ---
 

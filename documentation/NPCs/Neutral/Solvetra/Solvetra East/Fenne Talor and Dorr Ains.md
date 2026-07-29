@@ -3,7 +3,7 @@
 **Role:** Merchant (Fenne) and Clerk (Dorr), Thread and Tally
 **Where Met:** Thread and Tally (General Store), Solvetra East
 
-Fenne is efficient and a little cold, runs the store like a ledger with a roof over it. Dorr handles the actual tallying — meticulous, says little, notices everything.
+Fenne is efficient and a little cold, runs the store like a ledger with a roof over it. Dorr handles the actual tallying - meticulous, says little, notices everything.
 
 ---
 

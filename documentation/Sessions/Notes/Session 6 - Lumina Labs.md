@@ -2,7 +2,7 @@ Session 6 \- Lumina Labs
 
 ***INTRODUCTION:***
 
-Valerius's confrontation ended not in blood, but confession—he sent the thugs, yet let the party walk free. In two nights, they'll meet Silas at the Final Rest.
+Valerius's confrontation ended not in blood, but confession-he sent the thugs, yet let the party walk free. In two nights, they'll meet Silas at the Final Rest.
 
 Adrion wrestled with accusations over his burned village, while Plumbodian bent to the Lorewarden's will. Deep in his studies, Wizzleforth began to see the Lumination for what it is.
 

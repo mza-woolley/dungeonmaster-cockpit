@@ -2,6 +2,16 @@
 
 ---
 
+## v0.11f — July 2026
+
+### 🔧 Changes
+
+- Documentation: Factions reorganized into individual pages, new Order of the Sun faction page added
+- Documentation: Villains and quest/job files reorganized
+- Documentation: general session, NPC, and lore updates across the campaign docs
+
+---
+
 ## v0.11e — July 2026
 
 ### 🔧 Changes
