@@ -2,6 +2,14 @@
 
 ---
 
+## v0.11e — July 2026
+
+### 🔧 Changes
+
+- Documentation: new session prep notes added
+
+---
+
 ## v0.11d — July 2026
 
 ### 🔧 Changes
