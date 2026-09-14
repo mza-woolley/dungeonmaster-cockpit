@@ -16,3 +16,7 @@ Loud and cheerful, sells everything from rope to rations out of crates spilling 
 While the rest of the party was out on the herb run, Kaelen visited the Cache alone and cast Suggestion on Ronan twice (first attempt resisted - Ronan clocked what Kaelen was doing and told him to stop and wait; the second attempt landed). Kaelen made off with Ronan's gold, a note, a gold ring, 2 silver rings, 35gp, 2 Potions of Healing, and 1 Greater Healing Potion. Ronan ran out into the street naked as a result of the Suggestion.
 
 Ronan realized he'd been robbed around the same time the rest of the party returned from the herb run (and while Kaelen, now disguised, rejoined the group) - he has not yet connected Kaelen to the theft on-screen.
+
+## Session 9 - Resolved
+
+Ronan reported the robbery to the city guard. Kaelen - a drow, distinctive enough to be easy to describe - wasn't hard to pin down. Guards caught up with him on the street en route to the Lumination Archive and beat him for it. Thread closed; Kaelen has not squared anything with Ronan directly.

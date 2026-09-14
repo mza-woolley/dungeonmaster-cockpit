@@ -1,6 +1,6 @@
 # Kaelen Shadowsong
 
-**Race:** Elf  
+**Race:** Elf (Drow)  
 **Class:** Bard  
 **Background:** Acolyte  
 **Languages:** Common, Draconic, Elvish
@@ -25,3 +25,5 @@ A lone wolf who lost his family at a young age, Kaelen travels in pursuit of wea
 
 - Lost his family young - the circumstances are unconfirmed and could be a useful hook tying him into the wider Shadowsong/Tre Illium history.
 - His "anything precious, I'll try to steal it" streak is a reliable source of party friction and roleplay hooks.
+- Session 9: beaten by city guards en route to the Lumination Archive over the Session 8 Wayfarer's Cache robbery - Ronan reported it, and Kaelen's drow appearance made him easy to pin down. See [Ronan Emberlain](../../NPCs/Neutral/Solvetra/Solvetra%20West/Ronan%20Emberlain.md).
+- Session 9: read into **Era 2** while stealing/perusing the Lorewarden's Living Manuscript at the Lumination Archive - the History of the Shadowsong, the rise and fall of Tre Illium's usurper line, ending with the Division of Lumination's founding. Kaelen doesn't yet connect this to his own lineage. See [Completed Quests - Solvetra Middle](../../Quests/Completed/Solvetra/Solvetra%20Middle/Completed%20Quests.md).

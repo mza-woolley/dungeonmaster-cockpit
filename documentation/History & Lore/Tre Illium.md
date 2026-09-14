@@ -36,6 +36,12 @@ The Accord's goal: channel Shadowrealm magic through solar energy via the **Orb*
 
 ---
 
+## The Lunarbringers
+
+Low-ranking priests/worshippers of Tre Illium during the Lunar Accord's active years - not principals, just devotees. A row of their coffins was found in Session 9 beneath the Chamber of Unspoken Prayer (Solvetra West), alongside a mural depicting Myxtiferious transitioning from dragon to dragonborn form, Kaela Shadowsong, and Sibling Thorne, titled **"Luxfracta."** One coffin held two giant angel feathers - unknowingly Sibling Thorne's; how/why he was interred there is unconfirmed. See [Skeletons In the Basement](../Quests/Active/Solvetra/Solvetra%20East/Skeletons%20In%20the%20Basement.md) for the discovery scene.
+
+---
+
 ## Collapse
 
 When Myxtiferious stopped answering, Tre Illium lost its stabilising third. The other two principals pulled apart. The power vacuum allowed the Division of Lumination to rise as the only organised opposition - positioning light as the sole legitimate power and suppressing any path back to balance.

@@ -30,3 +30,4 @@ During Session 5, while studying the Division of Lumination's texts at the Lumin
 ## Notes
 
 - Wizzleforth's quiet, solitary nature makes him an unwitting vessel for someone else's vision - see the twist in [Wizzleforth's Lineage Vision](../../Story%20Threads/PCs/Wizzleforth%20-%20Lineage%20Vision.md).
+- Session 9: read into **Era 1** while stealing/perusing the Lorewarden's Living Manuscript at the Lumination Archive - general events of the era, minus specific names. Mended the book afterward so the Lorewarden wouldn't know it had been opened. See [Completed Quests - Solvetra Middle](../../Quests/Completed/Solvetra/Solvetra%20Middle/Completed%20Quests.md).

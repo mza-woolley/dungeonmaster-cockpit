@@ -36,3 +36,13 @@
 **Conditionals:** Find vanished guest's belongings, trace sealed letter to Lorewarden, and uncover why all records of the guest were erased.
 **Reward:** MAIN QUEST LORE - PCs read sealed letter addressed to L.E.: *"The Shadowbringers, my lord - I've been had. I've been found. I will die a worthy death. Hail the Order of the Sun!"*
 **Resolution:** The sealed letter is referenced as already found/read (see Lorewarden Emeritus notes) - resolved during Session 5's Solvetra Middle exploration.
+
+---
+
+### Lumination Archive - Living Manuscript
+**Location:** The Lumination Archive | **NPCs:** Lorewarden Emeritus, Archivist Tirra Vanth
+**Hook:** Lorewarden Emeritus requests the PCs' aid in recovering a forbidden volume said to rewrite history as it's read.
+**Objective:** Retrieve the living manuscript and decide whether to return it to the Lorewarden or hide it from his Order's grasp.
+**Conditionals:** Retrieve the forbidden living manuscript, then decide to return it or keep it hidden.
+**Reward:** **The Division's Necklace** - an amulet with 1 × L2 Spell Slot, gifted by the Lorewarden Emeritus to the party's Wizards.
+**Resolution:** Session 9 - Kaelen, Wizzleforth, and Plumbodian stole the manuscript from the Restricted Section undetected. Wizzleforth read into Era 1, Kaelen into Era 2 (History of the Shadowsong) before Wizzleforth **Mended** the book to hide that it had been opened. Plumbodian returned it to the Lorewarden at his office (Solvetra Windmill) and received the Division's Necklace. See [Lorewarden Emeritus](../../../../NPCs/Villains/Solvetra/Lorewarden%20Emeritus.md).

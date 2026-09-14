@@ -53,7 +53,7 @@ _Untouched hooks live in [Rumours](../../../Rumours & Jobs/Solvetra/Rumours.md) 
 **Objective:** Find maps of old buildings within Solvetra. DC10, 12, 15, 18 Investigation for: The Gilded Anvil, The Bathhouse, The Solstice Vault, and The Lumination Archive.
 **Conditionals:** If PCs overpry, Lira may refuse to let them look at the maps.
 **Reward:** "The Big One" information/setup/steps.
-**Status:** Open heist-prep step - Blueprints line on the checklist above.
+**Status:** Open heist-prep step - Blueprints line on the checklist above. Session 9: Grakh relayed that Lira is available to help with what they need re: blueprints, but doesn't want to be directly involved in robbing the bank outright - still needs the actual scene/ask with her.
 
 ---
 

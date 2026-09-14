@@ -25,3 +25,4 @@ Elaris Sol is the runaway daughter of a mysterious and fanatically devout noblew
 
 - The "crazed religion" Elaris fled is tied to her mother's secretive faith and wealth - likely connected to the Division of Lumination or a related Order faction, though this hasn't been confirmed in-game.
 - Her warlock patron's true identity (Sibling Thorne) is a major potential reveal - handle carefully if/when it surfaces.
+- Session 9: at the Chamber of Unspoken Prayer, her necklace reacted strongly to residual energy in the room - Sibling Thorne's presence responding to itself, unknowingly. She doesn't know why.

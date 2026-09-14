@@ -23,3 +23,4 @@ The party called on Sibling Thorne for help during the fight against the Queen B
 
 - His true identity is currently unknown to the party.
 - Recurring "mysterious helper" presence - track future appearances here.
+- Session 9: Fenrik found two giant angel feathers in one of the Lunarbringer coffins beneath the Chamber of Unspoken Prayer - unknowingly his. He made his way out of one of these coffins at some point (DM note: reason TBD; not known to the party). See [Skeletons In the Basement](../../../Quests/Active/Solvetra/Solvetra%20East/Skeletons%20In%20the%20Basement.md) and [Tre Illium](../../../History%20&%20Lore/Tre%20Illium.md).

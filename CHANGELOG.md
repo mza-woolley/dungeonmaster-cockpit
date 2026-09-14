@@ -2,6 +2,16 @@
 
 ---
 
+## v0.11g — September 2026
+
+### 🔧 Changes
+
+- Documentation: session 9 and 10 notes added; quest, NPC, and lore updates across the campaign docs
+- Documentation: new map and location assets added
+- CharacterSheet: minor panel fixes
+
+---
+
 ## v0.11f — July 2026
 
 ### 🔧 Changes

@@ -76,7 +76,10 @@ function deriveSheet(data) {
 
   const passivePerception = 10 + skills.find(s => s.label === 'Perception').mod;
 
-  const hp = (data.baseHitPoints || 0) + (data.bonusHitPoints || 0) - (data.removedHitPoints || 0);
+  const maxHp = data.overrideHitPoints != null
+    ? data.overrideHitPoints
+    : (data.baseHitPoints || 0) + (data.bonusHitPoints || 0);
+  const hp = maxHp - (data.removedHitPoints || 0);
   const tempHp = data.temporaryHitPoints || 0;
 
   const inventory = (data.inventory || []).map(item => ({
@@ -143,6 +146,7 @@ function deriveSheet(data) {
     speed,
     initiative,
     hp,
+    maxHp,
     tempHp,
     hitDice: classes.map(c => `${c.level}${c.hitDie || ''}`).join(' + '),
     resistances,
@@ -334,7 +338,7 @@ export default function CharacterSheet() {
                 <div className="charsheet-hp-row">
                   <div className="charsheet-hp-box">
                     <span className="charsheet-combat-label">Hit Points</span>
-                    <span className="charsheet-combat-value">{sheet.hp}{sheet.tempHp ? ` (+${sheet.tempHp} temp)` : ''}</span>
+                    <span className="charsheet-combat-value">{sheet.hp} / {sheet.maxHp}{sheet.tempHp ? ` (+${sheet.tempHp} temp)` : ''}</span>
                   </div>
                   <div className="charsheet-hp-box">
                     <span className="charsheet-combat-label">Hit Dice</span>

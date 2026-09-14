@@ -90,10 +90,13 @@ Think in terms of: where the party will spend time, where the conflict lives, an
 
 ## Threads That Connect Back
 
-- Does anyone here know about what happened in Solvetra? How?
-- Is there a character here tied to a PC's backstory (NSPF connection, old Cleric contact, Virelle trace)?
-- Does the Lorewarden Emeritus have a presence or proxy here?
-- Is there any physical remnant of Tre Illium's lunar project in or near Ars Lapis?
+It's not likely that anyone from Ars Lapis would know about Solvetra Vault. It wouldn't make a whole lot of sense. Solvetra is more of a cyclical economy, and it's more local. Kind of like a big rural, insular community compared to just, a major city, of La'Choix. The thiefing of the Solvetra Vault is realistically childs-play comparatively. It's importnat to the DOL/OOTS operations as other banks aren't as flexible with that level of "corruption". 
+
+There would absolutely be a character that would be tied to PCs, in Ars Lapis - just unsure of what/who that looks like at this point in time. Will need to flesh this out as we wrap up the contents of Solvetra.
+
+The Lorewarden is not relevant to the operations of Ars Lapis - at all. He realistically doesn't have a lot of power as is, he just happens to be in a non-ambitious town with low stakes, so his standing is naturally overinflated. Of course, the OOTS member(s) that end up as apart of Ars Lapis, will obviously know him. But he's not relevant. Although, what happens to the Lorewarden may actually be relevant.
+
+It still needs to be thought about, on whether there will be any sort of Tre Illium physical presence at Ars Lapis or how the main story should and will play-out.
 
 ---
 
