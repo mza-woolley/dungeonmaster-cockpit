@@ -3,6 +3,7 @@ import './Encounters.css';
 import { ambienceEngine } from './SceneControl';
 import TVDisplay from './TVDisplay';
 import Icon from '../components/Icons';
+import { DNDBEYOND_SAVED_KEY, deriveSheet } from './CharacterSheet';
 
 // ── Helpers ────────────────────────────────────────────────
 const CR_OPTIONS = [
@@ -963,13 +964,23 @@ export default function Encounters() {
     setEncounterFiring(false);
   };
 
-  // Load PC data from characters.json (single source of truth)
+  // Load PC data from the linked D&D Beyond character sheets (Character Sheet panel)
   useEffect(() => {
     if (!isElectron) return;
-    window.electronAPI.characters.loadSeed().then(data => {
-      const pcs = (data.characters || []).filter(c => c.type === 'pc');
-      setPcQuick(pcs);
-    });
+    let cancelled = false;
+    const loadLinkedPCs = async () => {
+      let savedIds = [];
+      try { savedIds = JSON.parse(localStorage.getItem(DNDBEYOND_SAVED_KEY)) || []; } catch { savedIds = []; }
+      const results = await Promise.all(savedIds.map(async ({ id, name }) => {
+        const res = await window.electronAPI?.dndbeyond?.getCharacter(id);
+        if (!res?.success) return null;
+        const sheet = deriveSheet(res.data);
+        return { name: sheet.name || name, initMod: sheet.initiative, maxHp: sheet.maxHp };
+      }));
+      if (!cancelled) setPcQuick(results.filter(Boolean));
+    };
+    loadLinkedPCs();
+    return () => { cancelled = true; };
   }, [isElectron]);
 
   // Load custom monsters on mount

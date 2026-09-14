@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './CharacterSheet.css';
 
-const SAVED_KEY = 'dm-cockpit-dndbeyond-ids';
+export const DNDBEYOND_SAVED_KEY = 'dm-cockpit-dndbeyond-ids';
+const SAVED_KEY = DNDBEYOND_SAVED_KEY;
 const ABILITY_NAMES = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
 const ABILITY_FULL = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
 const SAVE_SUBTYPES = ['strength-saving-throws', 'dexterity-saving-throws', 'constitution-saving-throws', 'intelligence-saving-throws', 'wisdom-saving-throws', 'charisma-saving-throws'];
@@ -41,7 +42,7 @@ function allModifiers(data) {
   return Object.values(groups).flat().filter(Boolean);
 }
 
-function deriveSheet(data) {
+export function deriveSheet(data) {
   const baseStats = data.stats || [];
   const bonusStats = data.bonusStats || [];
   const overrideStats = data.overrideStats || [];
@@ -76,9 +77,16 @@ function deriveSheet(data) {
 
   const passivePerception = 10 + skills.find(s => s.label === 'Perception').mod;
 
+  const hpMods = mods.filter(m => m.type === 'bonus' && m.subType === 'hit-points-per-level');
+  const hpModsPerLevel = hpMods.reduce((sum, m) => sum + (m.value || 0), 0) * totalLevel;
+  const hpModsFlat = mods
+    .filter(m => m.type === 'bonus' && m.subType === 'hit-points')
+    .reduce((sum, m) => sum + (m.value || 0), 0);
+
+  const conMod = abilities[2].mod;
   const maxHp = data.overrideHitPoints != null
     ? data.overrideHitPoints
-    : (data.baseHitPoints || 0) + (data.bonusHitPoints || 0);
+    : (data.baseHitPoints || 0) + (data.bonusHitPoints || 0) + conMod * totalLevel + hpModsPerLevel + hpModsFlat;
   const hp = maxHp - (data.removedHitPoints || 0);
   const tempHp = data.temporaryHitPoints || 0;
 

@@ -2,6 +2,15 @@
 
 ---
 
+## v0.11h — September 2026
+
+### 🔧 Changes
+
+- Encounters: PC quick-add now pulls party members from linked D&D Beyond character sheets instead of a missing local seed file
+- CharacterSheet: fixed max HP calculation to include Constitution modifier per level, correcting undercounted HP for every linked character
+
+---
+
 ## v0.11g — September 2026
 
 ### 🔧 Changes
