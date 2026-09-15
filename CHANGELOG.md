@@ -2,6 +2,14 @@
 
 ---
 
+## v0.12.2 — September 2026
+
+### 🔧 Changes
+
+- Removed an unused dependency to keep installs leaner
+
+---
+
 ## v0.12.1 — September 2026
 
 ### ✨ New
