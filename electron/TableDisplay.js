@@ -103,8 +103,13 @@ function syncMapPins(pins, hideAllNpcs, hideMons, pinSize) {
   exec(`setPins(${JSON.stringify({ pins, hideAllNpcs, hideAllMonsters: hideMons, pinSize })})`);
 }
 
-function syncMapGrid(enabled, size) {
-  exec(`setGrid(${JSON.stringify({ enabled, size })})`);
+function syncMapMeasure(payload) {
+  if (!tableWindow || tableWindow.isDestroyed()) return;
+  tableWindow.webContents.executeJavaScript(`applyMeasure(${JSON.stringify(payload)})`).catch(() => {});
+}
+
+function syncMapGrid(enabled, sizePx, feetPerSquare) {
+  exec(`setGrid(${JSON.stringify({ enabled, sizePx, feetPerSquare })})`);
 }
 
 function syncMapOverlay(state) {
@@ -142,6 +147,6 @@ function getTableHtml() {
 
 module.exports = {
   openTableWindow, closeTableWindow, getTableWindow, syncState,
-  syncMapImage, clearMap, syncMapFog, syncMapBrushStroke, syncMapPins, syncMapGrid, syncMapOverlay,
+  syncMapImage, clearMap, syncMapFog, syncMapBrushStroke, syncMapMeasure, syncMapPins, syncMapGrid, syncMapOverlay,
   replayMapState, replaySeatState,
 };

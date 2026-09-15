@@ -9,6 +9,13 @@ function getDisplayHtml(title) {
 <title>${title}</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
+  html {
+    /* Seat text/spacing below is sized in rem off this root — scales with the
+       window's actual resolution (calibrated at 1920px wide, same reference
+       width the map grid uses) so 2K/4K windows don't render tiny fixed-px
+       text in a box that itself already scales via vw/vh. */
+    font-size: clamp(12px, calc(100vw / 1920 * 16px), 34px);
+  }
   html, body {
     width:100%; height:100%;
     overflow:hidden;
@@ -45,12 +52,12 @@ function getDisplayHtml(title) {
     transform: rotate(var(--rotate));
     background: rgba(10,8,5,0.55);
     border: 1px solid #312917;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     display:flex; flex-direction:column;
     justify-content:flex-start;
     align-items:center;
     text-align:center;
-    padding: 6px 10px;
+    padding: 0.375rem 0.625rem;
     position: relative;
     transition: box-shadow 0.3s, border-color 0.3s;
     overflow: hidden;
@@ -64,19 +71,19 @@ function getDisplayHtml(title) {
   .seat::before, .seat::after {
     content: '';
     position: absolute;
-    width: 12px; height: 12px;
+    width: 0.75rem; height: 0.75rem;
     border: 2px solid rgba(201,168,76,0.3);
     pointer-events: none;
   }
   .seat::before {
-    top: 5px; left: 5px;
+    top: 0.3125rem; left: 0.3125rem;
     border-right: none; border-bottom: none;
-    border-top-left-radius: 6px;
+    border-top-left-radius: 0.375rem;
   }
   .seat::after {
-    bottom: 5px; right: 5px;
+    bottom: 0.3125rem; right: 0.3125rem;
     border-left: none; border-top: none;
-    border-bottom-right-radius: 6px;
+    border-bottom-right-radius: 0.375rem;
   }
   .seat.active {
     border-color: #e6c883;
@@ -102,7 +109,7 @@ function getDisplayHtml(title) {
     justify-content: flex-start;
     align-items: center;
     text-align: center;
-    padding: 6px 10px;
+    padding: 0.375rem 0.625rem;
   }
   .seat.empty {
     align-items: center;
@@ -110,47 +117,47 @@ function getDisplayHtml(title) {
     font-style: italic;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    font-size: 11px;
+    font-size: 0.6875rem;
   }
   .seat.idle {
     align-items: center;
     text-align: center;
   }
-  .seat.idle .seat-name { font-size: 17px; }
-  .seat.idle .seat-sub { font-size: 11px; }
+  .seat.idle .seat-name { font-size: 1.0625rem; }
+  .seat.idle .seat-sub { font-size: 0.6875rem; }
   .seat-turn-banner {
     display: none;
     align-self: flex-start;
     background: #b99a5b;
     color: #100d08;
     font-weight: bold;
-    font-size: 8px;
+    font-size: 0.5rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    padding: 1px 6px;
-    border-radius: 4px;
-    margin-bottom: 3px;
+    padding: 0.0625rem 0.375rem;
+    border-radius: 0.25rem;
+    margin-bottom: 0.1875rem;
   }
   .seat.active .seat-turn-banner { display: inline-block; }
   .seat-name {
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: bold;
     line-height: 1.1;
   }
   .seat-sub {
-    font-size: 10px;
+    font-size: 0.625rem;
     color: #9a8a71;
-    margin-top: 1px;
+    margin-top: 0.0625rem;
     letter-spacing: 0.05em;
   }
   .seat-stats {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 2px;
-    margin-top: 3px;
+    gap: 0.125rem;
+    margin-top: 0.1875rem;
     width: 100%;
-    font-size: 11px;
+    font-size: 0.6875rem;
     color: #c9bda3;
   }
   .seat-init-row {
@@ -161,21 +168,21 @@ function getDisplayHtml(title) {
     flex-shrink: 0;
     display: flex;
     align-items: baseline;
-    gap: 4px;
+    gap: 0.25rem;
     text-align: center;
     border: 1px solid #312917;
-    border-radius: 6px;
-    padding: 1px 6px;
+    border-radius: 0.375rem;
+    padding: 0.0625rem 0.375rem;
     background: rgba(0,0,0,0.22);
   }
   .seat-init-num {
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: bold;
     line-height: 1;
     color: #b99a5b;
   }
   .seat-init-label {
-    font-size: 8px;
+    font-size: 0.5rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: #9a8a71;
@@ -186,34 +193,34 @@ function getDisplayHtml(title) {
   }
   .seat-hp-bar-bg {
     width: 100%;
-    height: 8px;
-    border-radius: 4px;
+    height: 0.5rem;
+    border-radius: 0.25rem;
     background: rgba(255,255,255,0.07);
     border: 1px solid rgba(255,255,255,0.08);
     overflow: hidden;
   }
   .seat-hp-bar {
     height: 100%;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     transition: width 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
   }
   .seat-hp-label {
-    font-size: 9px;
-    margin-top: 1px;
+    font-size: 0.5625rem;
+    margin-top: 0.0625rem;
     color: #9a8a71;
   }
   .seat-conditions {
-    margin-top: 3px;
+    margin-top: 0.1875rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 3px;
+    gap: 0.1875rem;
   }
   .seat-condition {
-    font-size: 8px;
+    font-size: 0.5rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    padding: 0px 4px;
-    border-radius: 8px;
+    padding: 0 0.25rem;
+    border-radius: 0.5rem;
     border: 1px solid #7a2f1c;
     color: #d08d70;
     background: rgba(107,58,58,0.2);
@@ -223,12 +230,12 @@ function getDisplayHtml(title) {
     filter: grayscale(0.55) brightness(0.8);
   }
   .seat-dead-badge {
-    font-size: 9px;
+    font-size: 0.5625rem;
     font-weight: bold;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: #d08d70;
-    margin-top: 2px;
+    margin-top: 0.125rem;
   }
 
 </style>
@@ -247,6 +254,19 @@ function getDisplayHtml(title) {
 </div>
 <script>
 (function() {
+  // Scale seat-nameplate rem sizing off actual PHYSICAL pixel width, not the CSS
+  // clamp(100vw...) this used to rely on alone — Windows' per-monitor DPI scaling
+  // normalizes logical/CSS pixels specifically so apps look the same size across
+  // displays, which silently cancels a vw-based scale on a 4K screen running at
+  // 150-200% Windows scaling. screen.width * devicePixelRatio gives the true
+  // native pixel count regardless of that OS-level setting. Overrides (and wins
+  // over) the CSS clamp() fallback via higher specificity of an inline style.
+  (function scaleRootFont() {
+    const physicalWidth = (window.screen.width || window.innerWidth) * (window.devicePixelRatio || 1);
+    const px = Math.min(40, Math.max(12, physicalWidth / 1920 * 16));
+    document.documentElement.style.fontSize = px + 'px';
+  })();
+
   const SEAT_IDS = ['top-1','top-2','left-1','left-2','right-1','right-2'];
 
   // ── Map background ──
@@ -259,8 +279,10 @@ function getDisplayHtml(title) {
   let hideAllNpcs = false;
   let hideAllMons = false;
   let gridEnabled = false;
-  let gridSize    = 'medium';
+  let gridSizePx  = 60;
+  let feetPerSquare = 5;
   let pinSize     = 18;
+  let currentMeasure = null; // { tool, startNx, startNy, curNx, curNy, gridSizePx, feetPerSquare } while a DM drag is live
   let pendingFogMask = null;
   let pulseRAF    = null; // keeps re-rendering while any pin is linked to the active turn (pulsing glow)
 
@@ -275,8 +297,8 @@ function getDisplayHtml(title) {
     }
   }
 
-  const GRID_PX = { tiny: 20, small: 40, medium: 60, large: 80 };
-  const GRID_REFERENCE_WIDTH = 1920; // GRID_PX values are calibrated at this rendered image width
+  const GRID_PX_LEGACY = { tiny: 20, small: 40, medium: 60, large: 80 }; // migrates old preset saves
+  const GRID_REFERENCE_WIDTH = 1920; // grid sizes are calibrated at this rendered image width
 
   function resizeMapCanvas() {
     mapCanvas.width  = window.innerWidth;
@@ -317,10 +339,86 @@ function getDisplayHtml(title) {
     if (fogCanvas) mapCtx.drawImage(fogCanvas, dx, dy, dw, dh);
     if (gridEnabled) drawMapGrid(dx, dy, dw, dh);
     drawMapPins(dx, dy, dw, dh);
+    if (currentMeasure) drawMeasure(dx, dy, dw, dh);
+  }
+
+  // Mirrors drawMeasurementShape() in src/panels/TVDisplay.js — kept in sync by hand since
+  // this script runs in a separate injected window context and can't share a module.
+  function drawMeasure(dx, dy, dw, dh) {
+    const m = currentMeasure;
+    const sx = dx + m.startNx * dw, sy = dy + m.startNy * dh;
+    const ex = dx + m.curNx * dw,   ey = dy + m.curNy * dh;
+    const stepPx = (m.gridSizePx || gridSizePx) * (dw / GRID_REFERENCE_WIDTH);
+    const fps    = m.feetPerSquare != null ? m.feetPerSquare : feetPerSquare;
+    if (stepPx <= 0) return;
+
+    const pxDist = Math.hypot(ex - sx, ey - sy);
+    const toFeet = (px) => (px / stepPx) * fps;
+    let label = '';
+
+    mapCtx.save();
+    mapCtx.lineWidth = 2;
+
+    if (m.tool === 'ruler') {
+      mapCtx.strokeStyle = 'rgba(255,255,255,0.9)';
+      mapCtx.fillStyle   = 'rgba(255,255,255,0.9)';
+      mapCtx.beginPath(); mapCtx.moveTo(sx, sy); mapCtx.lineTo(ex, ey); mapCtx.stroke();
+      mapCtx.beginPath(); mapCtx.arc(sx, sy, 3, 0, Math.PI * 2); mapCtx.arc(ex, ey, 3, 0, Math.PI * 2); mapCtx.fill();
+      label = toFeet(pxDist).toFixed(2) + ' ft';
+    } else if (m.tool === 'sphere') {
+      mapCtx.fillStyle   = 'rgba(120,170,255,0.18)';
+      mapCtx.strokeStyle = 'rgba(120,170,255,0.9)';
+      mapCtx.beginPath(); mapCtx.arc(sx, sy, pxDist, 0, Math.PI * 2); mapCtx.fill(); mapCtx.stroke();
+      label = toFeet(pxDist).toFixed(2) + ' ft radius';
+    } else if (m.tool === 'cone') {
+      const angle = Math.atan2(ey - sy, ex - sx);
+      const half  = Math.atan(0.5); // DMG rule: cone width at its end equals its length (53.13°)
+      mapCtx.fillStyle   = 'rgba(255,150,100,0.18)';
+      mapCtx.strokeStyle = 'rgba(255,150,100,0.9)';
+      mapCtx.beginPath();
+      mapCtx.moveTo(sx, sy);
+      mapCtx.lineTo(sx + pxDist * Math.cos(angle - half), sy + pxDist * Math.sin(angle - half));
+      mapCtx.lineTo(sx + pxDist * Math.cos(angle + half), sy + pxDist * Math.sin(angle + half));
+      mapCtx.closePath(); mapCtx.fill(); mapCtx.stroke();
+      label = toFeet(pxDist).toFixed(2) + ' ft';
+    } else if (m.tool === 'line') {
+      const angle   = Math.atan2(ey - sy, ex - sx);
+      const halfWPx = (5 / fps) * stepPx / 2; // fixed 5ft width, standard for line spells
+      const px_ = Math.cos(angle + Math.PI / 2) * halfWPx;
+      const py_ = Math.sin(angle + Math.PI / 2) * halfWPx;
+      mapCtx.fillStyle   = 'rgba(200,120,255,0.18)';
+      mapCtx.strokeStyle = 'rgba(200,120,255,0.9)';
+      mapCtx.beginPath();
+      mapCtx.moveTo(sx + px_, sy + py_); mapCtx.lineTo(ex + px_, ey + py_);
+      mapCtx.lineTo(ex - px_, ey - py_); mapCtx.lineTo(sx - px_, sy - py_);
+      mapCtx.closePath(); mapCtx.fill(); mapCtx.stroke();
+      label = toFeet(pxDist).toFixed(2) + ' ft (5ft wide)';
+    } else if (m.tool === 'cube') {
+      const side  = Math.max(Math.abs(ex - sx), Math.abs(ey - sy));
+      const signX = ex >= sx ? 1 : -1;
+      const signY = ey >= sy ? 1 : -1;
+      mapCtx.fillStyle   = 'rgba(255,220,100,0.18)';
+      mapCtx.strokeStyle = 'rgba(255,220,100,0.9)';
+      mapCtx.fillRect(sx, sy, side * signX, side * signY);
+      mapCtx.strokeRect(sx, sy, side * signX, side * signY);
+      label = toFeet(side).toFixed(2) + ' ft cube';
+    }
+
+    if (label) {
+      mapCtx.font         = 'bold 13px system-ui,sans-serif';
+      mapCtx.textAlign    = 'center';
+      mapCtx.shadowColor  = 'rgba(0,0,0,0.9)';
+      mapCtx.shadowBlur   = 4;
+      mapCtx.fillStyle    = '#fff';
+      mapCtx.fillText(label, (sx + ex) / 2, (sy + ey) / 2 - 10);
+      mapCtx.shadowBlur   = 0;
+      mapCtx.textAlign    = 'left';
+    }
+    mapCtx.restore();
   }
 
   function drawMapGrid(dx, dy, dw, dh) {
-    const step = (GRID_PX[gridSize] || 60) * (dw / GRID_REFERENCE_WIDTH);
+    const step = gridSizePx * (dw / GRID_REFERENCE_WIDTH);
     mapCtx.save();
     mapCtx.strokeStyle = 'rgba(255,255,255,0.18)';
     mapCtx.lineWidth   = 0.8;
@@ -456,6 +554,11 @@ function getDisplayHtml(title) {
     img.src = dataUrl;
   };
 
+  window.applyMeasure = function(payload) {
+    currentMeasure = payload || null;
+    renderMap();
+  };
+
   window.setPins = function({ pins: p, hideAllNpcs: hn, hideAllMonsters: hm, pinSize: ps }) {
     pins        = p || [];
     hideAllNpcs = !!hn;
@@ -465,15 +568,18 @@ function getDisplayHtml(title) {
     syncPulseLoop();
   };
 
-  window.setGrid = function({ enabled, size }) {
+  window.setGrid = function({ enabled, sizePx, feetPerSquare: fps }) {
     gridEnabled = !!enabled;
-    gridSize    = size || 'medium';
+    if (sizePx != null) gridSizePx = typeof sizePx === 'string' ? (GRID_PX_LEGACY[sizePx] || 60) : sizePx;
+    if (fps != null) feetPerSquare = fps;
     renderMap();
   };
 
   window.applyOverlayState = function(state) {
     gridEnabled = !!state.gridEnabled;
-    gridSize    = state.gridSize || 'medium';
+    if (state.gridSizePx != null) gridSizePx = state.gridSizePx;
+    else if (state.gridSize) gridSizePx = GRID_PX_LEGACY[state.gridSize] || 60; // legacy preset save
+    if (state.feetPerSquare != null) feetPerSquare = state.feetPerSquare;
     pins        = state.pins || [];
     if (state.pinSize != null) pinSize = state.pinSize;
     hideAllNpcs = !!state.hideAllNpcs;

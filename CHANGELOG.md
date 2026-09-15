@@ -2,6 +2,22 @@
 
 ---
 
+## v0.12.1 — September 2026
+
+### ✨ New
+
+- Encounters & Map: grid size and feet-per-square are now both adjustable, and the grid is a real ruler — pins snap to the center of a square instead of a line intersection
+- Encounters & Map: new measurement tools — ruler, sphere, cone, line, and cube — draw live on the map and stay visible to players in real time, with distances shown in feet
+- Map/Table Display: PC nameplates now scale properly on higher-resolution (2K/4K) displays instead of rendering undersized
+
+### 🔧 Changes
+
+- Encounters: Initiative Tracker panel is narrower, and its setup sections (Encounter Presets, Build Encounter) can now collapse to give the map more screen space
+- Encounters: seat assignments are now tied to the linked D&D Beyond character rather than their display name, fixing PC overlays that broke after a character rename
+- Map/TV Display: fixed a cursor inconsistency when switching map tools or resizing the window
+
+---
+
 ## v0.12 — The Tether Update — September 2026
 
 ### ✨ New

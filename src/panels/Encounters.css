@@ -683,7 +683,7 @@
 }
 
 .initiative-map-pane {
-  flex: 1.6;
+  flex: 2.4;
   min-width: 0;
   border: 1px solid var(--border-bright);
   border-radius: var(--radius);
@@ -692,7 +692,8 @@
 
 .initiative-tracker-pane {
   flex: 1;
-  min-width: 360px;
+  min-width: 300px;
+  max-width: 380px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -1058,6 +1059,12 @@
   font-variant-caps: small-caps;
   color: var(--gold);
 }
+.init-section-toggle {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.init-section-toggle:hover { color: var(--gold-bright); }
 .editor-section {
   position: relative;
   border: 1px solid var(--border);

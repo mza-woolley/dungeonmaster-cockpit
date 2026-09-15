@@ -6,9 +6,8 @@ const FOLDER_KEY = 'dm-cockpit-tv-folder';
 const FILES_KEY  = 'dm-cockpit-tv-files';
 const FAVS_KEY   = 'dm-cockpit-tv-favs';
 
-const GRID_SIZES   = ['tiny', 'small', 'medium', 'large'];
-const GRID_PX      = { tiny: 20, small: 40, medium: 60, large: 80 };
-const GRID_REFERENCE_WIDTH = 1920; // GRID_PX values are calibrated at this rendered image width
+const GRID_PX_LEGACY = { tiny: 20, small: 40, medium: 60, large: 80 }; // migrates old preset saves
+const GRID_REFERENCE_WIDTH = 1920; // grid sizes are calibrated at this rendered image width
 const PIN_COLORS   = { pc: '#4a8fd4', npc: '#c9a84c', monster: '#c94a4a' };
 const FOG_OPACITY  = 0.65; // DM-side semi-transparency
 
@@ -22,6 +21,76 @@ function initials(name) {
 function pinBadge(name) {
   const m = name.match(/^(.*) \((\d+)\)$/);
   return m ? `${initials(m[1])}${m[2]}` : initials(name);
+}
+
+// Draws the live drag preview for a measurement tool (ruler/sphere/cone/line/cube) and
+// its feet label. Pure function of the drag endpoints in canvas pixels — used identically
+// by the DM canvas here and mirrored in electron/displayHtml.js for the TV/table windows.
+function drawMeasurementShape(ctx, tool, sx, sy, ex, ey, stepPx, feetPerSquare) {
+  if (!tool || stepPx <= 0) return;
+  const pxDist = Math.hypot(ex - sx, ey - sy);
+  const toFeet = (px) => (px / stepPx) * feetPerSquare;
+  let label = '';
+
+  ctx.save();
+  ctx.lineWidth = 2;
+
+  if (tool === 'ruler') {
+    ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+    ctx.fillStyle   = 'rgba(255,255,255,0.9)';
+    ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke();
+    ctx.beginPath(); ctx.arc(sx, sy, 3, 0, Math.PI * 2); ctx.arc(ex, ey, 3, 0, Math.PI * 2); ctx.fill();
+    label = `${toFeet(pxDist).toFixed(2)} ft`;
+  } else if (tool === 'sphere') {
+    ctx.fillStyle   = 'rgba(120,170,255,0.18)';
+    ctx.strokeStyle = 'rgba(120,170,255,0.9)';
+    ctx.beginPath(); ctx.arc(sx, sy, pxDist, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    label = `${toFeet(pxDist).toFixed(2)} ft radius`;
+  } else if (tool === 'cone') {
+    const angle = Math.atan2(ey - sy, ex - sx);
+    const half  = Math.atan(0.5); // DMG rule: cone width at its end equals its length (53.13°)
+    ctx.fillStyle   = 'rgba(255,150,100,0.18)';
+    ctx.strokeStyle = 'rgba(255,150,100,0.9)';
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.lineTo(sx + pxDist * Math.cos(angle - half), sy + pxDist * Math.sin(angle - half));
+    ctx.lineTo(sx + pxDist * Math.cos(angle + half), sy + pxDist * Math.sin(angle + half));
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    label = `${toFeet(pxDist).toFixed(2)} ft`;
+  } else if (tool === 'line') {
+    const angle   = Math.atan2(ey - sy, ex - sx);
+    const halfWPx = (5 / feetPerSquare) * stepPx / 2; // fixed 5ft width, standard for line spells
+    const px_ = Math.cos(angle + Math.PI / 2) * halfWPx;
+    const py_ = Math.sin(angle + Math.PI / 2) * halfWPx;
+    ctx.fillStyle   = 'rgba(200,120,255,0.18)';
+    ctx.strokeStyle = 'rgba(200,120,255,0.9)';
+    ctx.beginPath();
+    ctx.moveTo(sx + px_, sy + py_); ctx.lineTo(ex + px_, ey + py_);
+    ctx.lineTo(ex - px_, ey - py_); ctx.lineTo(sx - px_, sy - py_);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    label = `${toFeet(pxDist).toFixed(2)} ft (5ft wide)`;
+  } else if (tool === 'cube') {
+    const side  = Math.max(Math.abs(ex - sx), Math.abs(ey - sy));
+    const signX = ex >= sx ? 1 : -1;
+    const signY = ey >= sy ? 1 : -1;
+    ctx.fillStyle   = 'rgba(255,220,100,0.18)';
+    ctx.strokeStyle = 'rgba(255,220,100,0.9)';
+    ctx.fillRect(sx, sy, side * signX, side * signY);
+    ctx.strokeRect(sx, sy, side * signX, side * signY);
+    label = `${toFeet(side).toFixed(2)} ft cube`;
+  }
+
+  if (label) {
+    ctx.font         = 'bold 13px system-ui,sans-serif';
+    ctx.textAlign    = 'center';
+    ctx.shadowColor  = 'rgba(0,0,0,0.9)';
+    ctx.shadowBlur   = 4;
+    ctx.fillStyle    = '#fff';
+    ctx.fillText(label, (sx + ex) / 2, (sy + ey) / 2 - 10);
+    ctx.shadowBlur   = 0;
+    ctx.textAlign    = 'left';
+  }
+  ctx.restore();
 }
 
 // ── Lazy thumbnail tile ───────────────────────────────────
@@ -115,7 +184,10 @@ const TVDisplay = forwardRef(function TVDisplay({
   const [fogEnabled,      setFogEnabled]      = useState(true);
   const [brushSize,       setBrushSize]       = useState(40);
   const [gridEnabled,     setGridEnabled]     = useState(false);
-  const [gridSize,        setGridSize]        = useState('medium');
+  const [gridSizePx,      setGridSizePx]      = useState(60);
+  const [feetPerSquare,   setFeetPerSquare]   = useState(5);
+  const [snapToGrid,      setSnapToGrid]      = useState(true);
+  const [drawTool,        setDrawTool]        = useState(null); // null | 'ruler' | 'sphere' | 'cone' | 'line' | 'cube'
   const [pins,            setPins]            = useState([]);
   const [pinSize,         setPinSize]         = useState(16);
   const [hideAllNpcs,     setHideAllNpcs]     = useState(false);
@@ -137,6 +209,8 @@ const TVDisplay = forwardRef(function TVDisplay({
   const cursorPos      = useRef(null);   // {x, y} canvas coords for brush preview
   const lastTvSync     = useRef(0);      // timestamp of last brush stroke sent to TV
   const lastPinSync    = useRef(0);      // timestamp of last pin position sent to TV
+  const measureRef     = useRef(null);   // { tool, startNx, startNy, curNx, curNy } while a measurement is being dragged
+  const lastMeasureSync = useRef(0);     // timestamp of last measurement stroke sent to TV
   const overlayRef     = useRef(null);   // wrapper div for bounds
   const draggingPinId  = useRef(null);   // id of pin being dragged
   const hoveredPinId   = useRef(null);   // id of pin under cursor
@@ -225,7 +299,7 @@ const TVDisplay = forwardRef(function TVDisplay({
 
     // Grid
     if (gridEnabled) {
-      const step = (GRID_PX[gridSize] || 60) * (dw / GRID_REFERENCE_WIDTH);
+      const step = gridSizePx * (dw / GRID_REFERENCE_WIDTH);
       ctx.save();
       ctx.strokeStyle = 'rgba(255,255,255,0.15)';
       ctx.lineWidth   = 0.8;
@@ -308,8 +382,17 @@ const TVDisplay = forwardRef(function TVDisplay({
       ctx.restore();
     });
 
+    // Live measurement tool preview (ruler/sphere/cone/line/cube) — only while dragging
+    if (measureRef.current) {
+      const m = measureRef.current;
+      const sx = dx + m.startNx * dw, sy = dy + m.startNy * dh;
+      const ex = dx + m.curNx * dw,   ey = dy + m.curNy * dh;
+      const stepPx = gridSizePx * (dw / GRID_REFERENCE_WIDTH);
+      drawMeasurementShape(ctx, m.tool, sx, sy, ex, ey, stepPx, feetPerSquare);
+    }
+
     // Brush cursor — double ring for visibility on any map colour
-    if (fogEnabled && !placingPin && cursorPos.current) {
+    if (fogEnabled && !placingPin && !drawTool && cursorPos.current) {
       const { x: mx, y: my } = cursorPos.current;
       ctx.save();
       // Dark outer halo
@@ -351,7 +434,7 @@ const TVDisplay = forwardRef(function TVDisplay({
       ctx.fillText(`Click map to place ${placingPin.name}`, cw / 2, dy + dh + 18);
       ctx.restore();
     }
-  }, [fogEnabled, gridEnabled, gridSize, pins, pinSize, placingPin, brushSize, activeCombatantId]);
+  }, [fogEnabled, gridEnabled, gridSizePx, feetPerSquare, pins, pinSize, placingPin, drawTool, brushSize, activeCombatantId]);
 
   // Keep the DM canvas redrawing while a pin is linked to the active turn, so its glow pulses.
   useEffect(() => {
@@ -393,6 +476,28 @@ const TVDisplay = forwardRef(function TVDisplay({
   // Re-draw whenever overlay state changes
   useEffect(() => { drawDmCanvas(); }, [drawDmCanvas]);
 
+  // ── Cursor ──
+  // Single source of truth for the canvas cursor. Mixing this with a declarative
+  // style={{cursor}} prop caused it to get stuck: React only touches the DOM style
+  // when the prop value differs from what it rendered last, so an imperative write
+  // from a pointer handler (hover/drag/leave) could leave a stale cursor that the
+  // next render — computing the same prop value as before — wouldn't correct.
+  // Everything that can affect the cursor now funnels through this one function.
+  const updateCursor = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    if (draggingPinId.current) { canvas.style.cursor = 'grabbing'; return; }
+    if (placingPin)            { canvas.style.cursor = 'cell'; return; }
+    if (drawTool)               { canvas.style.cursor = 'crosshair'; return; }
+    if (hoveredPinId.current)  { canvas.style.cursor = 'grab'; return; }
+    if (fogEnabled)            { canvas.style.cursor = 'none'; return; }
+    canvas.style.cursor = 'default';
+  }, [placingPin, drawTool, fogEnabled]);
+
+  // Re-assert the cursor whenever a mode that affects it changes, so clicking a
+  // toolbar button (no pointermove involved) still updates it immediately.
+  useEffect(() => { updateCursor(); }, [updateCursor]);
+
   // ── Map canvas sizing ──
   useEffect(() => {
     const el = overlayRef.current;
@@ -402,11 +507,15 @@ const TVDisplay = forwardRef(function TVDisplay({
       if (!canvas) return;
       canvas.width  = el.clientWidth;
       canvas.height = el.clientHeight;
+      // Resizing invalidates the last mouse position tracked in canvas-pixel space —
+      // clear it rather than draw a fog-brush ring at a now-stale location.
+      cursorPos.current = null;
       drawDmCanvas();
+      updateCursor();
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, [drawDmCanvas, mapLoaded]);
+  }, [drawDmCanvas, updateCursor, mapLoaded]);
 
   // ── Fog init helper ──
   function ensureFog(w, h) {
@@ -438,6 +547,24 @@ const TVDisplay = forwardRef(function TVDisplay({
     return {
       nx: (cx - b.dx) / b.dw,
       ny: (cy - b.dy) / b.dh,
+    };
+  }
+
+  // Snaps a normalized {nx, ny} to the center of the nearest grid square — a token
+  // occupies a square, not the intersection of its lines. Grid squares are drawn
+  // square in on-screen pixels, so the normalized step differs between axes whenever
+  // the map image isn't square (step/dw vs step/dh). Grid lines start at nx/ny = 0,
+  // so square k spans [k*step, (k+1)*step) and its center is (k+0.5)*step.
+  function snapNormToGrid(norm) {
+    if (!snapToGrid || !gridEnabled) return norm;
+    const b = getMapBounds();
+    if (!b) return norm;
+    const stepPx = gridSizePx * (b.dw / GRID_REFERENCE_WIDTH);
+    const stepNx = stepPx / b.dw;
+    const stepNy = stepPx / b.dh;
+    return {
+      nx: (Math.floor(norm.nx / stepNx) + 0.5) * stepNx,
+      ny: (Math.floor(norm.ny / stepNy) + 0.5) * stepNy,
     };
   }
 
@@ -496,8 +623,9 @@ const TVDisplay = forwardRef(function TVDisplay({
     const cy = e.clientY - rect.top;
 
     if (placingPin) {
-      const norm = canvasToNorm(cx, cy);
-      if (!norm || norm.nx < 0 || norm.nx > 1 || norm.ny < 0 || norm.ny > 1) return;
+      const rawNorm = canvasToNorm(cx, cy);
+      if (!rawNorm || rawNorm.nx < 0 || rawNorm.nx > 1 || rawNorm.ny < 0 || rawNorm.ny > 1) return;
+      const norm = snapNormToGrid(rawNorm);
       const newPin = { ...placingPin, x: norm.nx, y: norm.ny };
       const next   = [...pins, newPin];
       setPins(next);
@@ -507,11 +635,20 @@ const TVDisplay = forwardRef(function TVDisplay({
       return;
     }
 
+    if (drawTool) {
+      const norm = canvasToNorm(cx, cy);
+      if (!norm) return;
+      measureRef.current = { tool: drawTool, startNx: norm.nx, startNy: norm.ny, curNx: norm.nx, curNy: norm.ny };
+      canvasRef.current.setPointerCapture(e.pointerId);
+      drawDmCanvas();
+      return;
+    }
+
     // Pin drag takes priority over fog painting
     const hitId = hitTestPin(cx, cy);
     if (hitId) {
       draggingPinId.current = hitId;
-      canvasRef.current.style.cursor = 'grabbing';
+      updateCursor();
       canvasRef.current.setPointerCapture(e.pointerId);
       return;
     }
@@ -527,9 +664,26 @@ const TVDisplay = forwardRef(function TVDisplay({
     const cy = e.clientY - rect.top;
     cursorPos.current = { x: cx, y: cy };
 
-    if (draggingPinId.current) {
+    if (measureRef.current) {
       const norm = canvasToNorm(cx, cy);
-      if (!norm) return;
+      if (norm) {
+        measureRef.current = { ...measureRef.current, curNx: norm.nx, curNy: norm.ny };
+        drawDmCanvas();
+        if (isElectron) {
+          const now = Date.now();
+          if (now - lastMeasureSync.current > 33) { // ~30fps, matches the fog-brush throttle pattern
+            lastMeasureSync.current = now;
+            window.electronAPI.tv.measureStroke({ ...measureRef.current, gridSizePx, feetPerSquare });
+          }
+        }
+      }
+      return;
+    }
+
+    if (draggingPinId.current) {
+      const rawNorm = canvasToNorm(cx, cy);
+      if (!rawNorm) return;
+      const norm = snapNormToGrid(rawNorm);
       const nx = Math.max(0, Math.min(1, norm.nx));
       const ny = Math.max(0, Math.min(1, norm.ny));
       // Update ref directly so throttled sync and pointerUp always have the latest position
@@ -550,7 +704,7 @@ const TVDisplay = forwardRef(function TVDisplay({
     const hitId = hitTestPin(cx, cy);
     if (hitId !== hoveredPinId.current) {
       hoveredPinId.current = hitId;
-      canvasRef.current.style.cursor = hitId ? 'grab' : (fogEnabled ? 'none' : 'default');
+      updateCursor();
     }
 
     if (painting.current && fogEnabled && !placingPin) {
@@ -564,15 +718,25 @@ const TVDisplay = forwardRef(function TVDisplay({
     cursorPos.current    = null;
     painting.current     = false;
     hoveredPinId.current = null;
-    canvasRef.current.style.cursor = fogEnabled ? 'none' : 'default';
+    if (measureRef.current) {
+      measureRef.current = null;
+      if (isElectron) window.electronAPI.tv.measureStroke(null);
+    }
+    updateCursor();
     drawDmCanvas();
     if (fogRef.current) setTimeout(flushFogToTV, 0);
   }
 
   function handlePointerUp() {
+    if (measureRef.current) {
+      measureRef.current = null;
+      drawDmCanvas();
+      if (isElectron) window.electronAPI.tv.measureStroke(null);
+      return;
+    }
     if (draggingPinId.current) {
       draggingPinId.current = null;
-      canvasRef.current.style.cursor = fogEnabled ? 'none' : 'default';
+      updateCursor();
       syncPinsToTv(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
       return;
     }
@@ -606,7 +770,7 @@ const TVDisplay = forwardRef(function TVDisplay({
     }
 
     if (isElectron) {
-      window.electronAPI.tv.syncGrid(gridEnabled, gridSize);
+      window.electronAPI.tv.syncGrid(gridEnabled, gridSizePx, feetPerSquare);
       syncPinsToTv(pins, hideAllNpcs, hideAllMonsters, pinSize);
       window.electronAPI.tv.setSeatsVisible(seatsVisible);
     }
@@ -621,18 +785,19 @@ const TVDisplay = forwardRef(function TVDisplay({
       setHideAllMonsters(false);
       setSeatsVisible(false);
       if (isElectron) {
-        window.electronAPI.tv.syncGrid(false, gridSize);
+        window.electronAPI.tv.syncGrid(false, gridSizePx, feetPerSquare);
         syncPinsToTv([], false, false, pinSize);
         window.electronAPI.tv.setSeatsVisible(false);
       }
     }
-  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, seatsVisible, isElectron, dmImageDataUrl, linkTable, onOpenChange, syncPinsToTv]);
+  }, [tvOpen, gridEnabled, gridSizePx, feetPerSquare, pins, pinSize, hideAllNpcs, hideAllMonsters, seatsVisible, isElectron, dmImageDataUrl, linkTable, onOpenChange, syncPinsToTv]);
 
   // ── Grid sync ──
-  function setGrid(enabled, size) {
+  function setGrid(enabled, sizePx, fps) {
     setGridEnabled(enabled);
-    setGridSize(size);
-    if (isElectron) window.electronAPI.tv.syncGrid(enabled, size);
+    setGridSizePx(sizePx);
+    setFeetPerSquare(fps);
+    if (isElectron) window.electronAPI.tv.syncGrid(enabled, sizePx, fps);
   }
 
   // ── Pin management ──
@@ -665,7 +830,8 @@ const TVDisplay = forwardRef(function TVDisplay({
       mapPath: active,
       fogMask,
       gridEnabled,
-      gridSize,
+      gridSizePx,
+      feetPerSquare,
       pins,
       pinSize,
       hideAllNpcs,
@@ -711,8 +877,13 @@ const TVDisplay = forwardRef(function TVDisplay({
       img.src = state.fogMask;
     }
 
+    // Legacy states only stored a tiny/small/medium/large preset — migrate to px.
+    const loadedGridSizePx = state.gridSizePx != null
+      ? state.gridSizePx
+      : (GRID_PX_LEGACY[state.gridSize] || 60);
     setGridEnabled(state.gridEnabled);
-    setGridSize(state.gridSize || 'medium');
+    setGridSizePx(loadedGridSizePx);
+    setFeetPerSquare(state.feetPerSquare != null ? state.feetPerSquare : 5);
     setPins(state.pins || []);
     if (state.pinSize != null) setPinSize(state.pinSize);
     setHideAllNpcs(!!state.hideAllNpcs);
@@ -722,7 +893,8 @@ const TVDisplay = forwardRef(function TVDisplay({
       window.electronAPI.tv.syncOverlay({
         fogMask:         state.fogMask,
         gridEnabled:     state.gridEnabled,
-        gridSize:        state.gridSize,
+        gridSizePx:      loadedGridSizePx,
+        feetPerSquare:   state.feetPerSquare != null ? state.feetPerSquare : 5,
         pins:            state.pins,
         pinSize:         state.pinSize,
         hideAllNpcs:     state.hideAllNpcs,
@@ -778,7 +950,7 @@ const TVDisplay = forwardRef(function TVDisplay({
     setHideAllMonsters(false);
     handleResetFog();
     if (isElectron) {
-      window.electronAPI.tv.syncGrid(false, gridSize);
+      window.electronAPI.tv.syncGrid(false, gridSizePx, feetPerSquare);
       window.electronAPI.tv.syncPins([], false, false, pinSize);
     }
   }
@@ -938,13 +1110,12 @@ const TVDisplay = forwardRef(function TVDisplay({
 
           {/* DM Canvas */}
           <div
-            className={`overlay-canvas-wrap ${placingPin ? 'placing' : fogEnabled ? 'painting' : ''}`}
+            className={`overlay-canvas-wrap ${placingPin ? 'placing' : drawTool ? 'measuring' : fogEnabled ? 'painting' : ''}`}
             ref={overlayRef}
           >
             <canvas
               ref={canvasRef}
               className="overlay-canvas"
-              style={{ cursor: placingPin ? 'cell' : fogEnabled ? 'none' : 'default' }}
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
@@ -994,27 +1165,68 @@ const TVDisplay = forwardRef(function TVDisplay({
               <div className="ov-row">
                 <button
                   className={`ov-toggle ${gridEnabled ? 'active' : ''}`}
-                  onClick={() => setGrid(!gridEnabled, gridSize)}
+                  onClick={() => setGrid(!gridEnabled, gridSizePx, feetPerSquare)}
                 >
                   {gridEnabled ? 'Grid On' : 'Grid Off'}
                 </button>
-                <div className="ov-size-btns">
-                  {GRID_SIZES.map(s => (
-                    <button
-                      key={s}
-                      className={`ov-size-btn ${gridSize === s ? 'active' : ''}`}
-                      onClick={() => setGrid(gridEnabled, s)}
-                    >
-                      {s[0].toUpperCase()}
-                    </button>
-                  ))}
-                </div>
+              </div>
+              <div className="ov-row ov-brush-row">
+                <span className="ov-label">Size</span>
+                <input
+                  type="range" min="20" max="100" value={gridSizePx}
+                  onChange={e => setGrid(gridEnabled, Number(e.target.value), feetPerSquare)}
+                  className="ov-slider"
+                />
+                <span className="ov-value">{gridSizePx}px</span>
+              </div>
+              <div className="ov-row ov-brush-row">
+                <span className="ov-label">Ft/Square</span>
+                <input
+                  type="range" min="5" max="30" step="5" value={feetPerSquare}
+                  onChange={e => setGrid(gridEnabled, gridSizePx, Number(e.target.value))}
+                  className="ov-slider"
+                />
+                <span className="ov-value">{feetPerSquare}ft</span>
+              </div>
+            </div>
+
+            {/* Measure */}
+            <div className="ov-section">
+              <div className="ov-section-title">Measure</div>
+              <div className="ov-tool-btns">
+                {[
+                  { key: null,      label: 'None' },
+                  { key: 'ruler',   label: 'Ruler' },
+                  { key: 'sphere',  label: 'Sphere' },
+                  { key: 'cone',    label: 'Cone' },
+                  { key: 'line',    label: 'Line' },
+                  { key: 'cube',    label: 'Cube' },
+                ].map(opt => (
+                  <button
+                    key={opt.label}
+                    className={`ov-tool-btn ${drawTool === opt.key ? 'active' : ''}`}
+                    onClick={() => setDrawTool(opt.key)}
+                    title={opt.key ? `Drag on the map to measure a ${opt.label.toLowerCase()} — visible to players in real time` : 'Stop measuring'}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* Pins */}
             <div className="ov-section ov-pins-section">
               <div className="ov-section-title">Pins</div>
+
+              <div className="ov-row">
+                <button
+                  className={`ov-toggle ${snapToGrid ? 'active' : ''}`}
+                  onClick={() => setSnapToGrid(p => !p)}
+                  title={gridEnabled ? 'Snap pins to the nearest grid intersection' : 'Enable the grid to use snapping'}
+                >
+                  {snapToGrid ? 'Snap to Grid: On' : 'Snap to Grid: Off'}
+                </button>
+              </div>
 
               {/* Icon size */}
               <div className="ov-row ov-brush-row">

@@ -403,6 +403,10 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
   });
   const [displaysOpen, setDisplaysOpen] = useState(false);
   const [seatsExpanded, setSeatsExpanded] = useState(false);
+  // Collapsed by default once an encounter is already underway — setup UI is dead
+  // weight mid-fight and just steals width from the map pane. Manual toggle either way.
+  const [presetsExpanded, setPresetsExpanded] = useState(true);
+  const [buildExpanded,   setBuildExpanded]   = useState(true);
   const isElectron = !!window.electronAPI;
 
   const persistEncPresets = (next) => {
@@ -552,15 +556,39 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
   };
   const rollAll = () => { setCombatants(prev => prev.map(c => c.isPC ? c : { ...c, initiative: roll(c.initMod || 0) })); setTurn(0); };
 
-  const assignSeat = (seatId, pcName) => {
+  const assignSeat = (seatId, pcId) => {
     setSeatAssignments(prev => {
       const next = { ...prev };
-      if (pcName) next[seatId] = pcName;
+      if (pcId) next[seatId] = pcId;
       else delete next[seatId];
       localStorage.setItem(TABLE_SEATS_KEY, JSON.stringify(next));
       return next;
     });
   };
+
+  // One-time remap: seat assignments used to be keyed by PC display name, which can
+  // drift now that PC data is pulled live from linked D&D Beyond sheets instead of a
+  // static seed file — any name change there silently broke the seat/PC-overlay match.
+  // Re-key existing assignments to the stable DDB character id so this can't recur.
+  useEffect(() => {
+    if (!pcQuick.length) return;
+    setSeatAssignments(prev => {
+      let changed = false;
+      const next = { ...prev };
+      for (const seatId of TABLE_SEAT_IDS) {
+        const val = next[seatId];
+        if (!val || pcQuick.some(p => p.id === val)) continue; // empty, or already a valid id
+        // Legacy name-keyed value — match loosely (trim/case) since this is exactly the
+        // kind of drift (whitespace, capitalization) that broke the exact-name lookup.
+        const norm = (s) => (s || '').trim().toLowerCase();
+        const match = pcQuick.find(p => norm(p.name) === norm(val));
+        if (match) { next[seatId] = match.id; changed = true; }
+      }
+      if (!changed) return prev;
+      localStorage.setItem(TABLE_SEATS_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, [pcQuick]);
 
   // ── Table + Map Display (per-seat HUD) ──
   useEffect(() => {
@@ -578,14 +606,15 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
     if (!isElectron || !displaysOpen) return;
     const seats = {};
     TABLE_SEAT_IDS.forEach(seatId => {
-      const pcName = seatAssignments[seatId];
-      if (!pcName) return;
-      const pc = pcQuick.find(p => p.name === pcName);
-      const idx = sorted.findIndex(c => c.name === pcName);
+      const pcId = seatAssignments[seatId];
+      if (!pcId) return;
+      const pc = pcQuick.find(p => p.id === pcId);
+      if (!pc) return; // assignment points at a character no longer linked — skip
+      const idx = sorted.findIndex(c => c.name === pc.name);
       if (idx === -1) {
         // Not in the tracker yet — show the seat's PC by default, no combat info.
         seats[seatId] = {
-          name: pcName,
+          name: pc.name,
           class: pc?.class,
           species: pc?.species,
           inCombat: false,
@@ -643,131 +672,142 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
 
       {/* ══ SECTION: Presets ══ */}
       <section className="init-section">
-        <div className="init-section-title">Encounter Presets</div>
-        <div className="init-row init-encounter-preset-row">
-          <select
-            className="encounter-preset-select"
-            value={libraryPresetId}
-            onChange={e => { setLibraryPresetId(e.target.value); if (e.target.value) loadEncounterPreset(e.target.value); }}
-            title="Load a saved encounter preset into the tracker"
-          >
-            <option value="">— Load encounter preset —</option>
-            {encPresets.map(p => (
-              <option key={p.id} value={p.id}>
-                {p.name} ({p.combatants.length}){p.mapStateId ? ' ·map' : ''}
-              </option>
-            ))}
-          </select>
-          {libraryPresetId && (
-            <button className="sb-btn danger small" title="Delete this preset" onClick={() => deleteEncounterPreset(libraryPresetId)}>✕</button>
-          )}
-          {savingPresetName === null && (
-            <button className="sb-btn" onClick={startSavePreset} disabled={combatants.length === 0} title="Save current combatants as a preset">Save Preset</button>
-          )}
-        </div>
-        {savingPresetName !== null && (
-          <div className="init-row init-save-preset-row">
-            <input
-              type="text"
-              autoFocus
-              className="initiative-name-input preset-name-input"
-              placeholder="Preset name…"
-              value={savingPresetName}
-              onChange={e => setSavingPresetName(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') confirmSavePreset(); if (e.key === 'Escape') setSavingPresetName(null); }}
-            />
-            <select
-              className="encounter-preset-select"
-              value={savingMapStateId}
-              onChange={e => setSavingMapStateId(e.target.value)}
-              title="Optionally link a saved map state to load with this preset"
-            >
-              <option value="">— No map state —</option>
-              {mapStates.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-            </select>
-            <button className="sb-btn primary small" onClick={confirmSavePreset}>Save</button>
-            <button className="sb-btn small" onClick={() => setSavingPresetName(null)}>Cancel</button>
-          </div>
+        <button className="init-section-title init-section-toggle" onClick={() => setPresetsExpanded(e => !e)}>
+          Encounter Presets {presetsExpanded ? '▲' : '▼'}
+        </button>
+        {presetsExpanded && (
+          <>
+            <div className="init-row init-encounter-preset-row">
+              <select
+                className="encounter-preset-select"
+                value={libraryPresetId}
+                onChange={e => { setLibraryPresetId(e.target.value); if (e.target.value) loadEncounterPreset(e.target.value); }}
+                title="Load a saved encounter preset into the tracker"
+              >
+                <option value="">— Load encounter preset —</option>
+                {encPresets.map(p => (
+                  <option key={p.id} value={p.id}>
+                    {p.name} ({p.combatants.length}){p.mapStateId ? ' ·map' : ''}
+                  </option>
+                ))}
+              </select>
+              {libraryPresetId && (
+                <button className="sb-btn danger small" title="Delete this preset" onClick={() => deleteEncounterPreset(libraryPresetId)}>✕</button>
+              )}
+              {savingPresetName === null && (
+                <button className="sb-btn" onClick={startSavePreset} disabled={combatants.length === 0} title="Save current combatants as a preset">Save Preset</button>
+              )}
+            </div>
+            {savingPresetName !== null && (
+              <div className="init-row init-save-preset-row">
+                <input
+                  type="text"
+                  autoFocus
+                  className="initiative-name-input preset-name-input"
+                  placeholder="Preset name…"
+                  value={savingPresetName}
+                  onChange={e => setSavingPresetName(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') confirmSavePreset(); if (e.key === 'Escape') setSavingPresetName(null); }}
+                />
+                <select
+                  className="encounter-preset-select"
+                  value={savingMapStateId}
+                  onChange={e => setSavingMapStateId(e.target.value)}
+                  title="Optionally link a saved map state to load with this preset"
+                >
+                  <option value="">— No map state —</option>
+                  {mapStates.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                </select>
+                <button className="sb-btn primary small" onClick={confirmSavePreset}>Save</button>
+                <button className="sb-btn small" onClick={() => setSavingPresetName(null)}>Cancel</button>
+              </div>
+            )}
+          </>
         )}
       </section>
 
       {/* ══ SECTION: Build Encounter ══ */}
       <section className="init-section">
-        <div className="init-section-title">Build Encounter</div>
+        <button className="init-section-title init-section-toggle" onClick={() => setBuildExpanded(e => !e)}>
+          Build Encounter {buildExpanded ? '▲' : '▼'}
+        </button>
 
-        {/* PC quick-add */}
-        <div className="init-row init-pc-row">
-          {pcQuick.map(pc => (
-            <button
-              key={pc.name}
-              className={`init-pc-btn ${combatants.some(c => c.name === pc.name) ? 'added' : ''}`}
-              onClick={() => addPC(pc)}
-              title={`${pc.name} (Init +${pc.initMod || 0}, HP ${pc.maxHp || 0})`}
-              disabled={combatants.some(c => c.name === pc.name)}
-            >
-              {pc.shortName || pc.name.split(' ')[0]}
-            </button>
-          ))}
-          <button className="init-pc-btn add-all" onClick={addAllPCs}>+ All PCs</button>
-        </div>
-
-        {/* Table seat assignments */}
-        <div className="init-row table-seats-row">
-          <button className="sb-btn small" onClick={() => setSeatsExpanded(e => !e)}>
-            Table Seats {seatsExpanded ? '▲' : '▼'}
-          </button>
-        </div>
-        {seatsExpanded && (
-          <div className="init-row table-seats-grid">
-            {TABLE_SEAT_IDS.map(seatId => (
-              <label key={seatId} className="table-seat-select">
-                <span className="table-seat-label">{TABLE_SEAT_LABELS[seatId]}</span>
-                <select
-                  value={seatAssignments[seatId] || ''}
-                  onChange={e => assignSeat(seatId, e.target.value)}
+        {buildExpanded && (
+          <>
+            {/* PC quick-add */}
+            <div className="init-row init-pc-row">
+              {pcQuick.map(pc => (
+                <button
+                  key={pc.name}
+                  className={`init-pc-btn ${combatants.some(c => c.name === pc.name) ? 'added' : ''}`}
+                  onClick={() => addPC(pc)}
+                  title={`${pc.name} (Init +${pc.initMod || 0}, HP ${pc.maxHp || 0})`}
+                  disabled={combatants.some(c => c.name === pc.name)}
                 >
-                  <option value="">— none —</option>
-                  {pcQuick.map(pc => <option key={pc.name} value={pc.name}>{pc.name}</option>)}
-                </select>
-              </label>
-            ))}
-          </div>
-        )}
-
-        {/* Monster search */}
-        <div className="init-row init-mon-search-wrap">
-          <input
-            className="init-mon-search"
-            placeholder="Search monsters or NPCs to add…"
-            value={monSearch}
-            onChange={e => setMonSearch(e.target.value)}
-          />
-          {(npcResults.length > 0 || monResults.length > 0) && (
-            <div className="init-mon-results">
-              {npcResults.map(n => {
-                const mod = dexMod(n);
-                const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
-                return (
-                  <button key={`npc-${n.id}`} className="init-mon-result" onClick={() => addMonster(n)}>
-                    <span className="imr-name">{n.name}</span>
-                    <span className="imr-meta">NPC · HP {n.hp} · Init {modStr}</span>
-                  </button>
-                );
-              })}
-              {monResults.map(m => {
-                const mod = dexMod(m);
-                const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
-                return (
-                  <button key={m.slug || m.id} className="init-mon-result" onClick={() => addMonster(m)}>
-                    <span className="imr-name">{m.name}</span>
-                    <span className="imr-meta">CR {m.cr || '?'} · HP {m.hit_points} · Init {modStr}</span>
-                  </button>
-                );
-              })}
+                  {pc.shortName || pc.name.split(' ')[0]}
+                </button>
+              ))}
+              <button className="init-pc-btn add-all" onClick={addAllPCs}>+ All PCs</button>
             </div>
-          )}
-        </div>
 
+            {/* Table seat assignments */}
+            <div className="init-row table-seats-row">
+              <button className="sb-btn small" onClick={() => setSeatsExpanded(e => !e)}>
+                Table Seats {seatsExpanded ? '▲' : '▼'}
+              </button>
+            </div>
+            {seatsExpanded && (
+              <div className="init-row table-seats-grid">
+                {TABLE_SEAT_IDS.map(seatId => (
+                  <label key={seatId} className="table-seat-select">
+                    <span className="table-seat-label">{TABLE_SEAT_LABELS[seatId]}</span>
+                    <select
+                      value={seatAssignments[seatId] || ''}
+                      onChange={e => assignSeat(seatId, e.target.value)}
+                    >
+                      <option value="">— none —</option>
+                      {pcQuick.map(pc => <option key={pc.id} value={pc.id}>{pc.name}</option>)}
+                    </select>
+                  </label>
+                ))}
+              </div>
+            )}
+
+            {/* Monster search */}
+            <div className="init-row init-mon-search-wrap">
+              <input
+                className="init-mon-search"
+                placeholder="Search monsters or NPCs to add…"
+                value={monSearch}
+                onChange={e => setMonSearch(e.target.value)}
+              />
+              {(npcResults.length > 0 || monResults.length > 0) && (
+                <div className="init-mon-results">
+                  {npcResults.map(n => {
+                    const mod = dexMod(n);
+                    const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
+                    return (
+                      <button key={`npc-${n.id}`} className="init-mon-result" onClick={() => addMonster(n)}>
+                        <span className="imr-name">{n.name}</span>
+                        <span className="imr-meta">NPC · HP {n.hp} · Init {modStr}</span>
+                      </button>
+                    );
+                  })}
+                  {monResults.map(m => {
+                    const mod = dexMod(m);
+                    const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
+                    return (
+                      <button key={m.slug || m.id} className="init-mon-result" onClick={() => addMonster(m)}>
+                        <span className="imr-name">{m.name}</span>
+                        <span className="imr-meta">CR {m.cr || '?'} · HP {m.hit_points} · Init {modStr}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </section>
 
       {/* ══ SECTION: Combat Controls ══ */}
@@ -1026,7 +1066,14 @@ export default function Encounters() {
         const res = await window.electronAPI?.dndbeyond?.getCharacter(id);
         if (!res?.success) return null;
         const sheet = deriveSheet(res.data);
-        return { name: sheet.name || name, initMod: sheet.initiative, maxHp: sheet.maxHp };
+        return {
+          id,
+          name: sheet.name || name,
+          initMod: sheet.initiative,
+          maxHp: sheet.maxHp,
+          class: sheet.classes?.map(c => c.name).join('/') || null,
+          species: sheet.race || null,
+        };
       }));
       if (!cancelled) setPcQuick(results.filter(Boolean));
     };

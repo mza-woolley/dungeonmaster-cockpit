@@ -88,8 +88,14 @@ function syncPins(pins, hideAllNpcs, hideMons, pinSize) {
   exec(`setPins(${JSON.stringify({ pins, hideAllNpcs, hideAllMonsters: hideMons, pinSize })})`);
 }
 
-function syncGrid(enabled, size) {
-  exec(`setGrid(${JSON.stringify({ enabled, size })})`);
+function syncMeasure(payload) {
+  // Fire-and-forget, like syncBrushStroke — a live drag needs no queue.
+  if (!tvWindow || tvWindow.isDestroyed()) return;
+  tvWindow.webContents.executeJavaScript(`applyMeasure(${JSON.stringify(payload)})`).catch(() => {});
+}
+
+function syncGrid(enabled, sizePx, feetPerSquare) {
+  exec(`setGrid(${JSON.stringify({ enabled, sizePx, feetPerSquare })})`);
 }
 
 function syncOverlay(state) {
@@ -134,6 +140,6 @@ function getTvHtml() {
 }
 
 module.exports = {
-  openTvWindow, closeTvWindow, pushImage, clearTvDisplay, syncFog, syncBrushStroke, syncPins, syncGrid, syncOverlay,
+  openTvWindow, closeTvWindow, pushImage, clearTvDisplay, syncFog, syncBrushStroke, syncMeasure, syncPins, syncGrid, syncOverlay,
   syncState, replayMapState, replaySeatState, getTvWindow, setSeatsVisible,
 };

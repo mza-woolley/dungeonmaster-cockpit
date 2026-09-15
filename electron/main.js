@@ -52,7 +52,8 @@ let currentMapState = {
   imagePath: null,
   fogMask: null,
   gridEnabled: false,
-  gridSize: 'medium',
+  gridSizePx: 60,
+  feetPerSquare: 5,
   pins: [],
   pinSize: 18,
   hideAllNpcs: false,
@@ -200,6 +201,10 @@ ipcMain.on('tv:brushStroke', (_, { nx, ny, radius }) => {
   try { tv.syncBrushStroke(nx, ny, radius); } catch (_e) {}
   try { table.syncMapBrushStroke(nx, ny, radius); } catch (_e) {}
 });
+ipcMain.on('tv:measureStroke', (_, payload) => {
+  try { tv.syncMeasure(payload); } catch (_e) {}
+  try { table.syncMapMeasure(payload); } catch (_e) {}
+});
 handle('tv:syncPins', ({ pins, hideAllNpcs, hideAllMonsters, pinSize }) => {
   tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
   table.syncMapPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
@@ -208,11 +213,12 @@ handle('tv:syncPins', ({ pins, hideAllNpcs, hideAllMonsters, pinSize }) => {
   currentMapState.hideAllMonsters = hideAllMonsters;
   currentMapState.pinSize         = pinSize;
 });
-handle('tv:syncGrid', ({ enabled, size }) => {
-  tv.syncGrid(enabled, size);
-  table.syncMapGrid(enabled, size);
-  currentMapState.gridEnabled = enabled;
-  currentMapState.gridSize    = size;
+handle('tv:syncGrid', ({ enabled, sizePx, feetPerSquare }) => {
+  tv.syncGrid(enabled, sizePx, feetPerSquare);
+  table.syncMapGrid(enabled, sizePx, feetPerSquare);
+  currentMapState.gridEnabled   = enabled;
+  currentMapState.gridSizePx    = sizePx;
+  currentMapState.feetPerSquare = feetPerSquare;
 });
 handle('tv:syncOverlay', (state) => {
   tv.syncOverlay(state);
