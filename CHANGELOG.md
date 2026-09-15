@@ -2,6 +2,20 @@
 
 ---
 
+## v0.13 — The Compass Update — September 2026
+
+### ✨ New
+
+- Documentation: links to other documents now actually open them, instead of doing nothing
+- Documentation: files and folders can be tagged with a status (No Status / Needs Attention / In Progress / Done) — tagging a folder cascades that status to everything inside it, and any individual document can still override it
+- Documentation: sidebar filter to show only documents matching a given status
+
+### 🔧 Changes
+
+- Documentation: reorganized loose in-progress files into their relevant topic folders
+
+---
+
 ## v0.12.2 — September 2026
 
 ### 🔧 Changes

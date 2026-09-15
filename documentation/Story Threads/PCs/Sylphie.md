@@ -9,7 +9,7 @@
 - Child of **Myxtiferious** (Red Dragon Lord, ⅓ Tre Illium) and an unnamed partner.
 - Long-lived - old enough to have witnessed the fall of Tre Illium.
 - Eventually settled with **Fenrik**. The Northern Star of the Primordial Fist broke them apart, as part of a DOL-funded effort to topple the Royal Dragon Regency (the throne once held by Myxtiferious).
-- See [PC Family Arcs](../Players/Party%20Overview/PC%20Family%20Arcs.md) and the Present Day table in the Timeline.
+- See [PC Family Arcs](../../Players/Party%20Overview/PC%20Family%20Arcs.md) and the Present Day table in the Timeline.
 
 ---
 

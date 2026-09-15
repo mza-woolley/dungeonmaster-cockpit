@@ -15,7 +15,7 @@
 
 **Name:** Headguard Dorian Vasse
 
-**Concept:** Ties into "Valerius' Replacement" (see [Active Threats](../Quests/Threats/Active%20Threats.md)). **Reframed:** the replacement Headguard is a vanilla DOL drone - competent, by-the-book, no political agenda and no awareness of intelligence assets like [Rissa "Whisper" Varn](../NPCs/Neutral/Solvetra/Solvetra%20Intermellum/Rissa%20'Whisper'%20Varn.md), the DOL's mole inside the Shadowbringers' orbit. He's a step up from Valerius in *procedure and rigour*, not in cunning. Any handling of the mole runs through a separate channel - most likely L.E. directly (see [Lorewarden Emeritus](../NPCs/Villains/Solvetra/Lorewarden%20Emeritus.md)), keeping that thread mysterious and out of the Headguard's reach.
+**Concept:** Ties into "Valerius' Replacement" (see [Active Threats](../../../Quests/Threats/Active%20Threats.md)). **Reframed:** the replacement Headguard is a vanilla DOL drone - competent, by-the-book, no political agenda and no awareness of intelligence assets like [Rissa "Whisper" Varn](../../Neutral/Solvetra/Solvetra%20Intermellum/Rissa%20'Whisper'%20Varn.md), the DOL's mole inside the Shadowbringers' orbit. He's a step up from Valerius in *procedure and rigour*, not in cunning. Any handling of the mole runs through a separate channel - most likely L.E. directly (see [Lorewarden Emeritus](Lorewarden%20Emeritus.md)), keeping that thread mysterious and out of the Headguard's reach.
 
 ---
 
@@ -23,7 +23,7 @@
 
 - Valerius (Headguard) killed at Lumina Lab; his letter said *"I've already organised your replacement."*
 - Replacement's identity is unknown. **Session 9:** daily newspaper confirms the reveal happens in 24 hours - a public announcement underneath the Solvetra Windmill, **Middle Solvetra**, at noon. This supersedes the earlier assumption that he'd arrive in/around Ars Lapis - the reveal itself is happening in Solvetra.
-- The replacement is **not** the mole's handler and has no finger in the OOTS intelligence pie - he's muscle/administration, not politics. This keeps the mole thread (Rissa Varn - see [Lorewarden Emeritus](../NPCs/Villains/Solvetra/Lorewarden%20Emeritus.md) for the DM-only detail) cleanly separate and reporting to L.E. instead.
+- The replacement is **not** the mole's handler and has no finger in the OOTS intelligence pie - he's muscle/administration, not politics. This keeps the mole thread (Rissa Varn - see [Lorewarden Emeritus](Lorewarden%20Emeritus.md) for the DM-only detail) cleanly separate and reporting to L.E. instead.
 - 3 × OOTS Guard (Spy statblock) currently hold the Vault Room - possible existing connection point for how the new Headguard slots into vault security specifically.
 - **Background:** Promoted from internal audit, not the streets - got the job because Valerius' death exposed a security gap, and DOL leadership wanted someone who'd tighten process over someone with political flair.
 

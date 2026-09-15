@@ -139,6 +139,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     pickImage:   ()                          => ipcRenderer.invoke('docs:pickImage'),
     importImage: (sourcePath)               => ipcRenderer.invoke('docs:importImage', { sourcePath }),
     readImage:    (relativePath)            => ipcRenderer.invoke('docs:readImage', relativePath),
+    openExternal: (url)                     => ipcRenderer.invoke('docs:openExternal', url),
+    getStatuses:  ()                        => ipcRenderer.invoke('docs:getStatuses'),
+    setStatus:    (filePath, status)        => ipcRenderer.invoke('docs:setStatus', { filePath, status }),
     exportMaster: ()                        => ipcRenderer.invoke('docs:exportMaster'),
   },
 });

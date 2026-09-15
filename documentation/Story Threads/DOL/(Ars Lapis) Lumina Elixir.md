@@ -36,4 +36,4 @@ These are the same thread: the rollout already happened (or is well underway) by
 
 - [Valerius' Replacement - The Ars Lapis Connection](Valerius'%20Replacement%20-%20The%20Ars%20Lapis%20Connection.md)
 - Lumina Elixir (Loot & Magic Items / In Circulation)
-- Ars Lapis - City Framework (In Progress)
+- [Ars Lapis - City Framework](../../Locations/Cities%20%26%20Towns/Ars%20Lapis/Ars%20Lapis%20-%20City%20Framework.md)

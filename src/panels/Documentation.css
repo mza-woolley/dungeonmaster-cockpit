@@ -126,11 +126,15 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--border-bright);
   flex-shrink: 0;
   margin-left: 2px;
+  padding: 3px;
+  background-clip: content-box;
+  cursor: pointer;
+  transition: transform 0.1s;
 }
-.tree-item.selected .tree-file-dot { background: var(--gold-dim); }
+.tree-file-dot:hover { transform: scale(1.4); }
+.tree-file-dot.inherited { opacity: 0.55; }
 
 .tree-label {
   overflow: hidden;
@@ -256,6 +260,56 @@
   color: var(--text-dim);
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+.docs-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-bright);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 11px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.docs-status-pill:hover { background: var(--bg-hover); color: var(--text-primary); }
+.docs-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--status-color);
+  flex-shrink: 0;
+}
+
+.docs-status-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 8px 10px 4px;
+}
+.docs-status-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 10px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.docs-status-filter-btn:hover { color: var(--text-secondary); border-color: var(--border-bright); }
+.docs-status-filter-btn.active {
+  color: var(--text-primary);
+  border-color: var(--status-color);
+  background: var(--bg-hover);
 }
 
 .docs-toolbar-actions {

@@ -38,4 +38,4 @@ Proposal: **the replacement *is* the DOL's face in Ars Lapis** - a polished, mod
 
 - [Lumina Elixir in Ars Lapis](Lumina%20Elixir%20in%20Ars%20Lapis.md)
 - Active Threats - *Valerius' Replacement* (Quests/Active)
-- Ars Lapis - City Framework (In Progress)
+- [Ars Lapis - City Framework](../../Locations/Cities%20%26%20Towns/Ars%20Lapis/Ars%20Lapis%20-%20City%20Framework.md)

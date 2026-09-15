@@ -16,6 +16,67 @@ function prettifyName(filename) {
   return filename.replace(/\.md$/, '').replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 }
 
+// Resolves a relative markdown link (e.g. "session-9.md" or "../npcs/varka.md")
+// against the currently-open doc's path, since links are written relative to
+// the file they live in but openFile() needs a full filesystem path.
+function resolveDocLink(href, currentPath) {
+  const cleanHref = href.split(/[?#]/)[0];
+  const dir = currentPath.replace(/[\\/][^\\/]*$/, '');
+  const parts = dir.split(/[\\/]/);
+  for (const seg of cleanHref.split(/[\\/]/)) {
+    if (seg === '' || seg === '.') continue;
+    if (seg === '..') parts.pop();
+    else parts.push(seg);
+  }
+  return parts.join('\\');
+}
+
+function isExternalLink(href) {
+  return /^[a-z][a-z0-9+.-]*:/i.test(href) && !/^file:/i.test(href);
+}
+
+// Per-doc workflow status — a lightweight way to see at a glance what still
+// needs attention vs. what's settled, without having to reopen every file.
+const STATUS_ORDER  = ['none', 'attention', 'progress', 'done'];
+const STATUS_CONFIG = {
+  none:      { label: 'No status',      color: 'var(--border-bright)' },
+  attention: { label: 'Needs Attention', color: '#d9645c' },
+  progress:  { label: 'In Progress',    color: '#dba847' },
+  done:      { label: 'Done',           color: '#5fae6e' },
+};
+function nextStatus(current) {
+  return STATUS_ORDER[(STATUS_ORDER.indexOf(current || 'none') + 1) % STATUS_ORDER.length];
+}
+
+// A file/folder's own explicit tag always wins; otherwise it inherits the
+// nearest tagged ancestor folder's status, walking up the path string.
+// This lets you tag a folder to categorise everything in it in one move,
+// while still letting any individual document be tagged differently later.
+function resolveEffectiveStatus(itemPath, statuses) {
+  let p = itemPath;
+  while (p) {
+    if (statuses[p]) return statuses[p];
+    const idx = Math.max(p.lastIndexOf('/'), p.lastIndexOf('\\'));
+    if (idx <= 0) break;
+    p = p.slice(0, idx);
+  }
+  return 'none';
+}
+
+function filterTreeByStatus(nodes, statuses, statusFilter) {
+  if (!statusFilter) return nodes;
+  return nodes.reduce((acc, node) => {
+    const effective = resolveEffectiveStatus(node.path, statuses);
+    if (node.type === 'folder') {
+      const children = filterTreeByStatus(node.children || [], statuses, statusFilter);
+      if (effective === statusFilter || children.length) acc.push({ ...node, children });
+    } else if (effective === statusFilter) {
+      acc.push(node);
+    }
+    return acc;
+  }, []);
+}
+
 // Removes a node (and therefore its subtree) from a tree — used to stop a folder
 // being moved into itself or one of its own descendants.
 function pruneTree(nodes, excludePath) {
@@ -108,7 +169,7 @@ function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onMove,
   );
 }
 
-function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRename, onMove, onDuplicate, onDelete, onNewFile, onNewFolder, depth }) {
+function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRename, onMove, onDuplicate, onDelete, onNewFile, onNewFolder, statuses, onCycleStatus, depth }) {
   const [ctx, setCtx]           = useState(null);
   const [renaming, setRenaming] = useState(false);
   const [renameVal, setRenameVal] = useState('');
@@ -140,10 +201,24 @@ function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRe
         onClick={() => node.type === 'folder' ? onToggleExpand(node.path) : onSelect(node.path)}
         onContextMenu={openCtx}
       >
-        {node.type === 'folder'
-          ? <span className="tree-arrow">{isExpanded ? '▾' : '▸'}</span>
-          : <span className="tree-file-dot" />
-        }
+        {node.type === 'folder' && <span className="tree-arrow">{isExpanded ? '▾' : '▸'}</span>}
+        {(() => {
+          const own = statuses[node.path];
+          const effective = resolveEffectiveStatus(node.path, statuses);
+          const title = own
+            ? STATUS_CONFIG[effective].label + ' — click to change'
+            : effective !== 'none'
+              ? `Inherited: ${STATUS_CONFIG[effective].label} — click to set this ${node.type}'s own status`
+              : 'No status — click to set';
+          return (
+            <span
+              className={`tree-file-dot ${!own && effective !== 'none' ? 'inherited' : ''}`}
+              style={{ background: STATUS_CONFIG[effective].color }}
+              title={title}
+              onClick={e => { e.stopPropagation(); onCycleStatus(node.path); }}
+            />
+          );
+        })()}
         {renaming ? (
           <input
             ref={renameRef}
@@ -187,6 +262,8 @@ function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRe
           onDelete={onDelete}
           onNewFile={onNewFile}
           onNewFolder={onNewFolder}
+          statuses={statuses}
+          onCycleStatus={onCycleStatus}
           depth={depth + 1}
         />
       ))}
@@ -382,6 +459,8 @@ export default function Documentation() {
   const [error, setError]               = useState('');
   const [exporting, setExporting]       = useState(false);
   const [exportMsg, setExportMsg]       = useState('');
+  const [statuses, setStatuses]         = useState({});
+  const [statusFilter, setStatusFilter] = useState(null);
   const textareaRef = useRef();
   const searchTimer = useRef(null);
 
@@ -390,7 +469,23 @@ export default function Documentation() {
     if (res.success) setTree(res.data);
   }, []);
 
-  useEffect(() => { loadTree(); }, [loadTree]);
+  const loadStatuses = useCallback(async () => {
+    const res = await api.getStatuses();
+    if (res.success) setStatuses(res.data);
+  }, []);
+
+  useEffect(() => { loadTree(); loadStatuses(); }, [loadTree, loadStatuses]);
+
+  const cycleStatus = async (filePath) => {
+    const next = nextStatus(statuses[filePath]);
+    setStatuses(prev => {
+      const copy = { ...prev };
+      if (next === 'none') delete copy[filePath];
+      else copy[filePath] = next;
+      return copy;
+    });
+    await api.setStatus(filePath, next);
+  };
 
   // Reopen whatever document was open last time the app was running
   useEffect(() => {
@@ -453,6 +548,7 @@ export default function Documentation() {
       try { localStorage.removeItem(LAST_DOC_KEY); } catch {}
     }
     await loadTree();
+    await loadStatuses();
   };
 
   const handleDuplicate = async (itemPath) => {
@@ -472,6 +568,7 @@ export default function Documentation() {
     }
     setConfirmDel(null);
     await loadTree();
+    await loadStatuses();
   };
 
   const handleMove = (itemPath, name, type) => setMoveTarget({ path: itemPath, name, type });
@@ -491,6 +588,7 @@ export default function Documentation() {
         try { localStorage.removeItem(LAST_DOC_KEY); } catch {}
       }
       await loadTree();
+      await loadStatuses();
     } else {
       setError(res.error || 'Move failed.');
     }
@@ -532,13 +630,36 @@ export default function Documentation() {
     }
   };
 
-  const displayTree        = filterTree(tree, search, matchPaths);
+  const displayTree        = filterTreeByStatus(filterTree(tree, search, matchPaths), statuses, statusFilter);
   const expandedForDisplay = search ? new Set(getAllFolderPaths(displayTree)) : expanded;
 
-  // Stable reference — prevents ReactMarkdown unmounting DocImage on every keystroke
+  // Stable reference — prevents ReactMarkdown unmounting DocImage on every keystroke.
+  // Re-memoized on selectedPath so doc-relative links resolve against the right file.
   const mdComponents = useMemo(() => ({
     img: ({ src, alt }) => <DocImage src={src} alt={alt} />,
-  }), []);
+    a: ({ href, children }) => {
+      if (!href) return <span>{children}</span>;
+      if (isExternalLink(href)) {
+        return (
+          <a href={href} onClick={e => { e.preventDefault(); api.openExternal(href); }}>
+            {children}
+          </a>
+        );
+      }
+      return (
+        <a
+          href="#"
+          className="doc-internal-link"
+          onClick={e => {
+            e.preventDefault();
+            if (selectedPath) openFile(resolveDocLink(href, selectedPath));
+          }}
+        >
+          {children}
+        </a>
+      );
+    },
+  }), [selectedPath]);
 
   return (
     <div className="docs-root">
@@ -581,10 +702,25 @@ export default function Documentation() {
         </div>
         {exportMsg && <div className="docs-export-msg">{exportMsg}</div>}
 
+        <div className="docs-status-filter">
+          {STATUS_ORDER.map(s => (
+            <button
+              key={s}
+              className={`docs-status-filter-btn ${statusFilter === s ? 'active' : ''}`}
+              style={{ '--status-color': STATUS_CONFIG[s].color }}
+              title={`${STATUS_CONFIG[s].label} — click to ${statusFilter === s ? 'clear filter' : 'show only these'}`}
+              onClick={() => setStatusFilter(f => f === s ? null : s)}
+            >
+              <span className="docs-status-dot" />
+              {STATUS_CONFIG[s].label}
+            </button>
+          ))}
+        </div>
+
         <div className="docs-tree">
           {displayTree.length === 0 && (
             <div className="docs-tree-empty">
-              {searching ? 'Searching…' : search ? 'No results.' : 'No documents yet.\nClick "+ Doc" to start.'}
+              {searching ? 'Searching…' : search ? 'No results.' : statusFilter ? 'Nothing with this status.' : 'No documents yet.\nClick "+ Doc" to start.'}
             </div>
           )}
           {displayTree.map(node => (
@@ -601,6 +737,8 @@ export default function Documentation() {
               onDelete={handleDelete}
               onNewFile={handleNewFile}
               onNewFolder={handleNewFolder}
+              statuses={statuses}
+              onCycleStatus={cycleStatus}
               depth={0}
             />
           ))}
@@ -621,6 +759,21 @@ export default function Documentation() {
               <div className="docs-toolbar-meta">
                 <span className="docs-doc-title">{doc.title}</span>
                 {doc.modified && <span className="docs-doc-date">Modified {formatDate(doc.modified)}</span>}
+                {(() => {
+                  const own = statuses[selectedPath];
+                  const effective = resolveEffectiveStatus(selectedPath, statuses);
+                  return (
+                    <button
+                      className="docs-status-pill"
+                      style={{ '--status-color': STATUS_CONFIG[effective].color }}
+                      title={own ? 'Click to change status' : effective !== 'none' ? "Inherited from a parent folder — click to set this document's own status" : 'Click to set status'}
+                      onClick={() => cycleStatus(selectedPath)}
+                    >
+                      <span className="docs-status-dot" />
+                      {STATUS_CONFIG[effective].label}{!own && effective !== 'none' ? ' (inherited)' : ''}
+                    </button>
+                  );
+                })()}
               </div>
               <div className="docs-toolbar-actions">
                 {editing ? (

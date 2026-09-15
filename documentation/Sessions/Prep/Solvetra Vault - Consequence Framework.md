@@ -1,7 +1,7 @@
 # Solvetra Vault - Consequence Framework
 _The vault heist is the pivot point of the first arc. Everything before it built to this. Everything after it flows from it. Answer these questions before you run it._
 
-> **Status update:** Session 7 played as infiltration/setup only - Plumbodian secured an internship and B1 access, the party geared up and scouted, but no break-in was attempted and none of the Four Outcomes below have triggered yet. Session 8 was also prep/investigation, not the heist attempt itself - Plumbodian advanced further into the internship (signed off bond paperwork, was sent to the Dye House and back), the party confirmed multiple 25,000gp bonds addressed to Lucien Morvault, and Frah'nk revealed the heist plan to Rissa "Whisper" Varn at the Smuggler's Den. This framework still carries forward unchanged - the actual heist attempt has not yet happened as of end of Session 8. See [Session 7 notes](../Sessions/Notes/Session%207%20-%20The%20Big%20One.md) and [Session 8 notes](../Sessions/Notes/Session%208.md) for the full log.
+> **Status update:** Session 7 played as infiltration/setup only - Plumbodian secured an internship and B1 access, the party geared up and scouted, but no break-in was attempted and none of the Four Outcomes below have triggered yet. Session 8 was also prep/investigation, not the heist attempt itself - Plumbodian advanced further into the internship (signed off bond paperwork, was sent to the Dye House and back), the party confirmed multiple 25,000gp bonds addressed to Lucien Morvault, and Frah'nk revealed the heist plan to Rissa "Whisper" Varn at the Smuggler's Den. This framework still carries forward unchanged - the actual heist attempt has not yet happened as of end of Session 8. See [Session 7 notes](../Notes/Session%207%20-%20The%20Big%20One.md) and [Session 8 notes](../Notes/Session%208.md) for the full log.
 
 ---
 
@@ -9,7 +9,7 @@ _The vault heist is the pivot point of the first arc. Everything before it built
 
 Before mapping outcomes, be clear on the layers:
 
-- **Adrion's debt** - 5,000gp to Lucien Morvault in 5 nights. The 5,000gp is a buyout clause - the original bargain was Adrion handing over the next adventuring party (the PCs) to Morvault in exchange for his own escape after his village burned. Failure to pay defaults to that original term: Lucien collects the party itself via a binding claim, not combat. See [Lucien Morvault](../NPCs/Villains/Solvetra/Solvetra%20Intermellum/Lucien%20Morvault.md).
+- **Adrion's debt** - 5,000gp to Lucien Morvault in 5 nights. The 5,000gp is a buyout clause - the original bargain was Adrion handing over the next adventuring party (the PCs) to Morvault in exchange for his own escape after his village burned. Failure to pay defaults to that original term: Lucien collects the party itself via a binding claim, not combat. See [Lucien Morvault](../../NPCs/Villains/Solvetra/Lucien%20Morvault.md).
 - **Draining the DOL's funds** - the vault holds DOL funds. The Shadowbringers don't care where the gold ends up afterward - what matters is that it's out of DOL hands. Draining it cripples the Division's finances in Solvetra.
 - **The DOL's symbolic power** - the vault *is* the Division's control over citizens. Robbing it is a public act of defiance whether the party wants it to be or not.
 - **The party's cover** - after the Lumina Lab, the DOL already know these people exist. The vault heist ends that ambiguity entirely.

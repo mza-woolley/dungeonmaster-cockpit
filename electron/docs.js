@@ -1,4 +1,4 @@
-const { app, dialog, BrowserWindow, nativeImage } = require('electron');
+const { app, dialog, BrowserWindow, nativeImage, shell } = require('electron');
 const path   = require('path');
 const fs     = require('fs');
 const crypto = require('crypto');
@@ -6,6 +6,46 @@ const crypto = require('crypto');
 const DOCS_ROOT    = path.join(__dirname, '..', 'documentation');
 const ASSETS_DIR   = path.join(DOCS_ROOT, 'assets');
 const PROJECT_ROOT = path.join(__dirname, '..');
+const META_PATH    = path.join(DOCS_ROOT, '.doc-meta.json');
+
+// Doc status flags (workflow state per file), keyed by full path.
+// Kept in a sidecar file rather than in the markdown itself so it never
+// shows up in document content or diffs.
+function loadMeta() {
+  try { return JSON.parse(fs.readFileSync(META_PATH, 'utf8')); }
+  catch { return {}; }
+}
+
+function saveMeta(meta) {
+  fs.writeFileSync(META_PATH, JSON.stringify(meta, null, 2), 'utf8');
+}
+
+// Carries status flags along when a file/folder is renamed or moved.
+function rekeyMeta(oldPrefix, newPrefix) {
+  const meta = loadMeta();
+  let changed = false;
+  for (const key of Object.keys(meta)) {
+    if (key === oldPrefix) {
+      meta[newPrefix] = meta[key];
+      delete meta[key];
+      changed = true;
+    } else if (key.startsWith(oldPrefix + path.sep)) {
+      meta[newPrefix + key.slice(oldPrefix.length)] = meta[key];
+      delete meta[key];
+      changed = true;
+    }
+  }
+  if (changed) saveMeta(meta);
+}
+
+function removeMetaPrefix(prefix) {
+  const meta = loadMeta();
+  let changed = false;
+  for (const key of Object.keys(meta)) {
+    if (key === prefix || key.startsWith(prefix + path.sep)) { delete meta[key]; changed = true; }
+  }
+  if (changed) saveMeta(meta);
+}
 
 function ensureDirs() {
   if (!fs.existsSync(DOCS_ROOT))  fs.mkdirSync(DOCS_ROOT,  { recursive: true });
@@ -100,6 +140,7 @@ function register(ipcMain) {
       const ext    = path.extname(oldPath);
       const newPath = path.join(dir, ext ? `${newName}${ext}` : newName);
       fs.renameSync(oldPath, newPath);
+      rekeyMeta(oldPath, newPath);
       return { success: true, newPath };
     } catch (err) { return { success: false, error: err.message }; }
   });
@@ -112,6 +153,7 @@ function register(ipcMain) {
       const newPath = path.join(dest, path.basename(itemPath));
       if (fs.existsSync(newPath)) return { success: false, error: 'A file with that name already exists in the destination.' };
       fs.renameSync(itemPath, newPath);
+      rekeyMeta(itemPath, newPath);
       return { success: true, newPath };
     } catch (err) { return { success: false, error: err.message }; }
   });
@@ -145,6 +187,7 @@ function register(ipcMain) {
       const stat = fs.statSync(targetPath);
       if (stat.isDirectory()) fs.rmSync(targetPath, { recursive: true, force: true });
       else fs.unlinkSync(targetPath);
+      removeMetaPrefix(targetPath);
       return { success: true };
     } catch (err) { return { success: false, error: err.message }; }
   });
@@ -225,6 +268,27 @@ function register(ipcMain) {
       fs.writeFileSync(outPath, master, 'utf8');
       return { success: true, path: outPath };
     } catch (err) { return { success: false, error: err.message }; }
+  });
+
+  ipcMain.handle('docs:getStatuses', () => {
+    try { return { success: true, data: loadMeta() }; }
+    catch (err) { return { success: false, error: err.message, data: {} }; }
+  });
+
+  ipcMain.handle('docs:setStatus', (_, { filePath, status }) => {
+    try {
+      assertInsideDocs(filePath);
+      const meta = loadMeta();
+      if (!status || status === 'none') delete meta[filePath];
+      else meta[filePath] = status;
+      saveMeta(meta);
+      return { success: true };
+    } catch (err) { return { success: false, error: err.message }; }
+  });
+
+  ipcMain.handle('docs:openExternal', (_, url) => {
+    try { shell.openExternal(url); return { success: true }; }
+    catch (err) { return { success: false, error: err.message }; }
   });
 
   ipcMain.handle('docs:readImage', async (_, relativePath) => {
