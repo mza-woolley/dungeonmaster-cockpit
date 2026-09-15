@@ -15,8 +15,7 @@ import Icon from './components/Icons';
 
 const PANELS = [
   { id: 'characters',    label: 'Characters',    icon: 'person',  shortcut: '1' },
-  { id: 'encounters',    label: 'Encounters',    icon: 'swords',  shortcut: '2' },
-  { id: 'tv',            label: 'Display',       icon: 'map',     shortcut: '3' },
+  { id: 'encounters',    label: 'Encounters & Map', icon: 'swords',  shortcut: '2' },
   { id: 'scene',         label: 'Scene',         icon: 'sliders', shortcut: '4' },
   { id: 'generator',     label: 'Generator',     icon: 'd20',     shortcut: '5' },
   { id: 'wizard',        label: 'Wizard',        icon: 'hat',     shortcut: '6' },
@@ -29,7 +28,7 @@ const PANELS = [
 // The rail groups encode how the panels are actually used at the table:
 // live session tools, content creation, and lookup material.
 const NAV_GROUPS = [
-  { label: 'Session',   ids: ['characters', 'encounters', 'tv', 'scene'] },
+  { label: 'Session',   ids: ['characters', 'encounters', 'scene'] },
   { label: 'Create',    ids: ['generator', 'wizard', 'scribble'] },
   { label: 'Reference', ids: ['documentation', 'charsheet', 'miro'] },
 ];
@@ -189,7 +188,6 @@ export default function App() {
     switch (PANELS[idx]?.id) {
       case 'scribble':   return <Scribbleboard />;
       case 'scene':      return <SceneControl />;
-      case 'tv':         return null; // rendered persistently below, outside the animated stage
       case 'encounters': return null; // rendered persistently below, so state survives tab switches
       case 'wizard':     return <DNDWizard />;
       case 'characters':    return <Characters />;
@@ -259,8 +257,9 @@ export default function App() {
         >
           {renderPanel(activeIdx)}
         </div>
-        {/* Display tab stays mounted across tab switches so its TV window / map editor persist */}
-        <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'tv' ? 'settled' : 'hidden'}`}>
+        {/* No standalone Display tab — map/pin placement now happens from the Encounters tab.
+            Kept mounted (permanently hidden) since TVDisplay backs the TV window / map editor. */}
+        <div className="panel-slide panel-persistent hidden">
           <TVDisplay />
         </div>
         {/* Docs tab stays mounted across tab switches so in-progress edits aren't lost */}

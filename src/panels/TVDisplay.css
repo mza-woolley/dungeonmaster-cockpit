@@ -582,6 +582,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.active-pin-linked {
+  margin-left: 4px;
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
 .pin-action {
   background: none;
   border: none;

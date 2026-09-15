@@ -18,6 +18,12 @@ function initials(name) {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
+// Badge text for a (possibly auto-numbered, e.g. "Goblin (2)") pin name.
+function pinBadge(name) {
+  const m = name.match(/^(.*) \((\d+)\)$/);
+  return m ? `${initials(m[1])}${m[2]}` : initials(name);
+}
+
 // ── Lazy thumbnail tile ───────────────────────────────────
 function LazyTile({ file, active, thumb, faved, onPush, onFav, onVisible }) {
   const ref = useRef(null);
@@ -60,56 +66,6 @@ function PinDot({ type, size = 14 }) {
   );
 }
 
-// ── Searchable character dropdown ─────────────────────────
-function PinPicker({ label, items, onAdd }) {
-  const [q, setQ]           = useState('');
-  const [open, setOpen]     = useState(false);
-  const ref                 = useRef(null);
-
-  const filtered = items.filter(i => i.name.toLowerCase().includes(q.toLowerCase())).slice(0, 40);
-
-  useEffect(() => {
-    function handler(e) { if (ref.current && !ref.current.contains(e.target)) setOpen(false); }
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
-
-  return (
-    <div className="pin-picker" ref={ref}>
-      <div className="pin-picker-input-row">
-        <input
-          className="pin-picker-input"
-          placeholder={`Search ${label}…`}
-          value={q}
-          onChange={e => { setQ(e.target.value); setOpen(true); }}
-          onFocus={() => setOpen(true)}
-        />
-      </div>
-      {open && filtered.length > 0 && (
-        <div className="pin-picker-dropdown">
-          {filtered.map(item => (
-            <button
-              key={item.id || item.slug || item.name}
-              className="pin-picker-option"
-              onMouseDown={e => {
-                e.preventDefault();
-                onAdd(item);
-                setQ('');
-                setOpen(false);
-              }}
-            >
-              <PinDot type={item.type} size={10} />
-              <span>{item.name}</span>
-              {item.class && <span className="pin-option-sub">{item.class}</span>}
-              {item.cr !== undefined && <span className="pin-option-sub">CR {item.challenge_rating || item.cr}</span>}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 // ── Map State Preset modal ─────────────────────────────────
 function SaveStateModal({ onSave, onClose }) {
   const [name, setName] = useState('');
@@ -135,7 +91,14 @@ function SaveStateModal({ onSave, onClose }) {
 }
 
 // ── Main component ────────────────────────────────────────
-const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenButton = false, onOpenChange = null } = {}, ref) {
+const TVDisplay = forwardRef(function TVDisplay({
+  linkTable = false,
+  hideOpenButton = false,
+  onOpenChange = null,
+  activeCombatantId = null,   // id of the combatant whose turn it is — matching pin gets the pulsing glow
+  onPinPlaced = null,         // (pin) => void — fired once a pin is actually placed on the map
+  onPinRemoved = null,        // (combatantId) => void — fired when a linked pin is removed from the map
+} = {}, ref) {
   // ── Folder / file state ──
   const [folder, setFolder] = useState(() => localStorage.getItem(FOLDER_KEY) || '');
   const [files,  setFiles]  = useState(() => { try { return JSON.parse(localStorage.getItem(FILES_KEY) || '[]'); } catch { return []; } });
@@ -165,10 +128,6 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
   const [mapLoaded,       setMapLoaded]       = useState(false);
   const [dmImageDataUrl,  setDmImageDataUrl]  = useState(null);
 
-  // ── Character sources for pin picker ──
-  const [pcList,      setPcList]      = useState([]);
-  const [monsterList, setMonsterList] = useState([]);
-
   // ── Canvas refs ──
   const pendingFogMask = useRef(null);
   const canvasRef      = useRef(null);
@@ -184,12 +143,27 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
   const pinsRef        = useRef(pins);   // mirror of pins for use in event handlers
   const mapStatesRef   = useRef([]);     // mirror of mapStates to avoid stale closures
   const handleLoadStateRef = useRef(null);
+  const activeCombatantIdRef = useRef(activeCombatantId); // mirror to avoid stale closures in handlers
 
   const isElectron = !!window.electronAPI;
 
   // Keep pinsRef current so pointer handlers always read latest pins
   useEffect(() => { pinsRef.current = pins; }, [pins]);
   useEffect(() => { mapStatesRef.current = mapStates; }, [mapStates]);
+  useEffect(() => { activeCombatantIdRef.current = activeCombatantId; }, [activeCombatantId]);
+
+  // Stamp the "active turn" flag onto pins and push to the TV — centralizes every syncPins call
+  // so the glow flag never has to be threaded through each individual call site.
+  const syncPinsToTv = useCallback((pinsArg, hn, hm, ps) => {
+    if (!isElectron) return;
+    const withActive = pinsArg.map(p => ({ ...p, active: !!p.combatantId && p.combatantId === activeCombatantIdRef.current }));
+    window.electronAPI.tv.syncPins(withActive, hn, hm, ps);
+  }, [isElectron]);
+
+  // Re-push pins (with updated active flags) whenever the active turn changes
+  useEffect(() => {
+    syncPinsToTv(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
+  }, [activeCombatantId, syncPinsToTv, hideAllNpcs, hideAllMonsters, pinSize]);
 
   // ── Init ──
   useEffect(() => {
@@ -197,18 +171,6 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
     window.electronAPI.tv.isOpen().then(open => {
       setTvOpen(open);
       if (onOpenChange) onOpenChange(open);
-    });
-    window.electronAPI.characters.loadSeed().then(d => {
-      const chars = (d.characters || []).map(c => ({ ...c, type: 'pc' }));
-      setPcList(chars);
-    });
-    Promise.all([
-      window.electronAPI.monsters.loadSrd(),
-      window.electronAPI.monsters.load(),
-    ]).then(([srdRes, customRes]) => {
-      const srd    = srdRes.success ? srdRes.data.map(m => ({ ...m, type: 'monster' })) : [];
-      const custom = (customRes.custom || []).map(m => ({ ...m, type: 'monster' }));
-      setMonsterList([...srd, ...custom]);
     });
     window.electronAPI.mapStates.load().then(setMapStates);
   }, [isElectron]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -279,9 +241,27 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
       const px = dx + pin.x * dw;
       const py = dy + pin.y * dh;
       const r  = pinSize;
-      const color = PIN_COLORS[pin.type] || '#888';
+      const isDead = !!pin.dead;
+      const typeColor = PIN_COLORS[pin.type] || '#888';
+      const color = isDead ? '#555' : typeColor;
+
+      // Pulsing glow for whichever pin is linked to the active turn — radius/width
+      // scale off pinSize so it grows/shrinks with the pin instead of overcrowding it.
+      if (pin.combatantId && pin.combatantId === activeCombatantId) {
+        const pulse = (Math.sin(performance.now() / 450) + 1) / 2; // 0..1
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(px, py, r + 3 + pulse * (r * 0.6 + 3), 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255,255,255,${(0.15 + pulse * 0.35).toFixed(2)})`;
+        ctx.lineWidth   = Math.max(1.5, r * 0.2);
+        ctx.shadowColor = color;
+        ctx.shadowBlur  = r * 0.8;
+        ctx.stroke();
+        ctx.restore();
+      }
 
       ctx.save();
+      ctx.globalAlpha = isDead ? 0.6 : 1;
       ctx.shadowColor = 'rgba(0,0,0,0.8)';
       ctx.shadowBlur  = 6;
       ctx.beginPath();
@@ -292,9 +272,9 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
         ctx.setLineDash([3, 3]);
         ctx.strokeStyle = 'rgba(255,255,255,0.4)';
       } else {
-        ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+        ctx.strokeStyle = isDead ? typeColor : 'rgba(255,255,255,0.7)';
       }
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = isDead ? 2.5 : 1.5;
       ctx.stroke();
       ctx.setLineDash([]);
       ctx.shadowBlur  = 0;
@@ -310,16 +290,17 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
       }
 
       ctx.fillStyle    = '#fff';
-      ctx.font         = 'bold 10px system-ui,sans-serif';
+      ctx.font         = `bold ${Math.max(9, Math.round(r * 0.65))}px system-ui,sans-serif`;
       ctx.textAlign    = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(pin.initials || '?', px, py);
+      ctx.fillText(isDead ? '☠' : (pin.initials || '?'), px, py);
 
       ctx.font         = '10px system-ui,sans-serif';
       ctx.textBaseline = 'top';
       ctx.shadowColor  = 'rgba(0,0,0,0.9)';
       ctx.shadowBlur   = 3;
-      ctx.fillText(pin.name, px, py + r + 3);
+      ctx.fillStyle    = isDead ? '#e08080' : '#fff';
+      ctx.fillText(isDead ? `${pin.name} (Dead)` : pin.name, px, py + r + 3);
       ctx.shadowBlur   = 0;
 
       ctx.textAlign    = 'left';
@@ -370,7 +351,17 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
       ctx.fillText(`Click map to place ${placingPin.name}`, cw / 2, dy + dh + 18);
       ctx.restore();
     }
-  }, [fogEnabled, gridEnabled, gridSize, pins, pinSize, placingPin, brushSize]);
+  }, [fogEnabled, gridEnabled, gridSize, pins, pinSize, placingPin, brushSize, activeCombatantId]);
+
+  // Keep the DM canvas redrawing while a pin is linked to the active turn, so its glow pulses.
+  useEffect(() => {
+    const hasActiveLinkedPin = !!activeCombatantId && pins.some(p => p.combatantId === activeCombatantId);
+    if (!hasActiveLinkedPin) return;
+    let raf;
+    const tick = () => { drawDmCanvas(); raf = requestAnimationFrame(tick); };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [activeCombatantId, pins, drawDmCanvas]);
 
   // Load DM canvas image after overlay is in the DOM (so canvas is sized correctly)
   useEffect(() => {
@@ -511,7 +502,8 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
       const next   = [...pins, newPin];
       setPins(next);
       setPlacingPin(null);
-      if (isElectron) window.electronAPI.tv.syncPins(next, hideAllNpcs, hideAllMonsters, pinSize);
+      syncPinsToTv(next, hideAllNpcs, hideAllMonsters, pinSize);
+      if (onPinPlaced) onPinPlaced(newPin);
       return;
     }
 
@@ -548,7 +540,7 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
         const now = Date.now();
         if (now - lastPinSync.current > 16) {
           lastPinSync.current = now;
-          window.electronAPI.tv.syncPins(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
+          syncPinsToTv(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
         }
       }
       return;
@@ -581,7 +573,7 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
     if (draggingPinId.current) {
       draggingPinId.current = null;
       canvasRef.current.style.cursor = fogEnabled ? 'none' : 'default';
-      if (isElectron) window.electronAPI.tv.syncPins(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
+      syncPinsToTv(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
       return;
     }
     if (!painting.current) return;
@@ -615,7 +607,7 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
 
     if (isElectron) {
       window.electronAPI.tv.syncGrid(gridEnabled, gridSize);
-      window.electronAPI.tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
+      syncPinsToTv(pins, hideAllNpcs, hideAllMonsters, pinSize);
       window.electronAPI.tv.setSeatsVisible(seatsVisible);
     }
 
@@ -630,11 +622,11 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
       setSeatsVisible(false);
       if (isElectron) {
         window.electronAPI.tv.syncGrid(false, gridSize);
-        window.electronAPI.tv.syncPins([], false, false, pinSize);
+        syncPinsToTv([], false, false, pinSize);
         window.electronAPI.tv.setSeatsVisible(false);
       }
     }
-  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, seatsVisible, isElectron, dmImageDataUrl, linkTable, onOpenChange]);
+  }, [tvOpen, gridEnabled, gridSize, pins, pinSize, hideAllNpcs, hideAllMonsters, seatsVisible, isElectron, dmImageDataUrl, linkTable, onOpenChange, syncPinsToTv]);
 
   // ── Grid sync ──
   function setGrid(enabled, size) {
@@ -644,41 +636,23 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
   }
 
   // ── Pin management ──
-  function queuePin(charData, type) {
-    const id = `pin_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-    setPlacingPin({
-      id,
-      type,
-      name: charData.name,
-      initials: initials(charData.name),
-      hidden: false,
-      x: 0.5, y: 0.5,
-    });
-  }
-
   function togglePinHidden(id) {
     const next = pins.map(p => p.id === id ? { ...p, hidden: !p.hidden } : p);
     setPins(next);
-    if (isElectron) window.electronAPI.tv.syncPins(next, hideAllNpcs, hideAllMonsters, pinSize);
+    syncPinsToTv(next, hideAllNpcs, hideAllMonsters, pinSize);
   }
 
   function handlePinSize(val) {
     setPinSize(val);
-    if (isElectron) window.electronAPI.tv.syncPins(pinsRef.current, hideAllNpcs, hideAllMonsters, val);
+    syncPinsToTv(pinsRef.current, hideAllNpcs, hideAllMonsters, val);
   }
 
   function removePin(id) {
+    const removed = pins.find(p => p.id === id);
     const next = pins.filter(p => p.id !== id);
     setPins(next);
-    if (isElectron) window.electronAPI.tv.syncPins(next, hideAllNpcs, hideAllMonsters, pinSize);
-  }
-
-  function setHideGroup(group, val) {
-    const hn = group === 'npc'     ? val : hideAllNpcs;
-    const hm = group === 'monster' ? val : hideAllMonsters;
-    setHideAllNpcs(hn);
-    setHideAllMonsters(hm);
-    if (isElectron) window.electronAPI.tv.syncPins(pins, hn, hm, pinSize);
+    syncPinsToTv(next, hideAllNpcs, hideAllMonsters, pinSize);
+    if (removed?.combatantId && onPinRemoved) onPinRemoved(removed.combatantId);
   }
 
   // ── Map state presets ──
@@ -759,11 +733,39 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
 
   handleLoadStateRef.current = handleLoadState;
 
-  // Allow parent panels (e.g. Encounters) to trigger a map state load directly
+  // Allow parent panels (e.g. Encounters) to trigger a map state load, or drive linked pins, directly
   useImperativeHandle(ref, () => ({
     loadMapState: (id) => {
       const state = mapStatesRef.current.find(s => s.id === id);
       if (state) handleLoadState(state);
+    },
+    // Removes the pin linked to a given tracker row (e.g. when that combatant is deleted).
+    removePinForCombatant: (combatantId) => {
+      const next = pinsRef.current.filter(p => p.combatantId !== combatantId);
+      if (next.length === pinsRef.current.length) return;
+      setPins(next);
+      syncPinsToTv(next, hideAllNpcs, hideAllMonsters, pinSize);
+    },
+    // Marks the pin linked to a combatant as alive/dead (0 HP) so it can render differently.
+    setPinDead: (combatantId, dead) => {
+      const current = pinsRef.current.find(p => p.combatantId === combatantId);
+      if (!current || !!current.dead === !!dead) return;
+      const next = pinsRef.current.map(p => p.combatantId === combatantId ? { ...p, dead: !!dead } : p);
+      setPins(next);
+      syncPinsToTv(next, hideAllNpcs, hideAllMonsters, pinSize);
+    },
+    // Starts placement of a pin pre-linked to an existing tracker row (name/id already decided).
+    startPlacingLinked: (charData, type, combatantId) => {
+      const id = `pin_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+      setPlacingPin({
+        id,
+        type,
+        name: charData.name,
+        initials: pinBadge(charData.name),
+        combatantId,
+        hidden: false,
+        x: 0.5, y: 0.5,
+      });
     },
   }));
 
@@ -1025,37 +1027,16 @@ const TVDisplay = forwardRef(function TVDisplay({ linkTable = false, hideOpenBut
                 <span className="ov-value">{pinSize}px</span>
               </div>
 
-              {/* Group toggles */}
-              <div className="ov-row ov-gap">
-                <button
-                  className={`ov-toggle small ${hideAllNpcs ? 'active' : ''}`}
-                  onClick={() => setHideGroup('npc', !hideAllNpcs)}
-                >
-                  {hideAllNpcs ? 'Show NPCs' : 'Hide NPCs'}
-                </button>
-                <button
-                  className={`ov-toggle small ${hideAllMonsters ? 'active' : ''}`}
-                  onClick={() => setHideGroup('monster', !hideAllMonsters)}
-                >
-                  {hideAllMonsters ? 'Show Monsters' : 'Hide Monsters'}
-                </button>
-              </div>
-
-              {/* PC picker */}
-              <div className="pin-group-label"><PinDot type="pc" /> Player Characters</div>
-              <PinPicker label="PCs" items={pcList} onAdd={item => queuePin(item, 'pc')} />
-
-              {/* Monster picker */}
-              <div className="pin-group-label"><PinDot type="monster" /> Monsters</div>
-              <PinPicker label="monsters" items={monsterList} onAdd={item => queuePin(item, 'monster')} />
-
               {/* Active pins list */}
               {pins.length > 0 && (
                 <div className="active-pins">
                   {pins.map(pin => (
                     <div key={pin.id} className={`active-pin ${pin.hidden ? 'hidden-pin' : ''}`}>
                       <PinDot type={pin.type} size={10} />
-                      <span className="active-pin-name">{pin.name}</span>
+                      <span className="active-pin-name">
+                        {pin.name}
+                        {pin.combatantId && <span className="active-pin-linked" title="Linked to Initiative Tracker">🔗</span>}
+                      </span>
                       <button
                         className="pin-action"
                         title={pin.hidden ? 'Show on TV' : 'Hide from TV'}

@@ -2,6 +2,21 @@
 
 ---
 
+## v0.12 — The Tether Update — September 2026
+
+### ✨ New
+
+- Encounters: map pins can now be linked directly to Initiative Tracker rows — placing, removing, and duplicate-numbering stay in sync between the two instead of being tracked by hand
+- Encounters: the active turn's linked pin gets a pulsing glow on the map, scaled to your pin size
+- Encounters: linked pins now show alive/dead status on the map based on HP, with type-colored borders (blue for PCs, gold for NPCs, orange for monsters)
+- Map/Table Display: the per-seat PC HUD now shows a "Dead" state when a player's HP hits 0
+
+### 🔧 Changes
+
+- Removed the standalone Display tab — map and pin tools now live inside the Encounters tab, renamed to "Encounters & Map"
+
+---
+
 ## v0.11h — September 2026
 
 ### 🔧 Changes

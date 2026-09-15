@@ -459,20 +459,59 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
     if (!combatants.some(c => c.name === pc.name)) addCombatant({ id: uid(), name: pc.name, initiative: 0, initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
   });
 
+  const uniqueName = (base) => {
+    const count = combatants.filter(x => x.name === base || x.name.startsWith(base + ' (')).length;
+    return count === 0 ? base : `${base} (${count + 1})`;
+  };
+
   const addMonster = (m) => {
     const mod = dexMod(m);
     const hp = m.hit_points || m.hp || 0;
-    addCombatant({ id: uid(), name: m.name, initiative: roll(mod), initMod: mod, hp, maxHp: hp, isPC: false, monsterData: m });
+    addCombatant({ id: uid(), name: uniqueName(m.name), initiative: roll(mod), initMod: mod, hp, maxHp: hp, isPC: false, monsterData: m });
     setMonSearch('');
   };
 
   const duplicateCombatant = (c) => {
     const base = c.name.replace(/ \(\d+\)$/, '');
-    const count = combatants.filter(x => x.name === base || x.name.startsWith(base + ' (')).length;
-    addCombatant({ ...c, id: uid(), name: `${base} (${count + 1})` });
+    addCombatant({ ...c, id: uid(), name: uniqueName(base), pinId: null });
   };
 
+  // ── Map pin linking ──
+  // Pins are only ever created from a tracker row via placeOnMap() below (pre-linked,
+  // so both sides carry the same id from the start).
+
+  // A pin was actually placed on the map (from placeOnMap below) — record its id on the row.
+  const handlePinPlaced = (pin) => {
+    if (!pin.combatantId) return;
+    setCombatants(prev => prev.map(c => c.id === pin.combatantId ? { ...c, pinId: pin.id } : c));
+  };
+
+  // The map removed a linked pin directly (e.g. "✕" in the Active Pins list) — unlink, don't delete the row.
+  const handlePinRemoved = (combatantId) => {
+    setCombatants(prev => prev.map(c => c.id === combatantId ? { ...c, pinId: null } : c));
+  };
+
+  // "Place on map" from a tracker row — enters pin-placement mode pre-linked to this combatant.
+  const placeOnMap = (c) => {
+    tvRef.current?.startPlacingLinked({ name: c.name }, c.isPC ? 'pc' : 'monster', c.id);
+  };
+
+  // Remove a linked pin from a tracker row without deleting the row.
+  const unlinkPin = (c) => {
+    if (!c.pinId) return;
+    tvRef.current?.removePinForCombatant(c.id);
+    setCombatants(prev => prev.map(x => x.id === c.id ? { ...x, pinId: null } : x));
+  };
+
+  // Keep each linked pin's alive/dead look in sync with its combatant's HP.
+  useEffect(() => {
+    combatants.forEach(c => {
+      if (c.pinId) tvRef.current?.setPinDead(c.id, c.hp === 0);
+    });
+  }, [combatants]);
+
   const remove = (id) => {
+    tvRef.current?.removePinForCombatant(id); // cascade-delete any linked map pin
     const currentSorted = [...combatants].sort((a, b) => b.initiative - a.initiative);
     const removedIdx    = currentSorted.findIndex(c => c.id === id);
     const next          = combatants.filter(c => c.id !== id);
@@ -590,7 +629,14 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
 
       {/* ── Map / Overlay pane (same Display tab editor) ── */}
       <div className="initiative-map-pane">
-        <TVDisplay ref={tvRef} linkTable onOpenChange={setDisplaysOpen} />
+        <TVDisplay
+          ref={tvRef}
+          linkTable
+          onOpenChange={setDisplaysOpen}
+          activeCombatantId={sorted[turn]?.id || null}
+          onPinPlaced={handlePinPlaced}
+          onPinRemoved={handlePinRemoved}
+        />
       </div>
 
       <div className="initiative-tracker-pane">
@@ -806,6 +852,11 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
                 {c.name}
                 {c.isPC && <span className="combatant-pc-badge">PC</span>}
               </div>
+              {c.pinId ? (
+                <button className="sb-btn small active" onClick={() => unlinkPin(c)} title="Linked to a map pin — click to unlink and remove it">📍</button>
+              ) : (
+                <button className="sb-btn small" onClick={() => placeOnMap(c)} title="Place a linked pin on the map">📍</button>
+              )}
               <button className="sb-btn small" onClick={() => duplicateCombatant(c)} title="Duplicate">⧉</button>
               <button className="sb-btn danger small" onClick={() => remove(c.id)}>✕</button>
             </div>

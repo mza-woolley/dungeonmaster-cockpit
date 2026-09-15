@@ -218,6 +218,18 @@ function getDisplayHtml(title) {
     color: #d08d70;
     background: rgba(107,58,58,0.2);
   }
+  .seat.dead {
+    border-color: #7a2f1c;
+    filter: grayscale(0.55) brightness(0.8);
+  }
+  .seat-dead-badge {
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #d08d70;
+    margin-top: 2px;
+  }
 
 </style>
 </head>
@@ -250,6 +262,18 @@ function getDisplayHtml(title) {
   let gridSize    = 'medium';
   let pinSize     = 18;
   let pendingFogMask = null;
+  let pulseRAF    = null; // keeps re-rendering while any pin is linked to the active turn (pulsing glow)
+
+  function syncPulseLoop() {
+    const hasActive = pins.some(p => p.active);
+    if (hasActive && pulseRAF == null) {
+      const tick = () => { renderMap(); pulseRAF = requestAnimationFrame(tick); };
+      pulseRAF = requestAnimationFrame(tick);
+    } else if (!hasActive && pulseRAF != null) {
+      cancelAnimationFrame(pulseRAF);
+      pulseRAF = null;
+    }
+  }
 
   const GRID_PX = { tiny: 20, small: 40, medium: 60, large: 80 };
   const GRID_REFERENCE_WIDTH = 1920; // GRID_PX values are calibrated at this rendered image width
@@ -326,8 +350,25 @@ function getDisplayHtml(title) {
       const px = dx + pin.x * dw;
       const py = dy + pin.y * dh;
       const r  = pinSize;
-      const color = PIN_COLORS[pin.type] || '#9a8a71';
+      const isDead = !!pin.dead;
+      const typeColor = PIN_COLORS[pin.type] || '#9a8a71';
+      const color = isDead ? '#555' : typeColor;
 
+      // Pulsing glow for the pin linked to the active turn — scales off pinSize.
+      if (pin.active) {
+        const pulse = (Math.sin(performance.now() / 450) + 1) / 2; // 0..1
+        mapCtx.save();
+        mapCtx.beginPath();
+        mapCtx.arc(px, py, r + 3 + pulse * (r * 0.6 + 3), 0, Math.PI * 2);
+        mapCtx.strokeStyle = 'rgba(255,255,255,' + (0.15 + pulse * 0.35).toFixed(2) + ')';
+        mapCtx.lineWidth   = Math.max(1.5, r * 0.2);
+        mapCtx.shadowColor = color;
+        mapCtx.shadowBlur  = r * 0.8;
+        mapCtx.stroke();
+        mapCtx.restore();
+      }
+
+      mapCtx.globalAlpha = isDead ? 0.6 : 1;
       mapCtx.shadowColor = 'rgba(0,0,0,0.7)';
       mapCtx.shadowBlur  = 8;
 
@@ -335,25 +376,26 @@ function getDisplayHtml(title) {
       mapCtx.arc(px, py, r, 0, Math.PI * 2);
       mapCtx.fillStyle = color;
       mapCtx.fill();
-      mapCtx.strokeStyle = 'rgba(255,255,255,0.6)';
-      mapCtx.lineWidth   = 1.5;
+      mapCtx.strokeStyle = isDead ? typeColor : 'rgba(255,255,255,0.6)';
+      mapCtx.lineWidth   = isDead ? 2.5 : 1.5;
       mapCtx.stroke();
 
       mapCtx.shadowBlur = 0;
 
       mapCtx.fillStyle    = '#fff';
-      mapCtx.font         = 'bold 11px system-ui,sans-serif';
+      mapCtx.font         = 'bold ' + Math.max(10, Math.round(r * 0.65)) + 'px system-ui,sans-serif';
       mapCtx.textAlign    = 'center';
       mapCtx.textBaseline = 'middle';
-      mapCtx.fillText(pin.initials || '?', px, py);
+      mapCtx.fillText(isDead ? '☠' : (pin.initials || '?'), px, py);
 
       mapCtx.font         = '11px system-ui,sans-serif';
       mapCtx.textBaseline = 'top';
-      mapCtx.fillStyle    = '#fff';
+      mapCtx.fillStyle    = isDead ? '#e08080' : '#fff';
       mapCtx.shadowColor  = 'rgba(0,0,0,0.9)';
       mapCtx.shadowBlur   = 4;
-      mapCtx.fillText(pin.name, px, py + r + 4);
+      mapCtx.fillText(isDead ? pin.name + ' (Dead)' : pin.name, px, py + r + 4);
       mapCtx.shadowBlur   = 0;
+      mapCtx.globalAlpha  = 1;
     });
 
     mapCtx.textAlign    = 'left';
@@ -366,6 +408,7 @@ function getDisplayHtml(title) {
       mapImg = null;
       fogCanvas = null; pins = [];
       renderMap();
+      syncPulseLoop();
       return;
     }
     const img = new Image();
@@ -419,6 +462,7 @@ function getDisplayHtml(title) {
     hideAllMons = !!hm;
     if (ps != null) pinSize = ps;
     renderMap();
+    syncPulseLoop();
   };
 
   window.setGrid = function({ enabled, size }) {
@@ -434,6 +478,7 @@ function getDisplayHtml(title) {
     if (state.pinSize != null) pinSize = state.pinSize;
     hideAllNpcs = !!state.hideAllNpcs;
     hideAllMons = !!state.hideAllMonsters;
+    syncPulseLoop();
     if (state.fogMask && mapImg) {
       const img = new Image();
       img.onload = () => {
@@ -491,11 +536,12 @@ function getDisplayHtml(title) {
       const conditions = (seat.conditions || []).map(c =>
         '<span class="seat-condition">' + conditionIcon(c) + ' ' + c + '</span>'
       ).join('');
+      const isDead = seat.hp === 0;
       const ratio = seat.maxHp ? Math.round((seat.hp / seat.maxHp) * 100) : 0;
       const color = hpColor(seat.hp, seat.maxHp);
       inner =
         '<div class="seat-turn-banner">Your Turn</div>' +
-        '<div class="seat-name">' + seat.name + '</div>' +
+        '<div class="seat-name">' + seat.name + (isDead ? ' ☠' : '') + '</div>' +
         (sub ? '<div class="seat-sub">' + sub + (seat.ac != null ? ' &middot; AC ' + seat.ac : '') + '</div>' : '') +
         '<div class="seat-stats">' +
           '<div class="seat-init-row">' +
@@ -509,9 +555,10 @@ function getDisplayHtml(title) {
             '<div class="seat-hp-label">HP ' + seat.hp + ' / ' + seat.maxHp + '</div>' +
           '</div>' +
         '</div>' +
+        (isDead ? '<div class="seat-dead-badge">Dead</div>' : '') +
         (conditions ? '<div class="seat-conditions">' + conditions + '</div>' : '');
     }
-    const stateClass = !seat.inCombat ? ' idle' : (seat.active ? ' active' : '');
+    const stateClass = (!seat.inCombat ? ' idle' : (seat.active ? ' active' : '')) + (seat.inCombat && seat.hp === 0 ? ' dead' : '');
     el.className = 'seat' + verticalClass + stateClass;
     el.innerHTML = inner;
   }
