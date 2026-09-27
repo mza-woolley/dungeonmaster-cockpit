@@ -2,6 +2,14 @@
 
 ---
 
+## v0.13.1 — September 2026
+
+### 🔧 Changes
+
+- Documentation: added new session notes, minor doc metadata and content cleanup
+
+---
+
 ## v0.13 — The Compass Update — September 2026
 
 ### ✨ New
