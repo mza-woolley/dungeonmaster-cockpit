@@ -62,10 +62,14 @@ function getDisplayHtml(title) {
     transition: box-shadow 0.3s, border-color 0.3s;
     overflow: hidden;
   }
-  /* Far L/R and DM L/R: same "thickness" as the Top L/R strips (5vw),
-     centered in their (taller) grid cell so the rest shows the map. */
+  /* Far L/R and DM L/R: idle seats stay a thin strip (min-height only —
+     name/sub alone are shorter than that floor) so most of the map still
+     shows; in combat the box grows via auto height to fit the Init/HP
+     stats block instead of clipping it (or, with a fixed height under a
+     rotate() transform, flinging the overflow off away from the card). */
   .seat:not(.vertical) {
-    height: 5vw;
+    height: auto;
+    min-height: 5vw;
     align-self: var(--edge, center);
   }
   .seat::before, .seat::after {
@@ -101,7 +105,8 @@ function getDisplayHtml(title) {
     position: absolute;
     top: 50%; left: 2.5vw;
     width: 48vh;
-    height: 5vw;
+    height: auto;
+    min-height: 5vw;
     transform: translate(-50%, -50%) rotate(90deg);
     box-sizing: border-box;
     display: flex;
@@ -282,6 +287,9 @@ function getDisplayHtml(title) {
   let gridSizePx  = 60;
   let feetPerSquare = 5;
   let pinSize     = 18;
+  let mapZoom     = 1;   // 1 = fit to screen, up to 6 — mirrors the DM's live zoom
+  let mapCenterX  = 0.5; // normalized (0..1) image point centered in the viewport
+  let mapCenterY  = 0.5;
   let currentMeasure = null; // { tool, startNx, startNy, curNx, curNy, gridSizePx, feetPerSquare } while a DM drag is live
   let pendingFogMask = null;
   let pulseRAF    = null; // keeps re-rendering while any pin is linked to the active turn (pulsing glow)
@@ -325,15 +333,28 @@ function getDisplayHtml(title) {
     return pixel[3] > 30;
   }
 
+  // Mirrors getMapBounds() in src/panels/TVDisplay.js — same fit-then-zoom-then-clamp
+  // math so the DM's pan/zoom lines up on the TV/Table displays regardless of their
+  // own screen resolution or aspect ratio.
+  function getMapBounds() {
+    const cw = mapCanvas.width, ch = mapCanvas.height;
+    if (!mapImg) return null;
+    const iw = mapImg.naturalWidth, ih = mapImg.naturalHeight;
+    const fitScale = Math.min(cw / iw, ch / ih);
+    const scale = fitScale * mapZoom;
+    const dw = iw * scale, dh = ih * scale;
+    let dx = cw / 2 - mapCenterX * dw;
+    let dy = ch / 2 - mapCenterY * dh;
+    dx = dw <= cw ? (cw - dw) / 2 : Math.min(0, Math.max(cw - dw, dx));
+    dy = dh <= ch ? (ch - dh) / 2 : Math.min(0, Math.max(ch - dh, dy));
+    return { dx, dy, dw, dh };
+  }
+
   function renderMap() {
     const cw = mapCanvas.width, ch = mapCanvas.height;
     mapCtx.clearRect(0, 0, cw, ch);
     if (!mapImg) return;
-    const iw = mapImg.naturalWidth, ih = mapImg.naturalHeight;
-
-    const scale = Math.min(cw / iw, ch / ih);
-    const dw = iw * scale, dh = ih * scale;
-    const dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+    const { dx, dy, dw, dh } = getMapBounds();
 
     mapCtx.drawImage(mapImg, dx, dy, dw, dh);
     if (fogCanvas) mapCtx.drawImage(fogCanvas, dx, dy, dw, dh);
@@ -502,6 +523,9 @@ function getDisplayHtml(title) {
   }
 
   window.setMap = function(dataUrl) {
+    // A new (or cleared) map always starts fit-to-screen — carrying over the previous
+    // map's zoom/pan would leave the new one cropped to an arbitrary, unrelated spot.
+    mapZoom = 1; mapCenterX = 0.5; mapCenterY = 0.5;
     if (!dataUrl) {
       mapImg = null;
       fogCanvas = null; pins = [];
@@ -575,6 +599,15 @@ function getDisplayHtml(title) {
     renderMap();
   };
 
+  // Live pan/zoom ticks from the DM's canvas — fire-and-forget like applyBrushStroke,
+  // no queueing needed since only the latest position ever matters.
+  window.applyMapView = function(v) {
+    if (v.zoom != null) mapZoom = v.zoom;
+    if (v.centerX != null) mapCenterX = v.centerX;
+    if (v.centerY != null) mapCenterY = v.centerY;
+    renderMap();
+  };
+
   window.applyOverlayState = function(state) {
     gridEnabled = !!state.gridEnabled;
     if (state.gridSizePx != null) gridSizePx = state.gridSizePx;
@@ -584,6 +617,11 @@ function getDisplayHtml(title) {
     if (state.pinSize != null) pinSize = state.pinSize;
     hideAllNpcs = !!state.hideAllNpcs;
     hideAllMons = !!state.hideAllMonsters;
+    // Saved states / a fresh map push never carry a view — reset to fit-to-screen
+    // rather than leaving whatever zoom/pan was live before this state loaded.
+    mapZoom    = state.zoom != null ? state.zoom : 1;
+    mapCenterX = state.centerX != null ? state.centerX : 0.5;
+    mapCenterY = state.centerY != null ? state.centerY : 0.5;
     syncPulseLoop();
     if (state.fogMask && mapImg) {
       const img = new Image();

@@ -116,6 +116,11 @@ function syncMapOverlay(state) {
   exec(`applyOverlayState(${JSON.stringify(state)})`);
 }
 
+function syncMapView(view) {
+  if (!tableWindow || tableWindow.isDestroyed()) return;
+  tableWindow.webContents.executeJavaScript(`applyMapView(${JSON.stringify(view)})`).catch(() => {});
+}
+
 function replayMapState(state) {
   if (!tableWindow || tableWindow.isDestroyed() || !state) return;
   const apply = () => {
@@ -148,5 +153,5 @@ function getTableHtml() {
 module.exports = {
   openTableWindow, closeTableWindow, getTableWindow, syncState,
   syncMapImage, clearMap, syncMapFog, syncMapBrushStroke, syncMapMeasure, syncMapPins, syncMapGrid, syncMapOverlay,
-  replayMapState, replaySeatState,
+  syncMapView, replayMapState, replaySeatState,
 };

@@ -64,6 +64,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     syncPins:    (pins, hideAllNpcs, hideAllMonsters, pinSize)  => ipcRenderer.invoke('tv:syncPins', { pins, hideAllNpcs, hideAllMonsters, pinSize }),
     syncGrid:    (enabled, sizePx, feetPerSquare)      => ipcRenderer.invoke('tv:syncGrid', { enabled, sizePx, feetPerSquare }),
     syncOverlay:     (state)                               => ipcRenderer.invoke('tv:syncOverlay', state),
+    syncView:        (view)                                => ipcRenderer.send('tv:syncView', view),
     syncState:       (state)                               => ipcRenderer.invoke('tv:syncState', state),
     setSeatsVisible: (visible)                             => ipcRenderer.invoke('tv:setSeatsVisible', visible),
   },

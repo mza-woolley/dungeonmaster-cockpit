@@ -102,6 +102,12 @@ function syncOverlay(state) {
   exec(`applyOverlayState(${JSON.stringify(state)})`);
 }
 
+function syncView(view) {
+  // Fire-and-forget, like syncBrushStroke/syncMeasure — a live pan/zoom drag needs no queue.
+  if (!tvWindow || tvWindow.isDestroyed()) return;
+  tvWindow.webContents.executeJavaScript(`applyMapView(${JSON.stringify(view)})`).catch(() => {});
+}
+
 function syncState(state) {
   exec(`applyState(${JSON.stringify(state)})`);
 }
@@ -141,5 +147,5 @@ function getTvHtml() {
 
 module.exports = {
   openTvWindow, closeTvWindow, pushImage, clearTvDisplay, syncFog, syncBrushStroke, syncMeasure, syncPins, syncGrid, syncOverlay,
-  syncState, replayMapState, replaySeatState, getTvWindow, setSeatsVisible,
+  syncView, syncState, replayMapState, replaySeatState, getTvWindow, setSeatsVisible,
 };

@@ -2,6 +2,24 @@
 
 ---
 
+## v0.14 — The Vantage Update — September 2026
+
+### ✨ New
+
+- Encounters & Map: DM-side zoom and pan on the map canvas — pinch/Ctrl+scroll to zoom, click-drag with the new Pan Map tool to pan — mirrored live to the TV and Table displays, so pins spread out and stay reachable even when player overlays cover part of the map
+- Encounters & Map: shift-click to select multiple pins, then drag any of them to move the whole group together; click empty map to deselect
+
+### 🔧 Changes
+
+- Nav: removed two-finger trackpad swipe-to-switch-tab — it was colliding with the new map pan gesture
+
+### 🐛 Fixes
+
+- Encounters: PCs and monsters added to Build Encounter now actually persist — the combatant list had no save/restore at all before
+- Encounters: Monsters tab no longer renders the entire ~3,200-entry SRD list unfiltered, which could crash the app (especially with a map actively open on the TV/Table displays)
+
+---
+
 ## v0.13.1 — September 2026
 
 ### 🔧 Changes

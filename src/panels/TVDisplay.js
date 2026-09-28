@@ -11,6 +11,8 @@ const GRID_REFERENCE_WIDTH = 1920; // grid sizes are calibrated at this rendered
 const PIN_COLORS   = { pc: '#4a8fd4', npc: '#c9a84c', monster: '#c94a4a' };
 const FOG_OPACITY  = 0.65; // DM-side semi-transparency
 
+function clamp(v, lo, hi) { return Math.min(hi, Math.max(lo, v)); }
+
 function initials(name) {
   const parts = name.trim().split(/\s+/);
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
@@ -189,6 +191,7 @@ const TVDisplay = forwardRef(function TVDisplay({
   const [snapToGrid,      setSnapToGrid]      = useState(true);
   const [drawTool,        setDrawTool]        = useState(null); // null | 'ruler' | 'sphere' | 'cone' | 'line' | 'cube'
   const [pins,            setPins]            = useState([]);
+  const [selectedPinIds,  setSelectedPinIds]  = useState(() => new Set()); // shift-clicked pins, moved together as a group
   const [pinSize,         setPinSize]         = useState(16);
   const [hideAllNpcs,     setHideAllNpcs]     = useState(false);
   const [hideAllMonsters, setHideAllMonsters] = useState(false);
@@ -199,6 +202,11 @@ const TVDisplay = forwardRef(function TVDisplay({
   const [showSaveModal,   setShowSaveModal]   = useState(false);
   const [mapLoaded,       setMapLoaded]       = useState(false);
   const [dmImageDataUrl,  setDmImageDataUrl]  = useState(null);
+
+  // ── Map view (zoom/pan) — DM-driven, mirrored live to the TV/Table displays ──
+  const [mapZoom,    setMapZoom]    = useState(1);   // 1 = fit to screen
+  const [mapCenterX, setMapCenterX] = useState(0.5); // normalized (0..1) image point centered in the viewport
+  const [mapCenterY, setMapCenterY] = useState(0.5);
 
   // ── Canvas refs ──
   const pendingFogMask = useRef(null);
@@ -214,7 +222,12 @@ const TVDisplay = forwardRef(function TVDisplay({
   const overlayRef     = useRef(null);   // wrapper div for bounds
   const draggingPinId  = useRef(null);   // id of pin being dragged
   const hoveredPinId   = useRef(null);   // id of pin under cursor
+  const dragGroupStart = useRef(null);   // { anchor: {x,y}, snapshot: Map<id,{x,y}> } while dragging a multi-pin selection
+  const panDragRef     = useRef(null);   // { lastX, lastY } while the Pan tool is being dragged
+  const mapViewRef     = useRef({ zoom: 1, centerX: 0.5, centerY: 0.5 }); // mirror of the view for use in event handlers
+  const lastViewSync   = useRef(0);      // timestamp of last view (zoom/pan) sync to TV
   const pinsRef        = useRef(pins);   // mirror of pins for use in event handlers
+  const selectedPinIdsRef = useRef(selectedPinIds); // mirror of selectedPinIds for use in event handlers
   const mapStatesRef   = useRef([]);     // mirror of mapStates to avoid stale closures
   const handleLoadStateRef = useRef(null);
   const activeCombatantIdRef = useRef(activeCombatantId); // mirror to avoid stale closures in handlers
@@ -223,6 +236,10 @@ const TVDisplay = forwardRef(function TVDisplay({
 
   // Keep pinsRef current so pointer handlers always read latest pins
   useEffect(() => { pinsRef.current = pins; }, [pins]);
+  useEffect(() => { selectedPinIdsRef.current = selectedPinIds; }, [selectedPinIds]);
+  // Switching to another tool (Pan, a measurement, placing a new pin) drops any pin
+  // selection — it's a different intent and a stale gold ring left over would be confusing.
+  useEffect(() => { clearSelection(); }, [drawTool, placingPin]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { mapStatesRef.current = mapStates; }, [mapStates]);
   useEffect(() => { activeCombatantIdRef.current = activeCombatantId; }, [activeCombatantId]);
 
@@ -282,10 +299,7 @@ const TVDisplay = forwardRef(function TVDisplay({
 
     const ctx = canvas.getContext('2d');
     const cw = canvas.width, ch = canvas.height;
-    const iw = img.naturalWidth,  ih = img.naturalHeight;
-    const scale = Math.min(cw / iw, ch / ih);
-    const dw = iw * scale, dh = ih * scale;
-    const dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+    const { dx, dy, dw, dh } = getMapBounds();
 
     ctx.clearRect(0, 0, cw, ch);
     ctx.drawImage(img, dx, dy, dw, dh);
@@ -363,6 +377,18 @@ const TVDisplay = forwardRef(function TVDisplay({
         ctx.stroke();
       }
 
+      // Selection ring for shift-clicked pins — dashed gold, distinct from the plain
+      // white hover/drag ring, so a multi-pin group reads clearly at a glance.
+      if (selectedPinIds.has(pin.id)) {
+        ctx.beginPath();
+        ctx.setLineDash([4, 3]);
+        ctx.arc(px, py, r + 8, 0, Math.PI * 2);
+        ctx.strokeStyle = '#f0c419';
+        ctx.lineWidth   = 2;
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
       ctx.fillStyle    = '#fff';
       ctx.font         = `bold ${Math.max(9, Math.round(r * 0.65))}px system-ui,sans-serif`;
       ctx.textAlign    = 'center';
@@ -434,7 +460,7 @@ const TVDisplay = forwardRef(function TVDisplay({
       ctx.fillText(`Click map to place ${placingPin.name}`, cw / 2, dy + dh + 18);
       ctx.restore();
     }
-  }, [fogEnabled, gridEnabled, gridSizePx, feetPerSquare, pins, pinSize, placingPin, drawTool, brushSize, activeCombatantId]);
+  }, [fogEnabled, gridEnabled, gridSizePx, feetPerSquare, pins, pinSize, placingPin, drawTool, brushSize, activeCombatantId, selectedPinIds]);
 
   // Keep the DM canvas redrawing while a pin is linked to the active turn, so its glow pulses.
   useEffect(() => {
@@ -487,7 +513,9 @@ const TVDisplay = forwardRef(function TVDisplay({
     const canvas = canvasRef.current;
     if (!canvas) return;
     if (draggingPinId.current) { canvas.style.cursor = 'grabbing'; return; }
+    if (panDragRef.current)    { canvas.style.cursor = 'grabbing'; return; }
     if (placingPin)            { canvas.style.cursor = 'cell'; return; }
+    if (drawTool === 'pan')    { canvas.style.cursor = 'grab'; return; }
     if (drawTool)               { canvas.style.cursor = 'crosshair'; return; }
     if (hoveredPinId.current)  { canvas.style.cursor = 'grab'; return; }
     if (fogEnabled)            { canvas.style.cursor = 'none'; return; }
@@ -517,6 +545,35 @@ const TVDisplay = forwardRef(function TVDisplay({
     return () => ro.disconnect();
   }, [drawDmCanvas, updateCursor, mapLoaded]);
 
+  // ── Map zoom/pan via trackpad or mouse wheel ──
+  // Native, non-passive listener (not React's onWheel, which Chromium marks passive
+  // by default) so preventDefault actually stops the page/pinch from zooming instead.
+  // Routed through a ref so the listener itself only needs attaching once per canvas
+  // mount, while always running the latest logic.
+  const onWheelRef = useRef(() => {});
+  onWheelRef.current = (e) => {
+    if (!mapImgRef.current) return;
+    e.preventDefault();
+    const rect = canvasRef.current.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    // Trackpad pinch (and Ctrl+scroll) reports ctrlKey — that's the zoom gesture;
+    // a plain two-finger scroll pans, same convention as Google Maps/Figma.
+    if (e.ctrlKey) {
+      zoomAt(cx, cy, Math.exp(-e.deltaY * 0.01));
+    } else {
+      panCenterByCanvasPixels(e.deltaX, e.deltaY);
+    }
+  };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const handler = (e) => onWheelRef.current(e);
+    canvas.addEventListener('wheel', handler, { passive: false });
+    return () => canvas.removeEventListener('wheel', handler);
+  }, [mapLoaded]);
+
   // ── Fog init helper ──
   function ensureFog(w, h) {
     if (fogRef.current && fogRef.current.width === w && fogRef.current.height === h) return;
@@ -530,15 +587,80 @@ const TVDisplay = forwardRef(function TVDisplay({
   }
 
   // ── Fog brush helpers ──
+  // Fit-then-zoom-then-clamp: mirrored exactly in electron/displayHtml.js's own
+  // getMapBounds() so the TV/Table displays land on the same crop the DM sees,
+  // independent of their own canvas resolution/aspect ratio.
   function getMapBounds() {
     const canvas = canvasRef.current;
     const img    = mapImgRef.current;
     if (!canvas || !img) return null;
     const cw = canvas.width, ch = canvas.height;
     const iw = img.naturalWidth,  ih = img.naturalHeight;
-    const scale = Math.min(cw / iw, ch / ih);
+    const fitScale = Math.min(cw / iw, ch / ih);
+    const { zoom, centerX, centerY } = mapViewRef.current;
+    const scale = fitScale * zoom;
     const dw = iw * scale, dh = ih * scale;
-    return { dx: (cw - dw) / 2, dy: (ch - dh) / 2, dw, dh };
+    let dx = cw / 2 - centerX * dw;
+    let dy = ch / 2 - centerY * dh;
+    dx = dw <= cw ? (cw - dw) / 2 : clamp(dx, cw - dw, 0);
+    dy = dh <= ch ? (ch - dh) / 2 : clamp(dy, ch - dh, 0);
+    return { dx, dy, dw, dh };
+  }
+
+  // Updates the live view (zoom/pan), redraws immediately via the ref (no need to
+  // wait for React's state update to land), and mirrors it to the TV/Table displays
+  // — throttled like the fog-brush/pin-drag syncs, except on an explicit commit
+  // (pointer up, slider change, reset) where `immediate` forces it through so the
+  // final position never gets stranded behind the throttle window.
+  function pushMapView(patch, immediate) {
+    mapViewRef.current = { ...mapViewRef.current, ...patch };
+    setMapZoom(mapViewRef.current.zoom);
+    setMapCenterX(mapViewRef.current.centerX);
+    setMapCenterY(mapViewRef.current.centerY);
+    drawDmCanvas();
+    if (!isElectron) return;
+    const now = Date.now();
+    if (immediate || now - lastViewSync.current > 33) {
+      lastViewSync.current = now;
+      window.electronAPI.tv.syncView(mapViewRef.current);
+    }
+  }
+
+  function resetMapView() {
+    pushMapView({ zoom: 1, centerX: 0.5, centerY: 0.5 }, true);
+  }
+
+  // Keeps the image point under the cursor fixed on screen while zooming — the
+  // standard "zoom to cursor" feel instead of always re-centering on the image.
+  function zoomAt(cx, cy, factor) {
+    const b = getMapBounds();
+    const canvas = canvasRef.current, img = mapImgRef.current;
+    if (!b || !canvas || !img) return;
+    const cw = canvas.width, ch = canvas.height;
+    const iw = img.naturalWidth, ih = img.naturalHeight;
+    const fitScale = Math.min(cw / iw, ch / ih);
+    const nx = (cx - b.dx) / b.dw;
+    const ny = (cy - b.dy) / b.dh;
+    const newZoom = clamp(mapViewRef.current.zoom * factor, 1, 6);
+    const newDw = iw * fitScale * newZoom, newDh = ih * fitScale * newZoom;
+    pushMapView({
+      zoom: newZoom,
+      centerX: clamp((cw / 2 - (cx - nx * newDw)) / newDw, 0, 1),
+      centerY: clamp((ch / 2 - (cy - ny * newDh)) / newDh, 0, 1),
+    });
+  }
+
+  // Shifts the visible crop by canvas pixels. Positive dxPix/dyPix reveals more of
+  // the image to the right/down (viewport-scroll semantics) — callers that instead
+  // want "grab the map and drag it" (the image following the cursor) pass negated
+  // pointer movement so the two gestures don't fight each other's sign convention.
+  function panCenterByCanvasPixels(dxPix, dyPix, immediate) {
+    const b = getMapBounds();
+    if (!b) return;
+    pushMapView({
+      centerX: clamp(mapViewRef.current.centerX + dxPix / b.dw, 0, 1),
+      centerY: clamp(mapViewRef.current.centerY + dyPix / b.dh, 0, 1),
+    }, immediate);
   }
 
   function canvasToNorm(cx, cy) {
@@ -604,6 +726,20 @@ const TVDisplay = forwardRef(function TVDisplay({
     }, 'image/png');
   }
 
+  // ── Multi-pin selection ──
+  function toggleSelectPin(id) {
+    const next = new Set(selectedPinIdsRef.current);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    selectedPinIdsRef.current = next;
+    setSelectedPinIds(next);
+  }
+
+  function clearSelection() {
+    if (selectedPinIdsRef.current.size === 0) return;
+    selectedPinIdsRef.current = new Set();
+    setSelectedPinIds(new Set());
+  }
+
   // ── Pin hit-test ──
   function hitTestPin(cx, cy) {
     const b = getMapBounds();
@@ -635,6 +771,13 @@ const TVDisplay = forwardRef(function TVDisplay({
       return;
     }
 
+    if (drawTool === 'pan') {
+      panDragRef.current = { lastX: cx, lastY: cy };
+      canvasRef.current.setPointerCapture(e.pointerId);
+      updateCursor();
+      return;
+    }
+
     if (drawTool) {
       const norm = canvasToNorm(cx, cy);
       if (!norm) return;
@@ -647,11 +790,30 @@ const TVDisplay = forwardRef(function TVDisplay({
     // Pin drag takes priority over fog painting
     const hitId = hitTestPin(cx, cy);
     if (hitId) {
+      if (e.shiftKey) {
+        toggleSelectPin(hitId);
+        drawDmCanvas();
+        return;
+      }
+      // Dragging a pin that's part of the current selection moves the whole group;
+      // dragging an unselected one drags just that pin and drops any old selection.
+      const isGroup = selectedPinIdsRef.current.has(hitId) && selectedPinIdsRef.current.size > 1;
+      if (!isGroup) clearSelection();
       draggingPinId.current = hitId;
+      const anchor = pinsRef.current.find(p => p.id === hitId);
+      dragGroupStart.current = isGroup
+        ? {
+            anchor: { x: anchor.x, y: anchor.y },
+            snapshot: new Map(pinsRef.current.filter(p => selectedPinIdsRef.current.has(p.id)).map(p => [p.id, { x: p.x, y: p.y }])),
+          }
+        : null;
       updateCursor();
       canvasRef.current.setPointerCapture(e.pointerId);
       return;
     }
+
+    // Clicked empty map space — drop the current selection.
+    clearSelection();
 
     if (!fogEnabled) return;
     painting.current = true;
@@ -663,6 +825,15 @@ const TVDisplay = forwardRef(function TVDisplay({
     const cx = e.clientX - rect.left;
     const cy = e.clientY - rect.top;
     cursorPos.current = { x: cx, y: cy };
+
+    if (panDragRef.current) {
+      const dxPix = cx - panDragRef.current.lastX;
+      const dyPix = cy - panDragRef.current.lastY;
+      panDragRef.current = { lastX: cx, lastY: cy };
+      // Grab-drag semantics: the map follows the cursor, so pan the crop the opposite way.
+      panCenterByCanvasPixels(-dxPix, -dyPix);
+      return;
+    }
 
     if (measureRef.current) {
       const norm = canvasToNorm(cx, cy);
@@ -684,10 +855,28 @@ const TVDisplay = forwardRef(function TVDisplay({
       const rawNorm = canvasToNorm(cx, cy);
       if (!rawNorm) return;
       const norm = snapNormToGrid(rawNorm);
-      const nx = Math.max(0, Math.min(1, norm.nx));
-      const ny = Math.max(0, Math.min(1, norm.ny));
-      // Update ref directly so throttled sync and pointerUp always have the latest position
-      pinsRef.current = pinsRef.current.map(p => p.id === draggingPinId.current ? { ...p, x: nx, y: ny } : p);
+      const nx = clamp(norm.nx, 0, 1);
+      const ny = clamp(norm.ny, 0, 1);
+
+      if (dragGroupStart.current) {
+        // Group move: only the pin under the cursor snaps to the grid — the rest of
+        // the selection shifts by that same delta so the formation stays rigid instead
+        // of every pin snapping independently and warping relative to each other.
+        const { anchor, snapshot } = dragGroupStart.current;
+        let dxN = nx - anchor.x;
+        let dyN = ny - anchor.y;
+        // Clamp the shared delta so no pin in the group leaves the [0,1] map bounds.
+        snapshot.forEach(({ x, y }) => {
+          dxN = clamp(dxN, -x, 1 - x);
+          dyN = clamp(dyN, -y, 1 - y);
+        });
+        pinsRef.current = pinsRef.current.map(p => {
+          const start = snapshot.get(p.id);
+          return start ? { ...p, x: start.x + dxN, y: start.y + dyN } : p;
+        });
+      } else {
+        pinsRef.current = pinsRef.current.map(p => p.id === draggingPinId.current ? { ...p, x: nx, y: ny } : p);
+      }
       setPins(pinsRef.current);
       // Throttled TV sync during drag — ~60fps for smooth pin movement on the TV
       if (isElectron) {
@@ -722,6 +911,10 @@ const TVDisplay = forwardRef(function TVDisplay({
       measureRef.current = null;
       if (isElectron) window.electronAPI.tv.measureStroke(null);
     }
+    if (panDragRef.current) {
+      panDragRef.current = null;
+      pushMapView({}, true);
+    }
     updateCursor();
     drawDmCanvas();
     if (fogRef.current) setTimeout(flushFogToTV, 0);
@@ -736,8 +929,15 @@ const TVDisplay = forwardRef(function TVDisplay({
     }
     if (draggingPinId.current) {
       draggingPinId.current = null;
+      dragGroupStart.current = null;
       updateCursor();
       syncPinsToTv(pinsRef.current, hideAllNpcs, hideAllMonsters, pinSize);
+      return;
+    }
+    if (panDragRef.current) {
+      panDragRef.current = null;
+      updateCursor();
+      pushMapView({}, true);
       return;
     }
     if (!painting.current) return;
@@ -757,6 +957,12 @@ const TVDisplay = forwardRef(function TVDisplay({
     if (!res.success) { setError(res.error); return; }
     setActive(file.path);
     setMapLoaded(false);
+
+    // A new map always starts fit-to-screen (the TV/Table side already reset itself
+    // as part of tv:pushImage) — mirror that locally rather than keeping whatever
+    // zoom/pan was live on the previous map.
+    mapViewRef.current = { zoom: 1, centerX: 0.5, centerY: 0.5 };
+    setMapZoom(1); setMapCenterX(0.5); setMapCenterY(0.5);
 
     // Load full image via IPC (file:// is blocked in renderer)
     const imgRes = await window.electronAPI.tv.readImage(file.path);
@@ -817,6 +1023,12 @@ const TVDisplay = forwardRef(function TVDisplay({
     const next = pins.filter(p => p.id !== id);
     setPins(next);
     syncPinsToTv(next, hideAllNpcs, hideAllMonsters, pinSize);
+    if (selectedPinIdsRef.current.has(id)) {
+      const nextSel = new Set(selectedPinIdsRef.current);
+      nextSel.delete(id);
+      selectedPinIdsRef.current = nextSel;
+      setSelectedPinIds(nextSel);
+    }
     if (removed?.combatantId && onPinRemoved) onPinRemoved(removed.combatantId);
   }
 
@@ -858,6 +1070,8 @@ const TVDisplay = forwardRef(function TVDisplay({
     setCurrentStateId(state.id);
     // Queue fog mask — applied once the map image finishes loading
     pendingFogMask.current = state.fogMask || null;
+    // Saved states don't carry a view — always come back to fit-to-screen.
+    resetMapView();
 
     // Push image if different from current (fog restore fires inside its onload)
     if (state.mapPath && state.mapPath !== active) {
@@ -1133,6 +1347,37 @@ const TVDisplay = forwardRef(function TVDisplay({
           {/* Controls Sidebar */}
           <div className="overlay-sidebar">
 
+            {/* Map View (zoom/pan) */}
+            <div className="ov-section">
+              <div className="ov-section-title">Map View</div>
+              <div className="ov-row">
+                <button
+                  className={`ov-toggle ${drawTool === 'pan' ? 'active' : ''}`}
+                  onClick={() => setDrawTool(p => p === 'pan' ? null : 'pan')}
+                  title="Drag the map to pan it"
+                >
+                  {drawTool === 'pan' ? 'Panning: On' : 'Pan Map'}
+                </button>
+                <button
+                  className="ov-btn"
+                  onClick={resetMapView}
+                  disabled={mapZoom === 1 && mapCenterX === 0.5 && mapCenterY === 0.5}
+                >
+                  Reset View
+                </button>
+              </div>
+              <div className="ov-row ov-brush-row">
+                <span className="ov-label">Zoom</span>
+                <input
+                  type="range" min="1" max="4" step="0.1" value={mapZoom}
+                  onChange={e => pushMapView({ zoom: Number(e.target.value) }, true)}
+                  className="ov-slider"
+                />
+                <span className="ov-value">{mapZoom.toFixed(1)}x</span>
+              </div>
+              <div className="ov-hint">Scroll to pan, pinch (or Ctrl+scroll) to zoom — live on the TV/Table displays too.</div>
+            </div>
+
             {/* Fog */}
             <div className="ov-section">
               <div className="ov-section-title">Fog of War</div>
@@ -1238,6 +1483,8 @@ const TVDisplay = forwardRef(function TVDisplay({
                 />
                 <span className="ov-value">{pinSize}px</span>
               </div>
+
+              <div className="ov-hint">Shift-click pins to select several, then drag any of them to move the group — click empty map to deselect.</div>
 
               {/* Active pins list */}
               {pins.length > 0 && (

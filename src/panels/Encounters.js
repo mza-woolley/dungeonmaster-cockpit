@@ -366,6 +366,7 @@ const CONDITIONS = [
 ];
 
 const TABLE_SEATS_KEY = 'dm-cockpit:table-seats';
+const COMBATANTS_KEY = 'dm-cockpit:combatants';
 const TABLE_SEAT_IDS = ['top-1', 'top-2', 'left-1', 'left-2', 'right-1', 'right-2'];
 const TABLE_SEAT_LABELS = {
   'top-1':   'Top Right',
@@ -385,7 +386,9 @@ function dexMod(monster) {
 }
 
 function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets = [], combatPresetId, endPresetId, onSaveCombatPreset, onSaveEndPreset, encounterActive, onStartEncounter, onEndEncounter, encounterFiring, encounterError }) {
-  const [combatants, setCombatants] = useState([]);
+  const [combatants, setCombatants] = useState(() => {
+    try { return JSON.parse(localStorage.getItem(COMBATANTS_KEY)) || []; } catch { return []; }
+  });
   const [turn,    setTurn]          = useState(0);
   const [round,   setRound]         = useState(1);
   const [monSearch, setMonSearch]   = useState('');
@@ -408,6 +411,13 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
   const [presetsExpanded, setPresetsExpanded] = useState(true);
   const [buildExpanded,   setBuildExpanded]   = useState(true);
   const isElectron = !!window.electronAPI;
+
+  // combatants had no persistence at all — the Build Encounter list (including
+  // added PCs) reset on every tab remount / app restart. Mirror it to localStorage
+  // like every other piece of tracker state.
+  useEffect(() => {
+    localStorage.setItem(COMBATANTS_KEY, JSON.stringify(combatants));
+  }, [combatants]);
 
   const persistEncPresets = (next) => {
     setEncPresets(next);
@@ -456,11 +466,11 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
 
   const addPC = (pc) => {
     if (combatants.some(c => c.name === pc.name)) return;
-    addCombatant({ id: uid(), name: pc.name, initiative: 0, initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
+    addCombatant({ id: uid(), pcId: pc.id, name: pc.name, initiative: 0, initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
   };
 
   const addAllPCs = () => pcQuick.forEach(pc => {
-    if (!combatants.some(c => c.name === pc.name)) addCombatant({ id: uid(), name: pc.name, initiative: 0, initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
+    if (!combatants.some(c => c.name === pc.name)) addCombatant({ id: uid(), pcId: pc.id, name: pc.name, initiative: 0, initMod: pc.initMod || 0, hp: pc.maxHp || 0, maxHp: pc.maxHp || 0, isPC: true });
   });
 
   const uniqueName = (base) => {
@@ -610,7 +620,11 @@ function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets 
       if (!pcId) return;
       const pc = pcQuick.find(p => p.id === pcId);
       if (!pc) return; // assignment points at a character no longer linked — skip
-      const idx = sorted.findIndex(c => c.name === pc.name);
+      // Match by pcId first — falls back to a normalized name match for combatants
+      // added before this link existed (or a PC renamed since being added).
+      const norm = (s) => (s || '').trim().toLowerCase();
+      let idx = sorted.findIndex(c => c.pcId === pc.id);
+      if (idx === -1) idx = sorted.findIndex(c => norm(c.name) === norm(pc.name));
       if (idx === -1) {
         // Not in the tracker yet — show the seat's PC by default, no combat info.
         seats[seatId] = {
@@ -1116,6 +1130,12 @@ export default function Encounters() {
     if (filterType && m.type?.toLowerCase() !== filterType.toLowerCase()) return false;
     return true;
   });
+  // Rendering all ~3,200 SRD rows unfiltered (the default view) was pushing renderer
+  // memory hard enough to crash alongside an active map display — cap what's actually
+  // mounted and prompt for a search instead.
+  const MONSTER_LIST_CAP = 150;
+  const visibleSrdResults = srdResults.slice(0, MONSTER_LIST_CAP);
+  const srdResultsTruncated = srdResults.length > MONSTER_LIST_CAP;
 
   const filteredCustom = customMonsters.filter(m => {
     if (search     && !m.name.toLowerCase().includes(search.toLowerCase())) return false;
@@ -1359,7 +1379,7 @@ export default function Encounters() {
                   {!loading && srdResults.length === 0 && !error && (
                     <div className="enc-empty">No SRD results. Try a different search.</div>
                   )}
-                  {srdResults.map(m => (
+                  {visibleSrdResults.map(m => (
                     <div
                       key={m.slug}
                       className={`monster-row ${selectedMonster?.slug === m.slug ? 'selected' : ''}`}
@@ -1370,6 +1390,11 @@ export default function Encounters() {
                       <span className="mr-type">{m.type}</span>
                     </div>
                   ))}
+                  {srdResultsTruncated && (
+                    <div className="enc-empty">
+                      {srdResults.length - MONSTER_LIST_CAP} more — narrow your search to see them.
+                    </div>
+                  )}
                 </div>
               )}
             </div>

@@ -58,6 +58,9 @@ let currentMapState = {
   pinSize: 18,
   hideAllNpcs: false,
   hideAllMonsters: false,
+  zoom: 1,
+  centerX: 0.5,
+  centerY: 0.5,
 };
 
 // Last-known per-seat PC HUD state, replayed onto the Table/Map Display
@@ -171,6 +174,9 @@ handle('tv:pushImage', (imagePath) => {
   currentMapState.imagePath = imagePath;
   currentMapState.fogMask   = null;
   currentMapState.pins      = [];
+  currentMapState.zoom      = 1;
+  currentMapState.centerX   = 0.5;
+  currentMapState.centerY   = 0.5;
 });
 handle('tv:clear', () => {
   tv.clearTvDisplay();
@@ -178,6 +184,9 @@ handle('tv:clear', () => {
   currentMapState.imagePath = null;
   currentMapState.fogMask   = null;
   currentMapState.pins      = [];
+  currentMapState.zoom      = 1;
+  currentMapState.centerX   = 0.5;
+  currentMapState.centerY   = 0.5;
 });
 ipcMain.handle('tv:isOpen', () => {
   const w = tv.getTvWindow();
@@ -204,6 +213,13 @@ ipcMain.on('tv:brushStroke', (_, { nx, ny, radius }) => {
 ipcMain.on('tv:measureStroke', (_, payload) => {
   try { tv.syncMeasure(payload); } catch (_e) {}
   try { table.syncMapMeasure(payload); } catch (_e) {}
+});
+ipcMain.on('tv:syncView', (_, view) => {
+  try { tv.syncView(view); } catch (_e) {}
+  try { table.syncMapView(view); } catch (_e) {}
+  currentMapState.zoom    = view.zoom;
+  currentMapState.centerX = view.centerX;
+  currentMapState.centerY = view.centerY;
 });
 handle('tv:syncPins', ({ pins, hideAllNpcs, hideAllMonsters, pinSize }) => {
   tv.syncPins(pins, hideAllNpcs, hideAllMonsters, pinSize);
