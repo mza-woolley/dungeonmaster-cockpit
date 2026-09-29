@@ -66,6 +66,13 @@ const PATHS = {
       <path d="M9.2 12.5h5.6" />
     </>
   ),
+  coin: (
+    <>
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="4.6" />
+      <path d="M12 4v1.8M12 18.2V20M4 12h1.8M18.2 12H20" />
+    </>
+  ),
   pause: <path d="M9.5 7.5v9M14.5 7.5v9" />,
   play: <path d="M9 7l8 5-8 5z" />,
   prev: <path d="M17 7l-7 5 7 5zM7 7v10" />,

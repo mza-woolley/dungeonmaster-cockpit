@@ -416,6 +416,19 @@ function loadKarmaFile() {
 ipcMain.handle('karma:load', () => loadKarmaFile());
 handle('karma:save', (data) => { writeJsonAtomic(KARMA_PATH, data); });
 
+// ── Loot IPC ──────────────────────────────────────────────
+const LOOT_PATH = path.join(__dirname, '..', 'loot.json');
+
+function loadLootFile() {
+  try {
+    if (fs.existsSync(LOOT_PATH)) return JSON.parse(fs.readFileSync(LOOT_PATH, 'utf8'));
+  } catch (_) {}
+  return { coins: { pp: 0, gp: 0, ep: 0, sp: 0, cp: 0 }, items: [], ledger: [] };
+}
+
+ipcMain.handle('loot:load', () => loadLootFile());
+handle('loot:save', (data) => { writeJsonAtomic(LOOT_PATH, data); });
+
 // ── App Lifecycle ─────────────────────────────────────────
 app.whenReady().then(() => {
   createWindow();

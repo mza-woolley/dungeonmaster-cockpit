@@ -1,0 +1,872 @@
+.loot-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.loot-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 24px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.loot-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: normal;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.loot-hoard {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-left: auto;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  padding: 4px 12px;
+}
+.loot-hoard-icon  { color: var(--gold-dim); align-self: center; display: flex; }
+.loot-hoard-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+}
+.loot-hoard-val {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.1rem;
+  color: var(--gold-bright);
+}
+.loot-hoard-unit { font-size: 0.68rem; color: var(--gold-dim); }
+.loot-saving {
+  font-size: 0.72rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.05em;
+}
+
+/* ── Layout ───────────────────────────────────────────────── */
+.loot-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 372px 1fr;
+  gap: 0;
+  min-height: 0;
+}
+
+.loot-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 14px 18px 16px;
+}
+.loot-purse {
+  border-right: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-panel));
+  overflow-y: auto;
+}
+.loot-items-section { min-width: 0; }
+
+.loot-section-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+  flex-shrink: 0;
+}
+.loot-section-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: normal;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.loot-section-sub {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+.loot-ghost-btn {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  padding: 2px 9px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.loot-ghost-btn:hover { color: var(--ember); border-color: var(--ember-deep); }
+
+/* ── Step control ─────────────────────────────────────────── */
+.loot-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.loot-step-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+.loot-step-label { font-style: italic; text-transform: none; letter-spacing: 0.04em; }
+
+/* ── Per-PC tracker ───────────────────────────────────────── */
+.loot-pcs-total {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+  text-transform: none;
+}
+
+.loot-pcs {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 8px;
+  flex-shrink: 0;
+}
+
+.loot-pc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-panel));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 9px;
+  transition: border-color 0.2s, opacity 0.2s;
+}
+.loot-pc:hover { border-color: var(--border-bright); }
+.loot-pc.excluded { opacity: 0.5; }
+
+.loot-pc-include {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-bright);
+  background: var(--bg-panel);
+  color: var(--gold);
+  font-size: 0.62rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  transition: border-color 0.15s;
+}
+.loot-pc-include:hover { border-color: var(--gold); }
+
+.loot-pc-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.loot-pc-balance {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.loot-pc-balance input {
+  width: 96px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--gold-bright);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1rem;
+  text-align: right;
+  outline: none;
+  padding: 3px 8px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.loot-pc-balance input:hover { border-color: var(--border-bright); }
+.loot-pc-balance input:focus { border-color: var(--gold); background: var(--bg-card); }
+.loot-pc-unit { font-size: 0.6rem; color: var(--text-dim); }
+
+/* Strip spinners across the panel — the bump buttons do that job */
+.loot-panel input[type="number"]::-webkit-outer-spin-button,
+.loot-panel input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ── Ledger ───────────────────────────────────────────────── */
+.loot-ledger {
+  margin-top: 14px;
+  flex-shrink: 0;
+}
+.loot-ledger-head {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border);
+}
+.loot-ledger-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 4px 0;
+  font-size: 0.72rem;
+  border-bottom: 1px solid rgba(49,41,23,0.5);
+}
+.loot-ledger-date { color: var(--text-dim); font-family: var(--font-mono); font-size: 0.65rem; min-width: 46px; }
+.loot-ledger-detail { color: var(--text-secondary); flex: 1; font-family: var(--font-mono); font-size: 0.68rem; }
+.loot-ledger-gp { color: var(--gold-dim); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+/* ── Hoard roller ─────────────────────────────────────────── */
+.loot-roller {
+  flex-shrink: 0;
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-panel));
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  padding: 10px 14px 9px;
+  margin-bottom: 12px;
+}
+.loot-roller-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.loot-tier { flex: 1; min-width: 190px; }
+.loot-tier-head {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 3px;
+}
+.loot-tier-caption {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+}
+.loot-tier-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.1rem;
+  color: var(--gold-bright);
+}
+.loot-tier-name {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.loot-tier-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: linear-gradient(90deg, var(--border-bright), var(--gold-dim), var(--gold));
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.loot-tier-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold-bright);
+  border: 1px solid var(--bg-deep);
+  box-shadow: 0 0 6px var(--gold-glow);
+  cursor: pointer;
+}
+
+.loot-type-select {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  padding: 5px 8px;
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.loot-type-select:focus { border-color: var(--gold-dim); }
+
+.loot-count {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.loot-count button {
+  width: 21px; height: 21px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-panel);
+  color: var(--gold);
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+.loot-count button:hover { background: var(--bg-hover); border-color: var(--gold); }
+.loot-count-n {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  color: var(--gold-bright);
+  min-width: 30px;
+  text-align: center;
+}
+
+.loot-roll-btn {
+  background: var(--bg-hover);
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius);
+  color: var(--gold-bright);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 6px 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+.loot-roll-btn:hover {
+  border-color: var(--gold);
+  background: var(--bg-card);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+.loot-luck {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 96px;   /* fits the longest label, MIRACULOUS, without clipping */
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+  padding-left: 12px;
+}
+.loot-luck-caption {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+}
+.loot-luck-val {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  color: var(--text-secondary);
+}
+.loot-luck-name {
+  font-size: 0.56rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+.loot-luck.luck-cursed     .loot-luck-val,
+.loot-luck.luck-cursed     .loot-luck-name { color: var(--ember); }
+.loot-luck.luck-poor       .loot-luck-val,
+.loot-luck.luck-poor       .loot-luck-name { color: var(--hp-low); }
+.loot-luck.luck-lean       .loot-luck-val  { color: var(--text-secondary); }
+.loot-luck.luck-fair       .loot-luck-val  { color: var(--gold-dim); }
+.loot-luck.luck-good       .loot-luck-val  { color: var(--gold); }
+.loot-luck.luck-blessed    .loot-luck-val,
+.loot-luck.luck-blessed    .loot-luck-name { color: var(--gold-bright); }
+.loot-luck.luck-miraculous .loot-luck-val,
+.loot-luck.luck-miraculous .loot-luck-name { color: var(--hp-full); }
+.loot-luck.luck-miraculous .loot-luck-val  { text-shadow: 0 0 10px rgba(143,174,111,0.5); }
+
+.loot-tier-band {
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+  font-size: 0.66rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+}
+
+/* ── Haul tray ────────────────────────────────────────────── */
+.loot-tray {
+  flex-shrink: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  margin-bottom: 12px;
+  box-shadow: 0 0 18px rgba(0,0,0,0.5);
+}
+
+.loot-tray-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.loot-tray-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: normal;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+}
+.loot-tray-meta {
+  flex: 1;
+  font-size: 0.66rem;
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+}
+.loot-tray-btn {
+  background: none;
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  padding: 3px 11px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.loot-tray-btn:hover { color: var(--gold-bright); border-color: var(--gold); }
+.loot-tray-btn.danger:hover { color: var(--ember); border-color: var(--ember-deep); }
+.loot-tray-btn.commit {
+  color: var(--gold-bright);
+  border-color: var(--gold-dim);
+  background: var(--bg-hover);
+}
+.loot-tray-btn.commit:hover { border-color: var(--gold); box-shadow: 0 0 8px var(--gold-glow); }
+
+.loot-tray-gold {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 9px 12px 8px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.loot-tray-gold-val {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.45rem;
+  color: var(--gold-bright);
+}
+.loot-tray-gold-unit { font-size: 0.7rem; color: var(--gold-dim); }
+.loot-ghost-btn.tight { margin-left: 0; }
+.loot-tray-gold .loot-ghost-btn:hover { color: var(--gold); border-color: var(--gold-dim); }
+.loot-ghost-btn.accent { color: var(--gold); border-color: var(--gold-dim); }
+.loot-ghost-btn.accent:hover { color: var(--gold-bright); border-color: var(--gold); background: var(--bg-hover); }
+
+.loot-variance {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2px 7px;
+  background: var(--bg-panel);
+}
+.loot-variance input {
+  width: 34px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.72rem;
+  text-align: right;
+  outline: none;
+  padding: 1px 0;
+}
+.loot-variance input:focus { color: var(--gold-bright); }
+.loot-variance-unit { font-size: 0.6rem; color: var(--text-dim); }
+.loot-variance-sign {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1;
+  color: var(--text-dim);
+}
+.loot-variance-sign.down { color: var(--hp-low); }
+.loot-variance-sign.up   { color: var(--hp-full); margin-left: 4px; }
+
+.loot-tray-left {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-style: italic;
+  color: var(--text-dim);
+}
+.loot-tray-left.over { color: var(--hp-mid); font-style: normal; }
+
+.loot-alloc-delta {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  min-width: 30px;
+  text-align: right;
+  color: var(--text-dim);
+}
+.loot-alloc-delta.up   { color: var(--hp-full); }
+.loot-alloc-delta.down { color: var(--hp-low); }
+
+.loot-tray-alloc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.loot-alloc {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 3px 7px;
+}
+.loot-alloc-name {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  max-width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.loot-alloc input {
+  width: 52px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--gold-bright);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  text-align: right;
+  outline: none;
+  padding: 0 2px 1px;
+}
+.loot-alloc input:focus { border-bottom-color: var(--gold); }
+
+.loot-tray-items {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px 12px 10px;
+  min-height: 0;
+}
+
+.loot-haul-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(49,41,23,0.45);
+  transition: opacity 0.2s;
+}
+.loot-haul-item.dropped { opacity: 0.35; text-decoration: line-through; }
+
+.loot-src {
+  flex-shrink: 0;
+  width: 58px;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1px 0;
+  color: var(--text-dim);
+}
+.src-magic  { color: var(--gold-bright); border-color: var(--gold-dim); background: var(--gold-glow); }
+.src-cursed { color: var(--ember); border-color: var(--ember-deep); background: var(--ember-shadow); }
+.src-gem    { color: var(--verdigris); border-color: var(--verdigris); }
+.src-art    { color: var(--hp-mid); border-color: var(--border-bright); }
+
+.loot-haul-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.loot-haul-name { font-size: 0.85rem; }
+.loot-haul-qty  { font-family: var(--font-mono); font-size: 0.72rem; color: var(--gold-dim); }
+.loot-haul-notes {
+  font-size: 0.66rem;
+  font-style: italic;
+  color: var(--text-dim);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.loot-haul-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.75rem;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.loot-haul-item select {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  padding: 2px 5px;
+  outline: none;
+  cursor: pointer;
+  width: 118px;
+  flex-shrink: 0;
+}
+.loot-haul-item select:focus { border-color: var(--gold-dim); }
+
+/* ── Filters ──────────────────────────────────────────────── */
+.loot-filters { display: flex; gap: 5px; }
+.loot-filter {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  padding: 2px 9px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.loot-filter:hover { color: var(--gold); border-color: var(--border-bright); }
+.loot-filter.active { color: var(--gold-bright); border-color: var(--gold-dim); background: var(--bg-hover); }
+
+/* ── Add row ──────────────────────────────────────────────── */
+.loot-add {
+  display: flex;
+  gap: 7px;
+  padding-bottom: 12px;
+  flex-shrink: 0;
+}
+.loot-add input,
+.loot-add select {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  padding: 6px 10px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.loot-add input:focus, .loot-add select:focus { border-color: var(--gold-dim); }
+.loot-add input::placeholder { color: var(--text-dim); }
+.loot-add-name   { flex: 1; min-width: 0; }
+.loot-add-rarity { width: 112px; }
+.loot-add-qty    { width: 54px; text-align: center; font-family: var(--font-mono); }
+.loot-add-value  { width: 66px; text-align: right;  font-family: var(--font-mono); }
+.loot-add-btn {
+  background: var(--bg-hover);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  color: var(--gold);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.loot-add-btn:hover:not(:disabled) { border-color: var(--gold); color: var(--gold-bright); }
+.loot-add-btn:disabled { opacity: 0.35; cursor: default; }
+
+/* ── Item rows ────────────────────────────────────────────── */
+.loot-items {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-right: 2px;
+}
+
+.loot-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-panel));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 11px;
+  transition: border-color 0.2s, opacity 0.2s;
+}
+.loot-item:hover { border-color: var(--border-bright); }
+.loot-item.claimed { opacity: 0.45; }
+
+.loot-item-check {
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-bright);
+  background: var(--bg-panel);
+  color: var(--hp-full);
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  transition: border-color 0.15s, background 0.15s;
+}
+.loot-item-check:hover { border-color: var(--gold); }
+.loot-item.claimed .loot-item-check { background: var(--lume-shadow); border-color: var(--lume-deep); }
+
+.loot-item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.loot-item-name,
+.loot-item-notes {
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  font-family: var(--font-body);
+  outline: none;
+  padding: 1px 0;
+  width: 100%;
+}
+.loot-item-name {
+  color: var(--gold-bright);
+  font-size: 0.92rem;
+}
+.loot-item-notes {
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-style: italic;
+}
+.loot-item-name:focus, .loot-item-notes:focus { border-bottom-color: var(--gold-dim); }
+.loot-item-notes::placeholder { color: var(--text-dim); }
+
+.loot-item-rarity,
+.loot-item-owner {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  padding: 3px 6px;
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.loot-item-rarity { width: 96px; }
+.loot-item-owner  { width: 118px; }
+.loot-item-rarity:focus, .loot-item-owner:focus { border-color: var(--gold-dim); }
+
+.rarity-common     { color: var(--text-secondary); }
+.rarity-uncommon   { color: var(--hp-full); }
+.rarity-rare       { color: var(--verdigris); }
+.rarity-very-rare  { color: var(--gold-bright); }
+.rarity-legendary  { color: var(--hp-mid); }
+.rarity-artifact   { color: var(--ember); }
+
+.loot-item-qty,
+.loot-item-value {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.loot-item-qty-x,
+.loot-item-value-unit {
+  font-size: 0.62rem;
+  color: var(--text-dim);
+}
+.loot-item-qty input,
+.loot-item-value input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.8rem;
+  text-align: right;
+  outline: none;
+  padding: 1px 2px;
+}
+.loot-item-qty input   { width: 32px; }
+.loot-item-value input { width: 52px; color: var(--gold); }
+.loot-item-qty input:focus,
+.loot-item-value input:focus { border-bottom-color: var(--gold); }
+.loot-item input[type="number"]::-webkit-outer-spin-button,
+.loot-item input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.loot-item-remove {
+  background: none;
+  border: none;
+  color: var(--border-bright);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 3px 4px;
+  border-radius: var(--radius);
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+.loot-item-remove:hover { color: var(--ember); background: var(--ember-shadow); }
+
+.loot-empty {
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 40px 0;
+}
+.loot-empty.small { font-size: 0.75rem; padding: 14px 0; }
+
+.loot-ledger-row.kind-give .loot-ledger-detail { color: var(--hp-full); }
+.loot-ledger-row.kind-take .loot-ledger-detail { color: var(--ember); }

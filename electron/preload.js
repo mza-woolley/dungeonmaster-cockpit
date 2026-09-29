@@ -114,6 +114,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     save: (data) => ipcRenderer.invoke('karma:save', data),
   },
 
+  // Loot
+  loot: {
+    load: ()     => ipcRenderer.invoke('loot:load'),
+    save: (data) => ipcRenderer.invoke('loot:save', data),
+  },
+
   // Scene Presets
   presets: {
     load: ()         => ipcRenderer.invoke('presets:load'),

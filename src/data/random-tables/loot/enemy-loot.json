@@ -1,0 +1,255 @@
+{
+  "note": "Mundane drops by creature type. coinBias scales the tier's coin band; magicBias scales the chance of a magic item. Values are gp each.",
+  "types": [
+    {
+      "id": "humanoid",
+      "label": "Humanoid",
+      "coinBias": 1.2,
+      "magicBias": 1.0,
+      "mundane": [
+        { "name": "Crude scimitar, notched from use", "value": 2 },
+        { "name": "Boot knife with a sweat-darkened grip", "value": 2 },
+        { "name": "Pouch of chewing root, bitter and black", "value": 1 },
+        { "name": "Tally-stick, notched once per raid", "value": 0 },
+        { "name": "District registration papers, forged badly", "value": 5 },
+        { "name": "Stolen Order of the Sun patrol whistle", "value": 3 },
+        { "name": "Half a map — the useful half is missing", "value": 0 },
+        { "name": "Flask of cheap Solvetran spirit", "value": 2 },
+        { "name": "Brass knuckles, one spike snapped off", "value": 3 },
+        { "name": "Lock of hair tied with lunar-blue thread", "value": 0 },
+        { "name": "Dice carved from finger bones", "value": 1 },
+        { "name": "Letter of safe passage, seal already broken", "value": 8 },
+        { "name": "Set of lockpicks, three of them bent", "value": 15 },
+        { "name": "Shield painted over with a newer sigil", "value": 8 },
+        { "name": "Ration tin, DOL quartermaster's stamp", "value": 1 },
+        { "name": "Debt marker owed to someone unpleasant", "value": 0 }
+      ]
+    },
+    {
+      "id": "beast",
+      "label": "Beast",
+      "coinBias": 0.25,
+      "magicBias": 0.5,
+      "mundane": [
+        { "name": "Intact pelt, worth the skinning", "value": 6 },
+        { "name": "Pair of unbroken fangs", "value": 4 },
+        { "name": "Claw as long as a finger", "value": 3 },
+        { "name": "Gizzard stones, oddly polished", "value": 1 },
+        { "name": "Swallowed signet ring, badly etched", "value": 12 },
+        { "name": "Antler fit for carving", "value": 5 },
+        { "name": "Musk gland — trappers pay well", "value": 10 },
+        { "name": "Nest lining of stolen thread and wire", "value": 2 },
+        { "name": "Collar with the name-plate filed off", "value": 3 },
+        { "name": "Half-digested boot, foot still in it", "value": 0 },
+        { "name": "Sinew, dried and ready for bowstrings", "value": 4 }
+      ]
+    },
+    {
+      "id": "undead",
+      "label": "Undead",
+      "coinBias": 0.8,
+      "magicBias": 1.05,
+      "mundane": [
+        { "name": "Grave-dirt in a stoppered jar", "value": 1 },
+        { "name": "Burial ring, finger still through it", "value": 20 },
+        { "name": "Funeral coins, pressed flat", "value": 4 },
+        { "name": "Shroud linen, surprisingly intact", "value": 3 },
+        { "name": "Jaw of gold-capped teeth", "value": 25 },
+        { "name": "Tarnished locket, the portrait faded out", "value": 8 },
+        { "name": "Name-plaque prised off a coffin lid", "value": 2 },
+        { "name": "Shard of something that hums when held", "value": 40 },
+        { "name": "Mourning brooch woven from hair", "value": 6 },
+        { "name": "Embalming tools, bone-handled", "value": 12 },
+        { "name": "Pre-DOL prayer beads, moon-carved", "value": 14 }
+      ]
+    },
+    {
+      "id": "fiend",
+      "label": "Fiend",
+      "coinBias": 1.0,
+      "magicBias": 1.3,
+      "mundane": [
+        { "name": "Contract scrap, the signature scorched away", "value": 0 },
+        { "name": "Sulphur-crusted branding iron", "value": 5 },
+        { "name": "A tooth that will not stop being warm", "value": 15 },
+        { "name": "Vial of blood that refuses to clot", "value": 25 },
+        { "name": "Ledger page listing three names", "value": 0 },
+        { "name": "Chain link that hums at a touch", "value": 10 },
+        { "name": "Ash in the shape of a handprint", "value": 0 },
+        { "name": "Coin of a currency nobody mints", "value": 30 },
+        { "name": "Brass seal for stamping bargains", "value": 45 }
+      ]
+    },
+    {
+      "id": "celestial",
+      "label": "Celestial",
+      "coinBias": 1.0,
+      "magicBias": 1.4,
+      "mundane": [
+        { "name": "Feather that sheds its own light", "value": 20 },
+        { "name": "Ring of white gold, entirely unmarked", "value": 60 },
+        { "name": "Fragment of a chorus, written down", "value": 5 },
+        { "name": "A tear hardened into a bead", "value": 35 },
+        { "name": "Sun-sigil pendant the DOL would kill for", "value": 50 },
+        { "name": "Vial of oil that never quite runs out", "value": 40 },
+        { "name": "Page of a language that reads itself", "value": 25 }
+      ]
+    },
+    {
+      "id": "dragon",
+      "label": "Dragon",
+      "coinBias": 2.0,
+      "magicBias": 1.6,
+      "mundane": [
+        { "name": "Scale the size of a buckler", "value": 75 },
+        { "name": "Tooth, cracked clean through the root", "value": 40 },
+        { "name": "Claw-sheath of hammered gold", "value": 200 },
+        { "name": "Hoard-coin from a mint long dead", "value": 60 },
+        { "name": "Egg fragment, still faintly warm", "value": 150 },
+        { "name": "Ledger of tribute owed, in Draconic", "value": 20 },
+        { "name": "Bed-scrapings: gold dust, a fortune in sweepings", "value": 120 }
+      ]
+    },
+    {
+      "id": "giant",
+      "label": "Giant",
+      "coinBias": 1.3,
+      "magicBias": 1.0,
+      "mundane": [
+        { "name": "Sling of braided ship's cable", "value": 10 },
+        { "name": "Belt buckle you could eat dinner off", "value": 45 },
+        { "name": "An entire goat, salted", "value": 5 },
+        { "name": "Tooth the size of a fist", "value": 15 },
+        { "name": "Iron-banded club, barely liftable", "value": 20 },
+        { "name": "Necklace strung with wagon wheels", "value": 30 },
+        { "name": "Cask of something fermented and awful", "value": 8 }
+      ]
+    },
+    {
+      "id": "fey",
+      "label": "Fey",
+      "coinBias": 0.7,
+      "magicBias": 1.3,
+      "mundane": [
+        { "name": "Bottled laughter — uncorks exactly once", "value": 25 },
+        { "name": "Ring of toadstools, pressed flat", "value": 3 },
+        { "name": "A name, written on birch bark", "value": 0 },
+        { "name": "Glass acorn, cold whatever the weather", "value": 18 },
+        { "name": "Thimble of honey that tastes of a memory", "value": 12 },
+        { "name": "Shoes that fit whoever picks them up", "value": 30 },
+        { "name": "Key to a door that was never built", "value": 15 }
+      ]
+    },
+    {
+      "id": "elemental",
+      "label": "Elemental",
+      "coinBias": 0.4,
+      "magicBias": 1.1,
+      "mundane": [
+        { "name": "Core-shard, still radiating", "value": 40 },
+        { "name": "Glass fused by the thing's passing", "value": 8 },
+        { "name": "A flame in a jar, burning nothing", "value": 30 },
+        { "name": "Frost that will not melt", "value": 25 },
+        { "name": "Scoop of soil that hums underfoot", "value": 10 },
+        { "name": "Stone worn smooth by a century of wind", "value": 6 }
+      ]
+    },
+    {
+      "id": "construct",
+      "label": "Construct",
+      "coinBias": 0.5,
+      "magicBias": 1.2,
+      "mundane": [
+        { "name": "Gearwork spine, mostly intact", "value": 35 },
+        { "name": "Control rune, cracked across the middle", "value": 20 },
+        { "name": "Reservoir of clean lamp oil", "value": 5 },
+        { "name": "Maker's plate — an Ars Lapis foundry mark", "value": 15 },
+        { "name": "Coil of silver wire, fine as hair", "value": 25 },
+        { "name": "Cracked focusing lens", "value": 12 },
+        { "name": "Winding key, still warm", "value": 18 }
+      ]
+    },
+    {
+      "id": "aberration",
+      "label": "Aberration",
+      "coinBias": 0.6,
+      "magicBias": 1.25,
+      "mundane": [
+        { "name": "An eye preserved in its own fluid", "value": 30 },
+        { "name": "Chitin plate, iridescent", "value": 18 },
+        { "name": "A tooth arrangement that makes no sense", "value": 5 },
+        { "name": "Coil of something between rope and nerve", "value": 15 },
+        { "name": "Notes taken by its last victim", "value": 0 },
+        { "name": "Mirror that shows the room one second late", "value": 55 }
+      ]
+    },
+    {
+      "id": "monstrosity",
+      "label": "Monstrosity",
+      "coinBias": 0.5,
+      "magicBias": 0.8,
+      "mundane": [
+        { "name": "Hide thick enough to plate a door", "value": 20 },
+        { "name": "Venom sac, carefully tied off", "value": 35 },
+        { "name": "A stomach's worth of swallowed jewellery", "value": 45 },
+        { "name": "Barbed quill, arm's length", "value": 8 },
+        { "name": "Skull worth mounting over a hearth", "value": 25 },
+        { "name": "Clutch of eggs, unhatched", "value": 30 }
+      ]
+    },
+    {
+      "id": "ooze",
+      "label": "Ooze",
+      "coinBias": 0.35,
+      "magicBias": 0.7,
+      "mundane": [
+        { "name": "Residue that quietly dissolves cheap metal", "value": 5 },
+        { "name": "Undigested coin-clump, fused solid", "value": 30 },
+        { "name": "A bone picked mirror-clean", "value": 1 },
+        { "name": "Stoppered sample, still moving", "value": 20 },
+        { "name": "Buckle and buttons, the owner long gone", "value": 4 }
+      ]
+    },
+    {
+      "id": "plant",
+      "label": "Plant",
+      "coinBias": 0.3,
+      "magicBias": 0.7,
+      "mundane": [
+        { "name": "Seed pod that rattles with something", "value": 4 },
+        { "name": "Bundle of sapwood — burns for a day", "value": 6 },
+        { "name": "Flowering spur, alchemically prized", "value": 22 },
+        { "name": "Root shaped unsettlingly like a hand", "value": 9 },
+        { "name": "Amber bead with an insect inside", "value": 18 },
+        { "name": "Sap that hardens into usable glue", "value": 7 }
+      ]
+    }
+  ],
+  "gems": [
+    { "name": "Banded quartz", "value": 10 },
+    { "name": "Malachite chip", "value": 10 },
+    { "name": "Obsidian shard, knapped smooth", "value": 10 },
+    { "name": "Freshwater pearl, irregular", "value": 25 },
+    { "name": "Moonstone, milky", "value": 50 },
+    { "name": "Amber drop", "value": 50 },
+    { "name": "Jade cabochon", "value": 50 },
+    { "name": "Garnet, deep as old wine", "value": 100 },
+    { "name": "Tourmaline, green-shot", "value": 100 },
+    { "name": "Black pearl", "value": 250 },
+    { "name": "Fire opal", "value": 500 },
+    { "name": "Star sapphire", "value": 1000 },
+    { "name": "Black diamond, flawless", "value": 5000 }
+  ],
+  "art": [
+    { "name": "Silver ewer, dented but sound", "value": 25 },
+    { "name": "Statuette carved from whalebone", "value": 25 },
+    { "name": "Gold bracelet, three charms missing", "value": 50 },
+    { "name": "Ivory comb, teeth intact", "value": 75 },
+    { "name": "Embroidered silk vestment", "value": 100 },
+    { "name": "Locket of gold and obsidian", "value": 250 },
+    { "name": "Ceremonial dagger, jewelled hilt", "value": 750 },
+    { "name": "Illuminated codex, pre-DOL and unpulped", "value": 1500 },
+    { "name": "Ceremonial mask in beaten electrum", "value": 2500 },
+    { "name": "Solid gold idol of a moon", "value": 7500 }
+  ]
+}

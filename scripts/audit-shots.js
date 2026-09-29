@@ -8,7 +8,7 @@ const APP_DIR = path.join(__dirname, '..');
 const OUT = process.argv[2] || path.join(APP_DIR, 'audit-shots');
 fs.mkdirSync(OUT, { recursive: true });
 
-const PANEL_IDS = ['characters', 'encounters', 'tv', 'scene', 'generator',
+const PANEL_IDS = ['characters', 'encounters', 'loot', 'scene', 'generator',
                    'wizard', 'scribble', 'documentation', 'charsheet', 'miro'];
 
 (async () => {

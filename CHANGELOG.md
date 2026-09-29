@@ -2,6 +2,20 @@
 
 ---
 
+## v0.14.1 — September 2026
+
+### ✨ New
+
+- New Loot tab under Session — roll post-combat hoards and hand the proceeds out to the party
+- Loot: 1–20 tier dial paired with a luck roll — the tier sets the range, the luck roll decides where in it you land, and can swing a result well above or below what the tier suggests
+- Loot: creature type and enemy count shape what drops, with mundane loot tables per creature type alongside gem, art and magic item draws
+- Loot: rolled hauls land in a staging tray first — assign each item to a player, the party stash, or leave it behind, then commit
+- Loot: split coin evenly across the party, or randomly within an adjustable ± percentage band; splits always add up to the haul exactly
+- Loot: per-player gold balances, with a tick box controlling who's included in a split
+- Loot: running loot pile with rarity, quantity, value, owner and notes per item, plus a log of recent rolls and splits
+
+---
+
 ## v0.14 — The Vantage Update — September 2026
 
 ### ✨ New
