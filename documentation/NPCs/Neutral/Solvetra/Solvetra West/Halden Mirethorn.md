@@ -10,7 +10,7 @@ Pulled from the NPC Name Bank as a temple-goer in the Chamber of Unspoken Prayer
 
 ## Session 8
 
-Fenrik found Halden physically holding the Chamber's door shut against skeletons trying to break in - see [Skeletons In the Basement](../../../../Quests/Rumours%20%26%20Jobs/Solvetra/Jobs/Skeletons%20In%20the%20Basement.md). Fight not yet resolved.
+Fenrik found Halden physically holding the Chamber's door shut against skeletons trying to break in - see [Skeletons In the Basement](../../../../Quests/Active/Solvetra/Solvetra%20East/Skeletons%20In%20the%20Basement.md). Fight not yet resolved.
 
 ## Session 9
 

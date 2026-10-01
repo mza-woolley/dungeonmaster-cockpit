@@ -33,3 +33,4 @@ He considers might and strength to be paramount - the means by which he protects
 ## Notes
 
 - Session 8: while the rest of the party slept, Fenrik went alone to the Chamber of Unspoken Prayer and found Halden Mirethorn holding the door shut against skeletons trying to break in - a fight teed up for next session. See [Halden Mirethorn](../../NPCs/Neutral/Solvetra/Solvetra%20West/Halden%20Mirethorn.md).
+- Session 11: on the way out of town the party ran into the **halflings Fenrik had antagonised at the Solvetra Windmill** (the cart he kicked over in Session 9, and the halfling who tried to hex him for it). It escalated into a fight - the party killed a few and left the rest incapacitated, in daylight, near Middle Solvetra. No guard response yet; the grudge traces back to Fenrik specifically. See [Session 11](../../Sessions/Notes/Session%2011%20-%20To%20Goblin%20Camp.md).

@@ -17,7 +17,7 @@
 **Objective:** Humiliate Titus via chosen method (intimidation, theft, etc.).
 **Conditionals:** If players already disrupted Titus, quest auto-completes.
 **Reward:** 25GP / 5
-**Resolution:** Session 1 - the party tied Titus to a tree and interrogated him about the DOL. He resisted briefly but, humiliated by the party's good rolls, gave up a few details. See [Titus](../../../../NPCs/Neutral/Titus.md) and [Session 1](../../../../Sessions/Notes/Session%201%20-%20Solvetra%20Meadows.md).
+**Resolution:** Session 1 - the party tied Titus to a tree and interrogated him about the DOL. He resisted briefly but, humiliated by the party's good rolls, gave up a few details. See [Titus](../../../../NPCs/Neutral/Solvetra/Solvetra%20Meadows/Titus.md) and [Session 1](../../../../Sessions/Notes/Session%201%20-%20Solvetra%20Meadows.md).
 
 ---
 
@@ -109,7 +109,7 @@
 **Objective:** Kill the bees and the "Queen Bee", causing a drop in honey sales.
 **Conditionals:** PCs will fight and destroy the bees + "Queen Bee". Cedric straight up disappears afterwards - no one has seen him.
 **Reward:** Level up - boss fight.
-**Resolution:** Session 2/3 - the party killed the bees and the Queen Bee, which revealed a Phase 2: **Queen Bee Spider hybrid**. They called on **Sibling Thorne** for help during this fight, and he dropped lore on them (specifics TBD - see [Session 2 & 3](../../../../Sessions/Notes/Session%202%20%26%203%20-%20Solvetra%20Meadows.md)). Cedric disappeared without paying - see [Active Threats](../../../Active/Active%20Threats.md). A book, *"A History of Bees in Solvetra Meadows,"* found around the same time, suggests the district will now start to ecologically decline - see [Active Threats](../../../Active/Active%20Threats.md).
+**Resolution:** Session 2/3 - the party killed the bees and the Queen Bee, which revealed a Phase 2: **Queen Bee Spider hybrid**. They called on **Sibling Thorne** for help during this fight, and he dropped lore on them (specifics TBD - see [Session 2 & 3](../../../../Sessions/Notes/Session%202%20%26%203%20-%20Solvetra%20Meadows.md)). Cedric disappeared without paying - see [Active Threats](../../../Threats/Active%20Threats.md). A book, *"A History of Bees in Solvetra Meadows,"* found around the same time, suggests the district will now start to ecologically decline - see [Active Threats](../../../Threats/Active%20Threats.md).
 
 ---
 
@@ -119,4 +119,4 @@
 **Objective:** Witness an argument between Titus and the Guards at the DOL.
 **Conditionals:** PCs can join or watch. Titus will call it quits and apologise, repay PCs for their "clarity" by becoming a sleuth informant via infiltration.
 **Reward:** Sleuth Informant Titus.
-**Resolution:** Session 2/3 - Titus ragequit the DOL out of shame and is now an active informant for the party. See [Titus](../../../../NPCs/Neutral/Titus.md).
+**Resolution:** Session 2/3 - Titus ragequit the DOL out of shame and is now an active informant for the party. See [Titus](../../../../NPCs/Neutral/Solvetra/Solvetra%20Meadows/Titus.md).

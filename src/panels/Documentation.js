@@ -37,9 +37,13 @@ function isExternalLink(href) {
 
 // Per-doc workflow status — a lightweight way to see at a glance what still
 // needs attention vs. what's settled, without having to reopen every file.
-const STATUS_ORDER  = ['none', 'attention', 'progress', 'done'];
+// 'idea' is deliberately parked, not owed work — a seed kept on purpose. It sits
+// first in the cycle so a half-formed concept has somewhere to live that isn't
+// "unfinished", and reads cold rather than urgent in the tree.
+const STATUS_ORDER  = ['none', 'idea', 'attention', 'progress', 'done'];
 const STATUS_CONFIG = {
   none:      { label: 'No status',      color: 'var(--border-bright)' },
+  idea:      { label: 'Idea / Parked',  color: '#6f8ab0' },
   attention: { label: 'Needs Attention', color: '#d9645c' },
   progress:  { label: 'In Progress',    color: '#dba847' },
   done:      { label: 'Done',           color: '#5fae6e' },

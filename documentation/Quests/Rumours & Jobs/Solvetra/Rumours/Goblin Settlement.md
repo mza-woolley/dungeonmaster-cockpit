@@ -1,7 +1,11 @@
 # Goblin Settlement
 
 **Location:** Outside Solvetra East, roughly half a day's trek toward Ars Lapis
-**Status:** Party-initiated raid, ready when Kaelen bites. Low-stakes, hack-and-slash.
+**Status:** **IN PROGRESS - Sessions 11-12.** Party is mid-dungeon beneath the camp; Yeesal fight pending in Session 13.
+
+> **What actually triggered it:** not Kaelen's revenge arc. The party pulled on this as **debt leverage** - find the missing bank manager and use her to settle with [Lucien Morvault](../../../../NPCs/Villains/Solvetra/Lucien%20Morvault.md) - and chose it over continuing heist prep. The camp turned out to be an old **chateau/castle** in the party's eyes rather than a "lunar fortress"; they identified it by the **barrels being carted in and out** and the goblins escorting the carts in stealth.
+
+See [Session 11](../../../../Sessions/Notes/Session%2011%20-%20To%20Goblin%20Camp.md) and [Session 12](../../../../Sessions/Notes/Session%2012%20-%20Goblin%20Camp%20Depths.md).
 
 ---
 
@@ -31,7 +35,7 @@ The final fight will be with a Goblin Chief Warlock and 4 x goons. Should be a c
 
 4. **Kaelen's closure item** - what's the Hoogle the First trophy (collar, pelt, chain) and where does it live in the camp?
 
-There will be a bunch of caged Wargs that have cut marks, etc, that Kaelen can ultimately free if he likes. Fulfilment of the quest/clearing is in the eye of the beholder (Kaelen). This expedition is of course a form of a revenge arc, but it's also so PCs can have a bit of powertrip and enjoy killing goblins.
+~~Caged Wargs with cut marks for Kaelen to free.~~ **Scrapped.** In play the raid ran as debt leverage, not a revenge arc - the closure-beat idea was dropped and is not being tracked. What remained of the original intent is simply that the PCs got a power trip out of killing a lot of goblins, which they did.
 
 5. **DOL ties or not?** - does this camp share the "Order of the Sun" alignment (loose thread for later), or is it fully independent (clean, self-contained)?
 
@@ -60,3 +64,19 @@ Vanya's rescue doesn't gate any keys - Key 1 sits unrecovered on her desk in Sol
 ## Notes
 - Keep it to one session: arrival → fight through camp → boss → closure moment.
 - No new plot threads beyond the optional DOL breadcrumb in Q6.
+
+---
+
+## Run Status (as of end of Session 12)
+
+**Done:**
+- Road approach, OOTS patrol interference, Morvault's overnight visit to Elaris
+- Front door breached - every above-ground goblin caught in the surprise round
+- Underground crawl: all rooms cleared **except Room 4** (3 x Goblin Warlock)
+- Stone-slab riddle solved cleanly, no arrow damage taken
+- Vanya found caged in the boss room - alive, beaten, bleeding, crying
+- **Elixir reveal delivered** - the party saw the Ars Lapis-bound barrels *and the shipping manifests*, plus Room 6's stores. They know production never stopped and that it's shipping at scale to the Gem Families.
+
+**Not yet landed:**
+- **Yeesal fight** - opens Session 13, party already bloodied, with **~14 hours** on the Morvault clock (~13 on leaving)
+- **Vanya's dialogue** - *"they're taking the money"* / *"It's all the Division"*

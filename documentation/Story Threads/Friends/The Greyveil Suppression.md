@@ -54,4 +54,4 @@ If the party exposes it - publishes a record, confronts the Order publicly, or g
 
 - Frah'nk's involvement means this thread has a personal dimension from the moment he joins - the party is walking around in the aftermath of something their new companion helped cause, however unwillingly
 - The Lorewarden Emeritus, as the DOL's senior archival authority, almost certainly knows about Greyveil and may have been involved in the record erasure
-- See [The Greyveil Suppression](../History%20&%20Lore/The%20Greyveil%20Suppression.md) for the historical record
+- See [The Greyveil Suppression](../../History%20&%20Lore/The%20Greyveil%20Suppression.md) for the historical record

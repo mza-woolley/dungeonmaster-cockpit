@@ -73,11 +73,11 @@ Silas introduces **Du'geshk Maharjuuj** - tall half-orc/half-dragonborn fighter,
 
 **Corwin Duskwatch** bursts in: progress on the vault codes has stalled because bank manager **Vanya Windros** has vanished - no ransacking, no signs of struggle, she just didn't come back. Without her, getting into the vault (3 locks, must open simultaneously, blast-resistant) means finding all the required keys, and no one's ever seen them all in one place.
 
-> *Note: only 3 locks are known about at this stage - the existence of a 4th is a deliberate surprise for the players (see [Solvetra Vault - Vault Door & Keys](../../../Locations/Dungeons%2C%20Ruins%20%26%20Others/Solvetra%20Vault.md)). Keep Corwin's "3 locks" framing intact when running this scene.*
+> *Note: only 3 locks are known about at this stage - the existence of a 4th is a deliberate surprise for the players (see [Solvetra Vault - Vault Door & Keys](../../Locations/Dungeons,%20Ruins%20&%20Others/Solvetra%20Vault.md)). Keep Corwin's "3 locks" framing intact when running this scene.*
 
 Silas thanks Corwin and sends him off for a beer. He points the party to **Threadbare Provisions** for heist gear (namedrop him or they won't sell anything), says he'll be upstairs in Ars Lapis if needed, and mentions they're welcome to meet his dad **Silvanus** if they head up there.
 
-PCs are now free to set out and begin investigating the heist. For the leads themselves and the vault layout, see [The Big One - Active Quests](../../../Quests/Active/Solvetra/Solvetra%20Intermellum/Active%20Quests.md) and [Solvetra Vault](../../../Locations/Dungeons%2C%20Ruins%20%26%20Others/Solvetra%20Vault.md). None of the leads are prerequisites for the others, and nothing here forces the vault itself to be hit this session.
+PCs are now free to set out and begin investigating the heist. For the leads themselves and the vault layout, see [The Big One - Active Quests](../../../Quests/Active/Solvetra/Solvetra%20Intermellum/Active%20Quests.md) and [Solvetra Vault](../../Locations/Dungeons,%20Ruins%20&%20Others/Solvetra%20Vault.md). None of the leads are prerequisites for the others, and nothing here forces the vault itself to be hit this session.
 
 ---
 
@@ -98,16 +98,16 @@ PCs are now free to set out and begin investigating the heist. For the leads the
 - Plumbodian's B1 infiltration (Investigation 13 / Nature 13): saw Vanya's office and the keys on her desk, saw staff working assigned tasks, and got a dropped line about "extra work" (DM/player knowledge: bank note dye packs - Plumbodian doesn't know this yet).
 - Party bought out Threadbare Provisions' entire stock (Equipment lead resolved).
 - Session ended with Plumbodian still embedded at the Vault and the party flagging a next job at Wayfarer's Cache (pay amended to 150gp/pp).
-- **Net result:** this was the heist's setup/infiltration phase - no break-in attempt yet, no DOL confrontation. See updated [Active Quests](../../../Quests/Active/Solvetra/Solvetra%20Intermellum/Active%20Quests.md) and [Active Threats](../../../Quests/Threats/Active%20Threats.md) for details carried forward into Session 8.
+- **Net result:** this was the heist's setup/infiltration phase - no break-in attempt yet, no DOL confrontation. See updated [Active Quests](../../../Quests/Active/Solvetra/Solvetra%20Intermellum/Active%20Quests.md) and [Active Threats](../../Quests/Threats/Active%20Threats.md) for details carried forward into Session 8.
 
 ---
 
 ## Threads / To Do
 
-- **Lucien's deadline**: 5,000gp due to Lucien Morvault in Solvetra Intermellum within 5 nights, or he'll teleport in and Mass Polymorph the party. See [Lucien Morvault](../../../Quests/Threats/Active%20Threats.md) in Active Threats.
-- **The Heist**: leads, vault layout, prep checklist, Vanya Windros's disappearance, and guard stat-blocks (if needed) all live in [The Big One - Active Quests](../../../Quests/Active/Solvetra/Solvetra%20Intermellum/Active%20Quests.md) and [Solvetra Vault](../../../Locations/Dungeons%2C%20Ruins%20%26%20Others/Solvetra%20Vault.md) - update those as the party works through them.
+- **Lucien's deadline**: 5,000gp due to Lucien Morvault in Solvetra Intermellum within 5 nights, or he'll teleport in and Mass Polymorph the party. See [Lucien Morvault](../../Quests/Threats/Active%20Threats.md) in Active Threats.
+- **The Heist**: leads, vault layout, prep checklist, Vanya Windros's disappearance, and guard stat-blocks (if needed) all live in [The Big One - Active Quests](../../../Quests/Active/Solvetra/Solvetra%20Intermellum/Active%20Quests.md) and [Solvetra Vault](../../Locations/Dungeons,%20Ruins%20&%20Others/Solvetra%20Vault.md) - update those as the party works through them.
 
-**Active Threats to keep in mind this session** (see [Active Threats](../../../Quests/Threats/Active%20Threats.md) for full detail):
+**Active Threats to keep in mind this session** (see [Active Threats](../../Quests/Threats/Active%20Threats.md) for full detail):
 - **Valerius' Replacement** - DOL has already organised a successor; could surface as the heist plays out.
 - **Zatharial** - live soul-contract on the party, runs in parallel with Morvault's claim; his move is planned for Session 8.
 - **The Lorewarden Emeritus** - holds Vault Key 4; becomes critical the moment the heist begins.

@@ -45,5 +45,5 @@ The party continues working through Solvetra Meadows, picking up several of the 
 - **ABE / "Aurevon Beitomy Erstua"** - possible anagram, unconfirmed. Worth a closer look when there's downtime.
 - **Sibling Thorne's lore drop** during the Queen Bee Spider fight - content not yet documented. Fill in if/when remembered.
 - **Cedric Ironvale** - skipped out on payment for the Queen Bee job. Open grievance; Cedric's whereabouts unknown.
-- **Solvetra Meadows ecological decline** - now that the Queen Bee is dead, expect the district to start showing signs of die-off. See [Active Threats](../../Quests/Active/Active%20Threats.md).
+- **Solvetra Meadows ecological decline** - now that the Queen Bee is dead, expect the district to start showing signs of die-off. See [Active Threats](../../Quests/Threats/Active%20Threats.md).
 - **The Wagyu Cow** - still missing. Matthew's planned reveal: taken by a massive bird. Not yet introduced to the party.

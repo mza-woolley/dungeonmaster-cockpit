@@ -9,7 +9,7 @@ Loud and cheerful, sells everything from rope to rations out of crates spilling 
 
 ## Quest Hook
 
-**Resolved, Session 8** - see [Herb Collection](../../../../Quests/Rumours%20%26%20Jobs/Solvetra/Jobs/herb-collection.md). Party ran the herb job (chamomile tea), fought off a Banshee in the process, and negotiated a "danger fee" out of him - took stock from the shop on top of the 200gp payment.
+**Resolved, Session 8** - see [Herb Collection](../../../../Quests/Completed/Solvetra/Solvetra%20West/Herb%20Collection.md). Party ran the herb job (chamomile tea), fought off a Banshee in the process, and negotiated a "danger fee" out of him - took stock from the shop on top of the 200gp payment.
 
 ## Session 8 - Robbed by Kaelen
 

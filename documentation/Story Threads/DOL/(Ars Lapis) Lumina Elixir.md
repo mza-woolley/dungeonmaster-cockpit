@@ -28,12 +28,12 @@ These are the same thread: the rollout already happened (or is well underway) by
 - Does anyone in Ars Lapis know where the Elixir comes from / what it's made of (Worg abuse)? Could this be the place that information first leaks?
 
 **Resolved:** The Lumina Lab was *cleared*, not destroyed - its production infrastructure survived Session 6, and the DOL is quietly restaffing it (see [Lumina Lab - Aftermath](../../Locations/Dungeons%2C%20Ruins%20%26%20Others/Lumina%20Lab.md)). Ars Lapis's supply continues uninterrupted; Session 8/9+ is unaffected by the Lumina Lab events.
-- Could the DOL's Ars Lapis face (see [Valerius' Replacement](Valerius'%20Replacement%20-%20The%20Ars%20Lapis%20Connection.md)) be personally tied to the Elixir's local distribution?
+- Could the DOL's Ars Lapis face (see [Valerius' Replacement]((OOTS)%20Valerius%20Replacement.md)) be personally tied to the Elixir's local distribution?
 
 ---
 
 ## See Also
 
-- [Valerius' Replacement - The Ars Lapis Connection](Valerius'%20Replacement%20-%20The%20Ars%20Lapis%20Connection.md)
+- [Valerius' Replacement - The Ars Lapis Connection]((OOTS)%20Valerius%20Replacement.md)
 - Lumina Elixir (Loot & Magic Items / In Circulation)
 - [Ars Lapis - City Framework](../../Locations/Cities%20%26%20Towns/Ars%20Lapis/Ars%20Lapis%20-%20City%20Framework.md)

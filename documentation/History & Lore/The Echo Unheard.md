@@ -15,6 +15,6 @@ Nothing further is currently documented about what or who the Echo Unheard is.
 
 ## Notes
 
-- Surfaced specifically through Måneklang's sonic output - see [Måneklang](../Magic%20Items/Distributed/Maneklang.md)
+- Surfaced specifically through Måneklang's sonic output - see [Måneklang](../Loot%20&%20Magic%20Items/Story%20Items/Maneklang.md)
 - The False Stage was the location; the bards were erased in the event
 - The name implies something that *should* have been heard but wasn't - or something that *cannot* be heard by ordinary means

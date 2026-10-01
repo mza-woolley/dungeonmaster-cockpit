@@ -9,4 +9,4 @@ Meticulous and soft-spoken, spends her days cataloguing under the Lorewarden Eme
 
 ## Quest Hook (unused)
 
-Not yet engaged. Works directly under [Lorewarden Emeritus](../../../Villains/Solvetra/Solvetra%20Middle/Lorewarden%20Emeritus.md) - could be a quiet source of Archive secrets (Lumina Elixir distribution maps, Vault key info) if the party gets her alone and she has reason to talk.
+Not yet engaged. Works directly under [Lorewarden Emeritus](../../../Villains/Solvetra/Lorewarden%20Emeritus.md) - could be a quiet source of Archive secrets (Lumina Elixir distribution maps, Vault key info) if the party gets her alone and she has reason to talk.

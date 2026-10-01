@@ -62,7 +62,7 @@ The rest of the party's day looks smaller by comparison - herbs, a Banshee that 
 
 *Unresolved hooks, cliffhangers, and things to carry forward.*
 
-- **The 25,000gp Morvault bonds**: multiple citizen bonds confirmed addressed to Lucien Morvault - well beyond his 5,000gp letter to Adrion. Decide what this means before it surfaces again. See [Lucien Morvault](../../NPCs/Villains/Solvetra/Solvetra%20Intermellum/Lucien%20Morvault.md).
+- **The 25,000gp Morvault bonds**: multiple citizen bonds confirmed addressed to Lucien Morvault - well beyond his 5,000gp letter to Adrion. Decide what this means before it surfaces again. See [Lucien Morvault](../../NPCs/Villains/Solvetra/Lucien%20Morvault.md).
 - **Vanya Windros still missing, still unaddressed**: staff aren't raising it, bonds keep processing regardless. Bureaucratic negligence or deliberate cover?
 - **Whisper knows the heist is happening**: warned Frah'nk it will badly hurt her and others if he goes through with it - her reaction if/when the heist actually happens is now a live consequence to track. Sending a note for Frah'nk to visit Lira Vance tomorrow, with "extra information" promised.
 - **Halden's skeleton fight**: unresolved cliffhanger - Fenrik alone, holding a door with Halden against 8 skeletons. Pick this up next session.

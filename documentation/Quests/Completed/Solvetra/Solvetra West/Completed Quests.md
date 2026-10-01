@@ -6,7 +6,7 @@
 **Location:** The Traveler's Respite (Inn) | **NPC:** Tamsin Moonquill
 **Hook:** A quiet traveler asks PCs to deliver a letter to her sister in Middle Solvetra.
 **Objective:** Deliver the letter.
-**Conditionals:** The DIL is watching the traveler. If caught, face 2 × Thugs. The letter is a fake, designed to lure PCs into a trap.
+**Conditionals:** The DOL is watching the traveler. If caught, face 2 × Thugs. The letter is a fake, designed to lure PCs into a trap.
 **Reward:** 50/6 GP and a Small Map of Middle Solvetra (contains subtle lunar markings).
 
 ---

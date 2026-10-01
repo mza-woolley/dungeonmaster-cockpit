@@ -1,6 +1,6 @@
 # Virelle
 
-**Type:** Head of the Order of the Sun (the DIL is the Order's administrative front)
+**Type:** Head of the Order of the Sun (the DOL is the Order's administrative front)
 **Role:** Elaris's mother; the hand behind the Armada of Glimmerdeep
 **Status:** Active - whereabouts unknown to the party
 

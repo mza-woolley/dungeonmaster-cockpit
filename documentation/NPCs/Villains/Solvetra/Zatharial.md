@@ -17,7 +17,7 @@ Inspiration: Raphael from Baldur's Gate 3. Charming, theatrical, unhurried. He d
 
 The contract grants Zatharial the right to claim **the party's souls** upon Adrion's death. With Adrion gone, the souls are currently bound and Zatharial has every right to collect - but hasn't yet acted. He's still planned to appear and tear it up publicly, whenever that lands - a power move, not a concession. He wants the party to know he *chose* to let them go. For now.
 
-This runs in parallel with [Lucien Morvault](../Solvetra/Solvetra%20Intermellum/Lucien%20Morvault.md)'s active claim on the party - two live soul/collateral claims simultaneously, still both live as of Session 8.
+This runs in parallel with [Lucien Morvault](Lucien%20Morvault.md)'s active claim on the party - two live soul/collateral claims simultaneously, still both live as of Session 8.
 
 ---
 
@@ -44,4 +44,4 @@ He does not work for the DOL or the Shadowbringers. He operates on a longer time
 - His involvement is not tied to the DOL or Shadowbringers - he operates independently
 - The party knows Adrion signed something with him, but doesn't yet know the contract is still active or that their souls are currently on the line
 - He has not made a new ask yet - but he will
-- See [Adrion's Devil Contract](../../../../Story%20Threads/Villians/Adrion's%20Devil%20Contract.md) for the reveal/tear-up, still pending
+- See [Adrion's Devil Contract](../../../Story%20Threads/Villains/Adrion's%20Devil%20Contract.md) for the reveal/tear-up, still pending

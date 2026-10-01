@@ -20,7 +20,7 @@ Zatharial can claim **Adrion's soul and the souls of the party** upon Adrion's d
 ## Current State
 
 - Contract is **active** - the party's souls are bound, alongside Adrion's, right now
-- This runs in parallel with [Lucien Morvault](../../NPCs/Villains/Solvetra/Solvetra%20Intermellum/Lucien%20Morvault.md)'s active claim on the party from Session 7 - two live claims on the table simultaneously, both still live through Session 8
+- This runs in parallel with [Lucien Morvault](../../NPCs/Villains/Solvetra/Lucien%20Morvault.md)'s active claim on the party from Session 7 - two live claims on the table simultaneously, both still live through Session 8
 - Zatharial has not yet appeared before the remaining party members regarding this
 
 ## Planned: The Tearing
@@ -33,5 +33,5 @@ Was planned for Session 8; didn't happen. Still an open hook for whenever it lan
 
 ## See Also
 
-- [Zatharial](../../NPCs/Villains/Solvetra/Solvetra%20West/Zatharial.md)
-- [Lucien Morvault](../../NPCs/Villains/Solvetra/Solvetra%20Intermellum/Lucien%20Morvault.md)
+- [Zatharial](../../NPCs/Villains/Solvetra/Zatharial.md)
+- [Lucien Morvault](../../NPCs/Villains/Solvetra/Lucien%20Morvault.md)

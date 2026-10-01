@@ -29,5 +29,5 @@ Silvanus recently wrote to Frah'nk asking him to find the party - the group that
 ## Notes
 
 - See [Silas Shadowfoot](Silas%20Shadowfoot.md) for his son - the Shadowbringers' main quest-giver to the party
-- See [Silas' Sister](../Story%20Threads/Silas'%20Sister.md) for the kidnapping thread
-- See [Frah'nk Frapper](../Players/Characters/Frah'nk%20Frapper.md) for the shared Greyveil history
+- See [Silas' Sister](../../../../Story%20Threads/Friends/Silas'%20Sister.md) for the kidnapping thread
+- See [Frah'nk Frapper](../../../../Players/Characters/Frah'nk%20Frapper.md) for the shared Greyveil history

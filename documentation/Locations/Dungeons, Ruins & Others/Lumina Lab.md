@@ -15,7 +15,7 @@ Refer to map for layout detail.
 
 ## Key Findings (Party Discovered)
 
-- **Lumina Elixir production** - full distillation operation across all floors; see [Lumina Elixir](../../Magic%20Items/Distributed/Lumina%20Elixir.md)
+- **Lumina Elixir production** - full distillation operation across all floors; see [Lumina Elixir](../../Loot%20&%20Magic%20Items/Story%20Items/Lumina%20Elixir.md)
 - **Worg cages** - multiple abused Worgs kept for extraction; one adopted by Kaelen (*Hoogle the Second*)
 - **Logbook** - referenced "Our Lord" and noted a "special visitor" (the party, as it turned out)
 - **Distribution map** - planned Lumina Elixir rollout across Ars Lapis, signed *L.E.*

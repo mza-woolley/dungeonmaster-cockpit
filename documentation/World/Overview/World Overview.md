@@ -4,7 +4,7 @@
 
 The city name in French, meaning "The Final Choice". This is the region in which the campaign takes place. Founded by a group of three known as "Illuminare, Illuminari" - commonly referred to as "Tre Illium". The actual identities of these founders are unknown, as they operated under guidelines of utmost secrecy.
 
-These conditions created the foundation for those with selfish intent to establish a region-leading autocracy under the **Division of Lumination (DIL)**. The DIL rule over Le'Choix with no real opposition remaining. They aren't necessarily unfair and citizens aren't particularly hard done by - it's simply that the power balance is skewed to the top and is now generational. Le'Choix still faces feudalist-shaped societal issues like any other fantasy land.
+These conditions created the foundation for those with selfish intent to establish a region-leading autocracy under the **Division of Lumination (DOL)**. The DOL rule over Le'Choix with no real opposition remaining. They aren't necessarily unfair and citizens aren't particularly hard done by - it's simply that the power balance is skewed to the top and is now generational. Le'Choix still faces feudalist-shaped societal issues like any other fantasy land.
 
 ---
 

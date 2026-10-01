@@ -1,4 +1,4 @@
-# Session 9 - Solvetra
+# Session 9 & 10 - Solvetra
 
 ---
 
@@ -19,6 +19,11 @@ Behind him, the threads from Session 8 are still live: Whisper's note is waiting
 | Halden Mirethorn | Chamber of Unspoken Prayer, Solvetra West |
 | Lira Vance | Vault of the Unspoken Index (Archivist), Solvetra Intermellum |
 | Rissa "Whisper" Varn | Smuggler's Den, Solvetra Intermellum |
+| Solvetra Windmill (Headguard announcement) | Middle Solvetra |
+| Traelensch Barthum | Solvetra Vault - L1 |
+| Lorewarden Emeritus | Lumination Archive, Solvetra Middle |
+| Lucien Morvault | Referenced - debt owed by the party |
+| Vanya Windros (missing) | Referenced - Goblin Settlement, road to Ars Lapis |
 |  |  |
 
 ---
@@ -49,6 +54,26 @@ Options to end on: Zatharial finally surfaces (he's overdue - could land here as
 
 ---
 
+---
+
+### Session 10 (continuation)
+
+*Session 10 ran short (~1.5hrs) due to real-life circumstances and played as a direct extension of Session 9 rather than a session in its own right - prep and notes are folded in here.*
+
+**1. Lira Vance - the actual ask (~30-45 min)**
+Grakh relayed she's willing to help with blueprints but won't be complicit in the heist. This scene hasn't happened yet - Frah'nk (or whoever) needs to go make the ask directly. Resolves the Blueprints line on The Big One checklist.
+
+**2. Traelensch Barthum / Inside Contact (~45 min)**
+Still open since Session 7. Rissa holds leverage on him; PCs can go through her (150gp, or the 25/75gp deal) or strongarm him directly (risk: he extorts them or hits the panic button). This is the last unresolved lead before keys become the bottleneck.
+
+**3. Decision point - which engine moves first? (~remainder)**
+Two unstarted mechanical threads are both ripe: the Vault heist (still 0/4 keys) and the Goblin Settlement/Vanya rescue (party doesn't know the connection yet - Whisper's tip is the only thread pointing there). Let player energy decide which one gets pulled on. Don't force either.
+
+**4. Close on a hook**
+Options: Zatharial finally surfaces (three sessions overdue - consider forcing this one in); Whisper reacts to heist chatter getting louder; or the Lorewarden's "help" with the Morvault debt gets a concrete ask attached to it. Pick whichever thread got the most energy tonight.
+
+---
+
 ## Session Notes
 
 *What actually happened. Filled in during/after the session.*
@@ -72,17 +97,18 @@ Options to end on: Zatharial finally surfaces (he's overdue - could land here as
 
 ## Threads / To Do
 
-*Unresolved hooks, cliffhangers, and things to carry forward into Session 10.*
+*Unresolved hooks, cliffhangers, and things to carry forward into Session 11.*
 
-- **Headguard reveal** - announcement is set for noon tomorrow (in-fiction) at the Solvetra Windmill; the party saw the prep, not the reveal itself.
-- **The 25,000gp Morvault bonds** - decide what they mean before it surfaces again. See [Lucien Morvault](../../NPCs/Villains/Solvetra/Solvetra%20Intermellum/Lucien%20Morvault.md).
+- **Headguard reveal** - happening this session at the Windmill announcement, possibly.
 - **Vanya Windros still missing, still unaddressed** - bureaucratic negligence or deliberate cover?
-- **Lira Vance** confirmed willing to help with blueprints, not willing to be complicit in the heist itself - still needs the actual ask/scene.
-- **Whisper knows the heist is happening** - her reaction if/when it actually happens is now a live consequence to track.
-- **Lorewarden's offer re: Morvault debt** - genuine help, or another string attached alongside Key 4?
-- **Lunarbringers / Luxfracta mural** - Halden has more to say; follow up next session.
-- **Plumbodian's Luxfracta vision** - unexplained to him so far; watch for recurrence.
-- **Zatharial's contract** - still pending, hasn't surfaced yet.
+- **Lira Vance** - willing to help with blueprints, not the heist itself; the actual ask hasn't happened yet.
+- **Traelensch Barthum / Inside Contact** - open since Session 7, unresolved.
+- **Secure the Keys** - 0 of 4 in hand (Key 1: Vanya's desk: Key 2: Traelensch; Key 3: Vault Room guard; Key 4: Lorewarden, deliberate surprise).
+- **Whisper knows the heist is happening** - her reaction is a live consequence to track.
+- **Lorewarden's offer re: Morvault debt** - genuine help, or another string attached?
+- **Lunarbringers / Luxfracta mural** - Halden has more to say; still open.
+- **Plumbodian's Luxfracta vision** - unexplained so far; watch for recurrence.
+- **Zatharial's contract** - still pending, three sessions overdue now.
 
 *Quick notes before Session 9 start*
 

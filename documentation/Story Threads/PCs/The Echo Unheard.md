@@ -8,7 +8,7 @@
 
 ## Overview
 
-Måneklang revealed the name "The Echo Unheard" when Kaelen used it to evaporate the bards at The False Stage - performers belonging to Ne'leak Shadowsong's bardic cult. Nothing has followed up on this since. See [The Echo Unheard](../History%20&%20Lore/The%20Echo%20Unheard.md) and [Måneklang](../../Loot%20&%20Magic%20Items/Story%20Items/Maneklang.md).
+Måneklang revealed the name "The Echo Unheard" when Kaelen used it to evaporate the bards at The False Stage - performers belonging to Ne'leak Shadowsong's bardic cult. Nothing has followed up on this since. See [The Echo Unheard](../../History%20&%20Lore/The%20Echo%20Unheard.md) and [Måneklang](../../Loot%20&%20Magic%20Items/Story%20Items/Maneklang.md).
 
 ---
 
@@ -30,4 +30,4 @@ This doesn't need to be resolved in Session 7 - a single sensory beat (Kaelen's 
 
 - Keep this subtle - a single line of flavour text during the heist is enough. Over-explaining kills the mystery.
 - If the party doesn't bite, the hum can resurface later (Ars Lapis' Echo Veins - "the stones sing" - is a suspiciously on-the-nose location to revisit this, if you want a second touchpoint)
-- See also [The Greyveil Suppression](../History%20&%20Lore/The%20Greyveil%20Suppression.md) for the precedent of "what's buried under Solvetra isn't gone, just hidden"
+- See also [The Greyveil Suppression](../../History%20&%20Lore/The%20Greyveil%20Suppression.md) for the precedent of "what's buried under Solvetra isn't gone, just hidden"

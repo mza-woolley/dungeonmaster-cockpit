@@ -2,6 +2,25 @@
 
 ---
 
+## v0.14.3 — October 2026
+
+### ✨ New
+
+- Documentation: new "Idea / Parked" status — a place for half-formed concepts that reads as deliberately parked rather than unfinished work
+
+### 🔧 Changes
+
+- Documentation: cleared out empty placeholder files and unused folders across the doc tree
+- Documentation: consolidated duplicate entries and brought file naming in line
+- Documentation: terminology made consistent across world and faction docs
+
+### 🐛 Fixes
+
+- Documentation: repaired broken internal document links throughout the doc tree
+- Documentation: document status no longer comes unstuck when a file is renamed or moved
+
+---
+
 ## v0.14.2 — October 2026
 
 ### 🐛 Fixes

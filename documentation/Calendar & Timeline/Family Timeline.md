@@ -45,5 +45,5 @@
 | **Wizzleforth** | Recently experienced a strange vision he believes is tied to his own lineage | The vision isn't about him - see [Wizzleforth's Lineage Vision](../Story%20Threads/PCs/Wizzleforth%20-%20Lineage%20Vision.md) |
 | **Elaris** | Her mother was divinely talented; her magic feels inherited | Her patron is Sibling Thorne, not her mother |
 | **Fenrik** | Was raised by the NSPF; they destroyed his relationship with Sylphie | His father was never known - not a mystery requiring an answer |
-| **Sylphie** | Daughter of Myxtiferious; lived long enough to see Tre Illium fall; lost Fenrik to the NSPF | See [Sylphie](../In%20Progress/Sylphie.md) - exploration TBD |
+| **Sylphie** | Daughter of Myxtiferious; lived long enough to see Tre Illium fall; lost Fenrik to the NSPF | See [Sylphie](../Story%20Threads/PCs/Sylphie.md) - exploration TBD |
 | **Kaelen** | Carries the Shadowsong name | His branch is a distant, loose relative of Kaela Shadowsong - see [Wizzleforth's Lineage Vision](../Story%20Threads/PCs/Wizzleforth%20-%20Lineage%20Vision.md)
