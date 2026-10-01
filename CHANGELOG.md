@@ -2,6 +2,15 @@
 
 ---
 
+## v0.14.2 — October 2026
+
+### 🐛 Fixes
+
+- Encounters: tracker rows no longer come back showing a map pin link after a restart, when no pin is actually on the map
+- Encounters & Map: clearing the overlay, pushing a new map, or loading a saved map state now keeps the tracker's pin links in step with what's really on the map
+
+---
+
 ## v0.14.1 — September 2026
 
 ### ✨ New

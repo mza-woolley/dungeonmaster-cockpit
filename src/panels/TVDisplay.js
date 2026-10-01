@@ -945,6 +945,18 @@ const TVDisplay = forwardRef(function TVDisplay({
     setTimeout(flushFogToTV, 0);
   }
 
+  // Wholesale pin replacement (clear the overlay, load a saved map state). Tracker
+  // rows hold their own pinId, so dropping a linked pin has to be reported back or
+  // the row keeps showing a link to a pin that's no longer on the map.
+  const replacePins = useCallback((next) => {
+    const prev = pinsRef.current;
+    const dropped = prev.filter(p => p.combatantId && !next.some(n => n.id === p.id));
+    const added   = next.filter(p => p.combatantId && !prev.some(n => n.id === p.id));
+    setPins(next);
+    if (onPinRemoved) dropped.forEach(p => onPinRemoved(p.combatantId));
+    if (onPinPlaced)  added.forEach(p => onPinPlaced(p));
+  }, [onPinPlaced, onPinRemoved]);
+
   // ── Push image to TV ──
   const handlePushImage = useCallback(async (file, autoRestore = false) => {
     if (!tvOpen) {
@@ -985,7 +997,7 @@ const TVDisplay = forwardRef(function TVDisplay({
     // than auto-restoring the last-used state. Load a saved scene manually if needed.
     if (autoRestore) {
       setCurrentStateId(null);
-      setPins([]);
+      replacePins([]);
       setGridEnabled(false);
       setHideAllNpcs(false);
       setHideAllMonsters(false);
@@ -996,7 +1008,7 @@ const TVDisplay = forwardRef(function TVDisplay({
         window.electronAPI.tv.setSeatsVisible(false);
       }
     }
-  }, [tvOpen, gridEnabled, gridSizePx, feetPerSquare, pins, pinSize, hideAllNpcs, hideAllMonsters, seatsVisible, isElectron, dmImageDataUrl, linkTable, onOpenChange, syncPinsToTv]);
+  }, [tvOpen, gridEnabled, gridSizePx, feetPerSquare, pins, pinSize, hideAllNpcs, hideAllMonsters, seatsVisible, isElectron, dmImageDataUrl, linkTable, onOpenChange, syncPinsToTv, replacePins]);
 
   // ── Grid sync ──
   function setGrid(enabled, sizePx, fps) {
@@ -1098,7 +1110,7 @@ const TVDisplay = forwardRef(function TVDisplay({
     setGridEnabled(state.gridEnabled);
     setGridSizePx(loadedGridSizePx);
     setFeetPerSquare(state.feetPerSquare != null ? state.feetPerSquare : 5);
-    setPins(state.pins || []);
+    replacePins(state.pins || []);
     if (state.pinSize != null) setPinSize(state.pinSize);
     setHideAllNpcs(!!state.hideAllNpcs);
     setHideAllMonsters(!!state.hideAllMonsters);
@@ -1158,7 +1170,7 @@ const TVDisplay = forwardRef(function TVDisplay({
   // Reset overlay (fog/pins/grid) to a clean default, without touching saved states
   function handleClearState() {
     setCurrentStateId(null);
-    setPins([]);
+    replacePins([]);
     setGridEnabled(false);
     setHideAllNpcs(false);
     setHideAllMonsters(false);

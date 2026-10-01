@@ -387,7 +387,13 @@ function dexMod(monster) {
 
 function InitiativeTracker({ srdMonsters = [], npcs = [], pcQuick = [], presets = [], combatPresetId, endPresetId, onSaveCombatPreset, onSaveEndPreset, encounterActive, onStartEncounter, onEndEncounter, encounterFiring, encounterError }) {
   const [combatants, setCombatants] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(COMBATANTS_KEY)) || []; } catch { return []; }
+    // Map pins live only in TVDisplay state and never survive a remount, so a
+    // persisted pinId is always stale on load — drop it, or the row comes back
+    // showing a link to a pin that isn't on the map.
+    try {
+      const saved = JSON.parse(localStorage.getItem(COMBATANTS_KEY)) || [];
+      return saved.map(c => ({ ...c, pinId: null }));
+    } catch { return []; }
   });
   const [turn,    setTurn]          = useState(0);
   const [round,   setRound]         = useState(1);
