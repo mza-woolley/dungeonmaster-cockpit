@@ -12,7 +12,7 @@ Underground in the goblin camp beneath the chateau, at the door to the boss room
 
 ## Clock
 
-**~13 hours** left on Morvault's deadline once they leave the ruins. They have no money, and the return trip to Solvetra alone is roughly half a day.
+**~13 hours** left on Morvault's deadline once they leave the ruins. They are roughly **2,000gp short** of the 5,000gp buyout, and the return trip to Solvetra alone is roughly half a day.
 
 ---
 
@@ -41,6 +41,30 @@ Underground in the goblin camp beneath the chateau, at the door to the boss room
 
 ## Owed
 
-- **Morvault** — the debt itself, with no money in hand and the clock running.
-- **Zatharial's contract** — struck, still pending, untouched.
+- **Morvault** — the debt itself, ~2,000gp short with the clock running.
+- **Zatharial's contract** — struck, still pending, untouched. Deliberately parked while the Morvault clock runs.
 - **Silas Shadowfoot** — planning something for the party in Ars Lapis, details withheld.
+
+---
+
+## When They Surface
+
+*Waiting for them in Solvetra. Not in play underground — live the moment they're back.*
+
+- **Vault keys: 0 of 4 in hand.** Key 1 is still sitting on Vanya's own desk. Key 4 is the Lorewarden's, deliberately unfindable. Vanya doesn't know a 4th lock exists — it was added after she was removed.
+- **The Lorewarden's standing offer** on the Morvault debt — *"perhaps we can sort something out"* — sent by letter, then repeated to Plumbodian's face. Unused. He also has an open invitation out to Plumbodian about the orb.
+- **Kaelen is wanted.** Ronan Emberlain reported the Wayfarer's Cache robbery and the guards have already beaten him once. The Session 11 halfling killings left live witnesses and there's been no guard response yet.
+- **Dorian Vasse** — new Headguard, tightened Vault security. His daily rotating countersign is what breaks Kaelen's Valerius disguise.
+- **Lira Vance** — will do blueprints, not the heist. Wants gold or DC 21 Persuasion. The ask has never been made. Whisper already knows the heist is coming.
+
+---
+
+## Spotlight
+
+*Who got the airtime. Rotate it.*
+
+- Session 11 — Elaris (cornered alone by Morvault)
+- Session 12 — none; straight dungeon crawl, Frah'nk's player absent
+- Session 13 — planned: Elaris (the parley)
+
+*Earlier sessions not tracked — tally starts here.*

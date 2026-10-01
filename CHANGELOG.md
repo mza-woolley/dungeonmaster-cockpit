@@ -2,6 +2,20 @@
 
 ---
 
+## v0.14.5 — October 2026
+
+### ✨ New
+
+- Documentation: an intake page for dumping raw session notes, ready to be filed out into the doc tree afterwards
+- Documentation: next session's prep page added to the session run
+
+### 🔧 Changes
+
+- Documentation: state-of-play page refreshed to match the current point in the campaign
+- Documentation: threat and character entries brought up to date
+
+---
+
 ## v0.14.4 — October 2026
 
 ### ✨ New

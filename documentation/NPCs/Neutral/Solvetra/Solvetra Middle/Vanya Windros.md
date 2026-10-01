@@ -21,7 +21,7 @@ Vanya wasn't cooperative with the OOTS's initiative at the Vault. She was quietl
 
 ## Session 11-12 - Found
 
-The party raided the [Goblin Settlement](../../../../Quests/Rumours%20&%20Jobs/Solvetra/Rumours/Goblin%20Settlement.md) specifically to find her - their intent being to use her to settle the debt with [Lucien Morvault](../../../Villains/Solvetra/Lucien%20Morvault.md), not to resolve the vault keys.
+The party raided the [Goblin Settlement](../../../../Quests/Rumours%20&%20Jobs/Solvetra/Rumours/Goblin%20Settlement.md) specifically to find her - **their intent being to crack the Vault**. They are not looking to trade or offer her up to [Lucien Morvault](../../../Villains/Solvetra/Lucien%20Morvault.md), and he has no interest in her regardless: to him she is a cog in the works, not an asset.
 
 **Session 12** ended with the party reaching the boss room of the ruins beneath the chateau, bloodied and battered, and finding **Vanya in a cage - beaten, bleeding, and crying**. Lightbender Yeesal is still standing; the fight has not happened yet, and she has not spoken.
 
