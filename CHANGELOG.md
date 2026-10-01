@@ -2,6 +2,21 @@
 
 ---
 
+## v0.14.4 — October 2026
+
+### ✨ New
+
+- Documentation: a NOW page pinned above the tree — one short page holding the current state of play, opened by default
+- Documentation: the session run now sits in the sidebar, newest first, so sessions are one click from anywhere
+- Documentation: start the next session from the sidebar — it takes the next number in sequence and opens seeded from the session template
+
+### 🐛 Fixes
+
+- Documentation: new documents keep the title as you type it, instead of being renamed to lowercase-with-dashes
+- Documentation: the panel no longer lists a pinned page twice
+
+---
+
 ## v0.14.3 — October 2026
 
 ### ✨ New

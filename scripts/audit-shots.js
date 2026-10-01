@@ -8,8 +8,19 @@ const APP_DIR = path.join(__dirname, '..');
 const OUT = process.argv[2] || path.join(APP_DIR, 'audit-shots');
 fs.mkdirSync(OUT, { recursive: true });
 
-const PANEL_IDS = ['characters', 'encounters', 'loot', 'scene', 'generator',
-                   'wizard', 'scribble', 'documentation', 'charsheet', 'miro'];
+// Label as rendered in .nav-label, paired with the file-name slug.
+const PANELS = [
+  ['Characters',       'characters'],
+  ['Encounters & Map', 'encounters'],
+  ['Loot',             'loot'],
+  ['Scene',            'scene'],
+  ['Generator',        'generator'],
+  ['Wizard',           'wizard'],
+  ['Scribble',         'scribble'],
+  ['Documentation',    'documentation'],
+  ['Sheets',           'charsheet'],
+  ['Miro',             'miro'],
+];
 
 (async () => {
   const app = await _electron.launch({
@@ -22,18 +33,31 @@ const PANEL_IDS = ['characters', 'encounters', 'loot', 'scene', 'generator',
   await page.setViewportSize({ width: 1400, height: 900 });
   await page.waitForTimeout(2500); // let fonts/data settle
 
-  for (let i = 0; i < PANEL_IDS.length; i++) {
-    const id = PANEL_IDS[i];
-    // Nav buttons are rendered in NAV_GROUPS order; find by label association:
-    await page.evaluate((idx) => {
-      const btns = [...document.querySelectorAll('.nav-btn')];
-      btns[idx]?.click();
-    }, i === 0 ? 0 : -1); // placeholder, real click below
-    // Click by matching the shortcut position: simpler — use keyboard shortcut
-    await page.keyboard.press(`Control+${(i + 1) % 10}`);
+  // Click the nav button by its label rather than firing the keyboard
+  // shortcut: panels with an autofocused input (Wizard) swallow the keypress
+  // and every later shot silently comes out as the same stuck panel.
+  for (let i = 0; i < PANELS.length; i++) {
+    const [label, id] = PANELS[i];
+    const clicked = await page.evaluate((want) => {
+      const btn = [...document.querySelectorAll('.nav-btn')]
+        .find(b => b.querySelector('.nav-label')?.textContent.trim() === want);
+      if (!btn) return false;
+      btn.click();
+      return true;
+    }, label);
+    if (!clicked) { console.error('no nav button for:', label); process.exitCode = 1; continue; }
+
     await page.waitForTimeout(900); // panel slide animation + render
+
+    const active = await page.evaluate(() =>
+      document.querySelector('.nav-btn.active .nav-label')?.textContent.trim());
+    if (active !== label) {
+      console.error(`nav failed: wanted "${label}", landed on "${active}"`);
+      process.exitCode = 1;
+    }
+
     await page.screenshot({ path: path.join(OUT, `${String(i).padStart(2, '0')}-${id}.png`) });
-    console.log('shot:', id);
+    console.log('shot:', id, active === label ? '' : '(WRONG PANEL)');
   }
 
   await app.close();

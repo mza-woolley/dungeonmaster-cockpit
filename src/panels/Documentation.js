@@ -173,6 +173,66 @@ function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onMove,
   );
 }
 
+// ── Pinned pages ──────────────────────────────────────────────────────
+// NOW is the one page that says what's true this minute; the latest session
+// note is tonight's working page. Those two are the workflow — everything
+// else in the tree is reference you go looking for, so they sit above it.
+function collectFiles(nodes, acc = []) {
+  for (const n of nodes || []) {
+    if (n.type === 'folder') collectFiles(n.children, acc);
+    else acc.push(n);
+  }
+  return acc;
+}
+
+// "Session 12 - Goblin Camp Depths.md" → 12, "Session 9 & 10 - Solvetra.md" → 10
+function sessionNumber(name) {
+  const head = name.match(/^Session\s+([\d\s&]+)/i);
+  if (!head) return null;
+  const parts = head[1].match(/\d+/g);
+  return parts ? Math.max(...parts.map(Number)) : null;
+}
+
+function collectFolders(nodes, acc = []) {
+  for (const n of nodes || []) {
+    if (n.type === 'folder') { acc.push(n); collectFolders(n.children, acc); }
+  }
+  return acc;
+}
+
+// Everything the sidebar's working area needs: the NOW page, the session
+// notes newest-first, and where to put the next one.
+function findPinned(tree) {
+  const files   = collectFiles(tree);
+  const folders = collectFolders(tree);
+  const now     = files.find(f => f.name.toLowerCase() === 'now.md') || null;
+
+  const notesFolder = folders.find(f => /Sessions[\\/]Notes$/i.test(f.path)) || null;
+  const template    = files.find(f => /session template\.md$/i.test(f.name)) || null;
+
+  const sessions = files
+    .map(f => ({ file: f, num: sessionNumber(f.name) }))
+    .filter(s => s.num != null && (!notesFolder || s.file.path.startsWith(notesFolder.path)))
+    .sort((a, b) => b.num - a.num);
+
+  return {
+    now,
+    sessions,
+    notesFolder,
+    template,
+    nextNumber: sessions.length ? sessions[0].num + 1 : 1,
+  };
+}
+
+// "Session 12 - Goblin Camp Depths" → "Goblin Camp Depths"
+function sessionSubtitle(name) {
+  return name
+    .replace(/\.md$/i, '')
+    .replace(/^Session\s+[\d\s&]+/i, '')
+    .replace(/^[\s–—-]+/, '')
+    .trim();
+}
+
 function TreeNode({ node, selectedPath, onSelect, expanded, onToggleExpand, onRename, onMove, onDuplicate, onDelete, onNewFile, onNewFolder, statuses, onCycleStatus, depth }) {
   const [ctx, setCtx]           = useState(null);
   const [renaming, setRenaming] = useState(false);
@@ -491,12 +551,24 @@ export default function Documentation() {
     await api.setStatus(filePath, next);
   };
 
+  const pinned = useMemo(() => findPinned(tree), [tree]);
+
   // Reopen whatever document was open last time the app was running
   useEffect(() => {
     const lastPath = localStorage.getItem(LAST_DOC_KEY);
     if (lastPath) openFile(lastPath);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // With nothing remembered, land on NOW — that's where the session loop
+  // starts. Waits for the tree, hence its own effect.
+  const didLand = useRef(false);
+  useEffect(() => {
+    if (didLand.current) return;
+    if (localStorage.getItem(LAST_DOC_KEY)) { didLand.current = true; return; }
+    if (pinned.now) { didLand.current = true; openFile(pinned.now.path); }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pinned]);
 
   // Debounced content search
   useEffect(() => {
@@ -602,8 +674,31 @@ export default function Documentation() {
   const handleNewFile   = (parentPath) => setModal({ type: 'file', parentPath });
   const handleNewFolder = (parentPath) => setModal({ type: 'folder', parentPath });
 
+  // New session note: next number in sequence, seeded from Session Template
+  // so the prep/notes/threads headings are already there.
+  const createSession = async (title) => {
+    const n    = pinned.nextNumber;
+    const name = title ? `Session ${n} - ${title}` : `Session ${n}`;
+    const res  = await api.createFile(pinned.notesFolder?.path || null, name);
+    if (!res.success) { setError(res.error || 'Could not create the session note.'); return; }
+
+    let body = `# ${name}\n\n`;
+    if (pinned.template) {
+      const tpl = await api.getFile(pinned.template.path);
+      if (tpl.success && tpl.data.content) {
+        body = tpl.data.content.replace(/^#[^\n]*/, `# ${name}`);
+      }
+    }
+    const saved = await api.saveFile(res.filePath, { content: body });
+    if (!saved.success) setError(saved.error || 'Session created, but the template could not be written.');
+    await loadTree();
+    await openFile(res.filePath);
+  };
+
   const commitModal = async (val) => {
-    if (modal.type === 'file') {
+    if (modal.type === 'session') {
+      await createSession(val.trim());
+    } else if (modal.type === 'file') {
       const res = await api.createFile(modal.parentPath, val);
       if (res.success) {
         await loadTree();
@@ -634,7 +729,12 @@ export default function Documentation() {
     }
   };
 
-  const displayTree        = filterTreeByStatus(filterTree(tree, search, matchPaths), statuses, statusFilter);
+  // NOW is pinned above, so drop it from the tree rather than showing it
+  // twice — unless a search is on, where you'd want every hit listed.
+  const treeForDisplay     = (pinned.now && !search)
+    ? tree.filter(n => n.path !== pinned.now.path)
+    : tree;
+  const displayTree        = filterTreeByStatus(filterTree(treeForDisplay, search, matchPaths), statuses, statusFilter);
   const expandedForDisplay = search ? new Set(getAllFolderPaths(displayTree)) : expanded;
 
   // Stable reference — prevents ReactMarkdown unmounting DocImage on every keystroke.
@@ -705,6 +805,52 @@ export default function Documentation() {
           </div>
         </div>
         {exportMsg && <div className="docs-export-msg">{exportMsg}</div>}
+
+        {/* The two working pages, above the reference tree. Hidden while
+            searching or filtering so they don't sit on top of results. */}
+        {!search && !statusFilter && (
+          <div className="docs-pinned">
+            {pinned.now && (
+              <button
+                className={`docs-pin docs-pin--now ${selectedPath === pinned.now.path ? 'selected' : ''}`}
+                onClick={() => openFile(pinned.now.path)}
+                title="What's true right now — read before prep, edit down after play"
+              >
+                <span className="docs-pin-label">NOW</span>
+                <span className="docs-pin-note">state of play</span>
+              </button>
+            )}
+
+            <div className="docs-pin-head">
+              <span className="docs-pin-head-label">SESSIONS</span>
+              <button
+                className="docs-pin-add"
+                onClick={() => setModal({ type: 'session' })}
+                title={`Start Session ${pinned.nextNumber} from the template`}
+              >
+                + {pinned.nextNumber}
+              </button>
+            </div>
+
+            <div className="docs-session-list">
+              {pinned.sessions.length === 0 && (
+                <div className="docs-session-empty">No session notes yet.</div>
+              )}
+              {pinned.sessions.map(({ file, num }, i) => (
+                <button
+                  key={file.path}
+                  className={`docs-session ${selectedPath === file.path ? 'selected' : ''}`}
+                  onClick={() => openFile(file.path)}
+                  title={prettifyName(file.name)}
+                >
+                  <span className="docs-session-num">{num}</span>
+                  <span className="docs-session-title">{sessionSubtitle(file.name) || '—'}</span>
+                  {i === 0 && <span className="docs-session-tag">latest</span>}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="docs-status-filter">
           {STATUS_ORDER.map(s => (
@@ -829,8 +975,20 @@ export default function Documentation() {
 
       {modal && (
         <Modal
-          title={modal.type === 'file' ? 'New Document' : 'New Folder'}
-          placeholder={modal.type === 'file' ? 'Document title…' : 'Folder name…'}
+          title={
+            modal.type === 'session' ? `New Session ${pinned.nextNumber}`
+              : modal.type === 'file' ? 'New Document'
+              : 'New Folder'
+          }
+          placeholder={
+            modal.type === 'session' ? 'Session title…'
+              : modal.type === 'file' ? 'Document title…'
+              : 'Folder name…'
+          }
+          body={modal.type === 'session'
+            ? 'Starts from Session Template, filed in Sessions / Notes.'
+            : undefined}
+          confirmLabel={modal.type === 'session' ? 'Create session' : 'Create'}
           onConfirm={commitModal}
           onCancel={() => setModal(null)}
         />

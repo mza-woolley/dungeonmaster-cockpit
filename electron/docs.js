@@ -109,7 +109,13 @@ function register(ipcMain) {
   ipcMain.handle('docs:createFile', (_, { folderPath, title }) => {
     try {
       ensureDirs();
-      const base   = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'untitled';
+      // Keep the title as typed — only strip characters the filesystem
+      // forbids. Slugifying to lowercase-with-dashes here is what produced
+      // the odd-one-out filenames that had to be renamed by hand later.
+      const base   = title
+        .replace(/[<>:"/\\|?*\u0000-\u001f]/g, '')
+        .replace(/[. ]+$/, '')
+        .trim() || 'Untitled';
       const parent = folderPath || DOCS_ROOT;
       assertInsideDocs(parent);
       let   fileName = `${base}.md`;
