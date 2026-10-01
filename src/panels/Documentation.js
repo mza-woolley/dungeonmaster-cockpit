@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import ReactDOM from 'react-dom';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import './Documentation.css';
 import Icon from '../components/Icons';
+import LiveMarkdownEditor, { applyMarkdownTool, insertAtCursor, alignTableAtCursor } from './LiveMarkdownEditor';
 
 const api = window.electronAPI?.docs;
 
@@ -120,26 +119,6 @@ function filterTree(nodes, query, matchPaths) {
     return acc;
   }, []);
 }
-
-// Memoized so ReactMarkdown doesn't remount it on every draft keystroke
-const DocImage = React.memo(function DocImage({ src, alt }) {
-  const [dataUrl, setDataUrl] = useState(null);
-  const [errored, setErrored] = useState(false);
-
-  useEffect(() => {
-    if (!src) return;
-    setDataUrl(null);
-    setErrored(false);
-    api.readImage(src).then(res => {
-      if (res.success) setDataUrl(res.dataUrl);
-      else setErrored(true);
-    });
-  }, [src]);
-
-  if (errored) return <span className="doc-img-error">[Image not found: {src}]</span>;
-  if (!dataUrl)  return <span className="doc-img-loading">Loading image…</span>;
-  return <img src={dataUrl} alt={alt || ''} className="doc-img" />;
-});
 
 // Portal-based context menu — bypasses panel CSS transform stacking context
 function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onMove, onDuplicate, onDelete, onClose }) {
@@ -441,42 +420,10 @@ const MD_TOOLS = [
   { label: '```', title: 'Code block',   wrap: ['```\n', '\n```'], sample: 'code block'   },
   { label: '⚭',  title: 'Link',         wrap: ['[', '](url)'],    sample: 'link text'    },
   { label: '▦',   title: 'Table',        insert: '\n| Column 1 | Column 2 | Column 3 |\n| --- | --- | --- |\n| Cell | Cell | Cell |\n' },
+  { label: '⇹',   title: 'Tidy table columns (⇧⌘T)', align: true },
 ];
 
-function MdToolbox({ textareaRef, draft, setDraft }) {
-  const applyTool = (tool) => {
-    const ta = textareaRef.current;
-    if (!ta) return;
-    const start = ta.selectionStart;
-    const end   = ta.selectionEnd;
-    const sel   = draft.slice(start, end);
-    let newDraft, cursorStart, cursorEnd;
-
-    if (tool.insert) {
-      newDraft    = draft.slice(0, start) + tool.insert + draft.slice(end);
-      cursorStart = cursorEnd = start + tool.insert.length;
-    } else if (tool.wrap) {
-      const [before, after] = tool.wrap;
-      const text = sel || tool.sample;
-      newDraft    = draft.slice(0, start) + before + text + after + draft.slice(end);
-      cursorStart = start + before.length;
-      cursorEnd   = cursorStart + text.length;
-    } else if (tool.prefix) {
-      const lineStart = draft.lastIndexOf('\n', start - 1) + 1;
-      const text = sel || tool.sample;
-      newDraft    = draft.slice(0, lineStart) + tool.prefix + (sel ? draft.slice(lineStart, end) : text) + draft.slice(end);
-      cursorStart = lineStart + tool.prefix.length;
-      cursorEnd   = sel ? cursorStart + (end - lineStart) : cursorStart + text.length;
-    }
-
-    setDraft(newDraft);
-    setTimeout(() => {
-      ta.focus();
-      ta.selectionStart = cursorStart;
-      ta.selectionEnd   = cursorEnd;
-    }, 0);
-  };
-
+function MdToolbox({ viewRef }) {
   return (
     <div className="md-toolbox">
       {MD_TOOLS.map(tool => (
@@ -484,7 +431,11 @@ function MdToolbox({ textareaRef, draft, setDraft }) {
           key={tool.title}
           className="md-tool-btn"
           title={tool.title}
-          onMouseDown={e => { e.preventDefault(); applyTool(tool); }}
+          onMouseDown={e => {
+            e.preventDefault();
+            if (tool.align) alignTableAtCursor(viewRef.current);
+            else applyMarkdownTool(viewRef.current, tool);
+          }}
         >
           {tool.label}
         </button>
@@ -509,12 +460,14 @@ export default function Documentation() {
   const [tree, setTree]                 = useState([]);
   const [selectedPath, setSelectedPath] = useState(null);
   const [doc, setDoc]                   = useState(null);
-  const [editing, setEditing]           = useState(false);
-  const [draft, setDraft]               = useState('');
-  const [layout, setLayout]             = useState('toggle');
+  const [saveState, setSaveState]       = useState('idle'); // idle | dirty | saving | saved
+  const [docNonce, setDocNonce]         = useState(0);      // bumped to force the editor to reload from disk
+  // Documents open locked. Running a session means scrolling and clicking through
+  // notes, and a live editor one stray keystroke from mangling them is a liability
+  // at the table — editing is something you opt into.
+  const [locked, setLocked]             = useState(true);
   const [expanded, setExpanded]         = useState(loadExpanded);
   const [search, setSearch]             = useState('');
-  const [saving, setSaving]             = useState(false);
   const [modal, setModal]               = useState(null);
   const [confirmDel, setConfirmDel]     = useState(null);
   const [matchPaths, setMatchPaths]     = useState(null); // Set<path> from content search, null when idle
@@ -525,7 +478,11 @@ export default function Documentation() {
   const [exportMsg, setExportMsg]       = useState('');
   const [statuses, setStatuses]         = useState({});
   const [statusFilter, setStatusFilter] = useState(null);
-  const textareaRef = useRef();
+  const editorRef   = useRef(null);   // the live CodeMirror view
+  const draftRef    = useRef('');     // latest text, kept out of state so typing doesn't re-render the tree
+  const dirtyRef    = useRef(false);
+  const saveTimer   = useRef(null);
+  const saveRef     = useRef(() => {});
   const searchTimer = useRef(null);
 
   const loadTree = useCallback(async () => {
@@ -583,28 +540,72 @@ export default function Documentation() {
     return () => clearTimeout(searchTimer.current);
   }, [search]);
 
+  // There's no Save button any more — the editor is always live, so changes are
+  // written back on a short debounce (and flushed before anything that could
+  // lose them: switching docs, leaving the panel, closing the app).
+  const SAVE_DELAY = 800;
+
+  const handleSave = useCallback(async () => {
+    clearTimeout(saveTimer.current);
+    if (!selectedPath || !dirtyRef.current) return;
+    const text = draftRef.current;
+    dirtyRef.current = false;
+    setSaveState('saving');
+    const res = await api.saveFile(selectedPath, { ...doc, content: text });
+    if (res.success) {
+      setDoc(prev => (prev ? { ...prev, content: text, modified: res.modified } : prev));
+      // Anything typed while the write was in flight leaves it dirty again.
+      setSaveState(dirtyRef.current ? 'dirty' : 'saved');
+    } else {
+      dirtyRef.current = true;
+      setSaveState('dirty');
+      setError(res.error || 'Could not save this document.');
+    }
+  }, [selectedPath, doc]);
+
+  // Kept in a ref so debounce timers and unmount cleanup always hit the
+  // current version rather than the one captured when the timer was set.
+  saveRef.current = handleSave;
+
+  const toggleLock = () => {
+    setLocked(prev => {
+      if (!prev) saveRef.current();
+      return !prev;
+    });
+  };
+
+  const handleDraftChange = useCallback((text) => {
+    draftRef.current = text;
+    dirtyRef.current = true;
+    setSaveState('dirty');
+    clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(() => saveRef.current(), SAVE_DELAY);
+  }, []);
+
+  // Flush on unmount (tab switch) and on window close.
+  useEffect(() => {
+    const flush = () => saveRef.current();
+    window.addEventListener('beforeunload', flush);
+    return () => {
+      window.removeEventListener('beforeunload', flush);
+      clearTimeout(saveTimer.current);
+      flush();
+    };
+  }, []);
+
   const openFile = async (filePath) => {
+    await saveRef.current();   // don't lose edits to the doc we're leaving
     const res = await api.getFile(filePath);
     if (res.success) {
       setSelectedPath(filePath);
       setDoc(res.data);
-      setEditing(false);
-      setDraft('');
+      draftRef.current = res.data.content || '';
+      dirtyRef.current = false;
+      setSaveState('idle');
+      setDocNonce(n => n + 1);
+      setLocked(true);
       try { localStorage.setItem(LAST_DOC_KEY, filePath); } catch {}
     }
-  };
-
-  const handleEdit   = () => { setDraft(doc.content || ''); setEditing(true); };
-  const handleCancel = () => { setEditing(false); setDraft(''); };
-
-  const handleSave = async () => {
-    setSaving(true);
-    const res = await api.saveFile(selectedPath, { ...doc, content: draft });
-    if (res.success) {
-      setDoc(prev => ({ ...prev, content: draft, modified: res.modified }));
-      setEditing(false);
-    }
-    setSaving(false);
   };
 
   const toggleExpand = (folderPath) => {
@@ -639,7 +640,8 @@ export default function Documentation() {
     const res = await api.delete(confirmDel.path);
     if (!res?.success) { setError(res?.error || 'Delete failed'); setConfirmDel(null); return; }
     if (confirmDel.path === selectedPath) {
-      setSelectedPath(null); setDoc(null); setEditing(false);
+      setSelectedPath(null); setDoc(null);
+      dirtyRef.current = false; setSaveState('idle');
       try { localStorage.removeItem(LAST_DOC_KEY); } catch {}
     }
     setConfirmDel(null);
@@ -660,7 +662,8 @@ export default function Documentation() {
         // The open document lived inside the moved folder — its path is now stale.
         setSelectedPath(null);
         setDoc(null);
-        setEditing(false);
+        dirtyRef.current = false;
+        setSaveState('idle');
         try { localStorage.removeItem(LAST_DOC_KEY); } catch {}
       }
       await loadTree();
@@ -701,10 +704,10 @@ export default function Documentation() {
     } else if (modal.type === 'file') {
       const res = await api.createFile(modal.parentPath, val);
       if (res.success) {
+        await api.saveFile(res.filePath, { content: `# ${val}\n\n` });
         await loadTree();
         await openFile(res.filePath);
-        setDraft(`# ${val}\n\n`);
-        setEditing(true);
+        setLocked(false);
       }
     } else {
       await api.createFolder(modal.parentPath, val);
@@ -718,15 +721,7 @@ export default function Documentation() {
     if (!pick.success) return;
     const imp = await api.importImage(pick.sourcePath);
     if (!imp.success) return;
-    const snippet = `![](${imp.relativePath})`;
-    const ta = textareaRef.current;
-    if (ta) {
-      const s = ta.selectionStart, e = ta.selectionEnd;
-      setDraft(draft.slice(0, s) + snippet + draft.slice(e));
-      setTimeout(() => { ta.selectionStart = ta.selectionEnd = s + snippet.length; ta.focus(); }, 0);
-    } else {
-      setDraft(d => d + '\n' + snippet);
-    }
+    insertAtCursor(editorRef.current, `![](${imp.relativePath})`);
   };
 
   // NOW is pinned above, so drop it from the tree rather than showing it
@@ -736,34 +731,6 @@ export default function Documentation() {
     : tree;
   const displayTree        = filterTreeByStatus(filterTree(treeForDisplay, search, matchPaths), statuses, statusFilter);
   const expandedForDisplay = search ? new Set(getAllFolderPaths(displayTree)) : expanded;
-
-  // Stable reference — prevents ReactMarkdown unmounting DocImage on every keystroke.
-  // Re-memoized on selectedPath so doc-relative links resolve against the right file.
-  const mdComponents = useMemo(() => ({
-    img: ({ src, alt }) => <DocImage src={src} alt={alt} />,
-    a: ({ href, children }) => {
-      if (!href) return <span>{children}</span>;
-      if (isExternalLink(href)) {
-        return (
-          <a href={href} onClick={e => { e.preventDefault(); api.openExternal(href); }}>
-            {children}
-          </a>
-        );
-      }
-      return (
-        <a
-          href="#"
-          className="doc-internal-link"
-          onClick={e => {
-            e.preventDefault();
-            if (selectedPath) openFile(resolveDocLink(href, selectedPath));
-          }}
-        >
-          {children}
-        </a>
-      );
-    },
-  }), [selectedPath]);
 
   return (
     <div className="docs-root">
@@ -926,48 +893,39 @@ export default function Documentation() {
                 })()}
               </div>
               <div className="docs-toolbar-actions">
-                {editing ? (
-                  <>
-                    <button className="docs-btn" onClick={handleInsertImage}>Image</button>
-                    <button
-                      className="docs-btn layout-toggle"
-                      onClick={() => setLayout(l => l === 'toggle' ? 'split' : 'toggle')}
-                      title={layout === 'toggle' ? 'Switch to split view' : 'Switch to full editor'}
-                    >
-                      {layout === 'toggle' ? '⧉ Split' : '☐ Full'}
-                    </button>
-                    <button className="docs-btn secondary" onClick={handleCancel}>Cancel</button>
-                    <button className="docs-btn primary" onClick={handleSave} disabled={saving}>
-                      {saving ? 'Saving…' : 'Save'}
-                    </button>
-                  </>
-                ) : (
-                  <button className="docs-btn primary" onClick={handleEdit}>Edit</button>
-                )}
+                <span className={`docs-save-state is-${saveState}`} title="Changes save themselves — ⌘S writes immediately">
+                  {saveState === 'saving' ? 'Saving…'
+                    : saveState === 'dirty' ? 'Unsaved'
+                    : saveState === 'saved' ? 'Saved'
+                    : ''}
+                </span>
+                {!locked && <button className="docs-btn" onClick={handleInsertImage}>Image</button>}
+                <button
+                  className={`docs-btn docs-lock ${locked ? '' : 'is-unlocked'}`}
+                  onClick={toggleLock}
+                  title={locked ? 'Locked — click to edit this document' : 'Editing — click to lock'}
+                >
+                  <Icon name={locked ? 'lock' : 'unlock'} size={13} />
+                  {locked ? 'Locked' : 'Editing'}
+                </button>
               </div>
             </div>
 
-            {editing && (
-              <MdToolbox textareaRef={textareaRef} draft={draft} setDraft={setDraft} />
-            )}
+            {!locked && <MdToolbox viewRef={editorRef} />}
 
-            <div className={`docs-body ${editing && layout === 'split' ? 'is-split' : ''}`}>
-              {editing && (
-                <textarea
-                  ref={textareaRef}
-                  className="docs-editor"
-                  value={draft}
-                  onChange={e => setDraft(e.target.value)}
-                  spellCheck={false}
-                />
-              )}
-              {(!editing || layout === 'split') && (
-                <div className="docs-preview">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={mdComponents}>
-                    {editing ? draft : (doc.content || '')}
-                  </ReactMarkdown>
-                </div>
-              )}
+            <div className="docs-body">
+              <LiveMarkdownEditor
+                docKey={`${selectedPath}#${docNonce}`}
+                locked={locked}
+                value={doc.content || ''}
+                viewRef={editorRef}
+                onChange={handleDraftChange}
+                onSave={handleSave}
+                onLinkClick={(href) => {
+                  if (isExternalLink(href)) api.openExternal(href);
+                  else if (selectedPath) openFile(resolveDocLink(href, selectedPath));
+                }}
+              />
             </div>
           </>
         )}

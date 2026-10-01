@@ -2,6 +2,22 @@
 
 ---
 
+## v0.15.0 — The Quill Update — October 2026
+
+### ✨ New
+
+- Documentation: one editor instead of two views — documents render as you write, with raw markdown showing only on the line you're working on
+- Documentation: documents open locked, so notes are safe to read and click through during a session — unlock when you want to change something
+- Documentation: changes save themselves; ⌘S writes immediately
+- Documentation: tables render properly, plus a toolbox button to tidy their columns
+- Documentation: task checkboxes can be ticked by clicking them
+
+### 🔧 Changes
+
+- Documentation: markdown toolbox and image insert rebuilt for the live editor
+
+---
+
 ## v0.14.5 — October 2026
 
 ### ✨ New

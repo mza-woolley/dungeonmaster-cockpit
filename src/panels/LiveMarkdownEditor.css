@@ -1,0 +1,199 @@
+/* ── Live-preview markdown editor ──────────────────────────────────────── */
+/* One pane that is simultaneously the editor and the rendered view. Styling
+   deliberately mirrors the old .docs-preview rules so documents look the same
+   as they always did — only now you can type into them. */
+
+.docs-live-editor {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+}
+
+.docs-live-editor .cm-editor {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.docs-live-editor .cm-editor.cm-focused { outline: none; }
+
+.docs-live-editor .cm-scroller {
+  overflow-y: auto;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+.docs-live-editor .cm-content {
+  padding: 20px 28px;
+  caret-color: var(--gold);
+  max-width: 100%;
+}
+
+.docs-live-editor .cm-line { padding: 2px 0; margin: 0; }
+
+.docs-live-editor .cm-content ::selection,
+.docs-live-editor .cm-content::selection { background: var(--gold-dim); }
+
+/* ── Headings ── */
+
+.docs-live-editor .cm-md-h1,
+.docs-live-editor .cm-md-h2,
+.docs-live-editor .cm-md-h3,
+.docs-live-editor .cm-md-h4,
+.docs-live-editor .cm-md-h5,
+.docs-live-editor .cm-md-h6 {
+  font-family: var(--font-display);
+  color: var(--gold);
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  padding-top: 0.7em;
+  padding-bottom: 0.2em;
+}
+.docs-live-editor .cm-md-h1 {
+  font-size: 1.6em;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.2em;
+}
+.docs-live-editor .cm-md-h2 { font-size: 1.3em; }
+.docs-live-editor .cm-md-h3 { font-size: 1.1em; color: var(--text-primary); }
+.docs-live-editor .cm-md-h4,
+.docs-live-editor .cm-md-h5,
+.docs-live-editor .cm-md-h6 { font-size: 1em; color: var(--text-primary); }
+
+/* ── Inline tokens ── */
+
+.docs-live-editor .cm-tok-strong { color: var(--text-primary); font-weight: 700; }
+.docs-live-editor .cm-tok-em     { color: var(--text-secondary); font-style: italic; }
+.docs-live-editor .cm-tok-strike { text-decoration: line-through; color: var(--text-dim); }
+
+.docs-live-editor .cm-tok-code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.875em;
+  background: var(--bg-card);
+  color: var(--ember);
+  padding: 1px 4px;
+  border-radius: var(--radius);
+}
+
+/* Syntax characters still on screen (cursor line, fence markers) read as
+   scaffolding rather than content. */
+.docs-live-editor .cm-tok-mark { color: var(--text-dim); opacity: 0.65; }
+.docs-live-editor .cm-tok-url  { color: var(--text-dim); font-size: 0.9em; }
+
+.docs-live-editor .cm-md-link {
+  color: var(--gold);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.docs-live-editor .cm-md-link:hover { color: var(--text-primary); }
+
+/* ── Blocks ── */
+
+.docs-live-editor .cm-md-quote {
+  border-left: 3px solid var(--gold-dim);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  padding: 2px 14px;
+}
+
+.docs-live-editor .cm-md-codeblock {
+  font-family: 'Courier New', monospace;
+  font-size: 0.875em;
+  background: var(--bg-card);
+  padding: 1px 14px;
+}
+
+/* Raw table source, shown while unlocked — monospace so the pipes line up and
+   you can see the columns you're editing. */
+.docs-live-editor .cm-md-table {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* Rendered table, shown while locked. */
+.docs-live-editor .cm-md-table-render {
+  padding: 0.8em 0;
+  overflow-x: auto;
+}
+.docs-live-editor .cm-md-table-render table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+  font-family: var(--font-body);
+}
+.docs-live-editor .cm-md-table-render th {
+  background: var(--bg-card);
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 0.85em;
+  letter-spacing: 0.08em;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+.docs-live-editor .cm-md-table-render td {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+.docs-live-editor .cm-md-table-render tbody tr:nth-child(even) td { background: var(--bg-panel); }
+.docs-live-editor .cm-md-table-render strong { color: var(--text-primary); font-weight: 700; }
+.docs-live-editor .cm-md-table-render em     { color: var(--text-secondary); font-style: italic; }
+.docs-live-editor .cm-md-table-render del    { color: var(--text-dim); }
+.docs-live-editor .cm-md-table-render code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.875em;
+  background: var(--bg-card);
+  color: var(--ember);
+  padding: 1px 4px;
+  border-radius: var(--radius);
+}
+
+.docs-live-editor .cm-md-bullet {
+  color: var(--gold);
+  display: inline-block;
+  width: 1ch;
+}
+
+.docs-live-editor .cm-md-rule {
+  display: inline-block;
+  width: 100%;
+  border-top: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.docs-live-editor .cm-md-task {
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 1.05em;
+  padding-right: 2px;
+}
+.docs-live-editor .cm-md-task.is-checked { color: var(--text-dim); }
+
+/* ── Images ── */
+
+.docs-live-editor .cm-md-image img {
+  max-width: 100%;
+  border-radius: var(--radius);
+  display: block;
+}
+.docs-live-editor .cm-md-image { display: inline-block; padding: 6px 0; }
+.docs-live-editor .cm-md-image.is-loading { color: var(--text-dim); font-size: 12px; font-style: italic; }
+.docs-live-editor .cm-md-image.is-error   { color: var(--ember-dim); font-size: 12px; font-style: italic; }
+
+/* ── Locked ── */
+/* Read-only: still selectable and scrollable, just no caret and no invitation
+   to type. The gutter stripe is the standing reminder of which mode you're in. */
+
+.docs-live-editor.is-locked .cm-content { caret-color: transparent; }
+.docs-live-editor.is-locked .cm-scroller { border-left: 3px solid var(--border); }
+.docs-live-editor:not(.is-locked) .cm-scroller { border-left: 3px solid var(--gold-dim); }
