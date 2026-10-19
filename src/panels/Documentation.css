@@ -287,8 +287,8 @@
 }
 
 /* ── Pinned working pages ──
-   NOW and the latest session sit above the tree, separated by a rule, so
-   the two pages you actually work in aren't buried in the reference. */
+   The session run sits above the tree, separated by a rule, so the pages
+   you actually work in aren't buried in the reference. */
 .docs-pinned {
   display: flex;
   flex-direction: column;
@@ -297,46 +297,6 @@
   border-bottom: 1px solid var(--border-bright);
   background: var(--bg-card);
 }
-.docs-pin {
-  display: flex;
-  align-items: baseline;
-  gap: 9px;
-  width: 100%;
-  padding: 8px 11px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: transparent;
-  color: var(--text-secondary);
-  text-align: left;
-  cursor: pointer;
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
-}
-.docs-pin:hover {
-  background: var(--bg-hover);
-  border-color: var(--border-bright);
-  color: var(--text-primary);
-}
-.docs-pin.selected {
-  background: var(--bg-hover);
-  border-color: var(--gold);
-  color: var(--text-primary);
-}
-.docs-pin--now .docs-pin-label { color: var(--gold-bright); }
-.docs-pin--now.selected { border-color: var(--gold-bright); }
-.docs-pin-label {
-  font-family: var(--font-display);
-  font-size: 14px;
-  letter-spacing: 0.12em;
-  color: var(--gold);
-  flex-grow: 1;
-}
-.docs-pin-note {
-  font-size: 10.5px;
-  color: var(--text-dim);
-  font-style: italic;
-  flex-shrink: 0;
-}
-
 .docs-pin-head {
   display: flex;
   align-items: center;

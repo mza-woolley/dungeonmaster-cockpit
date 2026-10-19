@@ -2,6 +2,15 @@
 
 ---
 
+## v0.15.1 — October 2026
+
+### 🔧 Changes
+
+- Documentation: removed the pinned state-of-play page and the session intake page
+- Documentation: the panel now opens on the latest session note
+
+---
+
 ## v0.15.0 — The Quill Update — October 2026
 
 ### ✨ New

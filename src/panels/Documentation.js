@@ -153,9 +153,8 @@ function ContextMenu({ x, y, isFolder, onNewFile, onNewFolder, onRename, onMove,
 }
 
 // ── Pinned pages ──────────────────────────────────────────────────────
-// NOW is the one page that says what's true this minute; the latest session
-// note is tonight's working page. Those two are the workflow — everything
-// else in the tree is reference you go looking for, so they sit above it.
+// The latest session note is tonight's working page — everything else in
+// the tree is reference you go looking for, so the sessions sit above it.
 function collectFiles(nodes, acc = []) {
   for (const n of nodes || []) {
     if (n.type === 'folder') collectFiles(n.children, acc);
@@ -179,12 +178,11 @@ function collectFolders(nodes, acc = []) {
   return acc;
 }
 
-// Everything the sidebar's working area needs: the NOW page, the session
-// notes newest-first, and where to put the next one.
+// Everything the sidebar's working area needs: the session notes
+// newest-first, and where to put the next one.
 function findPinned(tree) {
   const files   = collectFiles(tree);
   const folders = collectFolders(tree);
-  const now     = files.find(f => f.name.toLowerCase() === 'now.md') || null;
 
   const notesFolder = folders.find(f => /Sessions[\\/]Notes$/i.test(f.path)) || null;
   const template    = files.find(f => /session template\.md$/i.test(f.name)) || null;
@@ -195,7 +193,6 @@ function findPinned(tree) {
     .sort((a, b) => b.num - a.num);
 
   return {
-    now,
     sessions,
     notesFolder,
     template,
@@ -517,13 +514,14 @@ export default function Documentation() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // With nothing remembered, land on NOW — that's where the session loop
-  // starts. Waits for the tree, hence its own effect.
+  // With nothing remembered, land on the latest session note — that's
+  // tonight's working page. Waits for the tree, hence its own effect.
   const didLand = useRef(false);
   useEffect(() => {
     if (didLand.current) return;
     if (localStorage.getItem(LAST_DOC_KEY)) { didLand.current = true; return; }
-    if (pinned.now) { didLand.current = true; openFile(pinned.now.path); }
+    const latest = pinned.sessions[0]?.file;
+    if (latest) { didLand.current = true; openFile(latest.path); }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pinned]);
 
@@ -724,12 +722,7 @@ export default function Documentation() {
     insertAtCursor(editorRef.current, `![](${imp.relativePath})`);
   };
 
-  // NOW is pinned above, so drop it from the tree rather than showing it
-  // twice — unless a search is on, where you'd want every hit listed.
-  const treeForDisplay     = (pinned.now && !search)
-    ? tree.filter(n => n.path !== pinned.now.path)
-    : tree;
-  const displayTree        = filterTreeByStatus(filterTree(treeForDisplay, search, matchPaths), statuses, statusFilter);
+  const displayTree        = filterTreeByStatus(filterTree(tree, search, matchPaths), statuses, statusFilter);
   const expandedForDisplay = search ? new Set(getAllFolderPaths(displayTree)) : expanded;
 
   return (
@@ -773,21 +766,10 @@ export default function Documentation() {
         </div>
         {exportMsg && <div className="docs-export-msg">{exportMsg}</div>}
 
-        {/* The two working pages, above the reference tree. Hidden while
-            searching or filtering so they don't sit on top of results. */}
+        {/* The session run, above the reference tree. Hidden while
+            searching or filtering so it doesn't sit on top of results. */}
         {!search && !statusFilter && (
           <div className="docs-pinned">
-            {pinned.now && (
-              <button
-                className={`docs-pin docs-pin--now ${selectedPath === pinned.now.path ? 'selected' : ''}`}
-                onClick={() => openFile(pinned.now.path)}
-                title="What's true right now — read before prep, edit down after play"
-              >
-                <span className="docs-pin-label">NOW</span>
-                <span className="docs-pin-note">state of play</span>
-              </button>
-            )}
-
             <div className="docs-pin-head">
               <span className="docs-pin-head-label">SESSIONS</span>
               <button
