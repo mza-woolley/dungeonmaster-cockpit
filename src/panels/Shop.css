@@ -1,0 +1,484 @@
+/* Shop — vendor picker, then one trader's shopfront.
+   Shares the Instrument palette and the Loot panel's row grammar. */
+
+.shop-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.shop-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 24px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.shop-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: normal;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  white-space: nowrap;
+}
+.shop-keeper {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.shop-back {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  padding: 4px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.shop-back:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+.shop-reset {
+  margin-left: auto;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 4px 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.shop-reset:hover { border-color: var(--ember); color: var(--ember); }
+
+.shop-saving {
+  font-size: 0.72rem;
+  color: var(--gold-dim);
+  letter-spacing: 0.05em;
+}
+
+/* ── Mood ─────────────────────────────────────────────────── */
+.shop-mood-picker {
+  display: flex;
+  gap: 1px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.shop-mood-opt {
+  background: var(--bg-card);
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  padding: 4px 9px;
+  cursor: pointer;
+}
+.shop-mood-opt:hover { background: var(--bg-hover); color: var(--text-secondary); }
+.shop-mood-opt.on {
+  background: var(--gold-glow);
+  color: var(--gold-bright);
+}
+
+.shop-mood {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.mood-hostile { color: var(--ember); }
+.mood-wary    { color: var(--hp-mid); }
+.mood-neutral { color: var(--text-dim); }
+.mood-warm    { color: var(--hp-full); }
+.mood-devoted { color: var(--verdigris); }
+
+/* ── Vendor tiles ─────────────────────────────────────────── */
+.shop-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+  padding: 20px 24px;
+  overflow-y: auto;
+  align-content: start;
+}
+.shop-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 15px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: border-color 0.12s, background 0.12s;
+}
+.shop-tile:hover {
+  border-color: var(--gold-dim);
+  background: var(--bg-hover);
+}
+.shop-tile-glyph { color: var(--gold-dim); display: flex; }
+.shop-tile-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.shop-tile-blurb {
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  min-height: 2.1em;
+}
+.shop-tile-foot {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 2px;
+  padding-top: 7px;
+  border-top: 1px solid var(--border);
+}
+.shop-tile-stock {
+  font-size: 0.66rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+/* ── Body and sections ────────────────────────────────────── */
+.shop-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.shop-section {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(0,0,0,0.16);
+}
+.shop-section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.shop-section-head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: normal;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.shop-section-sub {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
+.shop-mini {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  padding: 3px 9px;
+  cursor: pointer;
+}
+.shop-mini:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+/* ── Stock roller ─────────────────────────────────────────── */
+.shop-roller {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-left: auto;
+}
+.shop-roller label {
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+.shop-roller input[type="range"] { width: 130px; accent-color: var(--gold); }
+.shop-tier-num {
+  width: 46px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--gold-bright);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 3px 4px;
+}
+.shop-roll {
+  background: var(--gold-glow);
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius);
+  color: var(--gold-bright);
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+.shop-roll:hover { background: rgba(185,154,91,0.26); }
+
+/* ── Stock rows ───────────────────────────────────────────── */
+.shop-rows { display: flex; flex-direction: column; }
+
+.shop-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px 54px 152px 150px auto 22px;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 14px;
+  border-bottom: 1px solid rgba(49,41,23,0.5);
+}
+.shop-row:last-child { border-bottom: none; }
+.shop-row:hover { background: rgba(255,255,255,0.016); }
+.shop-row.magic .shop-row-name { color: var(--gold-bright); }
+.shop-row.sold-out { opacity: 0.4; }
+
+.shop-row-main { min-width: 0; }
+.shop-row-name {
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  padding: 2px 0;
+}
+.shop-row-name:focus { outline: none; border-bottom-color: var(--gold-dim); }
+.shop-row-notes {
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: var(--text-dim);
+  margin-top: 1px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.shop-rarity {
+  font-size: 0.62rem;
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.shop-row-qty { text-align: center; }
+.shop-row-qty input {
+  width: 46px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-align: center;
+  padding: 3px 2px;
+}
+.shop-row-inf {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text-dim);
+}
+
+.shop-row-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+}
+.shop-row-base {
+  width: 62px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  text-align: right;
+  padding: 3px 5px;
+}
+.shop-row-arrow { color: var(--text-dim); font-size: 0.7rem; }
+.shop-row-final {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.92rem;
+  color: var(--gold-bright);
+  min-width: 72px;
+  text-align: right;
+}
+.shop-row-final em {
+  font-style: normal;
+  font-size: 0.6rem;
+  color: var(--gold-dim);
+  margin-left: 3px;
+}
+
+/* ── Haggling ─────────────────────────────────────────────── */
+.shop-row-haggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 132px;
+  justify-content: flex-end;
+}
+.shop-row-haggle input {
+  width: 54px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  text-align: center;
+  padding: 3px 4px;
+}
+.shop-row-haggle button {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  padding: 3px 7px;
+  cursor: pointer;
+}
+.shop-row-haggle button:hover:not(:disabled) { border-color: var(--gold-dim); color: var(--gold); }
+.shop-row-haggle button:disabled { opacity: 0.35; cursor: default; }
+
+.shop-haggle-tag {
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  padding: 2px 7px;
+  border: 1px solid currentColor;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  cursor: help;
+}
+.tone-great { color: var(--hp-full); }
+.tone-good  { color: var(--verdigris); }
+.tone-flat  { color: var(--text-dim); }
+.tone-bad   { color: var(--ember); }
+
+.shop-row-buy {
+  background: none;
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  color: var(--gold);
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 3px 11px;
+  cursor: pointer;
+}
+.shop-row-buy:hover:not(:disabled) { background: var(--gold-glow); color: var(--gold-bright); }
+.shop-row-buy:disabled { opacity: 0.3; cursor: default; }
+
+.shop-row-remove {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+.shop-row-remove:hover { color: var(--ember); }
+
+/* ── Add / buyback bar ────────────────────────────────────── */
+.shop-add {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+}
+.shop-add input {
+  flex: 1;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  padding: 5px 9px;
+}
+.shop-add input:focus { outline: none; border-color: var(--gold-dim); }
+.shop-add-price, .shop-add-qty {
+  flex: 0 0 auto !important;
+  width: 72px;
+  font-family: var(--font-mono) !important;
+  text-align: right;
+}
+.shop-add-qty { width: 60px; }
+.shop-add button {
+  background: var(--gold-glow);
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--radius);
+  color: var(--gold-bright);
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+  padding: 5px 14px;
+  cursor: pointer;
+}
+.shop-add button:hover { background: rgba(185,154,91,0.26); }
+.shop-offer {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--verdigris);
+  white-space: nowrap;
+  min-width: 170px;
+  text-align: right;
+}
+
+/* ── Empty states ─────────────────────────────────────────── */
+.shop-empty {
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 0.85rem;
+}
+.shop-empty.small { padding: 18px 14px; font-size: 0.78rem; text-align: left; }
+
+/* Narrower windows: let the row reflow rather than squeeze the name to nothing. */
+@media (max-width: 1100px) {
+  .shop-row {
+    grid-template-columns: minmax(0, 1fr) 76px 54px auto;
+    row-gap: 6px;
+  }
+    .shop-row-price  { grid-column: 1 / 3; }
+  .shop-row-haggle { grid-column: 3 / -1; justify-content: flex-end; }
+}

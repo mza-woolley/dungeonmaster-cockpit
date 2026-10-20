@@ -13,6 +13,7 @@ const PANELS = [
   ['Characters',       'characters'],
   ['Encounters & Map', 'encounters'],
   ['Loot',             'loot'],
+  ['Shop',             'shop'],
   ['Scene',            'scene'],
   ['Generator',        'generator'],
   ['Wizard',           'wizard'],

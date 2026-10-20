@@ -12,12 +12,14 @@ import Generator from './panels/Generator';
 import CharacterSheet from './panels/CharacterSheet';
 import Miro from './panels/Miro';
 import Loot from './panels/Loot';
+import Shop from './panels/Shop';
 import Icon from './components/Icons';
 
 const PANELS = [
   { id: 'characters',    label: 'Characters',    icon: 'person',  shortcut: '1' },
   { id: 'encounters',    label: 'Encounters & Map', icon: 'swords',  shortcut: '2' },
   { id: 'loot',          label: 'Loot',          icon: 'coin',    shortcut: '3' },
+  { id: 'shop',          label: 'Shop',          icon: 'scales',  shortcut: '-' },
   { id: 'scene',         label: 'Scene',         icon: 'sliders', shortcut: '4' },
   { id: 'generator',     label: 'Generator',     icon: 'd20',     shortcut: '5' },
   { id: 'wizard',        label: 'Wizard',        icon: 'hat',     shortcut: '6' },
@@ -30,7 +32,7 @@ const PANELS = [
 // The rail groups encode how the panels are actually used at the table:
 // live session tools, content creation, and lookup material.
 const NAV_GROUPS = [
-  { label: 'Session',   ids: ['characters', 'encounters', 'loot', 'scene'] },
+  { label: 'Session',   ids: ['characters', 'encounters', 'loot', 'shop', 'scene'] },
   { label: 'Create',    ids: ['generator', 'wizard', 'scribble'] },
   { label: 'Reference', ids: ['documentation', 'charsheet', 'miro'] },
 ];
@@ -156,6 +158,7 @@ export default function App() {
       case 'miro':          return null; // rendered persistently below
       case 'charsheet':     return <CharacterSheet />;
       case 'loot':          return null; // rendered persistently below, so in-progress edits survive tab switches
+      case 'shop':          return null; // rendered persistently below, so a half-haggled shopfront survives tab switches
       default:              return null;
     }
   };
@@ -234,6 +237,10 @@ export default function App() {
         {/* Loot tab stays mounted so half-typed item rows survive tab switches */}
         <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'loot' ? 'settled' : 'hidden'}`}>
           <Loot />
+        </div>
+        {/* Shop tab stays mounted so an open shopfront and its haggles survive tab switches */}
+        <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'shop' ? 'settled' : 'hidden'}`}>
+          <Shop />
         </div>
         {/* Miro tab stays mounted so the embedded board doesn't reload on tab switches */}
         <div className={`panel-slide panel-persistent ${PANELS[activeIdx]?.id === 'miro' ? 'settled' : 'hidden'}`}>

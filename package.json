@@ -1,6 +1,6 @@
 {
   "name": "dm-cockpit",
-  "version": "0.15.1",
+  "version": "0.16.0",
   "description": "DM Cockpit - Campaign Control Panel",
   "main": "electron/main.js",
   "homepage": "./",

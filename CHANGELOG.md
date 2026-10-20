@@ -2,6 +2,26 @@
 
 ---
 
+## v0.16.0 — The Shop Update — October 2026
+
+### ✨ New
+
+- Shop: a new Session tab for running trade — pick a trader, then work from their shopfront
+- Shop: eight traders, each with their own standing stock, attitude and haggling difficulty
+- Shop: standing stock every trader always carries, fully editable — rename lines, set prices, set quantities, add your own
+- Shop: roll what a trader has in the back by tier, drawn only from the goods that trader deals in
+- Shop: haggling — enter the check total and the price moves, with a bad roll souring the trader and raising it instead
+- Shop: a buyback calculator for whatever the party is offloading
+- Shop: shopfronts are reusable — reset one and it is ready for the next town
+
+### 🔧 Changes
+
+- Loot: every magic item now carries a gold value, so hauls total up on their own
+- Loot: item and coin values pulled down across the board to tighten the economy
+- Loot: more gems and art, laddered evenly across the value range
+
+---
+
 ## v0.15.1 — October 2026
 
 ### 🔧 Changes

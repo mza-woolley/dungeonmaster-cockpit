@@ -115,6 +115,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
 
   // Loot
+  shop: {
+    load: ()     => ipcRenderer.invoke('shop:load'),
+    save: (data) => ipcRenderer.invoke('shop:save', data),
+  },
   loot: {
     load: ()     => ipcRenderer.invoke('loot:load'),
     save: (data) => ipcRenderer.invoke('loot:save', data),

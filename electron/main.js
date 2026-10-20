@@ -429,6 +429,19 @@ function loadLootFile() {
 ipcMain.handle('loot:load', () => loadLootFile());
 handle('loot:save', (data) => { writeJsonAtomic(LOOT_PATH, data); });
 
+// ── Shop IPC ──────────────────────────────────────────────
+const SHOP_PATH = path.join(__dirname, '..', 'shop.json');
+
+function loadShopFile() {
+  try {
+    if (fs.existsSync(SHOP_PATH)) return JSON.parse(fs.readFileSync(SHOP_PATH, 'utf8'));
+  } catch (_) {}
+  return { shops: {}, tier: 5 };
+}
+
+ipcMain.handle('shop:load', () => loadShopFile());
+handle('shop:save', (data) => { writeJsonAtomic(SHOP_PATH, data); });
+
 // ── App Lifecycle ─────────────────────────────────────────
 app.whenReady().then(() => {
   createWindow();

@@ -1,5 +1,8 @@
 // Hoard roller — tier sets the band, a d100 luck roll decides where in it you land.
 //
+// A hoard is coin, gems and art, and magic items. No mundane gear: the junk a
+// creature was carrying isn't treasure, and it only cluttered the split.
+//
 // Tier is chosen by the DM (1 = scraps, 20 = godlike). Luck is rolled fresh every
 // time and is the swing: it slides the coin result across the band, opens or shuts
 // the door on magic items, and at the extremes bends the rarity a step either way.
@@ -14,26 +17,26 @@ export const RARITY_ORDER = ['Common', 'Uncommon', 'Rare', 'Very Rare', 'Legenda
 // coin: [min, max] gp for the whole encounter.  magic: base chance of any magic item.
 // count: how many drop when they do.  weights: rarity spread, indexed by RARITY_ORDER.
 export const TIERS = [
-  { label: 'Scraps',    coin: [5, 25],          magic: 0.03, count: [1, 1], weights: [1, 0, 0, 0, 0] },
-  { label: 'Meagre',    coin: [10, 60],         magic: 0.08, count: [1, 1], weights: [1, 0, 0, 0, 0] },
-  { label: 'Paltry',    coin: [20, 110],        magic: 0.12, count: [1, 1], weights: [1, 0, 0, 0, 0] },
-  { label: 'Modest',    coin: [40, 180],        magic: 0.18, count: [1, 1], weights: [0.85, 0.15, 0, 0, 0] },
-  { label: 'Fair',      coin: [70, 280],        magic: 0.25, count: [1, 1], weights: [0.75, 0.25, 0, 0, 0] },
-  { label: 'Decent',    coin: [110, 420],       magic: 0.32, count: [1, 1], weights: [0.6, 0.4, 0, 0, 0] },
-  { label: 'Tidy',      coin: [160, 600],       magic: 0.40, count: [1, 1], weights: [0.45, 0.5, 0.05, 0, 0] },
-  { label: 'Healthy',   coin: [230, 820],       magic: 0.48, count: [1, 2], weights: [0.3, 0.6, 0.1, 0, 0] },
-  { label: 'Rich',      coin: [320, 1100],      magic: 0.56, count: [1, 2], weights: [0.2, 0.6, 0.2, 0, 0] },
-  { label: 'Bountiful', coin: [450, 1450],      magic: 0.64, count: [1, 2], weights: [0.1, 0.55, 0.35, 0, 0] },
-  { label: 'Lavish',    coin: [600, 1900],      magic: 0.70, count: [1, 2], weights: [0, 0.45, 0.5, 0.05, 0] },
-  { label: 'Opulent',   coin: [800, 2500],      magic: 0.75, count: [1, 2], weights: [0, 0.35, 0.55, 0.1, 0] },
-  { label: 'Splendid',  coin: [1100, 3300],     magic: 0.80, count: [1, 3], weights: [0, 0.25, 0.55, 0.2, 0] },
-  { label: 'Princely',  coin: [1500, 4400],     magic: 0.85, count: [1, 3], weights: [0, 0.15, 0.5, 0.35, 0] },
-  { label: 'Regal',     coin: [2000, 5800],     magic: 0.88, count: [1, 3], weights: [0, 0.05, 0.45, 0.45, 0.05] },
-  { label: 'Kingly',    coin: [2800, 7600],     magic: 0.91, count: [2, 3], weights: [0, 0, 0.35, 0.55, 0.1] },
-  { label: 'Fabled',    coin: [3800, 10000],    magic: 0.94, count: [2, 3], weights: [0, 0, 0.25, 0.55, 0.2] },
-  { label: 'Mythic',    coin: [5000, 13000],    magic: 0.96, count: [2, 4], weights: [0, 0, 0.15, 0.5, 0.35] },
-  { label: 'Divine',    coin: [6500, 20000],    magic: 0.98, count: [2, 4], weights: [0, 0, 0.05, 0.45, 0.5] },
-  { label: 'Godlike',   coin: [8000, 30000],    magic: 1.00, count: [2, 4], weights: [0, 0, 0, 0.3, 0.7] },
+  { label: 'Scraps',    coin: [5, 15],       magic: 0.03, count: [1, 1], weights: [1, 0, 0, 0, 0] },
+  { label: 'Meagre',    coin: [5, 40],       magic: 0.08, count: [1, 1], weights: [1, 0, 0, 0, 0] },
+  { label: 'Paltry',    coin: [15, 70],      magic: 0.12, count: [1, 1], weights: [1, 0, 0, 0, 0] },
+  { label: 'Modest',    coin: [25, 120],     magic: 0.18, count: [1, 1], weights: [0.85, 0.15, 0, 0, 0] },
+  { label: 'Fair',      coin: [45, 180],     magic: 0.25, count: [1, 1], weights: [0.75, 0.25, 0, 0, 0] },
+  { label: 'Decent',    coin: [70, 270],     magic: 0.32, count: [1, 1], weights: [0.6, 0.4, 0, 0, 0] },
+  { label: 'Tidy',      coin: [100, 390],    magic: 0.40, count: [1, 1], weights: [0.45, 0.5, 0.05, 0, 0] },
+  { label: 'Healthy',   coin: [150, 530],    magic: 0.48, count: [1, 2], weights: [0.3, 0.6, 0.1, 0, 0] },
+  { label: 'Rich',      coin: [210, 720],    magic: 0.56, count: [1, 2], weights: [0.2, 0.6, 0.2, 0, 0] },
+  { label: 'Bountiful', coin: [290, 940],    magic: 0.64, count: [1, 2], weights: [0.1, 0.55, 0.35, 0, 0] },
+  { label: 'Lavish',    coin: [390, 1250],   magic: 0.70, count: [1, 2], weights: [0, 0.45, 0.5, 0.05, 0] },
+  { label: 'Opulent',   coin: [520, 1600],   magic: 0.75, count: [1, 2], weights: [0, 0.35, 0.55, 0.1, 0] },
+  { label: 'Splendid',  coin: [720, 2150],   magic: 0.80, count: [1, 3], weights: [0, 0.25, 0.55, 0.2, 0] },
+  { label: 'Princely',  coin: [980, 2850],   magic: 0.85, count: [1, 3], weights: [0, 0.15, 0.5, 0.35, 0] },
+  { label: 'Regal',     coin: [1300, 3750],  magic: 0.88, count: [1, 3], weights: [0, 0.05, 0.45, 0.45, 0.05] },
+  { label: 'Kingly',    coin: [1800, 4950],  magic: 0.91, count: [2, 3], weights: [0, 0, 0.35, 0.55, 0.1] },
+  { label: 'Fabled',    coin: [2450, 6500],  magic: 0.94, count: [2, 3], weights: [0, 0, 0.25, 0.55, 0.2] },
+  { label: 'Mythic',    coin: [3250, 8450],  magic: 0.96, count: [2, 4], weights: [0, 0, 0.15, 0.5, 0.35] },
+  { label: 'Divine',    coin: [4200, 13000], magic: 0.98, count: [2, 4], weights: [0, 0, 0.05, 0.45, 0.5] },
+  { label: 'Godlike',   coin: [5200, 19500], magic: 1.00, count: [2, 4], weights: [0, 0, 0, 0.3, 0.7] },
 ];
 
 const rand    = (a, b) => a + Math.random() * (b - a);
@@ -98,25 +101,15 @@ export function rollHoard({ tier = 1, typeId = 'humanoid', count = 1, luck = rol
   const countScale = Math.min(2.5, 1 + (count - 1) * 0.12);
   const gold = Math.max(0, niceRound(inBand * rand(0.88, 1.12) * countScale * type.coinBias));
 
-  /* — Mundane drops — */
-  const mundaneCount = clamp(1 + Math.floor(count / 3) + (lp > 0.6 ? 1 : 0), 1, 5);
-  const pool = [...type.mundane];
-  for (let i = 0; i < mundaneCount && pool.length; i++) {
-    const [drop] = pool.splice(Math.floor(Math.random() * pool.length), 1);
-    // Several of the same enemy means several of the same junk.
-    const qty = count > 1 && drop.value <= 5 ? randInt(1, Math.min(count, 4)) : 1;
-    items.push({ ...drop, qty, rarity: 'Common', source: 'mundane' });
-  }
-
   /* — Gems and art — */
   const gemChance = clamp((tier / 20) * 0.85 * (0.35 + lp), 0, 0.9);
   if (Math.random() < gemChance) {
-    const affordable = tables.gems.filter(g => g.value <= Math.max(50, gold * 0.9));
+    const affordable = tables.gems.filter(g => g.value <= Math.max(50, gold * 1.4));
     const gem = pick(affordable.length ? affordable : tables.gems.slice(0, 4));
     items.push({ ...gem, qty: gem.value <= 50 ? randInt(1, 3) : 1, rarity: 'Common', source: 'gem' });
   }
   if (tier >= 8 && Math.random() < gemChance * 0.6) {
-    const affordable = tables.art.filter(a => a.value <= Math.max(100, gold * 1.2));
+    const affordable = tables.art.filter(a => a.value <= Math.max(100, gold * 1.85));
     const piece = pick(affordable.length ? affordable : tables.art.slice(0, 3));
     items.push({ ...piece, qty: 1, rarity: 'Common', source: 'art' });
   }
@@ -137,7 +130,7 @@ export function rollHoard({ tier = 1, typeId = 'humanoid', count = 1, luck = rol
     taken.add(item.name);
     items.push({
       name: item.name,
-      value: '',
+      value: item.value,
       qty: 1,
       rarity: item.rarity,
       notes: `${item.category} — ${item.description}`,

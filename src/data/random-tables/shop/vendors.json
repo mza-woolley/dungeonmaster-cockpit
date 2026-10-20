@@ -1,0 +1,889 @@
+{
+  "note": "Vendors for the Shop tab. A shopfront is generic and reusable, not a record of a particular shop in a particular town: nothing here tracks visits. 'always' is standing stock the vendor never runs out of (qty 0 = unlimited) and is the mundane gear the hoard tables deliberately don't drop. 'categories' gates which magic items can appear in rolled stock. haggleDC is the DC to talk them down; greed multiplies every price; buyback is what they pay for the party's goods.",
+  "vendors": [
+    {
+      "id": "blacksmith",
+      "label": "Blacksmith",
+      "keeper": "Soot-handed, deaf in one ear from the hammer",
+      "blurb": "Arms and armour, repairs while you wait.",
+      "glyph": "anvil",
+      "categories": [
+        "Weapon",
+        "Armour"
+      ],
+      "haggleDC": 15,
+      "greed": 1.0,
+      "buyback": 0.5,
+      "always": [
+        {
+          "name": "Dagger",
+          "price": 2,
+          "qty": 0
+        },
+        {
+          "name": "Longsword",
+          "price": 15,
+          "qty": 0
+        },
+        {
+          "name": "Greataxe",
+          "price": 30,
+          "qty": 4
+        },
+        {
+          "name": "Warhammer",
+          "price": 15,
+          "qty": 5
+        },
+        {
+          "name": "Shield",
+          "price": 10,
+          "qty": 0
+        },
+        {
+          "name": "Chain shirt",
+          "price": 50,
+          "qty": 3
+        },
+        {
+          "name": "Scale mail",
+          "price": 50,
+          "qty": 3
+        },
+        {
+          "name": "Half plate",
+          "price": 750,
+          "qty": 1
+        },
+        {
+          "name": "Weapon sharpening and repair",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Handaxe",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Shortsword",
+          "price": 10,
+          "qty": 0
+        },
+        {
+          "name": "Battleaxe",
+          "price": 10,
+          "qty": 6
+        },
+        {
+          "name": "Mace",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Spear",
+          "price": 1,
+          "qty": 0
+        },
+        {
+          "name": "Maul",
+          "price": 10,
+          "qty": 3
+        },
+        {
+          "name": "Morningstar",
+          "price": 15,
+          "qty": 4
+        },
+        {
+          "name": "Rapier",
+          "price": 25,
+          "qty": 3
+        },
+        {
+          "name": "Greatsword",
+          "price": 50,
+          "qty": 2
+        },
+        {
+          "name": "Ring mail",
+          "price": 30,
+          "qty": 4
+        },
+        {
+          "name": "Chain mail",
+          "price": 75,
+          "qty": 2
+        },
+        {
+          "name": "Breastplate",
+          "price": 400,
+          "qty": 1
+        },
+        {
+          "name": "Splint armour",
+          "price": 200,
+          "qty": 1
+        },
+        {
+          "name": "Refitting armour to a new owner",
+          "price": 25,
+          "qty": 0
+        }
+      ]
+    },
+    {
+      "id": "alchemist",
+      "label": "Alchemist",
+      "keeper": "Stained apron, counts change twice",
+      "blurb": "Draughts, salves and things best not uncorked indoors.",
+      "glyph": "flask",
+      "categories": [
+        "Potion"
+      ],
+      "haggleDC": 13,
+      "greed": 1.1,
+      "buyback": 0.45,
+      "always": [
+        {
+          "name": "Potion of Healing",
+          "price": 50,
+          "qty": 0
+        },
+        {
+          "name": "Potion of Greater Healing",
+          "price": 150,
+          "qty": 4
+        },
+        {
+          "name": "Antitoxin",
+          "price": 50,
+          "qty": 6
+        },
+        {
+          "name": "Acid (vial)",
+          "price": 25,
+          "qty": 8
+        },
+        {
+          "name": "Alchemist's fire (flask)",
+          "price": 50,
+          "qty": 5
+        },
+        {
+          "name": "Basic poison (vial)",
+          "price": 100,
+          "qty": 2
+        },
+        {
+          "name": "Healer's kit",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Identify, cast on your behalf",
+          "price": 100,
+          "qty": 0
+        },
+        {
+          "name": "Potion of Climbing",
+          "price": 75,
+          "qty": 3
+        },
+        {
+          "name": "Alchemist's supplies",
+          "price": 50,
+          "qty": 2
+        },
+        {
+          "name": "Herbalism kit",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Poisoner's kit",
+          "price": 50,
+          "qty": 1
+        },
+        {
+          "name": "Vial, empty",
+          "price": 1,
+          "qty": 0
+        },
+        {
+          "name": "Perfume (vial)",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Soap",
+          "price": 0.02,
+          "qty": 0
+        },
+        {
+          "name": "Tanglefoot paste",
+          "price": 25,
+          "qty": 4
+        },
+        {
+          "name": "Sleeping draught, wholly mundane",
+          "price": 25,
+          "qty": 3
+        },
+        {
+          "name": "Smelling salts",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Numbing salve, dulls pain for an hour",
+          "price": 15,
+          "qty": 0
+        },
+        {
+          "name": "Concentrated acid (jug)",
+          "price": 60,
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "id": "general",
+      "label": "General Store",
+      "keeper": "Knows everyone's business, including yours",
+      "blurb": "Rope, rations, lamp oil. The unglamorous half of staying alive.",
+      "glyph": "crate",
+      "categories": [
+        "Wondrous Item"
+      ],
+      "haggleDC": 12,
+      "greed": 0.95,
+      "buyback": 0.4,
+      "always": [
+        {
+          "name": "Rope, hempen (50 ft)",
+          "price": 1,
+          "qty": 0
+        },
+        {
+          "name": "Torch",
+          "price": 0.01,
+          "qty": 0
+        },
+        {
+          "name": "Rations (1 day)",
+          "price": 0.5,
+          "qty": 0
+        },
+        {
+          "name": "Lamp oil (flask)",
+          "price": 0.1,
+          "qty": 0
+        },
+        {
+          "name": "Bedroll",
+          "price": 1,
+          "qty": 0
+        },
+        {
+          "name": "Crowbar",
+          "price": 2,
+          "qty": 0
+        },
+        {
+          "name": "Grappling hook",
+          "price": 2,
+          "qty": 6
+        },
+        {
+          "name": "Lantern, hooded",
+          "price": 5,
+          "qty": 4
+        },
+        {
+          "name": "Tinderbox",
+          "price": 0.5,
+          "qty": 0
+        },
+        {
+          "name": "Explorer's pack",
+          "price": 10,
+          "qty": 0
+        },
+        {
+          "name": "Rope, silk (50 ft)",
+          "price": 10,
+          "qty": 4
+        },
+        {
+          "name": "Backpack",
+          "price": 2,
+          "qty": 0
+        },
+        {
+          "name": "Waterskin",
+          "price": 0.2,
+          "qty": 0
+        },
+        {
+          "name": "Mess kit",
+          "price": 0.2,
+          "qty": 0
+        },
+        {
+          "name": "Blanket",
+          "price": 0.5,
+          "qty": 0
+        },
+        {
+          "name": "Hammer",
+          "price": 1,
+          "qty": 0
+        },
+        {
+          "name": "Pitons (10)",
+          "price": 0.5,
+          "qty": 0
+        },
+        {
+          "name": "Shovel",
+          "price": 2,
+          "qty": 0
+        },
+        {
+          "name": "Chain (10 ft)",
+          "price": 5,
+          "qty": 6
+        },
+        {
+          "name": "Lock",
+          "price": 10,
+          "qty": 5
+        },
+        {
+          "name": "Manacles",
+          "price": 2,
+          "qty": 4
+        },
+        {
+          "name": "Mirror, steel",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Sack",
+          "price": 0.01,
+          "qty": 0
+        },
+        {
+          "name": "Candle",
+          "price": 0.01,
+          "qty": 0
+        },
+        {
+          "name": "Climber's kit",
+          "price": 25,
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "id": "curio",
+      "label": "Curiosities",
+      "keeper": "Too pleased to see you; prices by the look of your boots",
+      "blurb": "Oddments, charms and items of uncertain provenance.",
+      "glyph": "eye",
+      "categories": [
+        "Wondrous Item",
+        "Ring"
+      ],
+      "haggleDC": 18,
+      "greed": 1.25,
+      "buyback": 0.35,
+      "always": [
+        {
+          "name": "Spellbook, blank",
+          "price": 50,
+          "qty": 3
+        },
+        {
+          "name": "Component pouch",
+          "price": 25,
+          "qty": 0
+        },
+        {
+          "name": "Crystal arcane focus",
+          "price": 10,
+          "qty": 0
+        },
+        {
+          "name": "Ink (1 oz bottle)",
+          "price": 10,
+          "qty": 0
+        },
+        {
+          "name": "Appraisal of an unknown item",
+          "price": 25,
+          "qty": 0
+        },
+        {
+          "name": "Brass telescope, slightly wrong",
+          "price": 60,
+          "qty": 1
+        },
+        {
+          "name": "Music box, plays one bar",
+          "price": 25,
+          "qty": 1
+        },
+        {
+          "name": "Puzzle box, unopened",
+          "price": 35,
+          "qty": 2
+        },
+        {
+          "name": "Map to somewhere, unverified",
+          "price": 20,
+          "qty": 3
+        },
+        {
+          "name": "Mourning locket, a stranger's hair inside",
+          "price": 12,
+          "qty": 2
+        },
+        {
+          "name": "Glass eye, not yours",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Jar of teeth",
+          "price": 2,
+          "qty": 0
+        },
+        {
+          "name": "Taxidermy, species debatable",
+          "price": 15,
+          "qty": 2
+        }
+      ]
+    },
+    {
+      "id": "arcanist",
+      "label": "Arcanist",
+      "keeper": "Reads while you talk, and still hears everything",
+      "blurb": "Scrolls, staves and wands, sold with a lecture at no extra charge.",
+      "glyph": "hat",
+      "categories": [
+        "Staff / Rod / Wand",
+        "Wondrous Item"
+      ],
+      "haggleDC": 16,
+      "greed": 1.15,
+      "buyback": 0.4,
+      "always": [
+        {
+          "name": "Spell scroll, cantrip",
+          "price": 30,
+          "qty": 0
+        },
+        {
+          "name": "Spell scroll, 1st level",
+          "price": 75,
+          "qty": 6
+        },
+        {
+          "name": "Spell scroll, 2nd level",
+          "price": 150,
+          "qty": 3
+        },
+        {
+          "name": "Spell scroll, 3rd level",
+          "price": 300,
+          "qty": 1
+        },
+        {
+          "name": "Arcane focus, rod or wand",
+          "price": 10,
+          "qty": 0
+        },
+        {
+          "name": "Spellbook, blank",
+          "price": 50,
+          "qty": 0
+        },
+        {
+          "name": "Copying a spell into your book, per level",
+          "price": 50,
+          "qty": 0
+        },
+        {
+          "name": "Identify, cast on your behalf",
+          "price": 100,
+          "qty": 0
+        },
+        {
+          "name": "Spell scroll, 4th level",
+          "price": 600,
+          "qty": 1
+        },
+        {
+          "name": "Spell scroll, 5th level",
+          "price": 1200,
+          "qty": 1
+        },
+        {
+          "name": "Component pouch",
+          "price": 25,
+          "qty": 0
+        },
+        {
+          "name": "Arcane focus, staff",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Arcane focus, orb",
+          "price": 20,
+          "qty": 3
+        },
+        {
+          "name": "Ink (1 oz bottle)",
+          "price": 10,
+          "qty": 0
+        },
+        {
+          "name": "Parchment (sheet)",
+          "price": 0.1,
+          "qty": 0
+        },
+        {
+          "name": "Scroll case",
+          "price": 1,
+          "qty": 0
+        },
+        {
+          "name": "Reagents, common (pouch)",
+          "price": 25,
+          "qty": 0
+        },
+        {
+          "name": "Detect Magic, cast on your behalf",
+          "price": 50,
+          "qty": 0
+        },
+        {
+          "name": "Comprehend Languages, cast on your behalf",
+          "price": 50,
+          "qty": 0
+        },
+        {
+          "name": "Translating a dead script, per page",
+          "price": 40,
+          "qty": 0
+        }
+      ]
+    },
+    {
+      "id": "jeweller",
+      "label": "Jeweller",
+      "keeper": "Loupe permanently in one eye",
+      "blurb": "Cut stones, settings, and discreet valuation of things you'd rather not explain.",
+      "glyph": "gem",
+      "categories": [
+        "Ring"
+      ],
+      "haggleDC": 17,
+      "greed": 1.15,
+      "buyback": 0.6,
+      "always": [
+        {
+          "name": "Signet ring",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Silver chain",
+          "price": 25,
+          "qty": 6
+        },
+        {
+          "name": "Gold ring, plain",
+          "price": 50,
+          "qty": 4
+        },
+        {
+          "name": "Jeweller's tools",
+          "price": 25,
+          "qty": 2
+        },
+        {
+          "name": "Resetting or recutting a stone",
+          "price": 20,
+          "qty": 0
+        },
+        {
+          "name": "Valuation, no questions asked",
+          "price": 10,
+          "qty": 0
+        },
+        {
+          "name": "Silver ring, plain",
+          "price": 10,
+          "qty": 0
+        },
+        {
+          "name": "Gold chain",
+          "price": 75,
+          "qty": 3
+        },
+        {
+          "name": "Pearl, sound enough to scry on",
+          "price": 100,
+          "qty": 4
+        },
+        {
+          "name": "Amber pendant",
+          "price": 40,
+          "qty": 2
+        },
+        {
+          "name": "Silver bracelet",
+          "price": 30,
+          "qty": 4
+        },
+        {
+          "name": "Gemstone, small and uncut",
+          "price": 20,
+          "qty": 6
+        },
+        {
+          "name": "Engraving, per line",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Gold locket",
+          "price": 60,
+          "qty": 2
+        },
+        {
+          "name": "Silver circlet",
+          "price": 150,
+          "qty": 1
+        }
+      ]
+    },
+    {
+      "id": "luthier",
+      "label": "Luthier",
+      "keeper": "Tunes something the entire time you talk",
+      "blurb": "Instruments, strings, and the occasional horn that shouldn't be blown twice.",
+      "glyph": "lute",
+      "categories": [
+        "Instrument"
+      ],
+      "haggleDC": 13,
+      "greed": 1.0,
+      "buyback": 0.45,
+      "always": [
+        {
+          "name": "Lute",
+          "price": 35,
+          "qty": 3
+        },
+        {
+          "name": "Flute",
+          "price": 2,
+          "qty": 0
+        },
+        {
+          "name": "Drum",
+          "price": 6,
+          "qty": 0
+        },
+        {
+          "name": "Horn",
+          "price": 3,
+          "qty": 0
+        },
+        {
+          "name": "Viol",
+          "price": 30,
+          "qty": 2
+        },
+        {
+          "name": "Spare strings",
+          "price": 1,
+          "qty": 0
+        },
+        {
+          "name": "Restringing and tuning",
+          "price": 2,
+          "qty": 0
+        },
+        {
+          "name": "Bagpipes",
+          "price": 30,
+          "qty": 2
+        },
+        {
+          "name": "Shawm",
+          "price": 2,
+          "qty": 0
+        },
+        {
+          "name": "Dulcimer",
+          "price": 25,
+          "qty": 2
+        },
+        {
+          "name": "Lyre",
+          "price": 30,
+          "qty": 3
+        },
+        {
+          "name": "Pan flute",
+          "price": 12,
+          "qty": 0
+        },
+        {
+          "name": "Hand drum",
+          "price": 6,
+          "qty": 0
+        },
+        {
+          "name": "Instrument case, padded",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Tuning fork",
+          "price": 1,
+          "qty": 0
+        },
+        {
+          "name": "Rosin",
+          "price": 0.5,
+          "qty": 0
+        },
+        {
+          "name": "Sheet music, a ballad",
+          "price": 3,
+          "qty": 0
+        },
+        {
+          "name": "An instrument made to your hand, commissioned",
+          "price": 150,
+          "qty": 0
+        }
+      ]
+    },
+    {
+      "id": "temple",
+      "label": "Temple Almoner",
+      "keeper": "Gives freely, records everything",
+      "blurb": "Healing, blessings and burial. Donations strongly encouraged.",
+      "glyph": "chalice",
+      "categories": [
+        "Potion",
+        "Wondrous Item"
+      ],
+      "haggleDC": 20,
+      "greed": 0.9,
+      "buyback": 0.5,
+      "always": [
+        {
+          "name": "Potion of Healing",
+          "price": 50,
+          "qty": 0
+        },
+        {
+          "name": "Holy water (flask)",
+          "price": 25,
+          "qty": 6
+        },
+        {
+          "name": "Lesser Restoration, cast for you",
+          "price": 100,
+          "qty": 0
+        },
+        {
+          "name": "Remove Curse, cast for you",
+          "price": 250,
+          "qty": 0
+        },
+        {
+          "name": "Raise Dead, cast for you",
+          "price": 1250,
+          "qty": 0
+        },
+        {
+          "name": "Holy symbol",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Burial and rites",
+          "price": 15,
+          "qty": 0
+        },
+        {
+          "name": "Cure Wounds, cast for you",
+          "price": 20,
+          "qty": 0
+        },
+        {
+          "name": "Augury, cast for you",
+          "price": 100,
+          "qty": 0
+        },
+        {
+          "name": "Speak with Dead, cast for you",
+          "price": 150,
+          "qty": 0
+        },
+        {
+          "name": "Divination, cast for you",
+          "price": 250,
+          "qty": 0
+        },
+        {
+          "name": "Revivify, cast for you",
+          "price": 350,
+          "qty": 0
+        },
+        {
+          "name": "Greater Restoration, cast for you",
+          "price": 450,
+          "qty": 0
+        },
+        {
+          "name": "Prayer book",
+          "price": 25,
+          "qty": 0
+        },
+        {
+          "name": "Incense (block)",
+          "price": 0.1,
+          "qty": 0
+        },
+        {
+          "name": "Vestments",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "Blessed candles (10)",
+          "price": 5,
+          "qty": 0
+        },
+        {
+          "name": "A night's shelter and a hot meal",
+          "price": 1,
+          "qty": 0
+        }
+      ]
+    }
+  ]
+}
