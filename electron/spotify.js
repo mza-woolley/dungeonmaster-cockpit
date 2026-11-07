@@ -205,7 +205,18 @@ async function playPlaylist(playlistUri) {
   const devices = devRes.data?.devices || [];
   const device  = devices.find(d => d.is_active) || devices[0];
   if (!device) throw new Error('No active Spotify device found. Open Spotify on your computer first.');
-  await httpsPut('api.spotify.com', `/v1/me/player/play?device_id=${device.id}`, token, { context_uri: playlistUri });
+  // Start on a random track so the first song isn't always track 1
+  const body = { context_uri: playlistUri };
+  const playlistId = playlistUri.split(':').pop();
+  try {
+    const pl = await httpsGet('api.spotify.com', `/v1/playlists/${playlistId}?fields=tracks.total`, token);
+    const total = pl.data?.tracks?.total || 0;
+    if (total > 1) body.offset = { position: Math.floor(Math.random() * total) };
+  } catch {}
+  await httpsPut('api.spotify.com', `/v1/me/player/play?device_id=${device.id}`, token, body);
+  // Shuffle + repeat the playlist itself, so playback never leaves it for autoplay
+  await httpsCommand('PUT', `/v1/me/player/shuffle?state=true&device_id=${device.id}`, token);
+  await httpsCommand('PUT', `/v1/me/player/repeat?state=context&device_id=${device.id}`, token);
 }
 
 async function resumePlayback() {

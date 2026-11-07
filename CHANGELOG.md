@@ -2,6 +2,14 @@
 
 ---
 
+## v0.16.1 — November 2026
+
+### 🔧 Changes
+
+- Scene: playlists now start shuffled from a random track and loop within the playlist
+
+---
+
 ## v0.16.0 — The Shop Update — October 2026
 
 ### ✨ New
