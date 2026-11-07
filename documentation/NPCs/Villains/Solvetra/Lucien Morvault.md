@@ -1,7 +1,7 @@
 # Lucien Morvault
 
 **Type:** Dealmaker / Broker - Antagonist (non-combat)  
-**Status:** Active
+**Status:** Paid off (Sessions 13-14) - buyout honoured
 
 ---
 
@@ -58,3 +58,10 @@ The "5,000gp debt" framing is the buyout clause, not the actual debt. Morvault d
 - Frame Lucien as someone who'd rather not collect on outcome 2 - he'd prefer gold, it's tidier - but he is entirely indifferent if the party forces his hand
 - May not simply disappear once paid - a broker who deals in people remembers faces, and "the next adventuring party" framing means he could have made *other* arrangements with *other* people too
 - Pairs thematically with Zatharial - two dealmakers operating on contracts the party didn't fully understand when they were made
+
+## Sessions 13-14 - Paid
+
+- Appeared before the party as they left the goblin fort and demanded payment.
+- The party **paid the balance in full** using gold looted from the fort's safe. The buyout is honoured and the original bargain is void.
+- Before leaving he ran a "roll call" of the party to intimidate them, and called Plumbodian **"the 3rd"**. That points to an era when Morvault knew him: Plumbodian has had multiple lives, Morvault knows it, Plumbodian doesn't.
+- Otherwise just intimidation - nothing else new.

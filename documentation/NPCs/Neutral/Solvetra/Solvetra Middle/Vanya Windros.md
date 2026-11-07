@@ -1,6 +1,6 @@
 # Vanya Windros
 
-**Role:** Bank Manager, Solvetra Vault (found - Session 12)
+**Role:** Bank Manager, Solvetra Vault (rescued - Session 13)
 **Where Met:** Referenced throughout - never directly encountered (her office, B1)
 
 Disappeared without a trace mid-shift; her office shows no sign of struggle. Without her, the bank vault codes can't be retrieved and the heist stalls - the vault has 3 simultaneous, blast-resistant locks requiring keys that no one has seen all in one place.
@@ -36,3 +36,13 @@ Too broken to be useful at first - she recovers over time.
 - **The 4th lock is new.** It was added after she was removed, precisely because she wouldn't cooperate. She managed three locks and signed for three; she doesn't know a fourth exists, and she'll say so with total confidence.
 - **Her routine is stale.** She's been gone weeks and doesn't remember the day-to-day reliably - and Vasse's daily rotating countersign went in after her time.
 - **She has to keep her head down if she makes it back to Solvetra.** The OOTS erased her with no record trail; a living Vanya is a witness who shouldn't exist.
+
+---
+
+## Sessions 13-14 - Rescued
+
+- Freed from the boss room after the party beat Lightbender Yeesal, and taken out of the fort.
+- Rested and recovered at a small inn on the way back to Solvetra.
+- Revealed it was **Headguard Valerius** who put her in the fort.
+- Now hidden **upstairs at the Smuggler's Den**. The plan is to help her "escape" to **Lunarthorn**.
+- The Vault heist is shelved, so her value as an inside asset is parked for now.

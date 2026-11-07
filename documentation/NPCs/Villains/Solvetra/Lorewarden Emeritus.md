@@ -50,3 +50,8 @@ The Lorewarden Emeritus is the senior archival and doctrinal authority within th
 
 - His live source on the Shadowbringers is [Rissa "Whisper" Varn](../../Neutral/Solvetra/Solvetra%20Intermellum/Rissa%20'Whisper'%20Varn.md) - the replacement for the Session 5 spy, reporting to him (likely via an intermediary). She sandbags on the Vault heist specifically - he does not have the plan, target, or timeline the party handed her in Session 8.
 - **Planned beat, post-heist:** once the vault is hit, he dangles a remark to the party that signals he "knows about things that have happened" - vague, not naming Rissa outright. It's on the party to connect the dots back to her. If they do and she's exposed, she'll hear it before they finish piecing it together and will already be gone, on the road to Ars Lapis.
+
+## Sessions 13-14
+
+- Yeesal's patronage did **not** surface during the fight - still DM-side.
+- **DM only:** Whisper bought the goblin fort's sales ledger from Frah'nk to keep it out of the party's hands and return it to him.

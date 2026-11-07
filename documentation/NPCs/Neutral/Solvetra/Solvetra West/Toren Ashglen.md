@@ -10,3 +10,7 @@ Frustrated and suspicious - convinced the Division of Lumination is behind the r
 ## Quest Tie-In
 
 Session 4: met by the party, voiced his belief that the DOL is responsible for the vanishing magic sources in his shop. Open thread - the party hasn't followed up on whether he's right (and given everything else found at Lumina Lab, he probably is). Good re-entry point if the party wants to dig into DOL resource theft in Solvetra West.
+
+## Sessions 13-14
+
+- The party shopped at the Arcane Resonator before leaving for Ars Lapis and used a mystery box (put gold in, get an item out). Nothing notable came out except Frah'nk's Bhaal axe.

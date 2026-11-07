@@ -68,3 +68,6 @@ He is not warm in the conventional sense but is reliably honest, which in this w
 - Silvanus' letter was the direct prompt for him finding the party - he is also quietly there to assess whether they're worth Silas' trust
 - His runic magic should feel visually distinct from anything the party has seen - blasphemous-looking by DOL standards, instinctive rather than academic
 - The Greyveil Suppression is documented in the Solvetra East location file and Silvanus Shadowfoot's NPC sheet
+
+- Sessions 13-14: sold the goblin fort's sales ledger to Whisper for 1,500gp now and 4,500gp when she "cashes out".
+- Sessions 13-14: got an axe from the Arcane Resonator's mystery box. It's explicitly an **agent of Bhaal** - no personality, not Bhaal himself, but it endeavours to slaughter endlessly. Tested on some bees. Named by the group (name not recorded).

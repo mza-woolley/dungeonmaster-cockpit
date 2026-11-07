@@ -1,6 +1,6 @@
 # Valerius' Replacement - The Ars Lapis Connection
 
-**Status:** Open - proposed connection, not yet confirmed in session
+**Status:** Partly superseded - Valerius' replacement is **Dorian Vasse**, in Solvetra (see Active Threats). The DOL's face in Ars Lapis is still open.
 **Key Figures:** Valerius du Noirveil (deceased), his unnamed Replacement, the DOL's "face" in Ars Lapis (TBC)
 **Established:** Session 6 (letter on Valerius' body) / Session 7 (Ars Lapis Framework)
 

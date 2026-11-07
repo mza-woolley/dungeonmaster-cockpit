@@ -1,7 +1,7 @@
 # Goblin Settlement
 
 **Location:** Outside Solvetra East, roughly half a day's trek toward Ars Lapis
-**Status:** **IN PROGRESS - Sessions 11-12.** Party is mid-dungeon beneath the camp; Yeesal fight pending in Session 13.
+**Status:** **CLEARED - Sessions 11-13.** Yeesal beaten, Vanya rescued.
 
 > **What actually triggered it:** not Kaelen's revenge arc. The party pulled on this as **debt leverage** - find the missing bank manager and use her to settle with [Lucien Morvault](../../../../NPCs/Villains/Solvetra/Lucien%20Morvault.md) - and chose it over continuing heist prep. The camp turned out to be an old **chateau/castle** in the party's eyes rather than a "lunar fortress"; they identified it by the **barrels being carted in and out** and the goblins escorting the carts in stealth.
 
@@ -80,3 +80,13 @@ Vanya's rescue doesn't gate any keys - Key 1 sits unrecovered on her desk in Sol
 **Not yet landed:**
 - **Yeesal fight** - opens Session 13, party already bloodied, with **~14 hours** on the Morvault clock (~13 on leaving)
 - **Vanya's dialogue** - *"they're taking the money"* / *"It's all the Division"*
+
+## Run Status (Sessions 13-14)
+
+**Done:**
+- **Yeesal fight** won; **Vanya** freed and taken out.
+- **Locked safe** looted - gold (used to pay Morvault in full) and information on the operation: Lumina Elixir barrels with **"return" labels from Ars Lapis**. The barrels shuttle back and forth, so production never truly halted.
+- **Sales ledger** found in the fort - later sold to Whisper.
+- Barrels left behind. Room 4 never entered and dropped.
+
+**Never landed:** the Lorewarden patron reveal.

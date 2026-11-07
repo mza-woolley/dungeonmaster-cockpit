@@ -1,7 +1,7 @@
 # Zatharial
 
 **Type:** Devil  
-**Status:** Active - contract still intact. Reveal/tearing was planned for Session 8 but did not happen - still pending.
+**Status:** Active - contract still intact. Reveal/tearing was planned for Session 8 but did not happen - still pending as of Session 14.
 
 ---
 

@@ -35,3 +35,7 @@ Was planned for Session 8; didn't happen. Still an open hook for whenever it lan
 
 - [Zatharial](../../NPCs/Villains/Solvetra/Zatharial.md)
 - [Lucien Morvault](../../NPCs/Villains/Solvetra/Lucien%20Morvault.md)
+
+## Status Note (Session 14)
+
+Morvault's buyout was paid in Sessions 13-14, so Zatharial's contract is now the only live claim on the party. The tearing is still pending.

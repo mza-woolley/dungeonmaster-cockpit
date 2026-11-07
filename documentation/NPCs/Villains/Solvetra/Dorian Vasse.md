@@ -52,3 +52,7 @@
 - **Resolved:** the disguise gotcha is the daily countersign (see Security Changes above) - Kaelen can bluff a guard, but not Vasse himself, without it or a very good improvised excuse.
 - The fixed-schedule patrols are the party's exploit angle - predictable, not adaptive.
 - Timing at the table: don't spend a scene on the public reveal ceremony - let it land as background noise (a passing mention, a guard griping about the new sign-in sheet) and surface Vasse's actual effects once the party is casing or executing the vault.
+
+## Sessions 13-14
+
+- The party missed the public announcement and heard about Vasse secondhand from NPCs and commoners. General read: "a bit of a wet noodle".

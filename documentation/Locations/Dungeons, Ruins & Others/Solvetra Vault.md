@@ -1,7 +1,7 @@
 # Solvetra Vault
 
 **Location:** Solvetra Middle  
-**Status:** Active - heist in planning (Session 7)
+**Status:** Active - heist shelved (as of Session 14)
 
 ---
 

@@ -2,6 +2,15 @@
 
 ---
 
+## v0.16.2 — November 2026
+
+### 🔧 Changes
+
+- Documentation: campaign notes brought up to date
+- Documentation: arc planning notes added
+
+---
+
 ## v0.16.1 — November 2026
 
 ### 🔧 Changes

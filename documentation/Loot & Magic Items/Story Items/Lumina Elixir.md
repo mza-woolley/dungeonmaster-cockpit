@@ -2,7 +2,7 @@
 
 **Type:** Alchemical Substance - Distributed  
 **Origin:** Lumina Lab, Solvetra West  
-**Status:** Production facility destroyed (Session 6)
+**Status:** In production - Lumina Lab cleared (Session 6) but restaffed; shipping to Ars Lapis continues
 
 ---
 
@@ -53,3 +53,8 @@ The Fountain of Dreams (Solvetra West) may have been an early, diluted field tes
 - Distribution map indicates the elixir is being shipped onward to **Ars Lapis**
 - Production was overseen by goblin labour under DOL direction via Valerius du Noirveil
 - A filtration system labelled *"Stage III: Salivary Infusion Chamber"* was documented in lab blueprints
+
+## Sessions 11-14
+
+- Ars Lapis-bound barrels and shipping manifests found at the goblin fort (Session 11-12).
+- Barrels in the fort's safe records carry **"return" labels from Ars Lapis** - they go back and forth, so production never truly halted.

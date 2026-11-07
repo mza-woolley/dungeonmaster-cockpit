@@ -26,3 +26,7 @@ Confronted the party in the cave beneath Lumina Lab following Boss Dragg's defea
 
 - Kaelen left Session 6 with Valerius's form - available for use as a disguise
 - His replacement within the DOL structure is unconfirmed and unmet
+
+## Sessions 13-14
+
+- Vanya Windros revealed that it was Valerius who put her in the goblin fort.

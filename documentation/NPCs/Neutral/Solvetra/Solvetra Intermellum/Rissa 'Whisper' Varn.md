@@ -30,3 +30,10 @@ Grakh flagged to Frah'nk that Whisper was looking for him and pointed him her wa
 ## Session 9
 
 The "extra information" promised above, delivered secondhand via **Grakh** rather than a direct scene (see [Grakh](../../../Allies/Solvetra/Solvetra%20Intermellum/Grakh.md)): 3 keys are needed for the Vault, and Vanya Windros held one of the manager/master keys. She's missing - Whisper's heard whispers connecting her disappearance to Goblin activity in the city, but isn't sure of the source herself. (DM ground truth, not yet revealed to players: this points to the [Goblin Settlement](../../../../Quests/Rumours%20&%20Jobs/Solvetra/Rumours/Goblin%20Settlement.md), where the OOTS is quietly holding her after she stopped cooperating with the Vault's initiative.)
+
+## Sessions 13-14
+
+- Frah'nk sold her the **sales ledger** found in the goblin fort. She paid **1,500gp** up front and promised the remaining **4,500gp** when she "cashes out".
+- Her story: she's cashing out because she's escaping Solvetra and taking the road, and she offered to adventure alongside the party on their way to Ars Lapis.
+
+> **DM Only:** she bought the ledger on the fly to get it out of the party's hands and return it to the Lorewarden. She won't travel with them - she'll leave a letter telling them to meet her in Ars Lapis, and won't show. This is where she ditches them.
